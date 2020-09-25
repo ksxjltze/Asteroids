@@ -12,10 +12,11 @@
 // Copyright � 2020 DigiPen, All rights reserved.
 //---------------------------------------------------------
 
-#include "cprocessing.h"
+#include "cprocessing.h" //CProcessing Framework, used to Render sprites and perform game logic (e.g. Vectors)
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h> //Used to seed rand() function for random number generation.
 
 struct Collider_AABB {
 	int width;
@@ -40,6 +41,7 @@ struct Enemy {
 	struct Collider_AABB collider;
 	int active;
 	int hit;
+	float hit_cooldown;
 };
 
 void render();
@@ -48,6 +50,7 @@ void check_input();
 void draw_player();
 void process_bullets();
 int check_collision_AABB(struct Collider_AABB collider1, CP_Vector pos1, struct Collider_AABB collider2, CP_Vector pos2);
+CP_Vector generate_random_pos();
 
 const int win_width = 1280;
 const int win_height = 720;
@@ -58,10 +61,9 @@ const float max_velocity = 10.0f; //pixels per second
 const int speed = 10;
 
 const int bullet_speed = 1000;
-const float fire_rate = 600.0f; //bullets per minute
+const float fire_rate = 300.0f; //bullets per minute
 float shoot_cooldown = 0.0f;
 float hurt_window = 0.1f; //seconds
-float hit_cooldown = 0.0f;
 
 CP_Image splash;
 CP_Image player_sprite;
@@ -91,15 +93,15 @@ float enemy_width;
 float enemy_height;
 
 struct Bullet arr_bullet[999];
-struct Enemy enemy;
-//struct Enemy arr_enemy[10];
+struct Enemy arr_enemy[5];
+//struct Enemy enemy;
 
 // use CP_Engine_SetNextGameState to specify this function as the initialization function
 // this function will be called once at the beginning of the program
 void game_init(void)
 {
 	// initialize variables and CProcessing settings for this gamestate
-
+	srand((int)time(0)); //random seed
 	CP_System_SetWindowSize(win_width, win_height);
 
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
@@ -167,16 +169,25 @@ void game_init(void)
 
 		bullet.collider.width = (int)bullet_width;
 		bullet.collider.height = (int)bullet_height;
+
+		arr_bullet[i] = bullet;
 	}
 
-	//test enemy
-	enemy.pos = CP_Vector_Set((float)win_width - 300, 400);
-	enemy.active = 1;
-	enemy.hp.max = 1000;
-	enemy.hp.current = enemy.hp.max;
+	for (int i = 0; i < sizeof(arr_enemy) / sizeof(arr_enemy[0]); i++)
+	{
+		//test enemy
+		struct Enemy enemy = arr_enemy[i];
+		enemy.pos = generate_random_pos();
+		enemy.active = 1;
+		enemy.hp.max = 100;
+		enemy.hp.current = enemy.hp.max;
 
-	enemy.collider.width = (int)enemy_width;
-	enemy.collider.height = (int)enemy_height;
+		enemy.collider.width = (int)enemy_width;
+		enemy.collider.height = (int)enemy_height;
+
+		arr_enemy[i] = enemy;
+
+	}
 
 }
 
@@ -210,16 +221,23 @@ void process_bullets()
 				continue;
 			}
 
-			if (check_collision_AABB(bullet.collider, bullet.pos, enemy.collider, enemy.pos))
+			for (int j = 0; j < sizeof(arr_enemy) / sizeof(arr_enemy[0]); j++)
 			{
-				bullet.active = 0;
-				bullet.pos = CP_Vector_Set(-1, -1);
-				bullet.velocity = CP_Vector_Set(0, 0);
+				if (!arr_enemy[j].active)
+					continue;
 
-				if (!enemy.hit)
+				struct Enemy *enemy = &arr_enemy[j];
+				if (check_collision_AABB(bullet.collider, bullet.pos, enemy->collider, enemy->pos))
 				{
-					enemy.hit = 1;
-					enemy.hp.current -= 10;
+					bullet.active = 0;
+					bullet.pos = CP_Vector_Set(-1, -1);
+					bullet.velocity = CP_Vector_Set(0, 0);
+
+					if (!enemy->hit)
+					{
+						enemy->hit = 1;
+						enemy->hp.current -= 10;
+					}
 				}
 			}
 
@@ -228,6 +246,14 @@ void process_bullets()
 		}
 
 	}
+}
+
+CP_Vector generate_random_pos()
+{
+	float x = (float) (rand() % win_width);
+	float y = (float) (rand() % win_height);
+
+	return CP_Vector_Set(x, y);
 }
 
 int check_collision_AABB(struct Collider_AABB collider1, CP_Vector pos1, struct Collider_AABB collider2, CP_Vector pos2)
@@ -259,20 +285,25 @@ void game_update(void)
 
 	process_bullets();
 
-	//enemy
-	if (enemy.hit)
+	//Process enemies
+	for (int i = 0; i < sizeof(arr_enemy) / sizeof(arr_enemy[0]); i++)
 	{
-		hit_cooldown -= CP_System_GetDt();
-		if (hit_cooldown <= 0)
+		struct Enemy* enemy = &arr_enemy[i];
+		if (enemy->hit)
 		{
-			enemy.hit = 0;
-			hit_cooldown = hurt_window;
+			enemy->hit_cooldown -= CP_System_GetDt();
+			if (enemy->hit_cooldown <= 0)
+			{
+				enemy->hit = 0;
+				enemy->hit_cooldown = hurt_window;
+			}
 		}
-	}
 
-	if (enemy.hp.current <= 0)
-	{
-		enemy.active = 0;
+		if (enemy->hp.current <= 0)
+		{
+			enemy->active = 0;
+		}
+
 	}
 
 	render();
@@ -337,12 +368,14 @@ void render()
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
 	CP_Font_DrawText("uwu", (float)win_width / 2, (float)win_height / 2);
 
+	//Get FPS
 	float fps = roundf(CP_System_GetFrameRate());
 	sprintf_s(fps_str, 10, "%d", (int)fps);
 
-	//fps
+	//Display FPS
 	CP_Font_DrawText(fps_str, 100, 100);
 
+	//Render Bullets
 	for (int i = 0; i < sizeof(arr_bullet) / sizeof(arr_bullet[0]); i++)
 	{
 		struct Bullet bullet = arr_bullet[i];
@@ -351,21 +384,24 @@ void render()
 		}
 	}
 
-	draw_player();
-
-	//enemy
-	if (enemy.active)
+	//Render Enemies
+	for (int i = 0; i < sizeof(arr_enemy) / sizeof(arr_enemy[0]); i++)
 	{
-		CP_Image_Draw(enemy_sprite, enemy.pos.x, enemy.pos.y, enemy_width, enemy_height, 255);
-		float percent = enemy.hp.current / enemy.hp.max;
-		CP_Image_Draw(health_bar_sprite, enemy.pos.x, enemy.pos.y - 100, percent * bar_width, bar_height, 255);
-
-		if (enemy.hit)
+		struct Enemy enemy = arr_enemy[i];
+		if (enemy.active)
 		{
-			CP_Image_Draw(enemy_hurt_sprite, enemy.pos.x, enemy.pos.y, enemy_width, enemy_height, 135);
-		}
+			CP_Image_Draw(enemy_sprite, enemy.pos.x, enemy.pos.y, enemy_width, enemy_height, 255);
+			float percent = enemy.hp.current / enemy.hp.max;
+			CP_Image_Draw(health_bar_sprite, enemy.pos.x, enemy.pos.y - 100, percent * bar_width, bar_height, 255);
 
+			if (enemy.hit)
+			{
+				CP_Image_Draw(enemy_hurt_sprite, enemy.pos.x, enemy.pos.y, enemy_width, enemy_height, 135);
+			}
+		}
 	}
+
+	draw_player();
 
 }
 
