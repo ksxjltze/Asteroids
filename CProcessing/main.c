@@ -17,32 +17,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h> //Used to seed rand() function for random number generation.
-
-struct Collider_AABB {
-	int width;
-	int height;
-};
-
-struct Bullet {
-	CP_Vector pos;
-	struct Collider_AABB collider;
-	CP_Vector velocity;
-	int active;
-};
-
-struct Health {
-	float current;
-	float max;
-};
-
-struct Enemy {
-	CP_Vector pos;
-	struct Health hp;
-	struct Collider_AABB collider;
-	int active;
-	int hit;
-	float hit_cooldown;
-};
+#include "constants.h"
+#include "structures.h"
+#include "init.h"
 
 void render();
 int display_splash();
@@ -51,19 +28,12 @@ void draw_player();
 void process_bullets();
 int check_collision_AABB(struct Collider_AABB collider1, CP_Vector pos1, struct Collider_AABB collider2, CP_Vector pos2);
 CP_Vector generate_random_pos();
+CP_Image generate_hurt_sprite(CP_Image sprite);
+void load_sprites();
+void init_entities();
 
-const int win_width = 1280;
-const int win_height = 720;
-const float splash_duration = 2.0f;
 char fps_str[10];
-
-const float max_velocity = 10.0f; //pixels per second
-const int speed = 10;
-
-const int bullet_speed = 1000;
-const float fire_rate = 300.0f; //bullets per minute
 float shoot_cooldown = 0.0f;
-float hurt_window = 0.1f; //seconds
 
 CP_Image splash;
 CP_Image player_sprite;
@@ -77,14 +47,6 @@ CP_Vector pos;
 CP_Vector velocity;
 float player_width;
 float player_height;
-
-//health bar
-float bar_width = 200;
-float bar_height = 20;
-
-//bounds
-float xbounds;
-float ybounds;
 
 float bullet_width;
 float bullet_height;
@@ -101,65 +63,14 @@ struct Enemy arr_enemy[5];
 void game_init(void)
 {
 	// initialize variables and CProcessing settings for this gamestate
-	srand((int)time(0)); //random seed
-	CP_System_SetWindowSize(win_width, win_height);
+	settings_setup(win_width, win_height);
+	load_sprites();
+	init_entities();
 
-	CP_Settings_ImageMode(CP_POSITION_CENTER);
-	CP_Settings_ImageWrapMode(CP_IMAGE_WRAP_CLAMP);
+}
 
-	CP_Settings_TextSize(50);
-	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
-
-	CP_System_SetFrameRate(60);
-
-	splash = CP_Image_Load("./Assets/DigiPen_BLACK.png");
-	player_sprite = CP_Image_Load("./Assets/dude.png");
-	bullet_sprite = CP_Image_Load("./Assets/bullet.png");
-	enemy_sprite = CP_Image_Load("./Assets/enemy.png");
-	health_bar_sprite = CP_Image_Load("./Assets/healthbar.png");
-
-	pos = CP_Vector_Set((float)win_width / 2, (float)win_height / 2);
-	velocity = CP_Vector_Set(0.0f, 0.0f);
-
-	player_width = (float)CP_Image_GetWidth(player_sprite) * 2;
-	player_height = (float)CP_Image_GetHeight(player_sprite) * 2;
-
-	bullet_width = (float)CP_Image_GetWidth(bullet_sprite);
-	bullet_height = (float)CP_Image_GetHeight(bullet_sprite);
-
-	enemy_width = (float)CP_Image_GetWidth(enemy_sprite) * 3;
-	enemy_height = (float)CP_Image_GetHeight(enemy_sprite) * 3;
-
-	xbounds = win_width - player_width / 2;
-	ybounds = win_height - player_height / 2;
-
-	unsigned char *pixels = malloc(CP_Image_GetPixelBufferSize(enemy_sprite));
-	CP_Image_GetPixelData(enemy_sprite, pixels);
-
-	//Create Enemy Hurt Sprite from modified enemy_sprite pixel data.
-	if (pixels)
-	{
-		for (int i = 0; i < CP_Image_GetPixelBufferSize(enemy_sprite); ++i)
-		{
-			if (i % 4 == 3) //alpha
-			{
-				continue;
-			}
-
-			if (i % 4 == 0) //red
-			{
-				if (pixels[i - 1] > 0)
-					pixels[i - 1] = 255;
-			}
-			else
-				pixels[i] = 0;
-
-		}
-
-	}
-	enemy_hurt_sprite = CP_Image_CreateFromData(CP_Image_GetWidth(enemy_sprite), CP_Image_GetHeight(enemy_sprite), pixels);
-
-	//init bullets
+void init_entities()
+{
 	for (int i = 0; i < sizeof(arr_bullet) / sizeof(arr_bullet[0]); i++)
 	{
 		struct Bullet bullet = arr_bullet[i];
@@ -188,7 +99,60 @@ void game_init(void)
 		arr_enemy[i] = enemy;
 
 	}
+}
 
+void load_sprites()
+{
+	splash = CP_Image_Load("./Assets/DigiPen_BLACK.png");
+	player_sprite = CP_Image_Load("./Assets/dude.png");
+	bullet_sprite = CP_Image_Load("./Assets/bullet.png");
+	enemy_sprite = CP_Image_Load("./Assets/enemy.png");
+	health_bar_sprite = CP_Image_Load("./Assets/healthbar.png");
+	enemy_hurt_sprite = generate_hurt_sprite(enemy_sprite);
+
+	pos = CP_Vector_Set((float)win_width / 2, (float)win_height / 2);
+	velocity = CP_Vector_Set(0.0f, 0.0f);
+
+	player_width = (float)CP_Image_GetWidth(player_sprite) * 2;
+	player_height = (float)CP_Image_GetHeight(player_sprite) * 2;
+
+	bullet_width = (float)CP_Image_GetWidth(bullet_sprite);
+	bullet_height = (float)CP_Image_GetHeight(bullet_sprite);
+
+	enemy_width = (float)CP_Image_GetWidth(enemy_sprite) * 3;
+	enemy_height = (float)CP_Image_GetHeight(enemy_sprite) * 3;
+
+}
+
+CP_Image generate_hurt_sprite(CP_Image sprite)
+{
+
+	unsigned char* pixels = malloc(CP_Image_GetPixelBufferSize(enemy_sprite));
+	CP_Image_GetPixelData(enemy_sprite, pixels);
+
+	//Create Enemy Hurt Sprite from modified enemy_sprite pixel data.
+	if (pixels)
+	{
+		for (int i = 0; i < CP_Image_GetPixelBufferSize(enemy_sprite); ++i)
+		{
+			if (i % 4 == 3) //alpha
+			{
+				continue;
+			}
+
+			if (i % 4 == 0) //red
+			{
+				if (pixels[i - 1] > 0)
+					pixels[i - 1] = 255;
+			}
+			else
+				pixels[i] = 0;
+
+		}
+
+	}
+
+	return CP_Image_CreateFromData(CP_Image_GetWidth(enemy_sprite), CP_Image_GetHeight(enemy_sprite), pixels);
 }
 
 int display_splash()
@@ -233,9 +197,9 @@ void process_bullets()
 					bullet.pos = CP_Vector_Set(-1, -1);
 					bullet.velocity = CP_Vector_Set(0, 0);
 
-					if (!enemy->hit)
+					if (!enemy->status.hit)
 					{
-						enemy->hit = 1;
+						enemy->status.hit = 1;
 						enemy->hp.current -= 10;
 					}
 				}
@@ -289,13 +253,13 @@ void game_update(void)
 	for (int i = 0; i < sizeof(arr_enemy) / sizeof(arr_enemy[0]); i++)
 	{
 		struct Enemy* enemy = &arr_enemy[i];
-		if (enemy->hit)
+		if (enemy->status.hit)
 		{
-			enemy->hit_cooldown -= CP_System_GetDt();
-			if (enemy->hit_cooldown <= 0)
+			enemy->status.hit_cooldown -= CP_System_GetDt();
+			if (enemy->status.hit_cooldown <= 0)
 			{
-				enemy->hit = 0;
-				enemy->hit_cooldown = hurt_window;
+				enemy->status.hit = 0;
+				enemy->status.hit_cooldown = hurt_window;
 			}
 		}
 
@@ -394,7 +358,7 @@ void render()
 			float percent = enemy.hp.current / enemy.hp.max;
 			CP_Image_Draw(health_bar_sprite, enemy.pos.x, enemy.pos.y - 100, percent * bar_width, bar_height, 255);
 
-			if (enemy.hit)
+			if (enemy.status.hit)
 			{
 				CP_Image_Draw(enemy_hurt_sprite, enemy.pos.x, enemy.pos.y, enemy_width, enemy_height, 135);
 			}
