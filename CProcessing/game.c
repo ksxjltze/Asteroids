@@ -10,6 +10,7 @@ CP_Image bullet_sprite;
 CP_Image enemy_sprite;
 CP_Image enemy_hurt_sprite;
 CP_Image health_bar_sprite;
+CP_Image player_health_sprite;
 
 //player
 CP_Vector pos;
@@ -25,6 +26,7 @@ float enemy_height;
 
 struct Bullet arr_bullet[999];
 struct Enemy arr_enemy[5];
+struct Heart arr_heart[3];
 //struct Enemy enemy;
 
 // use CP_Engine_SetNextGameState to specify this function as the initialization function
@@ -68,6 +70,16 @@ void init_entities()
 		arr_enemy[i] = enemy;
 
 	}
+	for (int i = 0; i < sizeof(arr_heart) / sizeof(arr_heart[0]); i++)
+	{
+		//
+		struct Heart heart = arr_heart[i];
+		heart.pos = CP_Vector_Set((i+1) * 100.0f, 50.0f);
+		heart.active = 1;
+
+		arr_heart[i] = heart;
+
+	}
 }
 
 void load_sprites()
@@ -77,6 +89,7 @@ void load_sprites()
 	enemy_sprite = CP_Image_Load("./Assets/enemy.png");
 	health_bar_sprite = CP_Image_Load("./Assets/healthbar.png");
 	enemy_hurt_sprite = generate_hurt_sprite(enemy_sprite);
+	player_health_sprite = CP_Image_Load("./Assets/heart.png");
 
 	pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
 	velocity = CP_Vector_Set(0.0f, 0.0f);
@@ -317,8 +330,15 @@ void render()
 			}
 		}
 	}
-
 	draw_player();
+	for (int i = 0; i < sizeof(arr_heart) / sizeof(arr_heart[0]); i++)
+	{
+		if (arr_heart[i].active == 1)
+		{
+			CP_Image_Draw(player_health_sprite, arr_heart[i].pos.x, arr_heart[i].pos.y, (float)CP_Image_GetWidth(player_health_sprite) * 2,
+				(float)CP_Image_GetHeight(player_health_sprite), 255);
+		}
+	}
 
 }
 
