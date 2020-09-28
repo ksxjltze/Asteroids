@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h> //Used to seed rand() function for random number generation.
-#include "structures.h"
 #include "init.h"
 #include "enemy.h"
 #include "bullet.h"

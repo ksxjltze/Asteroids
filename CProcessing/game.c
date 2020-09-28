@@ -207,17 +207,16 @@ int check_collision_AABB(struct Collider_AABB collider1, CP_Vector pos1, struct 
 void game_update(void)
 {
 	// check input, update simulation, render etc.
+	check_input();
+
 	if (display_splash())
 		return;
 
-	check_input();
 
 	if (shoot_cooldown < 0)
 		shoot_cooldown = 0;
 	else
 		shoot_cooldown -= CP_System_GetDt();
-
-	process_bullets();
 
 	//Process enemies
 	for (int i = 0; i < sizeof(arr_enemy) / sizeof(arr_enemy[0]); i++)
@@ -239,6 +238,8 @@ void game_update(void)
 		}
 
 	}
+
+	process_bullets();
 
 	render();
 
