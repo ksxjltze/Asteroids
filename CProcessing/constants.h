@@ -1,15 +1,14 @@
-#pragma once
-const int win_width = 1280;
-const int win_height = 720;
-const float splash_duration = 2.0f;
+extern const int WIN_WIDTH;
+extern const int WIN_HEIGHT;
+extern const float SPLASH_DURATION;
 
-const float max_velocity = 10.0f; //pixels per second
-const int speed = 10;
+extern const float MAX_VELOCITY; //pixels per second
+extern const int SPEED;
 
-const int bullet_speed = 1000;
-const float fire_rate = 300.0f; //bullets per minute
-const float hurt_window = 0.1f; //seconds
+extern const int BULLET_SPEED;
+extern const float FIRE_RATE; //bullets per minute
+extern const float HURT_WINDOW; //seconds
 
 //health bar
-const float bar_width = 200;
-const float bar_height = 20;
+extern const float BAR_WIDTH;
+extern const float BAR_HEIGHT;

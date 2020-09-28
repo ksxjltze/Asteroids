@@ -5,7 +5,6 @@
 char fps_str[10];
 float shoot_cooldown = 0.0f;
 
-CP_Image splash;
 CP_Image player_sprite;
 CP_Image bullet_sprite;
 CP_Image enemy_sprite;
@@ -33,7 +32,7 @@ struct Enemy arr_enemy[5];
 void game_init(void)
 {
 	// initialize variables and CProcessing settings for this gamestate
-	settings_setup(win_width, win_height);
+	settings_setup(WIN_WIDTH, WIN_HEIGHT);
 	load_sprites();
 	init_entities();
 
@@ -73,14 +72,13 @@ void init_entities()
 
 void load_sprites()
 {
-	splash = CP_Image_Load("./Assets/DigiPen_BLACK.png");
 	player_sprite = CP_Image_Load("./Assets/dude.png");
 	bullet_sprite = CP_Image_Load("./Assets/bullet.png");
 	enemy_sprite = CP_Image_Load("./Assets/enemy.png");
 	health_bar_sprite = CP_Image_Load("./Assets/healthbar.png");
 	enemy_hurt_sprite = generate_hurt_sprite(enemy_sprite);
 
-	pos = CP_Vector_Set((float)win_width / 2, (float)win_height / 2);
+	pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
 	velocity = CP_Vector_Set(0.0f, 0.0f);
 
 	player_width = (float)CP_Image_GetWidth(player_sprite) * 2;
@@ -125,18 +123,6 @@ CP_Image generate_hurt_sprite(CP_Image sprite)
 	return CP_Image_CreateFromData(CP_Image_GetWidth(enemy_sprite), CP_Image_GetHeight(enemy_sprite), pixels);
 }
 
-int display_splash()
-{
-	//splash
-	if (CP_System_GetSeconds() < splash_duration)
-	{
-		CP_Settings_Background(CP_Color_Create(255, 255, 255, 255));
-		CP_Image_Draw(splash, win_width / 2.0f, win_height / 2.0f, (float)CP_Image_GetWidth(splash), (float)CP_Image_GetHeight(splash), 255);
-		return 1;
-	}
-	return 0;
-}
-
 void process_bullets()
 {
 	//bullet
@@ -145,7 +131,7 @@ void process_bullets()
 		struct Bullet bullet = arr_bullet[i];
 		if (bullet.active)
 		{
-			if ((bullet.pos.x > win_width || bullet.pos.x < 0) && (bullet.pos.y > win_height || bullet.pos.y < 0))
+			if ((bullet.pos.x > WIN_WIDTH || bullet.pos.x < 0) && (bullet.pos.y > WIN_HEIGHT || bullet.pos.y < 0))
 			{
 				bullet.active = 0;
 				bullet.pos = CP_Vector_Set(-1, -1);
@@ -184,8 +170,8 @@ void process_bullets()
 
 CP_Vector generate_random_pos()
 {
-	float x = (float)(rand() % win_width);
-	float y = (float)(rand() % win_height);
+	float x = (float)(rand() % WIN_WIDTH);
+	float y = (float)(rand() % WIN_HEIGHT);
 
 	return CP_Vector_Set(x, y);
 }
@@ -209,10 +195,6 @@ void game_update(void)
 	// check input, update simulation, render etc.
 	check_input();
 
-	if (display_splash())
-		return;
-
-
 	if (shoot_cooldown < 0)
 		shoot_cooldown = 0;
 	else
@@ -228,7 +210,7 @@ void game_update(void)
 			if (enemy->status.hit_cooldown <= 0)
 			{
 				enemy->status.hit = 0;
-				enemy->status.hit_cooldown = hurt_window;
+				enemy->status.hit_cooldown = HURT_WINDOW;
 			}
 		}
 
@@ -250,23 +232,23 @@ void check_input()
 	if (CP_Input_KeyDown(KEY_W))
 	{
 		//velocity.y -= speed;
-		pos.y -= speed;
+		pos.y -= SPEED;
 	}
 	else if (CP_Input_KeyDown(KEY_S))
 	{
 		//velocity.y += speed;
-		pos.y += speed;
+		pos.y += SPEED;
 	}
 
 	if (CP_Input_KeyDown(KEY_A))
 	{
 		//velocity.x -= speed;
-		pos.x -= speed;
+		pos.x -= SPEED;
 	}
 	else if (CP_Input_KeyDown(KEY_D))
 	{
 		//velocity.x += speed;
-		pos.x += speed;
+		pos.x += SPEED;
 	}
 
 	if (CP_Input_MouseDown(MOUSE_BUTTON_1))
@@ -274,7 +256,7 @@ void check_input()
 		if (shoot_cooldown > 0)
 			return;
 
-		shoot_cooldown = 60 / fire_rate; //seconds per bullet
+		shoot_cooldown = 60 / FIRE_RATE; //seconds per bullet
 
 		float mouseX = CP_Input_GetMouseX();
 		float mouseY = CP_Input_GetMouseY();
@@ -287,7 +269,7 @@ void check_input()
 			struct Bullet bullet = arr_bullet[i];
 			if (!bullet.active) {
 				bullet.pos = CP_Vector_Set(pos.x, pos.y);
-				bullet.velocity = CP_Vector_Set(shoot_direction.x * bullet_speed, shoot_direction.y * bullet_speed);
+				bullet.velocity = CP_Vector_Set(shoot_direction.x * BULLET_SPEED, shoot_direction.y * BULLET_SPEED);
 				bullet.active = 1;
 
 				arr_bullet[i] = bullet;
@@ -301,7 +283,7 @@ void check_input()
 void render()
 {
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
-	CP_Font_DrawText("uwu", (float)win_width / 2, (float)win_height / 2);
+	CP_Font_DrawText("uwu", (float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
 
 	//Get FPS
 	float fps = roundf(CP_System_GetFrameRate());
@@ -327,7 +309,7 @@ void render()
 		{
 			CP_Image_Draw(enemy_sprite, enemy.pos.x, enemy.pos.y, enemy_width, enemy_height, 255);
 			float percent = enemy.hp.current / enemy.hp.max;
-			CP_Image_Draw(health_bar_sprite, enemy.pos.x, enemy.pos.y - 100, percent * bar_width, bar_height, 255);
+			CP_Image_Draw(health_bar_sprite, enemy.pos.x, enemy.pos.y - 100, percent * BAR_WIDTH, BAR_HEIGHT, 255);
 
 			if (enemy.status.hit)
 			{
@@ -343,34 +325,34 @@ void render()
 void draw_player()
 {
 	CP_Image_Draw(player_sprite, pos.x, pos.y, player_width, player_height, 255);
-	if (pos.x > win_width - player_width / 2) //x-max
+	if (pos.x > WIN_WIDTH - player_width / 2) //x-max
 	{
-		float new_x = 0 - (win_width - pos.x);
+		float new_x = 0 - (WIN_WIDTH - pos.x);
 		CP_Image_Draw(player_sprite, new_x, pos.y, player_width, player_height, 255);
-		if (pos.x > win_width)
+		if (pos.x > WIN_WIDTH)
 			pos.x = 0;
 	}
 	else if (pos.x < 0 + player_width / 2) //x-min
 	{
-		float new_x = win_width + pos.x;
+		float new_x = WIN_WIDTH + pos.x;
 		CP_Image_Draw(player_sprite, new_x, pos.y, player_width, player_height, 255);
 		if (pos.x <= 0)
-			pos.x = (float)win_width;
+			pos.x = (float)WIN_WIDTH;
 	}
 
-	if (pos.y > win_height - player_height / 2) //y-max
+	if (pos.y > WIN_HEIGHT - player_height / 2) //y-max
 	{
-		float new_y = 0 - (win_height - pos.y);
+		float new_y = 0 - (WIN_HEIGHT - pos.y);
 		CP_Image_Draw(player_sprite, pos.x, new_y, player_width, player_height, 255);
-		if (pos.y > win_height)
+		if (pos.y > WIN_HEIGHT)
 			pos.y = 0;
 	}
 	else if (pos.y < 0 + player_height / 2) //y-min
 	{
-		float new_y = win_height + pos.y;
+		float new_y = WIN_HEIGHT + pos.y;
 		CP_Image_Draw(player_sprite, pos.x, new_y, player_width, player_height, 255);
 		if (pos.y <= 0)
-			pos.y = (float)win_height;
+			pos.y = (float)WIN_HEIGHT;
 	}
 }
 

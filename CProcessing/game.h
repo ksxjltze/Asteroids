@@ -12,7 +12,6 @@ void game_init(void);
 void game_update(void);
 void game_exit(void);
 void render();
-int display_splash();
 void check_input();
 void draw_player();
 void process_bullets();
