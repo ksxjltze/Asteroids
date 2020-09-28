@@ -6,6 +6,7 @@
 #include <time.h> //Used to seed rand() function for random number generation.
 #include "structures.h"
 #include "init.h"
+#include "enemy.h"
 
 void game_init(void);
 void game_update(void);

@@ -20,18 +20,3 @@ struct Status {
 	int hit;
 	float hit_cooldown;
 };
-
-struct Enemy {
-	CP_Vector pos;
-	struct Health hp;
-	struct Collider_AABB collider;
-	int active;
-	struct Status status;
-};
-
-struct Player {
-	CP_Vector pos;
-	struct Health hp;
-	struct Collider_AABB collider;
-	struct Status status;
-};
