@@ -206,6 +206,7 @@ xcopy "$(ProjectDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     <ClInclude Include="init.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="powerups.h" />
     <ClInclude Include="splash.h" />
     <ClInclude Include="status.h" />
   </ItemGroup>
