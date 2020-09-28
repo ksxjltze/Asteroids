@@ -111,8 +111,8 @@ void load_sprites()
 	enemy_width = (float)CP_Image_GetWidth(enemy_sprite) * 3;
 	enemy_height = (float)CP_Image_GetHeight(enemy_sprite) * 3;
 
-	powerups_width = (float)CP_Image_GetWidth(powerups_sprite) * 2;
-	powerups_height = (float)CP_Image_GetWidth(powerups_sprite) * 2;
+	powerups_width = (float)CP_Image_GetWidth(powerups_sprite) * 0.3f;
+	powerups_height = (float)CP_Image_GetWidth(powerups_sprite) * 0.3f;
 }
 
 CP_Image generate_hurt_sprite(CP_Image sprite)
