@@ -347,7 +347,7 @@ void render()
 		struct powerups powerups = arr_powerups[i];
 		if (powerups.active)
 		{
-			CP_Image_Draw(powerups_sprite, powerups.pos.x, powerups.pos.y, powerups_width, powerups_height, 75);
+			CP_Image_Draw(powerups_sprite, powerups.pos.x, powerups.pos.y, powerups_width, powerups_height, 255);
 		}
 
 	}
