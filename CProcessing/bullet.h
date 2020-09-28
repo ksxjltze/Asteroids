@@ -1,13 +1,10 @@
 #pragma once
 #include "cprocessing.h"
-#include "health.h"
 #include "collider_aabb.h"
-#include "status.h"
 
-struct Enemy {
+struct Bullet {
 	CP_Vector pos;
-	struct Health hp;
 	struct Collider_AABB collider;
+	CP_Vector velocity;
 	int active;
-	struct Status status;
 };

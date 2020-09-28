@@ -7,6 +7,7 @@
 #include "structures.h"
 #include "init.h"
 #include "enemy.h"
+#include "bullet.h"
 
 void game_init(void);
 void game_update(void);

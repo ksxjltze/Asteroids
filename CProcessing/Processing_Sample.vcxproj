@@ -196,12 +196,16 @@ xcopy "$(ProjectDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     <ClCompile Include="menu.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bullet.h" />
+    <ClInclude Include="collider_aabb.h" />
     <ClInclude Include="constants.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="health.h" />
     <ClInclude Include="init.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="status.h" />
     <ClInclude Include="structures.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
