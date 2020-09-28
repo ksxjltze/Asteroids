@@ -2,6 +2,7 @@
 #include "game.h"
 #include "constants.h"
 
+
 char fps_str[10];
 float shoot_cooldown = 0.0f;
 
@@ -11,6 +12,7 @@ CP_Image enemy_sprite;
 CP_Image enemy_hurt_sprite;
 CP_Image health_bar_sprite;
 CP_Image player_health_sprite;
+CP_Image powerups_sprite;
 
 //player
 CP_Vector pos;
@@ -24,9 +26,13 @@ float bullet_height;
 float enemy_width;
 float enemy_height;
 
+float powerups_width;
+float powerups_height;
+
 struct Bullet arr_bullet[999];
 struct Enemy arr_enemy[5];
 struct Heart arr_heart[3];
+struct powerups arr_powerups[2];
 //struct Enemy enemy;
 
 // use CP_Engine_SetNextGameState to specify this function as the initialization function
@@ -80,6 +86,20 @@ void init_entities()
 		arr_heart[i] = heart;
 
 	}
+
+	for (int i = 0; i < sizeof(arr_powerups) / sizeof(arr_powerups[0]); i++)
+	{
+		struct powerups powerups = arr_powerups[i];
+		powerups.pos = generate_random_pos();
+		powerups.active = 1;
+
+		powerups.collider.width = (int)powerups_width;
+		powerups.collider.height = (int)powerups_height;
+
+		arr_powerups[i] = powerups;
+
+	}
+
 }
 
 void load_sprites()
@@ -88,6 +108,7 @@ void load_sprites()
 	bullet_sprite = CP_Image_Load("./Assets/bullet.png");
 	enemy_sprite = CP_Image_Load("./Assets/enemy.png");
 	health_bar_sprite = CP_Image_Load("./Assets/healthbar.png");
+	powerups_sprite = CP_Image_Load("./Assets/powerup.png");
 	enemy_hurt_sprite = generate_hurt_sprite(enemy_sprite);
 	player_health_sprite = CP_Image_Load("./Assets/heart.png");
 
@@ -103,6 +124,8 @@ void load_sprites()
 	enemy_width = (float)CP_Image_GetWidth(enemy_sprite) * 3;
 	enemy_height = (float)CP_Image_GetHeight(enemy_sprite) * 3;
 
+	powerups_width = (float)CP_Image_GetWidth(powerups_sprite) * 0.3f;
+	powerups_height = (float)CP_Image_GetWidth(powerups_sprite) * 0.3f;
 }
 
 CP_Image generate_hurt_sprite(CP_Image sprite)
@@ -326,10 +349,22 @@ void render()
 
 			if (enemy.status.hit)
 			{
-				CP_Image_Draw(enemy_hurt_sprite, enemy.pos.x, enemy.pos.y, enemy_width, enemy_height, 135);
+				CP_Image_Draw(enemy_hurt_sprite, enemy.pos.x, enemy.pos.y, enemy_width, enemy_height, 255);
 			}
 		}
 	}
+
+	// render powerups
+	for (int i = 0; i < sizeof(arr_powerups) / sizeof(arr_powerups[0]); i++)
+	{
+		struct powerups powerups = arr_powerups[i];
+		if (powerups.active)
+		{
+			CP_Image_Draw(powerups_sprite, powerups.pos.x, powerups.pos.y, powerups_width, powerups_height, 255);
+		}
+
+	}
+
 	draw_player();
 	for (int i = 0; i < sizeof(arr_heart) / sizeof(arr_heart[0]); i++)
 	{
