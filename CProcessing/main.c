@@ -17,7 +17,7 @@
 
 extern const int WIN_WIDTH = 1280;
 extern const int WIN_HEIGHT = 720;
-extern const float SPLASH_DURATION = 2.0f;
+extern const float SPLASH_DURATION = 3.0f;
 
 extern const float MAX_VELOCITY = 10.0f; //pixels per second
 extern const int SPEED = 10;
