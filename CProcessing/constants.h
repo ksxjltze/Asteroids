@@ -12,3 +12,5 @@ extern const float HURT_WINDOW; //seconds
 //health bar
 extern const float BAR_WIDTH;
 extern const float BAR_HEIGHT;
+
+extern const char* PLAYER_SPRITE_PATH;

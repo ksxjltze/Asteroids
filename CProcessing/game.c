@@ -43,7 +43,6 @@ void game_init(void)
 	settings_setup(WIN_WIDTH, WIN_HEIGHT);
 	load_sprites();
 	init_entities();
-
 }
 
 void init_entities()
@@ -104,7 +103,7 @@ void init_entities()
 
 void load_sprites()
 {
-	player_sprite = CP_Image_Load("./Assets/dude.png");
+	player_sprite = CP_Image_Load(PLAYER_SPRITE_PATH);
 	bullet_sprite = CP_Image_Load("./Assets/bullet.png");
 	enemy_sprite = CP_Image_Load("./Assets/enemy.png");
 	health_bar_sprite = CP_Image_Load("./Assets/healthbar.png");

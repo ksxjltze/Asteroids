@@ -30,6 +30,8 @@ extern const float HURT_WINDOW = 0.1f; //seconds
 extern const float BAR_WIDTH = 200;
 extern const float BAR_HEIGHT = 20;
 
+extern const char* PLAYER_SPRITE_PATH = "./Assets/spaceship1.png";
+
 // main() the starting point for the program
 // CP_Engine_SetNextGameState() tells CProcessing which functions to use for init, update and exit
 // CP_Engine_Run() is the core function that starts the simulation
