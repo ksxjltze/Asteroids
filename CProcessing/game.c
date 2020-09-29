@@ -431,6 +431,32 @@ void draw_player()
 		if (pos.y <= 0)
 			pos.y = (float)WIN_HEIGHT;
 	}
+
+	if (pos.x > WIN_WIDTH - player_width / 2 && pos.y > WIN_HEIGHT - player_height / 2) //x-max && y-max
+	{
+		float new_x = 0 - (WIN_WIDTH - pos.x);
+		float new_y = 0 - (WIN_HEIGHT - pos.y);
+		CP_Image_DrawAdvanced(player_sprite, new_x, new_y, player_width, player_height, 255, player_rotation);
+	}
+	else if (pos.x > WIN_WIDTH - player_width / 2 && pos.y < 0 + player_height / 2) //x-max && y-min
+	{
+		float new_x = 0 - (WIN_WIDTH - pos.x);
+		float new_y = WIN_HEIGHT + pos.y;
+		CP_Image_DrawAdvanced(player_sprite, new_x, new_y, player_width, player_height, 255, player_rotation);
+	}
+	else if (pos.x < 0 + player_width / 2 && pos.y > WIN_HEIGHT - player_height / 2) //x-min && y-max
+	{
+		float new_x = WIN_WIDTH + pos.x;
+		float new_y = 0 - (WIN_HEIGHT - pos.y);
+		CP_Image_DrawAdvanced(player_sprite, new_x, new_y, player_width, player_height, 255, player_rotation);
+	}
+	else if (pos.x < 0 + player_width / 2 && pos.y < 0 + player_height / 2) //x-min && y-min
+	{
+		float new_x = WIN_WIDTH + pos.x;
+		float new_y = WIN_HEIGHT + pos.y;
+		CP_Image_DrawAdvanced(player_sprite, new_x, new_y, player_width, player_height, 255, player_rotation);
+	}
+
 }
 
 // use CP_Engine_SetNextGameState to specify this function as the exit function
