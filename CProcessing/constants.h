@@ -14,3 +14,4 @@ extern const float BAR_WIDTH;
 extern const float BAR_HEIGHT;
 
 extern const char* PLAYER_SPRITE_PATH;
+extern const float PLAYER_MAX_HP;

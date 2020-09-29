@@ -9,6 +9,7 @@
 #include "bullet.h"
 #include "Heart.h"
 #include "powerups.h"
+#include "player.h"
 
 void game_init(void);
 void game_update(void);
@@ -19,7 +20,6 @@ void process_bullets();
 
 void render();
 void display_fps();
-void draw_player();
 
 int check_collision_AABB(struct Collider_AABB collider1, CP_Vector pos1, struct Collider_AABB collider2, CP_Vector pos2);
 CP_Vector generate_random_pos();

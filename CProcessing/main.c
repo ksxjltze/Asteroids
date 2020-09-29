@@ -31,6 +31,7 @@ extern const float BAR_WIDTH = 200;
 extern const float BAR_HEIGHT = 20;
 
 extern const char* PLAYER_SPRITE_PATH = "./Assets/spaceship1.png";
+extern const float PLAYER_MAX_HP = 3;
 
 // main() the starting point for the program
 // CP_Engine_SetNextGameState() tells CProcessing which functions to use for init, update and exit

@@ -13,8 +13,6 @@ CP_Image player_health_sprite;
 CP_Image powerups_sprite;
 
 //player
-CP_Vector pos;
-CP_Vector velocity;
 float player_width;
 float player_height;
 float player_rotation;
@@ -32,7 +30,7 @@ struct Bullet arr_bullet[999];
 struct Enemy arr_enemy[5];
 struct Heart arr_heart[3];
 struct powerups arr_powerups[2];
-//struct Enemy enemy;
+struct Player player;
 
 // use CP_Engine_SetNextGameState to specify this function as the initialization function
 // this function will be called once at the beginning of the program
@@ -46,6 +44,16 @@ void game_init(void)
 
 void init_entities()
 {
+	//Player
+	player.active = 1;
+	player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
+
+	player.collider.width = (int)player_width;
+	player.collider.height = (int)player_height;
+
+	player.hp.max = PLAYER_MAX_HP;
+	player.hp.current = player.hp.max;
+
 	for (int i = 0; i < sizeof(arr_bullet) / sizeof(arr_bullet[0]); i++)
 	{
 		struct Bullet bullet = arr_bullet[i];
@@ -110,8 +118,7 @@ void load_sprites()
 	enemy_hurt_sprite = generate_hurt_sprite(enemy_sprite);
 	player_health_sprite = CP_Image_Load("./Assets/heart.png");
 
-	pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
-	velocity = CP_Vector_Set(0.0f, 0.0f);
+	player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
 
 	player_width = (float)CP_Image_GetWidth(player_sprite) * 2;
 	player_height = (float)CP_Image_GetHeight(player_sprite) * 2;
@@ -267,7 +274,7 @@ void check_input()
 	float mouseX = CP_Input_GetMouseX();
 	float mouseY = CP_Input_GetMouseY();
 	CP_Vector mousePos = CP_Vector_Set(mouseX, mouseY);
-	CP_Vector shoot_direction = CP_Vector_Normalize(CP_Vector_Subtract(mousePos, pos));
+	CP_Vector shoot_direction = CP_Vector_Normalize(CP_Vector_Subtract(mousePos, player.pos));
 	CP_Vector vec_up = CP_Vector_Set(0, -1);
 	CP_Vector vec_right = CP_Vector_Set(1, 0);
 	float dot = CP_Vector_DotProduct(shoot_direction, vec_right);
@@ -280,23 +287,23 @@ void check_input()
 	if (CP_Input_KeyDown(KEY_W))
 	{
 		//velocity.y -= speed;
-		pos.y -= SPEED;
+		player.pos.y -= SPEED;
 	}
 	else if (CP_Input_KeyDown(KEY_S))
 	{
 		//velocity.y += speed;
-		pos.y += SPEED;
+		player.pos.y += SPEED;
 	}
 
 	if (CP_Input_KeyDown(KEY_A))
 	{
 		//velocity.x -= speed;
-		pos.x -= SPEED;
+		player.pos.x -= SPEED;
 	}
 	else if (CP_Input_KeyDown(KEY_D))
 	{
 		//velocity.x += speed;
-		pos.x += SPEED;
+		player.pos.x += SPEED;
 	}
 
 	if (CP_Input_MouseDown(MOUSE_BUTTON_1))
@@ -310,7 +317,7 @@ void check_input()
 		{
 			struct Bullet bullet = arr_bullet[i];
 			if (!bullet.active) {
-				bullet.pos = CP_Vector_Set(pos.x, pos.y);
+				bullet.pos = CP_Vector_Set(player.pos.x, player.pos.y);
 				bullet.velocity = CP_Vector_Set(shoot_direction.x * BULLET_SPEED, shoot_direction.y * BULLET_SPEED);
 				bullet.active = 1;
 
@@ -378,7 +385,7 @@ void render()
 
 	}
 
-	draw_player();
+	draw_player(player_sprite, player.pos, player_width, player_height, player_rotation);
 
 	//Draw Hearts
 	for (int i = 0; i < sizeof(arr_heart) / sizeof(arr_heart[0]); i++)
@@ -396,66 +403,6 @@ void render()
 
 	//Display FPS
 	CP_Font_DrawText(buf, 300, 100);
-
-}
-
-void draw_player()
-{
-	CP_Image_DrawAdvanced(player_sprite, pos.x, pos.y, player_width, player_height, 255, player_rotation);
-	if (pos.x > WIN_WIDTH - player_width / 2) //x-max
-	{
-		float new_x = 0 - (WIN_WIDTH - pos.x);
-		CP_Image_DrawAdvanced(player_sprite, new_x, pos.y, player_width, player_height, 255, player_rotation);
-		if (pos.x > WIN_WIDTH)
-			pos.x = 0;
-	}
-	else if (pos.x < 0 + player_width / 2) //x-min
-	{
-		float new_x = WIN_WIDTH + pos.x;
-		CP_Image_DrawAdvanced(player_sprite, new_x, pos.y, player_width, player_height, 255, player_rotation);
-		if (pos.x <= 0)
-			pos.x = (float)WIN_WIDTH;
-	}
-
-	if (pos.y > WIN_HEIGHT - player_height / 2) //y-max
-	{
-		float new_y = 0 - (WIN_HEIGHT - pos.y);
-		CP_Image_DrawAdvanced(player_sprite, pos.x, new_y, player_width, player_height, 255, player_rotation);
-		if (pos.y > WIN_HEIGHT)
-			pos.y = 0;
-	}
-	else if (pos.y < 0 + player_height / 2) //y-min
-	{
-		float new_y = WIN_HEIGHT + pos.y;
-		CP_Image_DrawAdvanced(player_sprite, pos.x, new_y, player_width, player_height, 255, player_rotation);
-		if (pos.y <= 0)
-			pos.y = (float)WIN_HEIGHT;
-	}
-
-	if (pos.x > WIN_WIDTH - player_width / 2 && pos.y > WIN_HEIGHT - player_height / 2) //x-max && y-max
-	{
-		float new_x = 0 - (WIN_WIDTH - pos.x);
-		float new_y = 0 - (WIN_HEIGHT - pos.y);
-		CP_Image_DrawAdvanced(player_sprite, new_x, new_y, player_width, player_height, 255, player_rotation);
-	}
-	else if (pos.x > WIN_WIDTH - player_width / 2 && pos.y < 0 + player_height / 2) //x-max && y-min
-	{
-		float new_x = 0 - (WIN_WIDTH - pos.x);
-		float new_y = WIN_HEIGHT + pos.y;
-		CP_Image_DrawAdvanced(player_sprite, new_x, new_y, player_width, player_height, 255, player_rotation);
-	}
-	else if (pos.x < 0 + player_width / 2 && pos.y > WIN_HEIGHT - player_height / 2) //x-min && y-max
-	{
-		float new_x = WIN_WIDTH + pos.x;
-		float new_y = 0 - (WIN_HEIGHT - pos.y);
-		CP_Image_DrawAdvanced(player_sprite, new_x, new_y, player_width, player_height, 255, player_rotation);
-	}
-	else if (pos.x < 0 + player_width / 2 && pos.y < 0 + player_height / 2) //x-min && y-min
-	{
-		float new_x = WIN_WIDTH + pos.x;
-		float new_y = WIN_HEIGHT + pos.y;
-		CP_Image_DrawAdvanced(player_sprite, new_x, new_y, player_width, player_height, 255, player_rotation);
-	}
 
 }
 
