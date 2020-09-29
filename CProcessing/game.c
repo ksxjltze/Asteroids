@@ -316,17 +316,22 @@ void check_input()
 	}
 }
 
-void render()
+void display_fps()
 {
-	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
-	CP_Font_DrawText("uwu", (float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
-
 	//Get FPS
 	float fps = roundf(CP_System_GetFrameRate());
 	sprintf_s(fps_str, 10, "%d", (int)fps);
 
 	//Display FPS
 	CP_Font_DrawText(fps_str, 100, 100);
+}
+
+void render()
+{
+	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
+	CP_Font_DrawText("Asteroids", (float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
+
+	display_fps();
 
 	//Render Bullets
 	for (int i = 0; i < sizeof(arr_bullet) / sizeof(arr_bullet[0]); i++)
@@ -366,6 +371,8 @@ void render()
 	}
 
 	draw_player();
+
+	//Draw Hearts
 	for (int i = 0; i < sizeof(arr_heart) / sizeof(arr_heart[0]); i++)
 	{
 		if (arr_heart[i].active == 1)

@@ -13,12 +13,17 @@
 void game_init(void);
 void game_update(void);
 void game_exit(void);
-void render();
+
 void check_input();
-void draw_player();
 void process_bullets();
+
+void render();
+void display_fps();
+void draw_player();
+
 int check_collision_AABB(struct Collider_AABB collider1, CP_Vector pos1, struct Collider_AABB collider2, CP_Vector pos2);
 CP_Vector generate_random_pos();
+
 CP_Image generate_hurt_sprite(CP_Image sprite);
 void load_sprites();
 void init_entities();
