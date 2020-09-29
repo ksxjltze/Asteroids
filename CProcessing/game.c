@@ -2,8 +2,6 @@
 #include "game.h"
 #include "constants.h"
 
-
-char fps_str[10];
 float shoot_cooldown = 0.0f;
 
 CP_Image player_sprite;
@@ -19,6 +17,7 @@ CP_Vector pos;
 CP_Vector velocity;
 float player_width;
 float player_height;
+float player_rotation;
 
 float bullet_width;
 float bullet_height;
@@ -264,6 +263,20 @@ void game_update(void)
 
 void check_input()
 {
+
+	float mouseX = CP_Input_GetMouseX();
+	float mouseY = CP_Input_GetMouseY();
+	CP_Vector mousePos = CP_Vector_Set(mouseX, mouseY);
+	CP_Vector shoot_direction = CP_Vector_Normalize(CP_Vector_Subtract(mousePos, pos));
+	CP_Vector vec_up = CP_Vector_Set(0, -1);
+	CP_Vector vec_right = CP_Vector_Set(1, 0);
+	float dot = CP_Vector_DotProduct(shoot_direction, vec_right);
+
+	if (dot >= 0)
+		player_rotation = CP_Vector_Angle(shoot_direction, vec_up);
+	else if (dot < 0)
+		player_rotation = -CP_Vector_Angle(shoot_direction, vec_up);
+
 	if (CP_Input_KeyDown(KEY_W))
 	{
 		//velocity.y -= speed;
@@ -293,12 +306,6 @@ void check_input()
 
 		shoot_cooldown = 60 / FIRE_RATE; //seconds per bullet
 
-		float mouseX = CP_Input_GetMouseX();
-		float mouseY = CP_Input_GetMouseY();
-
-		CP_Vector mousePos = CP_Vector_Set(mouseX, mouseY);
-		CP_Vector shoot_direction = CP_Vector_Normalize(CP_Vector_Subtract(mousePos, pos));
-
 		for (int i = 0; i < sizeof(arr_bullet) / sizeof(arr_bullet[0]); i++)
 		{
 			struct Bullet bullet = arr_bullet[i];
@@ -317,9 +324,11 @@ void check_input()
 
 void display_fps()
 {
+	//Char buffer
+	char fps_str[10];
 	//Get FPS
 	float fps = roundf(CP_System_GetFrameRate());
-	sprintf_s(fps_str, 10, "%d", (int)fps);
+	sprintf_s(fps_str, 10, "%d", (int)fps); //Convert int to string
 
 	//Display FPS
 	CP_Font_DrawText(fps_str, 100, 100);
@@ -381,11 +390,18 @@ void render()
 		}
 	}
 
+	//TEST PLAYER ROTATION
+	char buf[100];
+	_gcvt_s(buf, 100, player_rotation, 4);
+
+	//Display FPS
+	CP_Font_DrawText(buf, 300, 100);
+
 }
 
 void draw_player()
 {
-	CP_Image_Draw(player_sprite, pos.x, pos.y, player_width, player_height, 255);
+	CP_Image_DrawAdvanced(player_sprite, pos.x, pos.y, player_width, player_height, 255, player_rotation);
 	if (pos.x > WIN_WIDTH - player_width / 2) //x-max
 	{
 		float new_x = 0 - (WIN_WIDTH - pos.x);
