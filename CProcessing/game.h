@@ -7,11 +7,8 @@
 #include "init.h"
 #include "enemy.h"
 #include "bullet.h"
-<<<<<<< HEAD
 #include "Heart.h"
-=======
 #include "powerups.h"
->>>>>>> de76d56f5e90e914ed4464bd8ec617de68485c10
 
 void game_init(void);
 void game_update(void);
