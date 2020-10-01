@@ -1,6 +1,18 @@
 #include "player.h"
 #include "constants.h"
 
+void init_player(struct Player player, float player_width, float player_height)
+{
+	player.active = 1;
+	player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
+
+	player.collider.width = player_width;
+	player.collider.height = player_height;
+
+	player.hp.max = PLAYER_MAX_HP;
+	player.hp.current = player.hp.max;
+}
+
 void draw_player(CP_Image player_sprite, CP_Vector pos, float player_width, float player_height, float player_rotation)
 {
 	CP_Image_DrawAdvanced(player_sprite, pos.x, pos.y, player_width, player_height, 255, player_rotation);

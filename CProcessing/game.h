@@ -10,6 +10,7 @@
 #include "Heart.h"
 #include "powerups.h"
 #include "player.h"
+#include "utility.h"
 
 void game_init(void);
 void game_update(void);
@@ -22,7 +23,6 @@ void render();
 void display_fps();
 
 int check_collision_AABB(struct Collider_AABB collider1, CP_Vector pos1, struct Collider_AABB collider2, CP_Vector pos2);
-CP_Vector generate_random_pos();
 
 CP_Image generate_hurt_sprite(CP_Image sprite);
 void load_sprites();

@@ -8,3 +8,5 @@ struct Bullet {
 	CP_Vector velocity;
 	int active;
 };
+
+void init_bullets(struct Bullet arr_bullet[], int count, float bullet_width, float bullet_height);

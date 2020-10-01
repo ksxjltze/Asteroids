@@ -42,46 +42,16 @@ void game_init(void)
 	init_entities();
 }
 
+//@brief Initializes game entities. Populates entity struct arrays with data (e.g. position, health, etc.)
 void init_entities()
 {
 	//Player
-	player.active = 1;
-	player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
+	init_player();
 
-	player.collider.width = (int)player_width;
-	player.collider.height = (int)player_height;
+	//TODO: Possibly implement an entity manager to manage different types of entities.
+	init_enemies(arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]), enemy_width, enemy_height);
+	init_bullets(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]), bullet_width, bullet_height);
 
-	player.hp.max = PLAYER_MAX_HP;
-	player.hp.current = player.hp.max;
-
-	for (int i = 0; i < sizeof(arr_bullet) / sizeof(arr_bullet[0]); i++)
-	{
-		struct Bullet bullet = arr_bullet[i];
-		bullet.active = 0;
-		bullet.pos = CP_Vector_Set(-1, -1);
-		bullet.velocity = CP_Vector_Set(0, 0);
-
-		bullet.collider.width = (int)bullet_width;
-		bullet.collider.height = (int)bullet_height;
-
-		arr_bullet[i] = bullet;
-	}
-
-	for (int i = 0; i < sizeof(arr_enemy) / sizeof(arr_enemy[0]); i++)
-	{
-		//test enemy
-		struct Enemy enemy = arr_enemy[i];
-		enemy.pos = generate_random_pos();
-		enemy.active = 1;
-		enemy.hp.max = 100;
-		enemy.hp.current = enemy.hp.max;
-
-		enemy.collider.width = (int)enemy_width;
-		enemy.collider.height = (int)enemy_height;
-
-		arr_enemy[i] = enemy;
-
-	}
 	for (int i = 0; i < sizeof(arr_heart) / sizeof(arr_heart[0]); i++)
 	{
 		//
@@ -99,8 +69,8 @@ void init_entities()
 		powerups.pos = generate_random_pos();
 		powerups.active = 1;
 
-		powerups.collider.width = (int)powerups_width;
-		powerups.collider.height = (int)powerups_height;
+		powerups.collider.width = powerups_width;
+		powerups.collider.height = powerups_height;
 
 		arr_powerups[i] = powerups;
 
@@ -108,6 +78,7 @@ void init_entities()
 
 }
 
+//@brief Loads sprites from file path and sets their width and height.
 void load_sprites()
 {
 	player_sprite = CP_Image_Load(PLAYER_SPRITE_PATH);
@@ -207,14 +178,6 @@ void process_bullets()
 		}
 
 	}
-}
-
-CP_Vector generate_random_pos()
-{
-	float x = (float)(rand() % WIN_WIDTH);
-	float y = (float)(rand() % WIN_HEIGHT);
-
-	return CP_Vector_Set(x, y);
 }
 
 int check_collision_AABB(struct Collider_AABB collider1, CP_Vector pos1, struct Collider_AABB collider2, CP_Vector pos2)
