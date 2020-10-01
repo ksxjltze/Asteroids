@@ -27,8 +27,9 @@ extern const float FIRE_RATE = 300.0f; //bullets per minute
 extern const float HURT_WINDOW = 0.1f; //seconds
 
 //health bar
-extern const float BAR_WIDTH = 200;
-extern const float BAR_HEIGHT = 20;
+extern const float BAR_WIDTH = 100;
+extern const float BAR_HEIGHT = 10;
+extern const float BAR_OFFSET_Y = 10;
 
 extern const char* PLAYER_SPRITE_PATH = "./Assets/spaceship1.png";
 extern const float PLAYER_MAX_HP = 3;
