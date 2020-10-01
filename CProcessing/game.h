@@ -17,7 +17,6 @@ void game_update(void);
 void game_exit(void);
 
 void check_input();
-void process_bullets();
 
 void render();
 void display_fps();

@@ -1,6 +1,8 @@
 #pragma once
 #include "cprocessing.h"
 #include "collider_aabb.h"
+#include "constants.h"
+#include "enemy.h"
 
 struct Bullet {
 	CP_Vector pos;
@@ -10,3 +12,4 @@ struct Bullet {
 };
 
 void init_bullets(struct Bullet arr_bullet[], int count, float bullet_width, float bullet_height);
+void process_bullets(struct Bullet arr_bullet[], int bullet_count, struct Enemy arr_enemy[], int enemy_count);

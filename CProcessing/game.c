@@ -135,63 +135,6 @@ CP_Image generate_hurt_sprite(CP_Image sprite)
 	return CP_Image_CreateFromData(CP_Image_GetWidth(enemy_sprite), CP_Image_GetHeight(enemy_sprite), pixels);
 }
 
-void process_bullets()
-{
-	//bullet
-	for (int i = 0; i < sizeof(arr_bullet) / sizeof(arr_bullet[0]); i++)
-	{
-		struct Bullet bullet = arr_bullet[i];
-		if (bullet.active)
-		{
-			if ((bullet.pos.x > WIN_WIDTH || bullet.pos.x < 0) && (bullet.pos.y > WIN_HEIGHT || bullet.pos.y < 0))
-			{
-				bullet.active = 0;
-				bullet.pos = CP_Vector_Set(-1, -1);
-				bullet.velocity = CP_Vector_Set(0, 0);
-
-				arr_bullet[i] = bullet;
-				continue;
-			}
-
-			for (int j = 0; j < sizeof(arr_enemy) / sizeof(arr_enemy[0]); j++)
-			{
-				if (!arr_enemy[j].active)
-					continue;
-
-				struct Enemy* enemy = &arr_enemy[j];
-				if (check_collision_AABB(bullet.collider, bullet.pos, enemy->collider, enemy->pos))
-				{
-					bullet.active = 0;
-					bullet.pos = CP_Vector_Set(-1, -1);
-					bullet.velocity = CP_Vector_Set(0, 0);
-
-					if (!enemy->status.hit)
-					{
-						enemy->status.hit = 1;
-						enemy->hp.current -= 10;
-					}
-				}
-			}
-
-			bullet.pos = CP_Vector_Add(bullet.pos, CP_Vector_Scale(bullet.velocity, CP_System_GetDt()));
-			arr_bullet[i] = bullet;
-		}
-
-	}
-}
-
-int check_collision_AABB(struct Collider_AABB collider1, CP_Vector pos1, struct Collider_AABB collider2, CP_Vector pos2)
-{
-	//simple collision
-	int is_overlap_x = (pos1.x + collider1.width >= pos2.x - collider2.width / 2 && pos2.x + collider2.width / 2 >= pos1.x - collider1.width);
-	int is_overlap_y = (pos1.y + collider1.height >= pos2.y - collider2.height / 2 && pos2.y + collider2.height / 2 >= pos1.y - collider1.height);
-
-	if (is_overlap_x && is_overlap_y)
-		return 1;
-
-	return 0;
-}
-
 // use CP_Engine_SetNextGameState to specify this function as the update function
 // this function will be called repeatedly every frame
 void game_update(void)
@@ -225,7 +168,7 @@ void game_update(void)
 
 	}
 
-	process_bullets();
+	process_bullets(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]), arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]));
 
 	render();
 

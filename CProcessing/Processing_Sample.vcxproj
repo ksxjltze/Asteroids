@@ -191,6 +191,7 @@ xcopy "$(ProjectDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bullet.c" />
+    <ClCompile Include="collider_aabb.c" />
     <ClCompile Include="enemy.c" />
     <ClCompile Include="game.c" />
     <ClCompile Include="init.c" />
