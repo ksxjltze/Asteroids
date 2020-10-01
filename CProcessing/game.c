@@ -86,7 +86,7 @@ void load_sprites()
 	enemy_sprite = CP_Image_Load("./Assets/enemy.png");
 	health_bar_sprite = CP_Image_Load("./Assets/healthbar.png");
 	powerups_sprite = CP_Image_Load("./Assets/powerup.png");
-	enemy_hurt_sprite = generate_hurt_sprite(enemy_sprite);
+	generate_hurt_sprite(enemy_sprite, &enemy_hurt_sprite);
 	player_health_sprite = CP_Image_Load("./Assets/heart.png");
 
 	player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
@@ -104,37 +104,6 @@ void load_sprites()
 	powerups_height = (float)CP_Image_GetWidth(powerups_sprite) * 0.3f;
 }
 
-CP_Image generate_hurt_sprite(CP_Image sprite)
-{
-
-	unsigned char* pixels = malloc(CP_Image_GetPixelBufferSize(enemy_sprite));
-	CP_Image_GetPixelData(enemy_sprite, pixels);
-
-	//Create Enemy Hurt Sprite from modified enemy_sprite pixel data.
-	if (pixels)
-	{
-		for (int i = 0; i < CP_Image_GetPixelBufferSize(enemy_sprite); ++i)
-		{
-			if (i % 4 == 3) //alpha
-			{
-				continue;
-			}
-
-			if (i % 4 == 0) //red
-			{
-				if (pixels[i - 1] > 0)
-					pixels[i - 1] = 255;
-			}
-			else
-				pixels[i] = 0;
-
-		}
-
-	}
-
-	return CP_Image_CreateFromData(CP_Image_GetWidth(enemy_sprite), CP_Image_GetHeight(enemy_sprite), pixels);
-}
-
 // use CP_Engine_SetNextGameState to specify this function as the update function
 // this function will be called repeatedly every frame
 void game_update(void)
@@ -147,28 +116,8 @@ void game_update(void)
 	else
 		shoot_cooldown -= CP_System_GetDt();
 
-	//Process enemies
-	for (int i = 0; i < sizeof(arr_enemy) / sizeof(arr_enemy[0]); i++)
-	{
-		struct Enemy* enemy = &arr_enemy[i];
-		if (enemy->status.hit)
-		{
-			enemy->status.hit_cooldown -= CP_System_GetDt();
-			if (enemy->status.hit_cooldown <= 0)
-			{
-				enemy->status.hit = 0;
-				enemy->status.hit_cooldown = HURT_WINDOW;
-			}
-		}
-
-		if (enemy->hp.current <= 0)
-		{
-			enemy->active = 0;
-		}
-
-	}
-
 	process_bullets(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]), arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]));
+	process_enemies(arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]));
 
 	render();
 

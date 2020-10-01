@@ -15,3 +15,4 @@ struct Enemy {
 };
 
 void init_enemies(struct Enemy arr_enemy[], int count, float enemy_width, float enemy_height);
+void process_enemies(struct Enemy arr_enemy[], int count);

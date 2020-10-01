@@ -19,3 +19,26 @@ void init_enemies(struct Enemy arr_enemy[], int count, float enemy_width, float 
 	}
 
 }
+
+void process_enemies(struct Enemy arr_enemy[], int count)
+{
+	for (int i = 0; i < count; i++)
+	{
+		struct Enemy* enemy = &arr_enemy[i];
+		if (enemy->status.hit)
+		{
+			enemy->status.hit_cooldown -= CP_System_GetDt();
+			if (enemy->status.hit_cooldown <= 0)
+			{
+				enemy->status.hit = 0;
+				enemy->status.hit_cooldown = HURT_WINDOW;
+			}
+		}
+
+		if (enemy->hp.current <= 0)
+		{
+			enemy->active = 0;
+		}
+
+	}
+}
