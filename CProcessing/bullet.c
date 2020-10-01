@@ -60,3 +60,15 @@ void process_bullets(struct Bullet arr_bullet[], int bullet_count, struct Enemy 
 
 	}
 }
+
+void draw_bullets(struct Bullet arr_bullet[], int count, CP_Image bullet_sprite, float bullet_width, float bullet_height)
+{
+	//Render Bullets
+	for (int i = 0; i < count; i++)
+	{
+		struct Bullet bullet = arr_bullet[i];
+		if (bullet.active) {
+			CP_Image_Draw(bullet_sprite, bullet.pos.x, bullet.pos.y, bullet_width, bullet_height, 255);
+		}
+	}
+}

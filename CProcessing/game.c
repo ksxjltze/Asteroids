@@ -202,32 +202,8 @@ void render()
 	CP_Font_DrawText("Asteroids", (float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
 
 	display_fps();
-
-	//Render Bullets
-	for (int i = 0; i < sizeof(arr_bullet) / sizeof(arr_bullet[0]); i++)
-	{
-		struct Bullet bullet = arr_bullet[i];
-		if (bullet.active) {
-			CP_Image_Draw(bullet_sprite, bullet.pos.x, bullet.pos.y, bullet_width, bullet_height, 255);
-		}
-	}
-
-	//Render Enemies
-	for (int i = 0; i < sizeof(arr_enemy) / sizeof(arr_enemy[0]); i++)
-	{
-		struct Enemy enemy = arr_enemy[i];
-		if (enemy.active)
-		{
-			CP_Image_Draw(enemy_sprite, enemy.pos.x, enemy.pos.y, enemy_width, enemy_height, 255);
-			float percent = enemy.hp.current / enemy.hp.max;
-			CP_Image_Draw(health_bar_sprite, enemy.pos.x, enemy.pos.y - 100, percent * BAR_WIDTH, BAR_HEIGHT, 255);
-
-			if (enemy.status.hit)
-			{
-				CP_Image_Draw(enemy_hurt_sprite, enemy.pos.x, enemy.pos.y, enemy_width, enemy_height, 255);
-			}
-		}
-	}
+	draw_bullets(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]), bullet_sprite, bullet_width, bullet_height);
+	draw_enemies(arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]), enemy_sprite, enemy_width, enemy_height, enemy_hurt_sprite, health_bar_sprite);
 
 	// render powerups
 	for (int i = 0; i < sizeof(arr_powerups) / sizeof(arr_powerups[0]); i++)
@@ -240,7 +216,6 @@ void render()
 
 	}
 
-	draw_player(player_sprite, player.pos, player_width, player_height, player_rotation);
 
 	//Draw Hearts
 	for (int i = 0; i < sizeof(arr_heart) / sizeof(arr_heart[0]); i++)
@@ -251,6 +226,8 @@ void render()
 				(float)CP_Image_GetHeight(player_health_sprite), 255);
 		}
 	}
+
+	draw_player(player_sprite, player.pos, player_width, player_height, player_rotation);
 
 	//TEST PLAYER ROTATION
 	char buf[100];
