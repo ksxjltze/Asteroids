@@ -83,7 +83,7 @@ void load_sprites()
 {
 	player_sprite = CP_Image_Load(PLAYER_SPRITE_PATH);
 	bullet_sprite = CP_Image_Load("./Assets/bullet.png");
-	enemy_sprite = CP_Image_Load("./Assets/enemy.png");
+	enemy_sprite = CP_Image_Load("./Assets/asteroids.png");
 	health_bar_sprite = CP_Image_Load("./Assets/healthbar.png");
 	powerups_sprite = CP_Image_Load("./Assets/powerup.png");
 	generate_hurt_sprite(enemy_sprite, &enemy_hurt_sprite);
@@ -97,8 +97,8 @@ void load_sprites()
 	bullet_width = (float)CP_Image_GetWidth(bullet_sprite);
 	bullet_height = (float)CP_Image_GetHeight(bullet_sprite);
 
-	enemy_width = (float)CP_Image_GetWidth(enemy_sprite) * 3;
-	enemy_height = (float)CP_Image_GetHeight(enemy_sprite) * 3;
+	enemy_width = (float)CP_Image_GetWidth(enemy_sprite) * 0.1f;
+	enemy_height = (float)CP_Image_GetHeight(enemy_sprite) * 0.1f;
 
 	powerups_width = (float)CP_Image_GetWidth(powerups_sprite) * 0.3f;
 	powerups_height = (float)CP_Image_GetWidth(powerups_sprite) * 0.3f;
