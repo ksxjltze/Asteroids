@@ -5,3 +5,4 @@
 #include "bullet.h"
 
 struct Bullet check_collision_enemy_bullet(struct Enemy arr_enemy[], int enemy_count, struct Bullet bullet);
+void check_collision_enemy_player(struct Enemy arr_enemy[], int enemy_count, struct Player* player);

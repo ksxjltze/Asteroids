@@ -46,7 +46,7 @@ void game_init(void)
 void init_entities()
 {
 	//Player
-	init_player(player, player_width, player_height);
+	player = init_player(player, player_width, player_height);
 
 	//TODO: Possibly implement an entity manager to manage different types of entities.
 	init_enemies(arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]), enemy_width, enemy_height);
@@ -116,8 +116,16 @@ void game_update(void)
 	else
 		shoot_cooldown -= CP_System_GetDt();
 
+	int enemy_count = sizeof(arr_enemy) / sizeof(arr_enemy[0]);
 	process_bullets(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]), arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]));
-	process_enemies(arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]));
+	process_enemies(arr_enemy, enemy_count);
+
+	check_collision_enemy_player(arr_enemy, enemy_count, &player);
+
+	if (player.hp.current <= 0)
+	{
+		player.active = 0;
+	}
 
 	render();
 
@@ -125,6 +133,8 @@ void game_update(void)
 
 void check_input()
 {
+	if (player.active != 1)
+		return;
 
 	float mouseX = CP_Input_GetMouseX();
 	float mouseY = CP_Input_GetMouseY();
@@ -218,7 +228,7 @@ void render()
 
 
 	//Draw Hearts
-	for (int i = 0; i < sizeof(arr_heart) / sizeof(arr_heart[0]); i++)
+	for (int i = 0; i < player.hp.current; i++)
 	{
 		if (arr_heart[i].active == 1)
 		{

@@ -25,3 +25,20 @@ struct Bullet check_collision_enemy_bullet(struct Enemy arr_enemy[], int enemy_c
 	}
 	return bullet;
 }
+
+void check_collision_enemy_player(struct Enemy arr_enemy[], int enemy_count, struct Player* player)
+{
+	for (int i = 0; i < enemy_count; i++)
+	{
+		if (!arr_enemy[i].active)
+			continue;
+
+		struct Enemy* enemy = &arr_enemy[i];
+		if (check_collision_AABB(player->collider, player->pos, enemy->collider, enemy->pos))
+		{
+			player->active = 0;
+			return;
+		}
+
+	}
+}

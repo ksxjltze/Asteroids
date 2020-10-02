@@ -12,6 +12,6 @@ struct Player {
 	int active;
 };
 
-void init_player(struct Player player, float player_width, float player_height);
+struct Player init_player(struct Player player, float player_width, float player_height);
 void draw_player(CP_Image player_sprite, CP_Vector pos, float player_width, float player_height, float player_rotation);
 

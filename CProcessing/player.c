@@ -1,7 +1,7 @@
 #include "player.h"
 #include "constants.h"
 
-void init_player(struct Player player, float player_width, float player_height)
+struct Player init_player(struct Player player, float player_width, float player_height)
 {
 	player.active = 1;
 	player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
@@ -11,6 +11,8 @@ void init_player(struct Player player, float player_width, float player_height)
 
 	player.hp.max = PLAYER_MAX_HP;
 	player.hp.current = player.hp.max;
+
+	return player;
 }
 
 void draw_player(CP_Image player_sprite, CP_Vector pos, float player_width, float player_height, float player_rotation)
