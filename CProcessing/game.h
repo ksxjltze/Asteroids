@@ -11,6 +11,7 @@
 #include "powerups.h"
 #include "player.h"
 #include "utility.h"
+#include "gameover.h"
 
 void game_init(void);
 void game_update(void);

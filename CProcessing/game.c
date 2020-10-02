@@ -119,12 +119,14 @@ void game_update(void)
 	int enemy_count = sizeof(arr_enemy) / sizeof(arr_enemy[0]);
 	process_bullets(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]), arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]));
 	process_enemies(arr_enemy, enemy_count);
+	update_player(&player);
 
 	check_collision_enemy_player(arr_enemy, enemy_count, &player);
 
-	if (player.hp.current <= 0)
+	if (player.active != 1)
 	{
-		player.active = 0;
+		CP_Engine_SetNextGameState(gameover_init, gameover_update, gameover_exit);
+		CP_Engine_Run();
 	}
 
 	render();

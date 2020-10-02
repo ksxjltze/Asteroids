@@ -14,4 +14,5 @@ struct Player {
 
 struct Player init_player(struct Player player, float player_width, float player_height);
 void draw_player(CP_Image player_sprite, CP_Vector pos, float player_width, float player_height, float player_rotation);
+void update_player(struct Player* player);
 

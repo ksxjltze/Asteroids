@@ -74,3 +74,11 @@ void draw_player(CP_Image player_sprite, CP_Vector pos, float player_width, floa
 	}
 
 }
+
+void update_player(struct Player* player)
+{
+	if (player->hp.current <= 0)
+	{
+		player->active = 0;
+	}
+}
