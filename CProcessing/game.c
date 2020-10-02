@@ -133,6 +133,18 @@ void game_update(void)
 
 }
 
+void player_rotate(CP_Vector direction)
+{
+	CP_Vector vec_up = CP_Vector_Set(0, -1);
+	CP_Vector vec_right = CP_Vector_Set(1, 0);
+	float dot = CP_Vector_DotProduct(direction, vec_right);
+
+	if (dot >= 0)
+		player_rotation = CP_Vector_Angle(direction, vec_up);
+	else if (dot < 0)
+		player_rotation = -CP_Vector_Angle(direction, vec_up);
+}
+
 void check_input()
 {
 	if (player.active != 1)
@@ -142,14 +154,9 @@ void check_input()
 	float mouseY = CP_Input_GetMouseY();
 	CP_Vector mousePos = CP_Vector_Set(mouseX, mouseY);
 	CP_Vector shoot_direction = CP_Vector_Normalize(CP_Vector_Subtract(mousePos, player.pos));
-	CP_Vector vec_up = CP_Vector_Set(0, -1);
-	CP_Vector vec_right = CP_Vector_Set(1, 0);
-	float dot = CP_Vector_DotProduct(shoot_direction, vec_right);
 
-	if (dot >= 0)
-		player_rotation = CP_Vector_Angle(shoot_direction, vec_up);
-	else if (dot < 0)
-		player_rotation = -CP_Vector_Angle(shoot_direction, vec_up);
+	player_rotate(shoot_direction);
+
 
 	if (CP_Input_KeyDown(KEY_W))
 	{

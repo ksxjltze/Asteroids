@@ -26,3 +26,5 @@ int check_collision_AABB(struct Collider_AABB collider1, CP_Vector pos1, struct 
 
 void load_sprites();
 void init_entities();
+
+void player_rotate(CP_Vector direction);

@@ -2,17 +2,29 @@
 
 void init_enemies(struct Enemy arr_enemy[], int count, float enemy_width, float enemy_height)
 {
+	//temp TODO: move somewhere else
+	struct Collider_AABB spawn_rect;
+	CP_Vector spawn_pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
+	spawn_rect.width = 200;
+	spawn_rect.height = 200;
+
 	for (int i = 0; i < count; i++)
 	{
 		//test enemy
 		struct Enemy enemy = arr_enemy[i];
-		enemy.pos = generate_random_pos();
+		enemy.collider.width = enemy_width;
+		enemy.collider.height = enemy_height;
+
 		enemy.active = 1;
 		enemy.hp.max = ENEMY_HP;
 		enemy.hp.current = enemy.hp.max;
 
-		enemy.collider.width = enemy_width;
-		enemy.collider.height = enemy_height;
+		enemy.pos = generate_random_pos();
+		while (check_collision_AABB(enemy.collider, enemy.pos, spawn_rect, spawn_pos))
+		{
+			enemy.pos = generate_random_pos();
+		}
+
 
 		arr_enemy[i] = enemy;
 
