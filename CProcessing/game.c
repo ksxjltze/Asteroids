@@ -26,10 +26,10 @@ float enemy_height;
 float powerups_width;
 float powerups_height;
 
-struct Bullet arr_bullet[999];
-struct Enemy arr_enemy[5];
+struct Bullet arr_bullet[100];
+struct Enemy arr_enemy[20];
 struct Heart arr_heart[3];
-struct powerups arr_powerups[2];
+struct powerups arr_powerups[1];
 struct Player player;
 
 // use CP_Engine_SetNextGameState to specify this function as the initialization function

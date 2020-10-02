@@ -8,6 +8,8 @@ extern const int SPEED;
 extern const int BULLET_SPEED;
 extern const float FIRE_RATE; //bullets per minute
 extern const float HURT_WINDOW; //seconds
+extern const float BULLET_DAMAGE;
+extern const float ENEMY_HP;
 
 //health bar
 extern const float BAR_WIDTH;

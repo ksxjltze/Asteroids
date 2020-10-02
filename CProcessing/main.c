@@ -25,6 +25,8 @@ extern const int SPEED = 10;
 extern const int BULLET_SPEED = 1000;
 extern const float FIRE_RATE = 300.0f; //bullets per minute
 extern const float HURT_WINDOW = 0.1f; //seconds
+extern const float BULLET_DAMAGE = 1;
+extern const float ENEMY_HP = 3;
 
 //health bar
 extern const float BAR_WIDTH = 100;

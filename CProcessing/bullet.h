@@ -3,6 +3,7 @@
 #include "collider_aabb.h"
 #include "constants.h"
 #include "enemy.h"
+#include "collision_manager.h"
 
 struct Bullet {
 	CP_Vector pos;

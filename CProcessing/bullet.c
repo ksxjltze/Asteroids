@@ -34,25 +34,7 @@ void process_bullets(struct Bullet arr_bullet[], int bullet_count, struct Enemy 
 				continue;
 			}
 
-			for (int j = 0; j < enemy_count; j++)
-			{
-				if (!arr_enemy[j].active)
-					continue;
-
-				struct Enemy* enemy = &arr_enemy[j];
-				if (check_collision_AABB(bullet.collider, bullet.pos, enemy->collider, enemy->pos))
-				{
-					bullet.active = 0;
-					bullet.pos = CP_Vector_Set(-1, -1);
-					bullet.velocity = CP_Vector_Set(0, 0);
-
-					if (!enemy->status.hit)
-					{
-						enemy->status.hit = 1;
-						enemy->hp.current -= 10;
-					}
-				}
-			}
+			bullet = check_collision_enemy_bullet(arr_enemy, enemy_count, bullet);
 
 			bullet.pos = CP_Vector_Add(bullet.pos, CP_Vector_Scale(bullet.velocity, CP_System_GetDt()));
 			arr_bullet[i] = bullet;
