@@ -26,6 +26,8 @@ float enemy_height;
 float powerups_width;
 float powerups_height;
 
+int difficulty = 0; //NORMAL
+
 struct Bullet arr_bullet[100];
 struct Enemy arr_enemy[20];
 struct Heart arr_heart[3];
