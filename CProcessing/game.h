@@ -12,6 +12,7 @@
 #include "player.h"
 #include "utility.h"
 #include "gameover.h"
+#include <string.h>
 
 void game_init(void);
 void game_update(void);

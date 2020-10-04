@@ -36,6 +36,9 @@ extern const float BAR_OFFSET_Y = 10;
 extern const char* PLAYER_SPRITE_PATH = "./Assets/spaceship1.png";
 extern const float PLAYER_MAX_HP = 3;
 
+extern const float PLAYER_MAX_FUEL = 100.0f;
+extern const float DRAIN_RATE = 5.0f;
+
 // main() the starting point for the program
 // CP_Engine_SetNextGameState() tells CProcessing which functions to use for init, update and exit
 // CP_Engine_Run() is the core function that starts the simulation

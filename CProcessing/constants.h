@@ -18,3 +18,5 @@ extern const float BAR_OFFSET_Y;
 
 extern const char* PLAYER_SPRITE_PATH;
 extern const float PLAYER_MAX_HP;
+extern const float PLAYER_MAX_FUEL;
+extern const float DRAIN_RATE;

@@ -12,6 +12,10 @@ struct Player init_player(struct Player player, float player_width, float player
 	player.hp.max = PLAYER_MAX_HP;
 	player.hp.current = player.hp.max;
 
+	player.engine.fuel.current = PLAYER_MAX_FUEL;
+	player.engine.fuel.max = player.engine.fuel.current;
+
+	player.engine.drain_rate = DRAIN_RATE;
 	return player;
 }
 
@@ -77,8 +81,25 @@ void draw_player(CP_Image player_sprite, CP_Vector pos, float player_width, floa
 
 void update_player(struct Player* player)
 {
+	calculate_fuel(player);
 	if (player->hp.current <= 0)
 	{
 		player->active = 0;
 	}
+}
+
+void calculate_fuel(struct Player* player)
+{
+	//temp
+	if (player->engine.fuel.current <= 0)
+	{
+		player->engine.fuel.current = 0.0f;
+		if(player->active)
+			player->active = 0;
+
+		return;
+	}
+
+	player->engine.fuel.current -= player->engine.drain_rate * CP_System_GetDt();
+
 }

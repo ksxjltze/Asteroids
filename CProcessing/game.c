@@ -249,11 +249,17 @@ void render()
 	draw_player(player_sprite, player.pos, player_width, player_height, player_rotation);
 
 	//TEST PLAYER ROTATION
-	char buf[100];
-	_gcvt_s(buf, 100, player_rotation, 4);
+	char str_rotation[10];
+	char str_fuel[10];
+	char str_fuel_text[20] = "Fuel: ";
 
+	_gcvt_s(str_rotation, 10, player_rotation, 4);
+	sprintf_s(str_fuel, 10, "%d", (int)player.engine.fuel.current);
+	strcat_s(str_fuel_text, sizeof(str_fuel_text), str_fuel);
+	CP_Font_DrawText(str_fuel_text, 500, 100);
+	
 	//Display FPS
-	CP_Font_DrawText(buf, 300, 100);
+	CP_Font_DrawText(str_rotation, 300, 100);
 
 }
 
