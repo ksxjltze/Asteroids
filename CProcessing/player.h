@@ -3,18 +3,7 @@
 #include "health.h"
 #include "collider_aabb.h"
 #include "status.h"
-
-struct Fuel
-{
-	float current;
-	float max;
-};
-
-struct Engine
-{
-	struct Fuel fuel;
-	float drain_rate; //per second
-};
+#include "engine.h"
 
 struct Player {
 	CP_Vector pos;

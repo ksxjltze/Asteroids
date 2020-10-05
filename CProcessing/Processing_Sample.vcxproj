@@ -209,6 +209,8 @@ xcopy "$(ProjectDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     <ClInclude Include="collision_manager.h" />
     <ClInclude Include="constants.h" />
     <ClInclude Include="enemy.h" />
+    <ClInclude Include="engine.h" />
+    <ClInclude Include="fuel.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gameover.h" />
     <ClInclude Include="health.h" />
