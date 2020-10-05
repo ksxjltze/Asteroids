@@ -21,6 +21,7 @@ void game_exit(void);
 void check_input();
 
 void render();
+void debug();
 void display_fps();
 
 int check_collision_AABB(struct Collider_AABB collider1, CP_Vector pos1, struct Collider_AABB collider2, CP_Vector pos2);

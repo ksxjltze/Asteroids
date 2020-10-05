@@ -21,3 +21,4 @@ void draw_player(CP_Image player_sprite, CP_Vector pos, float player_width, floa
 void player_wrap(CP_Image player_sprite, CP_Vector pos, float player_width, float player_height, float player_rotation);
 void update_player(struct Player* player);
 void calculate_fuel(struct Player* player);
+void debug_player(struct Player player);

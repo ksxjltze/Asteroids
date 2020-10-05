@@ -27,6 +27,7 @@ float powerups_width;
 float powerups_height;
 
 int difficulty = 0; //NORMAL
+int debug_mode = 0;
 
 struct Bullet arr_bullet[999];
 struct Enemy arr_enemy[20];
@@ -130,6 +131,7 @@ void game_update(void)
 	}
 
 	render();
+	debug();
 
 }
 
@@ -157,6 +159,8 @@ void check_input()
 
 	player_rotate(shoot_direction);
 
+	if (CP_Input_KeyReleased(KEY_GRAVE_ACCENT))
+		debug_mode = !debug_mode;
 
 	if (CP_Input_KeyDown(KEY_W))
 	{
@@ -245,6 +249,15 @@ void render()
 	//Display FPS
 	CP_Font_DrawText(str_rotation, 300, 100);
 
+}
+
+void debug()
+{
+	if (!debug_mode)
+		return;
+
+	debug_player(player);
+	debug_enemies(arr_enemy, sizeof(arr_enemy)/sizeof(arr_enemy[0]));
 }
 
 // use CP_Engine_SetNextGameState to specify this function as the exit function

@@ -55,6 +55,19 @@ void process_enemies(struct Enemy arr_enemy[], int count)
 	}
 }
 
+void debug_enemies(struct Enemy arr_enemy[], int count)
+{
+	for (int i = 0; i < count; i++)
+	{
+		struct Enemy enemy = arr_enemy[i];
+		if (enemy.active)
+		{
+			debug_draw_collider(enemy.collider, enemy.pos);
+		}
+
+	}
+}
+
 void draw_enemies(struct Enemy arr_enemy[], int count, CP_Image enemy_sprite, float enemy_width, float enemy_height, CP_Image enemy_hurt_sprite, CP_Image health_bar_sprite)
 {
 	float offset_y = enemy_height / 2 + BAR_HEIGHT + BAR_OFFSET_Y;

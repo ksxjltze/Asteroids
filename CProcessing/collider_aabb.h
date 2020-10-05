@@ -7,3 +7,4 @@ struct Collider_AABB {
 };
 
 int check_collision_AABB(struct Collider_AABB collider1, CP_Vector pos1, struct Collider_AABB collider2, CP_Vector pos2);
+void debug_draw_collider(struct Collider_AABB collider, CP_Vector pos);
