@@ -1,8 +1,9 @@
 #include "player.h"
 #include "constants.h"
 
-struct Player init_player(struct Player player, float player_width, float player_height)
+struct Player init_player(float player_width, float player_height)
 {
+	struct Player player;
 	player.active = 1;
 	player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
 

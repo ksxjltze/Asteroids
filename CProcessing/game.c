@@ -48,7 +48,7 @@ void game_init(void)
 void init_entities()
 {
 	//Player
-	player = init_player(player, player_width, player_height);
+	player = init_player(player_width, player_height);
 
 	//TODO: Possibly implement an entity manager to manage different types of entities.
 	init_enemies(arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]), enemy_width, enemy_height);
