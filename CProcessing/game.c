@@ -86,8 +86,6 @@ void load_sprites()
 	player_sprite = CP_Image_Load(PLAYER_SPRITE_PATH);
 	bullet_sprite = CP_Image_Load("./Assets/bullet.png");
 	enemy_sprite = CP_Image_Load("./Assets/asteroids_cropped.png");
-	health_bar_sprite = CP_Image_Load("./Assets/healthbar.png");
-	powerups_sprite = CP_Image_Load("./Assets/powerup.png");
 	generate_hurt_sprite(enemy_sprite, &enemy_hurt_sprite);
 	player_health_sprite = CP_Image_Load("./Assets/heart.png");
 
@@ -225,28 +223,6 @@ void render()
 	display_fps();
 	draw_bullets(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]), bullet_sprite, bullet_width, bullet_height);
 	draw_enemies(arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]), enemy_sprite, enemy_width, enemy_height, enemy_hurt_sprite, health_bar_sprite);
-
-	// render powerups
-	for (int i = 0; i < sizeof(arr_powerups) / sizeof(arr_powerups[0]); i++)
-	{
-		struct powerups powerups = arr_powerups[i];
-		if (powerups.active)
-		{
-			CP_Image_Draw(powerups_sprite, powerups.pos.x, powerups.pos.y, powerups_width, powerups_height, 255);
-		}
-
-	}
-
-
-	//Draw Hearts
-	for (int i = 0; i < player.hp.current; i++)
-	{
-		if (arr_heart[i].active == 1)
-		{
-			CP_Image_Draw(player_health_sprite, arr_heart[i].pos.x, arr_heart[i].pos.y, (float)CP_Image_GetWidth(player_health_sprite) * 2,
-				(float)CP_Image_GetHeight(player_health_sprite), 255);
-		}
-	}
 
 	draw_player(player_sprite, player.pos, player_width, player_height, player_rotation);
 
