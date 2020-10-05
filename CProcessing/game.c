@@ -159,8 +159,21 @@ void check_input()
 
 	player_rotate(shoot_direction);
 
+	if (CP_Input_KeyDown(KEY_GRAVE_ACCENT))
+	{
+		if (!debug_mode)
+			debug_mode = !debug_mode;
+	}
+
 	if (CP_Input_KeyReleased(KEY_GRAVE_ACCENT))
+	{
+		if (debug_mode)
+			debug_mode = !debug_mode;
+	}
+
+	if (CP_Input_KeyTriggered(KEY_F1))
 		debug_mode = !debug_mode;
+	
 
 	if (CP_Input_KeyDown(KEY_W))
 	{
