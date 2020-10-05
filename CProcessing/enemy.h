@@ -2,6 +2,7 @@
 #include "cprocessing.h"
 #include "health.h"
 #include "collider_aabb.h"
+#include "collider_circle.h"
 #include "status.h"
 #include "constants.h"
 #include "utility.h"
@@ -9,7 +10,8 @@
 struct Enemy {
 	CP_Vector pos;
 	struct Health hp;
-	struct Collider_AABB collider;
+	//struct Collider_AABB collider;
+	struct Collider_Circle collider;
 	int active;
 	struct Status status;
 };

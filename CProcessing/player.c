@@ -29,7 +29,7 @@ void draw_player(CP_Image player_sprite, CP_Vector pos, float player_width, floa
 
 void debug_player(struct Player player)
 {
-	debug_draw_collider(player.collider, player.pos);
+	debug_draw_collider_rect(player.collider, player.pos);
 }
 
 void player_wrap(CP_Image player_sprite, CP_Vector pos, float player_width, float player_height, float player_rotation)

@@ -12,7 +12,7 @@ int check_collision_AABB(struct Collider_AABB collider1, CP_Vector pos1, struct 
 	return 0;
 }
 
-void debug_draw_collider(struct Collider_AABB collider, CP_Vector pos)
+void debug_draw_collider_rect(struct Collider_AABB collider, CP_Vector pos)
 {
 	CP_Graphics_DrawRect(pos.x - collider.width/2, pos.y - collider.height /2, collider.width, collider.height);
 }

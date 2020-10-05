@@ -271,6 +271,8 @@ void debug()
 
 	debug_player(player);
 	debug_enemies(arr_enemy, sizeof(arr_enemy)/sizeof(arr_enemy[0]));
+	debug_bullets(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]));
+
 }
 
 // use CP_Engine_SetNextGameState to specify this function as the exit function
