@@ -11,6 +11,7 @@ struct Player init_player(struct Player player, float player_width, float player
 
 	player.hp.max = PLAYER_MAX_HP;
 	player.hp.current = player.hp.max;
+	player.speed = (float) SPEED;
 
 	player.engine.fuel.current = PLAYER_MAX_FUEL;
 	player.engine.fuel.max = player.engine.fuel.current;
@@ -22,6 +23,11 @@ struct Player init_player(struct Player player, float player_width, float player
 void draw_player(CP_Image player_sprite, CP_Vector pos, float player_width, float player_height, float player_rotation)
 {
 	CP_Image_DrawAdvanced(player_sprite, pos.x, pos.y, player_width, player_height, 255, player_rotation);
+
+}
+
+void player_wrap(CP_Image player_sprite, CP_Vector pos, float player_width, float player_height, float player_rotation)
+{
 	if (pos.x > WIN_WIDTH - player_width / 2) //x-max
 	{
 		float new_x = 0 - (WIN_WIDTH - pos.x);
@@ -76,16 +82,26 @@ void draw_player(CP_Image player_sprite, CP_Vector pos, float player_width, floa
 		float new_y = WIN_HEIGHT + pos.y;
 		CP_Image_DrawAdvanced(player_sprite, new_x, new_y, player_width, player_height, 255, player_rotation);
 	}
-
 }
 
 void update_player(struct Player* player)
 {
 	calculate_fuel(player);
+	if (player->status.hit)
+	{
+		player->status.hit_cooldown -= CP_System_GetDt();
+		if (player->status.hit_cooldown <= 0)
+		{
+			player->status.hit = 0;
+			player->status.hit_cooldown = HURT_WINDOW;
+		}
+	}
+
 	if (player->hp.current <= 0)
 	{
 		player->active = 0;
 	}
+
 }
 
 void calculate_fuel(struct Player* player)
@@ -94,8 +110,9 @@ void calculate_fuel(struct Player* player)
 	if (player->engine.fuel.current <= 0)
 	{
 		player->engine.fuel.current = 0.0f;
-		if(player->active)
-			player->active = 0;
+		player->speed = 1;
+		//if(player->active)
+		//	player->active = 0;
 
 		return;
 	}

@@ -28,7 +28,7 @@ float powerups_height;
 
 int difficulty = 0; //NORMAL
 
-struct Bullet arr_bullet[100];
+struct Bullet arr_bullet[999];
 struct Enemy arr_enemy[20];
 struct Heart arr_heart[3];
 struct powerups arr_powerups[1];
@@ -121,9 +121,9 @@ void game_update(void)
 	int enemy_count = sizeof(arr_enemy) / sizeof(arr_enemy[0]);
 	process_bullets(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]), arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]));
 	process_enemies(arr_enemy, enemy_count);
-	update_player(&player);
-
+	update_player(&player); 
 	check_collision_enemy_player(arr_enemy, enemy_count, &player);
+
 
 	if (player.active != 1)
 	{
@@ -163,23 +163,23 @@ void check_input()
 	if (CP_Input_KeyDown(KEY_W))
 	{
 		//velocity.y -= speed;
-		player.pos.y -= SPEED;
+		player.pos.y -= player.speed;
 	}
 	else if (CP_Input_KeyDown(KEY_S))
 	{
 		//velocity.y += speed;
-		player.pos.y += SPEED;
+		player.pos.y += player.speed;
 	}
 
 	if (CP_Input_KeyDown(KEY_A))
 	{
 		//velocity.x -= speed;
-		player.pos.x -= SPEED;
+		player.pos.x -= player.speed;
 	}
 	else if (CP_Input_KeyDown(KEY_D))
 	{
 		//velocity.x += speed;
-		player.pos.x += SPEED;
+		player.pos.x += player.speed;
 	}
 
 	if (CP_Input_MouseDown(MOUSE_BUTTON_1))

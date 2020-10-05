@@ -36,8 +36,15 @@ void check_collision_enemy_player(struct Enemy arr_enemy[], int enemy_count, str
 		struct Enemy* enemy = &arr_enemy[i];
 		if (check_collision_AABB(player->collider, player->pos, enemy->collider, enemy->pos))
 		{
-			player->active = 0;
+			//player->active = 0;
+			if (!player->status.hit)
+			{
+				player->hp.current -= 1;
+				player->status.hit = 1;
+			}
+			enemy->active = 0;
 			return;
+
 		}
 
 	}
