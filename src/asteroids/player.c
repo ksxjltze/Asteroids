@@ -1,7 +1,7 @@
 #include "player.h"
 #include "constants.h"
 
-struct Player init_player(float player_width, float player_height)
+struct Player Asteroids_Player_Init(float player_width, float player_height)
 {
 	struct Player player;
 	player.active = 1;
@@ -20,19 +20,19 @@ struct Player init_player(float player_width, float player_height)
 	return player;
 }
 
-void draw_player(CP_Image player_sprite, CP_Vector pos, float player_width, float player_height, float player_rotation)
+void Asteroids_Player_Draw(CP_Image player_sprite, CP_Vector pos, float player_width, float player_height, float player_rotation)
 {
 	CP_Image_DrawAdvanced(player_sprite, pos.x, pos.y, player_width, player_height, 255, player_rotation);
 
 }
 
-void debug_player(struct Player player)
+void Asteroids_Player_Debug(struct Player player)
 {
 	//Asteroids_Collision_Debug_AABB_Draw(player.collider, player.pos);
 	Asteroids_Collision_Debug_Circle_Draw(player.collider, player.pos);
 }
 
-void player_wrap(CP_Image player_sprite, CP_Vector pos, float player_width, float player_height, float player_rotation)
+void Asteroids_Player_Wrap(CP_Image player_sprite, CP_Vector pos, float player_width, float player_height, float player_rotation)
 {
 	if (pos.x > WIN_WIDTH - player_width / 2) //x-max
 	{
@@ -90,9 +90,9 @@ void player_wrap(CP_Image player_sprite, CP_Vector pos, float player_width, floa
 	}
 }
 
-void update_player(struct Player* player)
+void Asteroids_Player_Update(struct Player* player)
 {
-	calculate_fuel(player);
+	Asteroids_Player_Calculate_Fuel(player);
 	if (player->status.hit)
 	{
 		player->status.hit_cooldown -= CP_System_GetDt();
@@ -110,7 +110,7 @@ void update_player(struct Player* player)
 
 }
 
-void calculate_fuel(struct Player* player)
+void Asteroids_Player_Calculate_Fuel(struct Player* player)
 {
 	//temp
 	if (player->engine.fuel.current <= 0)

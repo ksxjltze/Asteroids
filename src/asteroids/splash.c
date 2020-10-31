@@ -2,7 +2,7 @@
 #include "constants.h"
 #include "splash.h"
 
-int display_splash(float duration, CP_Image splash_image)
+int Asteroids_Splash_Draw(float duration, CP_Image splash_image)
 {
 	//splash
 	if (CP_System_GetSeconds() < duration)

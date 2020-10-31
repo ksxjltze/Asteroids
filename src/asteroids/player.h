@@ -16,9 +16,9 @@ struct Player {
 };
 
 
-struct Player init_player(float player_width, float player_height);
-void draw_player(CP_Image player_sprite, CP_Vector pos, float player_width, float player_height, float player_rotation);
-void player_wrap(CP_Image player_sprite, CP_Vector pos, float player_width, float player_height, float player_rotation);
-void update_player(struct Player* player);
-void calculate_fuel(struct Player* player);
-void debug_player(struct Player player);
+struct Player Asteroids_Player_Init(float player_width, float player_height);
+void Asteroids_Player_Draw(CP_Image player_sprite, CP_Vector pos, float player_width, float player_height, float player_rotation);
+void Asteroids_Player_Wrap(CP_Image player_sprite, CP_Vector pos, float player_width, float player_height, float player_rotation);
+void Asteroids_Player_Update(struct Player* player);
+void Asteroids_Player_Calculate_Fuel(struct Player* player);
+void Asteroids_Player_Debug(struct Player player);

@@ -33,7 +33,7 @@ void main_init(void)
 
 void main_update(void)
 {
-	if (display_splash(SPLASH_DURATION, splash))
+	if (Asteroids_Splash_Draw(SPLASH_DURATION, splash))
 		return;
 
 	CP_Engine_SetNextGameState(menu_init, menu_update, menu_exit);

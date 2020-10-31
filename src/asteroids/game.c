@@ -62,7 +62,7 @@ void game_update(void)
 		int enemy_count = sizeof(arr_enemy) / sizeof(arr_enemy[0]);
 		Asteroids_Bullet_Update(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]), arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]));
 		Asteroids_Enemy_Update(arr_enemy, enemy_count);
-		update_player(&player);
+		Asteroids_Player_Update(&player);
 		Asteroids_Collision_CheckCollision_Enemy_Player(arr_enemy, enemy_count, &player);
 
 		//Gameover
@@ -91,7 +91,7 @@ void Asteroids_Cooldown_Update()
 void init_entities()
 {
 	//Player
-	player = init_player(player_width, player_height);
+	player = Asteroids_Player_Init(player_width, player_height);
 
 	//TODO: Possibly implement an entity manager to manage different types of entities.
 	Asteroids_Enemy_Init(arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]), enemy_width, enemy_height);
@@ -255,7 +255,7 @@ void render()
 	Asteroids_Bullet_Draw(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]), bullet_sprite, bullet_width, bullet_height);
 	Asteroids_Enemy_Draw(arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]), enemy_sprite, enemy_width, enemy_height, enemy_hurt_sprite, health_bar_sprite);
 
-	draw_player(player_sprite, player.pos, player_width, player_height, player_rotation);
+	Asteroids_Player_Draw(player_sprite, player.pos, player_width, player_height, player_rotation);
 
 	//TEST PLAYER ROTATION
 	char str_rotation[10];
@@ -283,7 +283,7 @@ void debug()
 	if (!debug_mode)
 		return;
 
-	debug_player(player);
+	Asteroids_Player_Debug(player);
 	Asteroids_Enemy_Debug(arr_enemy, sizeof(arr_enemy)/sizeof(arr_enemy[0]));
 	Asteroids_Bullet_Debug(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]));
 
