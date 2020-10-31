@@ -1,11 +1,11 @@
 #include "collision_manager.h"
 
-int check_collision_circle_aabb(struct Collider_Circle collider1, CP_Vector pos1, struct Collider_AABB collider2, CP_Vector pos2)
+int Asteroids_Collision_CheckCollision_Circle_AABB(struct Collider_Circle collider1, CP_Vector pos1, struct Collider_AABB collider2, CP_Vector pos2)
 {
 	return 0;
 }
 
-struct Bullet check_collision_enemy_bullet(struct Enemy arr_enemy[], int enemy_count, struct Bullet bullet)
+struct Bullet Asteroids_Collision_CheckCollision_Enemy_Bullet(struct Enemy arr_enemy[], int enemy_count, struct Bullet bullet)
 {
 	for (int j = 0; j < enemy_count; j++)
 	{
@@ -31,7 +31,7 @@ struct Bullet check_collision_enemy_bullet(struct Enemy arr_enemy[], int enemy_c
 	return bullet;
 }
 
-void check_collision_enemy_player(struct Enemy arr_enemy[], int enemy_count, struct Player* player)
+void Asteroids_Collision_CheckCollision_Enemy_Player(struct Enemy arr_enemy[], int enemy_count, struct Player* player)
 {
 	for (int i = 0; i < enemy_count; i++)
 	{
