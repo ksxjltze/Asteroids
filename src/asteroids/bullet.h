@@ -13,7 +13,7 @@ struct Bullet {
 	int active;
 };
 
-void init_bullets(struct Bullet arr_bullet[], int count, float bullet_width, float bullet_height);
-void process_bullets(struct Bullet arr_bullet[], int bullet_count, struct Enemy arr_enemy[], int enemy_count);
-void draw_bullets(struct Bullet arr_bullet[], int count, CP_Image bullet_sprite, float bullet_width, float bullet_height);
-void debug_bullets(struct Bullet arr_bullet[], int count);
+void Asteroids_Bullet_Init(struct Bullet arr_bullet[], int count, float bullet_width, float bullet_height);
+void Asteroids_Bullet_Update(struct Bullet arr_bullet[], int bullet_count, struct Enemy arr_enemy[], int enemy_count);
+void Asteroids_Bullet_Draw(struct Bullet arr_bullet[], int count, CP_Image bullet_sprite, float bullet_width, float bullet_height);
+void Asteroids_Bullet_Debug(struct Bullet arr_bullet[], int count);

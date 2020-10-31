@@ -1,6 +1,6 @@
 #include "bullet.h"
 
-void init_bullets(struct Bullet arr_bullet[], int count, float bullet_width, float bullet_height)
+void Asteroids_Bullet_Init(struct Bullet arr_bullet[], int count, float bullet_width, float bullet_height)
 {
 	for (int i = 0; i < count; i++)
 	{
@@ -18,7 +18,7 @@ void init_bullets(struct Bullet arr_bullet[], int count, float bullet_width, flo
 	}
 }
 
-void process_bullets(struct Bullet arr_bullet[], int bullet_count, struct Enemy arr_enemy[], int enemy_count)
+void Asteroids_Bullet_Update(struct Bullet arr_bullet[], int bullet_count, struct Enemy arr_enemy[], int enemy_count)
 {
 	//bullet
 	for (int i = 0; i < bullet_count; i++)
@@ -45,7 +45,7 @@ void process_bullets(struct Bullet arr_bullet[], int bullet_count, struct Enemy 
 	}
 }
 
-void draw_bullets(struct Bullet arr_bullet[], int count, CP_Image bullet_sprite, float bullet_width, float bullet_height)
+void Asteroids_Bullet_Draw(struct Bullet arr_bullet[], int count, CP_Image bullet_sprite, float bullet_width, float bullet_height)
 {
 	//Render Bullets
 	for (int i = 0; i < count; i++)
@@ -57,7 +57,7 @@ void draw_bullets(struct Bullet arr_bullet[], int count, CP_Image bullet_sprite,
 	}
 }
 
-void debug_bullets(struct Bullet arr_bullet[], int count)
+void Asteroids_Bullet_Debug(struct Bullet arr_bullet[], int count)
 {
 	for (int i = 0; i < count; i++)
 	{

@@ -33,3 +33,5 @@ void load_sprites();
 void init_entities();
 
 void player_rotate(CP_Vector direction);
+
+void Asteroids_Cooldown_Update();
