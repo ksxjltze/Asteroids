@@ -3,16 +3,19 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h> //Used to seed rand() function for random number generation.
+
 #include "init.h"
 #include "enemy.h"
 #include "bullet.h"
 #include "Heart.h"
 #include "powerups.h"
 #include "player.h"
+
 #include "utility.h"
 #include "gameover.h"
-#include <string.h>
+#include "pause.h"
 
 void game_init(void);
 void game_update(void);

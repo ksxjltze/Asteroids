@@ -43,6 +43,43 @@ void game_init(void)
 	settings_setup(WIN_WIDTH, WIN_HEIGHT);
 	load_sprites();
 	init_entities();
+	Asteroids_Pause_Init();
+}
+
+// use CP_Engine_SetNextGameState to specify this function as the update function
+// this function will be called repeatedly every frame
+void game_update(void)
+{
+	// check input, update simulation, render etc.
+	check_input();
+
+	Asteroids_Pause_Update();
+
+	if (!Asteroids_Pause_GetStatus())
+	{
+		if (shoot_cooldown < 0)
+			shoot_cooldown = 0;
+		else
+			shoot_cooldown -= CP_System_GetDt();
+
+		int enemy_count = sizeof(arr_enemy) / sizeof(arr_enemy[0]);
+		process_bullets(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]), arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]));
+		process_enemies(arr_enemy, enemy_count);
+		update_player(&player);
+		check_collision_enemy_player(arr_enemy, enemy_count, &player);
+
+
+		if (player.active != 1)
+		{
+			CP_Engine_SetNextGameState(gameover_init, gameover_update, gameover_exit);
+			CP_Engine_Run();
+		}
+
+		render();
+		debug();
+
+	}
+
 }
 
 //@brief Initializes game entities. Populates entity struct arrays with data (e.g. position, health, etc.)
@@ -105,36 +142,6 @@ void load_sprites()
 	powerups_height = (float)CP_Image_GetWidth(powerups_sprite) * 0.3f;
 }
 
-// use CP_Engine_SetNextGameState to specify this function as the update function
-// this function will be called repeatedly every frame
-void game_update(void)
-{
-	// check input, update simulation, render etc.
-	check_input();
-
-	if (shoot_cooldown < 0)
-		shoot_cooldown = 0;
-	else
-		shoot_cooldown -= CP_System_GetDt();
-
-	int enemy_count = sizeof(arr_enemy) / sizeof(arr_enemy[0]);
-	process_bullets(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]), arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]));
-	process_enemies(arr_enemy, enemy_count);
-	update_player(&player); 
-	check_collision_enemy_player(arr_enemy, enemy_count, &player);
-
-
-	if (player.active != 1)
-	{
-		CP_Engine_SetNextGameState(gameover_init, gameover_update, gameover_exit);
-		CP_Engine_Run();
-	}
-
-	render();
-	debug();
-
-}
-
 void player_rotate(CP_Vector direction)
 {
 	CP_Vector vec_up = CP_Vector_Set(0, -1);
@@ -149,6 +156,8 @@ void player_rotate(CP_Vector direction)
 
 void check_input()
 {
+	Asteroids_Pause_CheckInput();
+
 	if (player.active != 1)
 		return;
 
