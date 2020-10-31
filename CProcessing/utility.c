@@ -43,3 +43,12 @@ void generate_hurt_sprite(CP_Image sprite, CP_Image* out)
 	*out = image;
 	return;
 }
+
+/// <summary>
+/// Get the CP_Vector position of the center of the window.
+/// </summary>
+/// <returns>CP_Vector position</returns>
+CP_Vector Asteroids_Utility_GetWindowMiddle()
+{
+	return CP_Vector_Set((float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2);
+}

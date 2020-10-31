@@ -1,3 +1,6 @@
+#pragma once
+#include "cprocessing.h"
+
 extern const int WIN_WIDTH;
 extern const int WIN_HEIGHT;
 extern const float SPLASH_DURATION;
@@ -20,3 +23,5 @@ extern const char* PLAYER_SPRITE_PATH;
 extern const float PLAYER_MAX_HP;
 extern const float PLAYER_MAX_FUEL;
 extern const float DRAIN_RATE;
+
+extern const CP_KEY ASTEROIDS_PAUSE_KEY;
