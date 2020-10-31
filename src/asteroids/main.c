@@ -36,7 +36,7 @@ void main_update(void)
 	if (Asteroids_Splash_Draw(SPLASH_DURATION, splash))
 		return;
 
-	CP_Engine_SetNextGameState(menu_init, menu_update, menu_exit);
+	CP_Engine_SetNextGameState(Asteroids_MainMenu_Init, Asteroids_MainMenu_Update, Asteroids_MainMenu_Exit);
 	CP_Engine_Run();
 }
 

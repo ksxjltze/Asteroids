@@ -1,4 +1,4 @@
 #pragma once
-void menu_init(void);
-void menu_update(void);
-void menu_exit(void);
+void Asteroids_MainMenu_Init(void);
+void Asteroids_MainMenu_Update(void);
+void Asteroids_MainMenu_Exit(void);

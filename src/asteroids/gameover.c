@@ -14,7 +14,7 @@ void Asteroids_GameOver_Update(void)
 
 	if (CP_Input_MouseClicked())
 	{
-		CP_Engine_SetNextGameState(menu_init, menu_update, menu_exit);
+		CP_Engine_SetNextGameState(Asteroids_MainMenu_Init, Asteroids_MainMenu_Update, Asteroids_MainMenu_Exit);
 		CP_Engine_Run();
 	}
 }

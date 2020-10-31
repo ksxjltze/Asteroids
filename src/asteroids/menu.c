@@ -4,13 +4,13 @@
 #include "constants.h"
 #include "init.h"
 
-void menu_init(void)
+void Asteroids_MainMenu_Init(void)
 {
 	init_menu_settings(WIN_WIDTH, WIN_HEIGHT);
 
 }
 
-void menu_update(void)
+void Asteroids_MainMenu_Update(void)
 {
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
 	CP_Settings_TextSize(100.0f);
@@ -24,7 +24,7 @@ void menu_update(void)
 
 }
 
-void menu_exit(void)
+void Asteroids_MainMenu_Exit(void)
 {
 
 }
