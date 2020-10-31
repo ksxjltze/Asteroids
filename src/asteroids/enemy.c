@@ -1,6 +1,6 @@
 #include "enemy.h"
 
-void init_enemies(struct Enemy arr_enemy[], int count, float enemy_width, float enemy_height)
+void Asteroids_Enemy_Init(struct Enemy arr_enemy[], int count, float enemy_width, float enemy_height)
 {
 	//temp TODO: move somewhere else
 	//struct Collider_AABB spawn_rect;
@@ -32,7 +32,7 @@ void init_enemies(struct Enemy arr_enemy[], int count, float enemy_width, float 
 
 }
 
-void process_enemies(struct Enemy arr_enemy[], int count)
+void Asteroids_Enemy_Update(struct Enemy arr_enemy[], int count)
 {
 	for (int i = 0; i < count; i++)
 	{
@@ -55,7 +55,7 @@ void process_enemies(struct Enemy arr_enemy[], int count)
 	}
 }
 
-void debug_enemies(struct Enemy arr_enemy[], int count)
+void Asteroids_Enemy_Debug(struct Enemy arr_enemy[], int count)
 {
 	for (int i = 0; i < count; i++)
 	{
@@ -69,7 +69,7 @@ void debug_enemies(struct Enemy arr_enemy[], int count)
 	}
 }
 
-void draw_enemies(struct Enemy arr_enemy[], int count, CP_Image enemy_sprite, float enemy_width, float enemy_height, CP_Image enemy_hurt_sprite, CP_Image health_bar_sprite)
+void Asteroids_Enemy_Draw(struct Enemy arr_enemy[], int count, CP_Image enemy_sprite, float enemy_width, float enemy_height, CP_Image enemy_hurt_sprite, CP_Image health_bar_sprite)
 {
 	float offset_y = enemy_height / 2 + BAR_HEIGHT + BAR_OFFSET_Y;
 	for (int i = 0; i < count; i++)
