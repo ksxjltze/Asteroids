@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\asteroids\bullet.h" />
+    <ClInclude Include="src\asteroids\button.h" />
     <ClInclude Include="src\asteroids\collider_aabb.h" />
     <ClInclude Include="src\asteroids\collider_circle.h" />
     <ClInclude Include="src\asteroids\collision_manager.h" />
@@ -43,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\asteroids\bullet.c" />
+    <ClCompile Include="src\asteroids\button.c" />
     <ClCompile Include="src\asteroids\collider_aabb.c" />
     <ClCompile Include="src\asteroids\collider_circle.c" />
     <ClCompile Include="src\asteroids\collision_manager.c" />
