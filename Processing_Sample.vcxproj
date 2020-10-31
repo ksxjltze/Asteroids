@@ -18,6 +18,45 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\asteroids\bullet.h" />
+    <ClInclude Include="src\asteroids\collider_aabb.h" />
+    <ClInclude Include="src\asteroids\collider_circle.h" />
+    <ClInclude Include="src\asteroids\collision_manager.h" />
+    <ClInclude Include="src\asteroids\constants.h" />
+    <ClInclude Include="src\asteroids\enemy.h" />
+    <ClInclude Include="src\asteroids\engine.h" />
+    <ClInclude Include="src\asteroids\fuel.h" />
+    <ClInclude Include="src\asteroids\game.h" />
+    <ClInclude Include="src\asteroids\gameover.h" />
+    <ClInclude Include="src\asteroids\globals.h" />
+    <ClInclude Include="src\asteroids\health.h" />
+    <ClInclude Include="src\asteroids\Heart.h" />
+    <ClInclude Include="src\asteroids\init.h" />
+    <ClInclude Include="src\asteroids\menu.h" />
+    <ClInclude Include="src\asteroids\pause.h" />
+    <ClInclude Include="src\asteroids\player.h" />
+    <ClInclude Include="src\asteroids\powerups.h" />
+    <ClInclude Include="src\asteroids\splash.h" />
+    <ClInclude Include="src\asteroids\status.h" />
+    <ClInclude Include="src\asteroids\utility.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\asteroids\bullet.c" />
+    <ClCompile Include="src\asteroids\collider_aabb.c" />
+    <ClCompile Include="src\asteroids\collider_circle.c" />
+    <ClCompile Include="src\asteroids\collision_manager.c" />
+    <ClCompile Include="src\asteroids\enemy.c" />
+    <ClCompile Include="src\asteroids\game.c" />
+    <ClCompile Include="src\asteroids\gameover.c" />
+    <ClCompile Include="src\asteroids\init.c" />
+    <ClCompile Include="src\asteroids\main.c" />
+    <ClCompile Include="src\asteroids\menu.c" />
+    <ClCompile Include="src\asteroids\pause.c" />
+    <ClCompile Include="src\asteroids\player.c" />
+    <ClCompile Include="src\asteroids\splash.c" />
+    <ClCompile Include="src\asteroids\utility.c" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{14B654ED-D716-460A-8335-22E3EDB70027}</ProjectGuid>
@@ -189,45 +228,6 @@ xcopy "$(ProjectDir)CProcessing\lib\x64\fmod.dll" "$(OutDir)" /s /r /y /q
 xcopy "$(ProjectDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="bullet.c" />
-    <ClCompile Include="collider_aabb.c" />
-    <ClCompile Include="collider_circle.c" />
-    <ClCompile Include="collision_manager.c" />
-    <ClCompile Include="enemy.c" />
-    <ClCompile Include="game.c" />
-    <ClCompile Include="gameover.c" />
-    <ClCompile Include="init.c" />
-    <ClCompile Include="main.c" />
-    <ClCompile Include="menu.c" />
-    <ClCompile Include="pause.c" />
-    <ClCompile Include="player.c" />
-    <ClCompile Include="splash.c" />
-    <ClCompile Include="utility.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="bullet.h" />
-    <ClInclude Include="collider_aabb.h" />
-    <ClInclude Include="collider_circle.h" />
-    <ClInclude Include="collision_manager.h" />
-    <ClInclude Include="constants.h" />
-    <ClInclude Include="enemy.h" />
-    <ClInclude Include="engine.h" />
-    <ClInclude Include="fuel.h" />
-    <ClInclude Include="game.h" />
-    <ClInclude Include="gameover.h" />
-    <ClInclude Include="globals.h" />
-    <ClInclude Include="health.h" />
-    <ClInclude Include="Heart.h" />
-    <ClInclude Include="init.h" />
-    <ClInclude Include="menu.h" />
-    <ClInclude Include="pause.h" />
-    <ClInclude Include="player.h" />
-    <ClInclude Include="powerups.h" />
-    <ClInclude Include="splash.h" />
-    <ClInclude Include="status.h" />
-    <ClInclude Include="utility.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
