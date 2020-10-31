@@ -234,7 +234,7 @@ void Asteroids_Check_Input()
 	}
 }
 
-void display_fps()
+void Asteroids_FPS_Draw()
 {
 	//Char buffer
 	char fps_str[10];
@@ -251,7 +251,7 @@ void Asteroids_Draw()
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
 	CP_Font_DrawText("Asteroids", (float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
 
-	display_fps();
+	Asteroids_FPS_Draw();
 	Asteroids_Bullet_Draw(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]), bullet_sprite, bullet_width, bullet_height);
 	Asteroids_Enemy_Draw(arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]), enemy_sprite, enemy_width, enemy_height, enemy_hurt_sprite, health_bar_sprite);
 
