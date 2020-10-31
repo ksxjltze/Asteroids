@@ -17,19 +17,19 @@
 #include "gameover.h"
 #include "pause.h"
 
-void game_init(void);
-void game_update(void);
-void game_exit(void);
+void Asteroids_Init(void);
+void Asteroids_Update(void);
+void Asteroids_Exit(void);
 
-void check_input();
+void Asteroids_Check_Input();
 
-void render();
-void debug();
+void Asteroids_Draw();
+void Asteroids_Debug();
 void display_fps();
 
-void load_sprites();
-void init_entities();
+void Asteroids_Sprites_Load();
+void Asteroids_Entities_Init();
 
-void player_rotate(CP_Vector direction);
+void Asteroids_Player_Rotate(CP_Vector direction);
 
 void Asteroids_Cooldown_Update();

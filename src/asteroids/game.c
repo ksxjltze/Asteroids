@@ -37,21 +37,21 @@ struct Player player;
 
 // use CP_Engine_SetNextGameState to specify this function as the initialization function
 // this function will be called once at the beginning of the program
-void game_init(void)
+void Asteroids_Init(void)
 {
 	// initialize variables and CProcessing settings for this gamestate
 	Asteroids_Settings_Setup(WIN_WIDTH, WIN_HEIGHT);
-	load_sprites();
-	init_entities();
+	Asteroids_Sprites_Load();
+	Asteroids_Entities_Init();
 	Asteroids_Pause_Init();
 }
 
 // use CP_Engine_SetNextGameState to specify this function as the update function
 // this function will be called repeatedly every frame
-void game_update(void)
+void Asteroids_Update(void)
 {
 	// check input, update simulation, render etc.
-	check_input();
+	Asteroids_Check_Input();
 
 	Asteroids_Pause_Update();
 
@@ -72,8 +72,8 @@ void game_update(void)
 			CP_Engine_Run();
 		}
 
-		render();
-		debug();
+		Asteroids_Draw();
+		Asteroids_Debug();
 
 	}
 
@@ -88,7 +88,7 @@ void Asteroids_Cooldown_Update()
 }
 
 //@brief Initializes game entities. Populates entity struct arrays with data (e.g. position, health, etc.)
-void init_entities()
+void Asteroids_Entities_Init()
 {
 	//Player
 	player = Asteroids_Player_Init(player_width, player_height);
@@ -124,7 +124,7 @@ void init_entities()
 }
 
 //@brief Loads sprites from file path and sets their width and height.
-void load_sprites()
+void Asteroids_Sprites_Load()
 {
 	player_sprite = CP_Image_Load(PLAYER_SPRITE_PATH);
 	bullet_sprite = CP_Image_Load("./Assets/bullet.png");
@@ -147,7 +147,7 @@ void load_sprites()
 	powerups_height = (float)CP_Image_GetWidth(powerups_sprite) * 0.3f;
 }
 
-void player_rotate(CP_Vector direction)
+void Asteroids_Player_Rotate(CP_Vector direction)
 {
 	CP_Vector vec_up = CP_Vector_Set(0, -1);
 	CP_Vector vec_right = CP_Vector_Set(1, 0);
@@ -159,7 +159,7 @@ void player_rotate(CP_Vector direction)
 		player_rotation = -CP_Vector_Angle(direction, vec_up);
 }
 
-void check_input()
+void Asteroids_Check_Input()
 {
 	Asteroids_Pause_CheckInput();
 
@@ -171,7 +171,7 @@ void check_input()
 	CP_Vector mousePos = CP_Vector_Set(mouseX, mouseY);
 	CP_Vector shoot_direction = CP_Vector_Normalize(CP_Vector_Subtract(mousePos, player.pos));
 
-	player_rotate(shoot_direction);
+	Asteroids_Player_Rotate(shoot_direction);
 
 	if (CP_Input_KeyDown(KEY_GRAVE_ACCENT))
 	{
@@ -246,7 +246,7 @@ void display_fps()
 	CP_Font_DrawText(fps_str, 100, 100);
 }
 
-void render()
+void Asteroids_Draw()
 {
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
 	CP_Font_DrawText("Asteroids", (float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
@@ -278,7 +278,7 @@ void render()
 
 }
 
-void debug()
+void Asteroids_Debug()
 {
 	if (!debug_mode)
 		return;
@@ -291,7 +291,7 @@ void debug()
 
 // use CP_Engine_SetNextGameState to specify this function as the exit function
 // this function will be called once just before leaving the current gamestate
-void game_exit(void)
+void Asteroids_Exit(void)
 {
 	// shut down the gamestate and cleanup any dynamic memory
 }

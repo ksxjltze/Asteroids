@@ -18,7 +18,7 @@ void Asteroids_MainMenu_Update(void)
 
 	if (CP_Input_MouseClicked())
 	{
-		CP_Engine_SetNextGameState(game_init, game_update, game_exit);
+		CP_Engine_SetNextGameState(Asteroids_Init, Asteroids_Update, Asteroids_Exit);
 		CP_Engine_Run();
 	}
 
