@@ -13,7 +13,7 @@ struct Bullet check_collision_enemy_bullet(struct Enemy arr_enemy[], int enemy_c
 			continue;
 
 		struct Enemy* enemy = &arr_enemy[j];
-		if (check_collision_circle(bullet.collider, bullet.pos, enemy->collider, enemy->pos))
+		if (Asteroids_Collision_CheckCollision_Circle(bullet.collider, bullet.pos, enemy->collider, enemy->pos))
 		{
 			bullet.active = 0;
 			bullet.pos = CP_Vector_Set(-1, -1);
@@ -39,7 +39,7 @@ void check_collision_enemy_player(struct Enemy arr_enemy[], int enemy_count, str
 			continue;
 
 		struct Enemy* enemy = &arr_enemy[i];
-		if (check_collision_circle(enemy->collider, enemy->pos, player->collider, player->pos))
+		if (Asteroids_Collision_CheckCollision_Circle(enemy->collider, enemy->pos, player->collider, player->pos))
 		{
 			//player->active = 0;
 			if (!player->status.hit)

@@ -65,7 +65,7 @@ void Asteroids_Bullet_Debug(struct Bullet arr_bullet[], int count)
 		if (bullet.active)
 		{
 			//debug_draw_collider_rect(enemy.collider, enemy.pos);
-			debug_draw_collider_circle(bullet.collider, bullet.pos);
+			Asteroids_Collision_Debug_Circle_Draw(bullet.collider, bullet.pos);
 		}
 
 	}

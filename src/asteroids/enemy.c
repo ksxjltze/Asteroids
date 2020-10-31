@@ -63,7 +63,7 @@ void Asteroids_Enemy_Debug(struct Enemy arr_enemy[], int count)
 		if (enemy.active)
 		{
 			//debug_draw_collider_rect(enemy.collider, enemy.pos);
-			debug_draw_collider_circle(enemy.collider, enemy.pos);
+			Asteroids_Collision_Debug_Circle_Draw(enemy.collider, enemy.pos);
 		}
 
 	}
