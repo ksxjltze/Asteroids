@@ -7,7 +7,7 @@ struct Player init_player(float player_width, float player_height)
 	player.active = 1;
 	player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
 
-	player.collider.radius = (player_width + player_height) / 2;
+	player.collider.diameter = (player_width + player_height) / 2;
 
 	player.hp.max = PLAYER_MAX_HP;
 	player.hp.current = player.hp.max;

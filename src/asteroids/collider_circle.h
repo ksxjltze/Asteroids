@@ -3,7 +3,7 @@
 
 struct Collider_Circle
 {
-	float radius;
+	float diameter;
 };
 
 int check_collision_circle(struct Collider_Circle collider1, CP_Vector pos1, struct Collider_Circle collider2, CP_Vector pos2);

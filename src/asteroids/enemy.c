@@ -12,7 +12,7 @@ void init_enemies(struct Enemy arr_enemy[], int count, float enemy_width, float 
 	{
 		//test enemy
 		struct Enemy enemy = arr_enemy[i];
-		enemy.collider.radius = (enemy_width + enemy_height) / 2;
+		enemy.collider.diameter = (enemy_width + enemy_height) / 2;
 		//enemy.collider.width = enemy_width;
 		//enemy.collider.height = enemy_height;
 
