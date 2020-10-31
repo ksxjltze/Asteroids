@@ -1,11 +1,11 @@
 #include "gameover.h"
 
-void gameover_init(void)
+void Asteroids_GameOver_Init(void)
 {
 	settings_setup(WIN_WIDTH, WIN_HEIGHT);
 }
 
-void gameover_update(void)
+void Asteroids_GameOver_Update(void)
 {
 
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
@@ -19,7 +19,7 @@ void gameover_update(void)
 	}
 }
 
-void gameover_exit(void)
+void Asteroids_GameOver_Exit(void)
 {
 
 }

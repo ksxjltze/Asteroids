@@ -68,7 +68,7 @@ void game_update(void)
 		//Gameover
 		if (player.active != 1)
 		{
-			CP_Engine_SetNextGameState(gameover_init, gameover_update, gameover_exit);
+			CP_Engine_SetNextGameState(Asteroids_GameOver_Init, Asteroids_GameOver_Update, Asteroids_GameOver_Exit);
 			CP_Engine_Run();
 		}
 

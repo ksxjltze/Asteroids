@@ -3,6 +3,6 @@
 #include "menu.h"
 #include "init.h"
 
-void gameover_init(void);
-void gameover_update(void);
-void gameover_exit(void);
+void Asteroids_GameOver_Init(void);
+void Asteroids_GameOver_Update(void);
+void Asteroids_GameOver_Exit(void);
