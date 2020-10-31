@@ -40,7 +40,7 @@ struct Player player;
 void game_init(void)
 {
 	// initialize variables and CProcessing settings for this gamestate
-	settings_setup(WIN_WIDTH, WIN_HEIGHT);
+	Asteroids_Settings_Setup(WIN_WIDTH, WIN_HEIGHT);
 	load_sprites();
 	init_entities();
 	Asteroids_Pause_Init();

@@ -2,7 +2,7 @@
 
 void Asteroids_GameOver_Init(void)
 {
-	settings_setup(WIN_WIDTH, WIN_HEIGHT);
+	Asteroids_Settings_Setup(WIN_WIDTH, WIN_HEIGHT);
 }
 
 void Asteroids_GameOver_Update(void)

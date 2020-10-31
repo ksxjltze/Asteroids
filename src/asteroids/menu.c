@@ -6,7 +6,7 @@
 
 void Asteroids_MainMenu_Init(void)
 {
-	init_menu_settings(WIN_WIDTH, WIN_HEIGHT);
+	Asteroids_Menu_Settings_Setup(WIN_WIDTH, WIN_HEIGHT);
 
 }
 

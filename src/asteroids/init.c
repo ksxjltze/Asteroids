@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-void settings_setup(int win_width, int win_height) {
+void Asteroids_Settings_Setup(int win_width, int win_height) {
 	srand((int)time(0)); //random seed
 	CP_System_SetWindowSize(win_width, win_height);
 
@@ -15,7 +15,7 @@ void settings_setup(int win_width, int win_height) {
 	CP_System_SetFrameRate(60);
 }
 
-void init_menu_settings(int win_width, int win_height)
+void Asteroids_Menu_Settings_Setup(int win_width, int win_height)
 {
 	CP_System_SetWindowSize(win_width, win_height);
 
