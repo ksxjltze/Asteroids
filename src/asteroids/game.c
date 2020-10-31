@@ -63,7 +63,7 @@ void game_update(void)
 		Asteroids_Bullet_Update(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]), arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]));
 		Asteroids_Enemy_Update(arr_enemy, enemy_count);
 		update_player(&player);
-		check_collision_enemy_player(arr_enemy, enemy_count, &player);
+		Asteroids_Collision_CheckCollision_Enemy_Player(arr_enemy, enemy_count, &player);
 
 		//Gameover
 		if (player.active != 1)
@@ -111,7 +111,7 @@ void init_entities()
 	for (int i = 0; i < sizeof(arr_powerups) / sizeof(arr_powerups[0]); i++)
 	{
 		struct powerups powerups = arr_powerups[i];
-		powerups.pos = generate_random_pos();
+		powerups.pos = Asteroids_Utility_Generate_Random_Pos();
 		powerups.active = 1;
 
 		powerups.collider.width = powerups_width;
@@ -129,7 +129,7 @@ void load_sprites()
 	player_sprite = CP_Image_Load(PLAYER_SPRITE_PATH);
 	bullet_sprite = CP_Image_Load("./Assets/bullet.png");
 	enemy_sprite = CP_Image_Load("./Assets/asteroids_cropped.png");
-	generate_hurt_sprite(enemy_sprite, &enemy_hurt_sprite);
+	Asteroids_Utility_Generate_Hurt_Sprite(enemy_sprite, &enemy_hurt_sprite);
 	player_health_sprite = CP_Image_Load("./Assets/heart.png");
 
 	player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);

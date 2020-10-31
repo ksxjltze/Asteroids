@@ -36,7 +36,7 @@ void Asteroids_Bullet_Update(struct Bullet arr_bullet[], int bullet_count, struc
 				continue;
 			}
 
-			bullet = check_collision_enemy_bullet(arr_enemy, enemy_count, bullet);
+			bullet = Asteroids_Collision_CheckCollision_Enemy_Bullet(arr_enemy, enemy_count, bullet);
 
 			bullet.pos = CP_Vector_Add(bullet.pos, CP_Vector_Scale(bullet.velocity, CP_System_GetDt()));
 			arr_bullet[i] = bullet;

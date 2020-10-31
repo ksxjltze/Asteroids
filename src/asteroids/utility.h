@@ -2,6 +2,6 @@
 #include "cprocessing.h"
 #include "constants.h"
 
-CP_Vector generate_random_pos();
+CP_Vector Asteroids_Utility_Generate_Random_Pos();
 CP_Vector Asteroids_Utility_GetWindowMiddle();
-void generate_hurt_sprite(CP_Image sprite, CP_Image* out);
+void Asteroids_Utility_Generate_Hurt_Sprite(CP_Image sprite, CP_Image* out);

@@ -3,7 +3,7 @@
 /*
 @brief Generates a random position on the screen (window).
 */
-CP_Vector generate_random_pos()
+CP_Vector Asteroids_Utility_Generate_Random_Pos()
 {
 	float x = (float)(CP_Random_GetInt() % WIN_WIDTH);
 	float y = (float)(CP_Random_GetInt() % WIN_HEIGHT);
@@ -12,7 +12,7 @@ CP_Vector generate_random_pos()
 }
 
 //@brief Generates a red tinted sprite to serve as a "hurt sprite".
-void generate_hurt_sprite(CP_Image sprite, CP_Image* out)
+void Asteroids_Utility_Generate_Hurt_Sprite(CP_Image sprite, CP_Image* out)
 {
 	unsigned char* pixels = malloc(CP_Image_GetPixelBufferSize(sprite));
 	CP_Image_GetPixelData(sprite, pixels);

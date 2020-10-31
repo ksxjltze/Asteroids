@@ -3,6 +3,6 @@
 #include "player.h"
 #include "bullet.h"
 
-struct Bullet check_collision_enemy_bullet(struct Enemy arr_enemy[], int enemy_count, struct Bullet bullet);
-void check_collision_enemy_player(struct Enemy arr_enemy[], int enemy_count, struct Player* player);
-int check_collision_circle_aabb(struct Collider_Circle collider1, CP_Vector pos1, struct Collider_AABB, CP_Vector pos2);
+struct Bullet Asteroids_Collision_CheckCollision_Enemy_Bullet(struct Enemy arr_enemy[], int enemy_count, struct Bullet bullet);
+void Asteroids_Collision_CheckCollision_Enemy_Player(struct Enemy arr_enemy[], int enemy_count, struct Player* player);
+int Asteroids_Collision_CheckCollision_Circle_AABB(struct Collider_Circle collider1, CP_Vector pos1, struct Collider_AABB, CP_Vector pos2);

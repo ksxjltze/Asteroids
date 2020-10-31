@@ -20,10 +20,10 @@ void Asteroids_Enemy_Init(struct Enemy arr_enemy[], int count, float enemy_width
 		enemy.hp.max = ENEMY_HP;
 		enemy.hp.current = enemy.hp.max;
 
-		enemy.pos = generate_random_pos();
+		enemy.pos = Asteroids_Utility_Generate_Random_Pos();
 		//while (check_collision_AABB(enemy.collider, enemy.pos, spawn_rect, spawn_pos))
 		//{
-		//	enemy.pos = generate_random_pos();
+		//	enemy.pos = Asteroids_Utility_Generate_Random_Pos();
 		//}
 
 		arr_enemy[i] = enemy;
