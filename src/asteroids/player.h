@@ -1,14 +1,14 @@
 #pragma once
 #include "cprocessing.h"
 #include "health.h"
-#include "collider_aabb.h"
+#include "collider_circle.h"
 #include "status.h"
 #include "engine.h"
 
 struct Player {
 	CP_Vector pos;
 	struct Health hp;
-	struct Collider_AABB collider;
+	struct Collider_Circle collider;
 	struct Engine engine;
 	struct Status status;
 	int active;

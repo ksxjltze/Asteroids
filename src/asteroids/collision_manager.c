@@ -39,7 +39,7 @@ void check_collision_enemy_player(struct Enemy arr_enemy[], int enemy_count, str
 			continue;
 
 		struct Enemy* enemy = &arr_enemy[i];
-		if (check_collision_circle_aabb(enemy->collider, enemy->pos, player->collider, player->pos))
+		if (check_collision_circle(enemy->collider, enemy->pos, player->collider, player->pos))
 		{
 			//player->active = 0;
 			if (!player->status.hit)

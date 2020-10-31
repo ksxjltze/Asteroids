@@ -7,8 +7,7 @@ struct Player init_player(float player_width, float player_height)
 	player.active = 1;
 	player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
 
-	player.collider.width = player_width;
-	player.collider.height = player_height;
+	player.collider.radius = (player_width + player_height) / 2;
 
 	player.hp.max = PLAYER_MAX_HP;
 	player.hp.current = player.hp.max;
@@ -29,7 +28,8 @@ void draw_player(CP_Image player_sprite, CP_Vector pos, float player_width, floa
 
 void debug_player(struct Player player)
 {
-	debug_draw_collider_rect(player.collider, player.pos);
+	//debug_draw_collider_rect(player.collider, player.pos);
+	debug_draw_collider_circle(player.collider, player.pos);
 }
 
 void player_wrap(CP_Image player_sprite, CP_Vector pos, float player_width, float player_height, float player_rotation)
