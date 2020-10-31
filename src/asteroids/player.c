@@ -28,7 +28,7 @@ void draw_player(CP_Image player_sprite, CP_Vector pos, float player_width, floa
 
 void debug_player(struct Player player)
 {
-	//debug_draw_collider_rect(player.collider, player.pos);
+	//Asteroids_Collision_Debug_AABB_Draw(player.collider, player.pos);
 	Asteroids_Collision_Debug_Circle_Draw(player.collider, player.pos);
 }
 
