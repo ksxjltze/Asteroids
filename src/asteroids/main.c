@@ -28,6 +28,7 @@ void main_init(void)
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
 	Asteroids_Menu_Settings_Setup(WIN_WIDTH, WIN_HEIGHT);
 	splash = CP_Image_Load("./Assets/DigiPen_WHITE.png");
+
 }
 
 void main_update(void)

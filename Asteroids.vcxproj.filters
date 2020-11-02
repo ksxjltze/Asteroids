@@ -122,5 +122,6 @@
     <ClCompile Include="src\asteroids\button.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\asteroids\powerups.c" />
   </ItemGroup>
 </Project>
