@@ -8,7 +8,7 @@ void Asteroids_Enemy_Init(Enemy arr_enemy[], int count, float enemy_width, float
 		Enemy enemy = arr_enemy[i];
 		enemy.collider.diameter = (enemy_width + enemy_height) / 2;
 
-		enemy.active = 1;
+		enemy.active = 0;
 		enemy.hp.max = ENEMY_HP;
 		enemy.hp.current = enemy.hp.max;
 
@@ -77,6 +77,8 @@ void Asteroids_Enemy_Spawn(Enemy arr_enemy[], int count)
 			enemy.velocity = Asteroids_Enemy_Random_Velocity(enemy.pos);
 			enemy.hp.max = ENEMY_HP;
 			enemy.hp.current = enemy.hp.max;
+
+			arr_enemy[i] = enemy;
 			return;
 		}
 	}
@@ -102,13 +104,13 @@ CP_Vector Asteroids_Enemy_Random_Pos()
 
 	int x, y;
 
-	x = CP_Random_RangeInt(-win_width, win_width * 2);
-	y = CP_Random_RangeInt(-win_height, win_height * 2);
+	x = CP_Random_RangeInt(0, win_width * 2) - win_width / 2;
+	y = CP_Random_RangeInt(0, win_height * 2) - win_height / 2;
 
 	while (x % win_width == x ||  y % win_height == y)
 	{
-		x = CP_Random_RangeInt(-win_width, win_width * 2);
-		y = CP_Random_RangeInt(-win_height, win_height * 2);
+		x = CP_Random_RangeInt(0, win_width * 2) - win_width / 2;
+		y = CP_Random_RangeInt(0, win_height * 2) - win_height / 2;
 	}
 
 	pos.x = (float)x;

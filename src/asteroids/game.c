@@ -170,15 +170,13 @@ void Asteroids_Check_Input()
 			debug_mode = !debug_mode;
 	}
 
-	if (CP_Input_KeyReleased(KEY_GRAVE_ACCENT))
-	{
-		if (debug_mode)
-			debug_mode = !debug_mode;
-	}
-
 	if (CP_Input_KeyTriggered(KEY_F1))
 		debug_mode = !debug_mode;
 	
+	if (CP_Input_KeyTriggered(KEY_SPACE))
+	{
+		Asteroids_Enemy_Spawn(arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]));
+	}
 
 	if (CP_Input_KeyDown(KEY_W))
 	{
