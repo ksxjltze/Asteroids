@@ -67,7 +67,6 @@ void Asteroids_Draw_Powerup(void)
 		}
 	}
 }
-
 int Asteroids_Generate_Random_Powerup(void)
 {
 	int random_powerup = CP_Random_RangeInt(1, 4);
@@ -82,7 +81,6 @@ void Asteroids_Powerup_Time_Manager(void)
 
 	TotalElaspedTime += CurrentElaspedTime;
 	
-	printf("%.2f\n", TotalElaspedTime);
 	if (TotalElaspedTime >= 3.0f)
 	{
 		powerup_status = false;
