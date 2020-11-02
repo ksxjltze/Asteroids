@@ -18,6 +18,7 @@ void Asteroids_Pause_Init()
 	CP_Vector btnContinuePos = Asteroids_Utility_GetWindowMiddle();
 	btnContinue = Asteroids_Button_Add_New_Button(btnContinuePos, 200, 200);
 	Asteroids_Button_Set_Text(&btnContinue, 20, "Continue");
+	Asteroids_Button_Set_Callback(&Asteroids_Pause_Continue, &btnContinue);
 
 }
 
@@ -45,6 +46,11 @@ void Asteroids_Pause_Toggle()
 bool Asteroids_Pause_GetStatus()
 {
 	return paused;
+}
+
+void Asteroids_Pause_Continue()
+{
+	paused = false;
 }
 
 void Asteroids_Pause_DisplayMenu()

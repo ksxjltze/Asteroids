@@ -41,7 +41,7 @@ typedef struct Buttons
 
 Button Asteroids_Button_Add_New_Button(CP_Vector position, float width, float height);
 void Asteroids_Button_Set_Text(Button* button, float textsize, char text[]);
-void Asteroids_Button_Set_Callback(void(*callback)());
+void Asteroids_Button_Set_Callback(void(*callback)(), Button* button);
 void Asteroids_Button_Execute_Callback(Button button);
 void Asteroids_Button_Init(Button* button_out);
 void Asteroids_Button_Update(Button* button);

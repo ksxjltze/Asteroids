@@ -14,3 +14,4 @@ void Asteroids_Pause_DisplayMenu();
 bool Asteroids_Pause_GetStatus();
 
 void Asteroids_Pause_Buttons_Update();
+void Asteroids_Pause_Continue();

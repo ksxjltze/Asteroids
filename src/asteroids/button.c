@@ -17,9 +17,9 @@ void Asteroids_Button_Set_Text(Button* button, float textsize, char text[])
 	button->textbox.textSize = textsize;
 }
 
-void Asteroids_Button_Set_Callback(void(*callback)())
+void Asteroids_Button_Set_Callback(void(*callback)(), Button* button)
 {
-
+	button->function = callback;
 }
 
 void Asteroids_Button_Init(Button* button_out)
@@ -63,7 +63,7 @@ void Asteroids_Button_Update(Button* button)
 			if (CP_Input_MouseDown(MOUSE_BUTTON_1))
 				btn.status = CLICKED;
 			else if (CP_Input_MouseReleased(MOUSE_BUTTON_1))
-				Asteroids_Button_Execute_Callback(btn);
+				Asteroids_Button_Execute_Callback(*button);
 		}
 		else
 		{
