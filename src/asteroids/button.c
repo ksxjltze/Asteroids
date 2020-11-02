@@ -42,6 +42,7 @@ void Asteroids_Button_Init(Button* button_out)
 	
 	button.status = IDLE;
 	button.enabled = true;
+	button.hidden = false;
 
 	*button_out = button;
 }
@@ -73,7 +74,9 @@ void Asteroids_Button_Update(Button* button)
 		btn.status = DISABLED;
 
 	*button = btn;
-	Asteroids_Button_Draw(*button);
+	if (btn.hidden == false)
+		Asteroids_Button_Draw(*button);
+
 }
 
 void Asteroids_Button_Execute_Callback(Button button)

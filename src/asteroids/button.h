@@ -5,7 +5,7 @@
 
 typedef int Button_Status;
 
-enum ButtonStatus
+enum Status_Button
 {
 	IDLE, HOVER, CLICKED, DISABLED
 };
@@ -35,6 +35,7 @@ typedef struct Buttons
 	float width, height;
 
 	bool enabled;
+	bool hidden;
 	Button_Status status;
 }Button;
 
