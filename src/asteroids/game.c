@@ -52,7 +52,6 @@ void Asteroids_Update(void)
 {
 	// check input, update simulation, render etc.
 	Asteroids_Check_Input();
-
 	Asteroids_Pause_Update();
 
 	if (!Asteroids_Pause_GetStatus())
@@ -257,6 +256,10 @@ void Asteroids_Draw()
 
 	Asteroids_Player_Draw(player_sprite, player.pos, player_width, player_height, player_rotation);
 
+}
+
+void Asteroids_Debug_Draw_Text()
+{
 	//TEST PLAYER ROTATION
 	char str_rotation[10];
 
@@ -272,14 +275,13 @@ void Asteroids_Draw()
 	strcat_s(str_fuel_text, sizeof(str_fuel_text), str_fuel_label);
 	strcat_s(str_fuel_text, sizeof(str_fuel_text), str_fuel);
 	CP_Font_DrawText(str_fuel_text, 500, 100);
-	
-	//Display FPS
 	CP_Font_DrawText(str_rotation, 300, 100);
-
 }
 
 void Asteroids_Debug()
 {
+	Asteroids_Debug_Draw_Text();
+
 	if (!debug_mode)
 		return;
 
