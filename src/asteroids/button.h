@@ -1,19 +1,32 @@
 #pragma once
 #include "cprocessing.h"
+#include <stdbool.h>
 
 typedef struct Text
 {
 	float textSize;
 	const char* text;
+	CP_Color color;
 }ButtonText;
+
+typedef struct Colors
+{
+	CP_Color idle;
+	CP_Color hover;
+	CP_Color clicked;
+	CP_Color disabled;
+}ButtonColors;
 
 typedef struct Buttons
 {
 	void(*function)();
 	ButtonText textbox;
+	ButtonColors colors;
 
 	CP_Vector position;
 	float width, height;
+
+	bool enabled;
 }Button;
 
 Button Asteroids_Button_Add_New_Button(CP_Vector position, float width, float height);
@@ -22,4 +35,4 @@ void Asteroids_Button_Set_Callback(void(*callback)());
 void Asteroids_Button_Init(Button* button_out);
 void Asteroids_Button_Update(Button* button);
 void Asteroids_Button_Draw(Button button);
-void Asteroids_Button_Draw_Text(ButtonText text);
+void Asteroids_Button_Draw_Text(Button button);

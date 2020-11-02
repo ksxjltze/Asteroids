@@ -58,3 +58,15 @@ CP_Vector Asteroids_Utility_GetWindowMiddle()
 {
 	return CP_Vector_Set((float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2);
 }
+
+//Helper function for determining if mouse is over object (Rect).
+//Object position must start at top left corner.
+bool isMouseOver_Rect(CP_Vector position, float width, float height, float mouseX, float mouseY)
+{
+	bool left = position.x <= mouseX;
+	bool right = position.x + width >= mouseX;
+	bool top = position.y <= mouseY;
+	bool bottom = position.y + height >= mouseY;
+
+	return left && right && top && bottom;
+}
