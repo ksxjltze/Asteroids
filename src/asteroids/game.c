@@ -32,7 +32,6 @@ int debug_mode = 0;
 struct Bullet arr_bullet[999];
 struct Enemy arr_enemy[20];
 struct Heart arr_heart[3];
-struct powerups arr_powerups[1];
 struct Player player;
 
 // use CP_Engine_SetNextGameState to specify this function as the initialization function
@@ -44,6 +43,7 @@ void Asteroids_Init(void)
 	Asteroids_Sprites_Load();
 	Asteroids_Entities_Init();
 	Asteroids_Pause_Init();
+	Asteroids_Init_Powerups();
 }
 
 // use CP_Engine_SetNextGameState to specify this function as the update function
@@ -64,6 +64,7 @@ void Asteroids_Update(void)
 		Asteroids_Enemy_Update(arr_enemy, enemy_count);
 		Asteroids_Player_Update(&player);
 		Asteroids_Collision_CheckCollision_Enemy_Player(arr_enemy, enemy_count, &player);
+		Asteroids_Update_Powerups();
 
 		//Gameover
 		if (player.active != 1)
@@ -105,19 +106,6 @@ void Asteroids_Entities_Init()
 		heart.active = 1;
 
 		arr_heart[i] = heart;
-
-	}
-
-	for (int i = 0; i < sizeof(arr_powerups) / sizeof(arr_powerups[0]); i++)
-	{
-		struct powerups powerups = arr_powerups[i];
-		powerups.pos = Asteroids_Utility_Generate_Random_Pos();
-		powerups.active = 1;
-
-		powerups.collider.width = powerups_width;
-		powerups.collider.height = powerups_height;
-
-		arr_powerups[i] = powerups;
 
 	}
 
