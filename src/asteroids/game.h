@@ -17,6 +17,8 @@
 #include "gameover.h"
 #include "pause.h"
 
+#include "particle.h"
+
 void Asteroids_Init(void);
 void Asteroids_Update(void);
 void Asteroids_Exit(void);

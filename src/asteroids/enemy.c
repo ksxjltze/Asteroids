@@ -1,4 +1,5 @@
 #include "enemy.h"
+#include "particle.h"
 
 void Asteroids_Enemy_Init(struct Enemy arr_enemy[], int count, float enemy_width, float enemy_height)
 {
@@ -37,6 +38,9 @@ void Asteroids_Enemy_Update(struct Enemy arr_enemy[], int count)
 	for (int i = 0; i < count; i++)
 	{
 		struct Enemy* enemy = &arr_enemy[i];
+		if (enemy->active == 0)
+			continue;
+
 		if (enemy->status.hit)
 		{
 			enemy->status.hit_cooldown -= CP_System_GetDt();
@@ -50,6 +54,7 @@ void Asteroids_Enemy_Update(struct Enemy arr_enemy[], int count)
 		if (enemy->hp.current <= 0)
 		{
 			enemy->active = 0;
+			spawn_particles(enemy->pos, 20);
 		}
 
 	}
