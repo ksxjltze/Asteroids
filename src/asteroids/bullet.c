@@ -18,7 +18,7 @@ void Asteroids_Bullet_Init(struct Bullet arr_bullet[], int count, float bullet_w
 	}
 }
 
-void Asteroids_Bullet_Update(struct Bullet arr_bullet[], int bullet_count, struct Enemy arr_enemy[], int enemy_count)
+void Asteroids_Bullet_Update(struct Bullet arr_bullet[], int bullet_count, Enemy arr_enemy[], int enemy_count)
 {
 	//bullet
 	for (int i = 0; i < bullet_count; i++)
