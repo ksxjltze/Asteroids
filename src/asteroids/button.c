@@ -36,22 +36,70 @@ void Asteroids_Button_Init(Button* button_out)
 	button.textbox.color = CP_Color_Create(255, 255, 255, 255); //Default white
 
 	button.colors.idle = CP_Color_Create(0, 0, 255, 255);
-	button.colors.hover = CP_Color_Create(0, 255, 255, 255);
-	button.colors.clicked = CP_Color_Create(255, 255, 255, 255);
-	button.colors.disabled = CP_Color_Create(0, 0, 255, 255);
+	button.colors.hover = CP_Color_Create(0, 255, 0, 255);
+	button.colors.clicked = CP_Color_Create(255, 0, 0, 255);
+	button.colors.disabled = CP_Color_Create(0, 0, 0, 255);
+	
+	button.status = IDLE;
+	button.enabled = true;
 
-	button.enabled = false;
 	*button_out = button;
 }
 
 void Asteroids_Button_Update(Button* button)
 {
+	float mouseX, mouseY;
+	mouseX = CP_Input_GetMouseX();
+	mouseY = CP_Input_GetMouseY();
+
+	Button btn = *button;
+
+	if (btn.enabled == true)
+	{
+		if (isMouseOver_Rect(btn.position, btn.width, btn.height, mouseX, mouseY))
+		{
+			btn.status = HOVER;
+			if (CP_Input_MouseDown(MOUSE_BUTTON_1))
+				btn.status = CLICKED;
+			else if (CP_Input_MouseReleased(MOUSE_BUTTON_1))
+				Asteroids_Button_Execute_Callback(btn);
+		}
+		else
+		{
+			btn.status = IDLE;
+		}
+	}
+	else
+		btn.status = DISABLED;
+
+	*button = btn;
 	Asteroids_Button_Draw(*button);
+}
+
+void Asteroids_Button_Execute_Callback(Button button)
+{
+	if (button.function)
+		button.function();
 }
 
 void Asteroids_Button_Draw(Button button)
 {
-	CP_Settings_Fill(button.colors.idle);
+	switch (button.status)
+	{
+	case IDLE:
+		CP_Settings_Fill(button.colors.idle);
+		break;
+	case HOVER:
+		CP_Settings_Fill(button.colors.hover);
+		break;
+	case CLICKED:
+		CP_Settings_Fill(button.colors.clicked);
+		break;
+	case DISABLED:
+		CP_Settings_Fill(button.colors.disabled);
+		break;
+	}
+
 	CP_Graphics_DrawRect(button.position.x, button.position.y, button.width, button.height);
 	if (button.textbox.text)
 	{
