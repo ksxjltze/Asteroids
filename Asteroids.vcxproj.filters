@@ -72,6 +72,7 @@
     <ClInclude Include="src\asteroids\utility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\asteroids\leaderboard.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\asteroids\bullet.c">
@@ -117,5 +118,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\asteroids\powerups.c" />
+    <ClCompile Include="src\asteroids\leaderboard.c" />
   </ItemGroup>
 </Project>
