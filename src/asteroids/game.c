@@ -43,6 +43,8 @@ void Asteroids_Init(void)
 	Asteroids_Sprites_Load();
 	Asteroids_Entities_Init();
 	Asteroids_Pause_Init();
+
+	particle_init();
 	Asteroids_Init_Powerups();
 }
 
@@ -52,7 +54,6 @@ void Asteroids_Update(void)
 {
 	// check input, update simulation, render etc.
 	Asteroids_Check_Input();
-
 	Asteroids_Pause_Update();
 
 	if (!Asteroids_Pause_GetStatus())
@@ -64,6 +65,8 @@ void Asteroids_Update(void)
 		Asteroids_Enemy_Update(arr_enemy, enemy_count);
 		Asteroids_Player_Update(&player);
 		Asteroids_Collision_CheckCollision_Enemy_Player(arr_enemy, enemy_count, &player);
+
+		particle_update();
 
 		//Gameover
 		if (player.active != 1)
@@ -241,10 +244,20 @@ void Asteroids_Draw()
 
 	Asteroids_FPS_Draw();
 	Asteroids_Bullet_Draw(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]), bullet_sprite, bullet_width, bullet_height);
+
+	//for (int i = 0; i < 20; i++)
+	//{
+	//	draw_particle(arr_enemy[i].pos);
+	//}
+	
 	Asteroids_Enemy_Draw(arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]), enemy_sprite, enemy_width, enemy_height, enemy_hurt_sprite, health_bar_sprite);
 
 	Asteroids_Player_Draw(player_sprite, player.pos, player_width, player_height, player_rotation);
 
+}
+
+void Asteroids_Debug_Draw_Text()
+{
 	//TEST PLAYER ROTATION
 	char str_rotation[10];
 
@@ -260,14 +273,15 @@ void Asteroids_Draw()
 	strcat_s(str_fuel_text, sizeof(str_fuel_text), str_fuel_label);
 	strcat_s(str_fuel_text, sizeof(str_fuel_text), str_fuel);
 	CP_Font_DrawText(str_fuel_text, 500, 100);
-	
-	//Display FPS
 	CP_Font_DrawText(str_rotation, 300, 100);
+
 
 }
 
 void Asteroids_Debug()
 {
+	Asteroids_Debug_Draw_Text();
+
 	if (!debug_mode)
 		return;
 
