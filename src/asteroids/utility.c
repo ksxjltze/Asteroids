@@ -20,7 +20,7 @@ void Asteroids_Utility_Generate_Hurt_Sprite(CP_Image sprite, CP_Image* out)
 	//Create Enemy Hurt Sprite from modified enemy_sprite pixel data.
 	if (pixels)
 	{
-		for (int i = 0; i < CP_Image_GetPixelBufferSize(sprite); ++i)
+		for (int i = 0; i < CP_Image_GetPixelBufferSize(sprite); i++)
 		{
 			if (i % 4 == 3) //alpha
 			{
@@ -29,6 +29,9 @@ void Asteroids_Utility_Generate_Hurt_Sprite(CP_Image sprite, CP_Image* out)
 
 			if (i % 4 == 0) //red
 			{
+				if (i < 1)
+					continue;
+
 				if (pixels[i - 1] > 0)
 					pixels[i - 1] = 255;
 			}
@@ -41,6 +44,9 @@ void Asteroids_Utility_Generate_Hurt_Sprite(CP_Image sprite, CP_Image* out)
 
 	CP_Image image = CP_Image_CreateFromData(CP_Image_GetWidth(sprite), CP_Image_GetHeight(sprite), pixels);
 	*out = image;
+	
+	free(pixels);
+	
 	return;
 }
 
@@ -51,4 +57,16 @@ void Asteroids_Utility_Generate_Hurt_Sprite(CP_Image sprite, CP_Image* out)
 CP_Vector Asteroids_Utility_GetWindowMiddle()
 {
 	return CP_Vector_Set((float)CP_System_GetWindowWidth() / 2, (float)CP_System_GetWindowHeight() / 2);
+}
+
+//Helper function for determining if mouse is over object (Rect).
+//Object position must start at top left corner.
+bool isMouseOver_Rect(CP_Vector position, float width, float height, float mouseX, float mouseY)
+{
+	bool left = position.x <= mouseX;
+	bool right = position.x + width >= mouseX;
+	bool top = position.y <= mouseY;
+	bool bottom = position.y + height >= mouseY;
+
+	return left && right && top && bottom;
 }

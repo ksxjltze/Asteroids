@@ -11,6 +11,7 @@ struct Enemy {
 	CP_Vector pos;
 	struct Health hp;
 	//struct Collider_AABB collider;
+
 	struct Collider_Circle collider;
 	int active;
 	struct Status status;

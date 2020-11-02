@@ -32,7 +32,6 @@ int debug_mode = 0;
 struct Bullet arr_bullet[999];
 struct Enemy arr_enemy[20];
 struct Heart arr_heart[3];
-struct powerups arr_powerups[1];
 struct Player player;
 
 // use CP_Engine_SetNextGameState to specify this function as the initialization function
@@ -46,6 +45,7 @@ void Asteroids_Init(void)
 	Asteroids_Pause_Init();
 
 	particle_init();
+	Asteroids_Init_Powerups();
 }
 
 // use CP_Engine_SetNextGameState to specify this function as the update function
@@ -54,7 +54,6 @@ void Asteroids_Update(void)
 {
 	// check input, update simulation, render etc.
 	Asteroids_Check_Input();
-
 	Asteroids_Pause_Update();
 
 	if (!Asteroids_Pause_GetStatus())
@@ -78,6 +77,7 @@ void Asteroids_Update(void)
 
 		Asteroids_Draw();
 		Asteroids_Debug();
+		Asteroids_Update_Powerups();
 
 	}
 
@@ -109,19 +109,6 @@ void Asteroids_Entities_Init()
 		heart.active = 1;
 
 		arr_heart[i] = heart;
-
-	}
-
-	for (int i = 0; i < sizeof(arr_powerups) / sizeof(arr_powerups[0]); i++)
-	{
-		struct powerups powerups = arr_powerups[i];
-		powerups.pos = Asteroids_Utility_Generate_Random_Pos();
-		powerups.active = 1;
-
-		powerups.collider.width = powerups_width;
-		powerups.collider.height = powerups_height;
-
-		arr_powerups[i] = powerups;
 
 	}
 
@@ -267,6 +254,10 @@ void Asteroids_Draw()
 
 	Asteroids_Player_Draw(player_sprite, player.pos, player_width, player_height, player_rotation);
 
+}
+
+void Asteroids_Debug_Draw_Text()
+{
 	//TEST PLAYER ROTATION
 	char str_rotation[10];
 
@@ -282,8 +273,6 @@ void Asteroids_Draw()
 	strcat_s(str_fuel_text, sizeof(str_fuel_text), str_fuel_label);
 	strcat_s(str_fuel_text, sizeof(str_fuel_text), str_fuel);
 	CP_Font_DrawText(str_fuel_text, 500, 100);
-	
-	//Display FPS
 	CP_Font_DrawText(str_rotation, 300, 100);
 
 
@@ -291,6 +280,8 @@ void Asteroids_Draw()
 
 void Asteroids_Debug()
 {
+	Asteroids_Debug_Draw_Text();
+
 	if (!debug_mode)
 		return;
 
