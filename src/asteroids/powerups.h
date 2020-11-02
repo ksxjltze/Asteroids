@@ -8,7 +8,7 @@
 typedef struct Powerups
 {
 	CP_Image Sprite;
-	CP_Vector Vel, pos;
+	CP_Vector Movement_Vel, pos;
 	float width, height;
 	int type;
 }Powerup;

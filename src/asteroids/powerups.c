@@ -14,6 +14,14 @@ Powerup Powerup_Increase_BPM;
 
 Powerup Default;
 
+
+void Asteroids_Update_Powerup_Movement(void)
+{
+	Default.Movement_Vel = CP_Vector_Zero();
+	Default.Movement_Vel.x =  1.50f;
+	Default.Movement_Vel.y =  1.50f;
+}
+
 void Asteroids_Init_Powerups(void)
 {
 	Default.height = 30.0f;
@@ -39,6 +47,8 @@ void Asteroids_Update_Powerups(void)
 	Asteroids_Powerup_Time_Manager();
 
 	Asteroids_Draw_Powerup();
+
+	Asteroids_Update_Powerup_Movement();
 	
 	if (powerup_status == false)
 		Asteroids_Init_Powerups();
@@ -51,16 +61,20 @@ void Asteroids_Draw_Powerup(void)
 		switch (Default.type)
 		{
 		case BULLET_SPLIT:
-			CP_Image_Draw(Powerup_BulletSplit.Sprite, Default.pos.x, Default.pos.y, Default.width, Default.height, 255);
+			CP_Image_Draw(Powerup_BulletSplit.Sprite, Default.pos.x += Default.Movement_Vel.x,
+				Default.pos.y , Default.width, Default.height, 255); //+= Default.Movement_Vel.y
 			break;
 		case RECOVER_HP:
-			CP_Image_Draw(Powerup_Recover_Hp.Sprite, Default.pos.x, Default.pos.y, Default.width, Default.height, 255);
+			CP_Image_Draw(Powerup_Recover_Hp.Sprite, Default.pos.x += Default.Movement_Vel.x,
+				Default.pos.y , Default.width, Default.height, 255);
 			break;
 		case INVULNERABILITY:
-			CP_Image_Draw(Powerup_Invulnerability.Sprite, Default.pos.x, Default.pos.y, Default.width, Default.height, 255);
+			CP_Image_Draw(Powerup_Invulnerability.Sprite, Default.pos.x += Default.Movement_Vel.x,
+				Default.pos.y , Default.width, Default.height, 255);
 			break;
 		case INCREASE_BPM:
-			CP_Image_Draw(Powerup_Increase_BPM.Sprite, Default.pos.x, Default.pos.y, Default.width, Default.height, 255);
+			CP_Image_Draw(Powerup_Increase_BPM.Sprite, Default.pos.x += Default.Movement_Vel.x,
+				Default.pos.y , Default.width, Default.height, 255);
 			break;
 		default:
 			break;
