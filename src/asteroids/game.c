@@ -64,7 +64,6 @@ void Asteroids_Update(void)
 		Asteroids_Enemy_Update(arr_enemy, enemy_count);
 		Asteroids_Player_Update(&player);
 		Asteroids_Collision_CheckCollision_Enemy_Player(arr_enemy, enemy_count, &player);
-		Asteroids_Update_Powerups();
 
 		//Gameover
 		if (player.active != 1)
@@ -75,6 +74,7 @@ void Asteroids_Update(void)
 
 		Asteroids_Draw();
 		Asteroids_Debug();
+		Asteroids_Update_Powerups();
 
 	}
 

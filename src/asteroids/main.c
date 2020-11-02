@@ -29,6 +29,9 @@ void main_init(void)
 	Asteroids_Menu_Settings_Setup(WIN_WIDTH, WIN_HEIGHT);
 	splash = CP_Image_Load("./Assets/DigiPen_WHITE.png");
 
+	CP_System_ShowConsole();
+	freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
+
 }
 
 void main_update(void)
