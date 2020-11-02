@@ -3,29 +3,16 @@
 
 void Asteroids_Enemy_Init(struct Enemy arr_enemy[], int count, float enemy_width, float enemy_height)
 {
-	//temp TODO: move somewhere else
-	//struct Collider_AABB spawn_rect;
-	//CP_Vector spawn_pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
-	//spawn_rect.width = 200;
-	//spawn_rect.height = 200;
-
 	for (int i = 0; i < count; i++)
 	{
-		//test enemy
 		struct Enemy enemy = arr_enemy[i];
 		enemy.collider.diameter = (enemy_width + enemy_height) / 2;
-		//enemy.collider.width = enemy_width;
-		//enemy.collider.height = enemy_height;
 
 		enemy.active = 1;
 		enemy.hp.max = ENEMY_HP;
 		enemy.hp.current = enemy.hp.max;
 
 		enemy.pos = Asteroids_Utility_Generate_Random_Pos();
-		//while (check_collision_AABB(enemy.collider, enemy.pos, spawn_rect, spawn_pos))
-		//{
-		//	enemy.pos = Asteroids_Utility_Generate_Random_Pos();
-		//}
 
 		arr_enemy[i] = enemy;
 

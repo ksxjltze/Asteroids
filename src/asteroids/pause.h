@@ -4,6 +4,7 @@
 #include "utility.h"
 #include "constants.h"
 #include "button.h"
+#include "menu.h"
 
 void Asteroids_Pause_Init();
 void Asteroids_Pause_CheckInput();
@@ -15,3 +16,4 @@ bool Asteroids_Pause_GetStatus();
 
 void Asteroids_Pause_Buttons_Update();
 void Asteroids_Pause_Continue();
+void Asteroids_Pause_QuitGame();

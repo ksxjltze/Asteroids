@@ -62,7 +62,7 @@ void Asteroids_Button_Update(Button* button)
 			btn.status = HOVER;
 			if (CP_Input_MouseDown(MOUSE_BUTTON_1))
 				btn.status = CLICKED;
-			else if (CP_Input_MouseReleased(MOUSE_BUTTON_1))
+			if (CP_Input_MouseReleased(MOUSE_BUTTON_1))
 				Asteroids_Button_Execute_Callback(*button);
 		}
 		else

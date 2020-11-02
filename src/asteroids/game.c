@@ -296,4 +296,5 @@ void Asteroids_Debug()
 void Asteroids_Exit(void)
 {
 	// shut down the gamestate and cleanup any dynamic memory
+	
 }
