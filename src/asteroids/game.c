@@ -30,7 +30,7 @@ int difficulty = 0; //NORMAL
 int debug_mode = 0;
 
 struct Bullet arr_bullet[999];
-Enemy arr_enemy[20];
+Enemy arr_enemy[100];
 struct Heart arr_heart[3];
 struct Player player;
 
