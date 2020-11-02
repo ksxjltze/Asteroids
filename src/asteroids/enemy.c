@@ -51,10 +51,11 @@ void Asteroids_Enemy_Update(struct Enemy arr_enemy[], int count)
 			}
 		}
 
-		if (enemy->hp.current <= 0)
+		if (enemy->hp.current <= 0) // enemy dies
 		{
 			enemy->active = 0;
 			spawn_particles(enemy->pos, 20);
+			Asteroids_Powerup_Generate_Movement(enemy->pos);
 		}
 
 	}

@@ -32,8 +32,6 @@ void Asteroids_Init_Powerups(void) //Initialize variables
 	Default.pos = Asteroids_Utility_Generate_Random_Pos();
 	Default.type = Asteroids_Generate_Random_Powerup();
 
-	Asteroids_Powerup_Generate_Movement();
-
 }
 
 void Asteroids_Update_Powerups(void) // draws and checks every frame
@@ -96,8 +94,9 @@ void Asteroids_Powerup_Time_Manager(void)	// tracks time life of powerup
 	}
 }
 
-void Asteroids_Powerup_Generate_Movement(void) //Generates random movement
+void Asteroids_Powerup_Generate_Movement(CP_Vector position) //Generates random movement
 {
+	Default.pos = position;
 	Default.Movement_Vel = CP_Vector_Zero();
 	Default.Movement_Vel.x = CP_Random_RangeFloat(-3, 3);
 	Default.Movement_Vel.y = CP_Random_RangeFloat(-3, 3);
@@ -107,7 +106,5 @@ void Asteroids_Powerup_Generate_Movement(void) //Generates random movement
 void Asteroids_Powerup_Reset(void)		// function which resets powerup to different value after lifespend
 {
 	Default.type = Asteroids_Generate_Random_Powerup();
-	Default.pos = Asteroids_Utility_Generate_Random_Pos();
-	Asteroids_Powerup_Generate_Movement();
 	powerup_status = true;
 }

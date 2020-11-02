@@ -21,5 +21,5 @@ void Asteroids_Draw_Powerup(void);
 
 int Asteroids_Generate_Random_Powerup(void);
 void Asteroids_Powerup_Time_Manager(void);
-void Asteroids_Powerup_Generate_Movement(void);
+void Asteroids_Powerup_Generate_Movement(CP_Vector position);
 void Asteroids_Powerup_Reset(void);
