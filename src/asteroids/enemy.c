@@ -55,7 +55,7 @@ void Asteroids_Enemy_Update(struct Enemy arr_enemy[], int count)
 		{
 			enemy->active = 0;
 			spawn_particles(enemy->pos, 20);
-			Asteroids_Powerup_Generate_Movement(enemy->pos);
+			Asteroids_Generate_Powerup_On_Enemy_Death(enemy->pos);
 		}
 
 	}

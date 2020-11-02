@@ -17,9 +17,13 @@ typedef struct Powerups
 void Asteroids_Init_Powerups(void);
 void Asteroids_Update_Powerups(void);
 void Asteroids_Draw_Powerup(void);
-//void Asteroids_Exit_Powerups(void);
+
 
 int Asteroids_Generate_Random_Powerup(void);
-void Asteroids_Powerup_Time_Manager(void);
-void Asteroids_Powerup_Generate_Movement(CP_Vector position);
-void Asteroids_Powerup_Reset(void);
+
+// Asteroid death powerups 
+void Asteroids_Generate_Powerup_On_Enemy_Death(CP_Vector position);
+
+// Floating time based powerups
+void Asteroids_Floating_Powerup_Time_Manager(void);
+void Asteroids_Floating_Powerup_Manager(void);
