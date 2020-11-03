@@ -39,9 +39,6 @@
     <ClInclude Include="src\asteroids\gameover.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\asteroids\globals.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\asteroids\health.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -131,5 +128,8 @@
     </ClCompile>
     <ClCompile Include="src\asteroids\powerups.c" />
     <ClCompile Include="src\asteroids\leaderboard.c" />
+    <ClCompile Include="src\asteroids\constants.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

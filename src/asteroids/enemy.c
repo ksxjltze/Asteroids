@@ -83,6 +83,7 @@ void Asteroids_Enemy_Spawn(Enemy arr_enemy[], int count)
 			enemy.active = 1;
 			enemy.pos = Asteroids_Enemy_Random_Pos();
 			enemy.velocity = Asteroids_Enemy_Random_Velocity(enemy.pos);
+			enemy.speed = Asteroids_Enemy_Random_Speed();
 			enemy.hp.max = ENEMY_HP;
 			enemy.hp.current = enemy.hp.max;
 
@@ -90,6 +91,11 @@ void Asteroids_Enemy_Spawn(Enemy arr_enemy[], int count)
 			return;
 		}
 	}
+}
+
+float Asteroids_Enemy_Random_Speed()
+{
+	return CP_Random_RangeFloat(0, ASTEROID_MAX_SPEED);
 }
 
 void Asteroids_Enemy_Spawn_Timer(Enemy arr_enemy[], int count)
@@ -130,7 +136,7 @@ CP_Vector Asteroids_Enemy_Random_Pos()
 
 	while (x > 0 && x < win_width && y > 0 && y < win_height)
 	{
-		x = CP_Random_RangeInt(0, win_width * 3);
+		x = CP_Random_RangeInt(0, win_width * 3) - win_width;
 		y = CP_Random_RangeInt(0, win_height * 3) - win_height;
 	}
 

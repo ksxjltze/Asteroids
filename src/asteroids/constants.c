@@ -11,6 +11,7 @@ extern const float FIRE_RATE = 600.0f; //bullets per minute
 extern const float HURT_WINDOW = 0.1f; //seconds
 extern const float BULLET_DAMAGE = 1;
 extern const float ENEMY_HP = 3;
+extern const float ASTEROID_MAX_SPEED = 200.0f; //pixels per second
 
 //health bar
 extern const float BAR_WIDTH = 100;
