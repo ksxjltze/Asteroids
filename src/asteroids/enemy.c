@@ -15,8 +15,9 @@ void Asteroids_Enemy_Init(Enemy arr_enemy[], int count, float enemy_width, float
 		enemy.hp.current = enemy.hp.max;
 
 		//temp;
-		enemy.pos = Asteroids_Utility_Generate_Random_Pos();
-		enemy.velocity = Asteroids_Enemy_Random_Velocity(enemy.pos);
+		enemy.pos = CP_Vector_Zero();
+		enemy.velocity = CP_Vector_Zero();
+		enemy.speed = 0;
 
 		arr_enemy[i] = enemy;
 
@@ -82,8 +83,8 @@ void Asteroids_Enemy_Spawn(Enemy arr_enemy[], int count)
 		{
 			enemy.active = 1;
 			enemy.pos = Asteroids_Enemy_Random_Pos();
-			enemy.velocity = Asteroids_Enemy_Random_Velocity(enemy.pos);
 			enemy.speed = Asteroids_Enemy_Random_Speed();
+			enemy.velocity = Asteroids_Enemy_Random_Velocity(enemy.pos, enemy.speed);
 			enemy.hp.max = ENEMY_HP;
 			enemy.hp.current = enemy.hp.max;
 
@@ -95,7 +96,7 @@ void Asteroids_Enemy_Spawn(Enemy arr_enemy[], int count)
 
 float Asteroids_Enemy_Random_Speed()
 {
-	return CP_Random_RangeFloat(0, ASTEROID_MAX_SPEED);
+	return CP_Random_RangeFloat(ASTEROID_MIN_SPEED, ASTEROID_MAX_SPEED);
 }
 
 void Asteroids_Enemy_Spawn_Timer(Enemy arr_enemy[], int count)
@@ -111,13 +112,16 @@ void Asteroids_Enemy_Spawn_Timer(Enemy arr_enemy[], int count)
 
 }
 
-CP_Vector Asteroids_Enemy_Random_Velocity(CP_Vector pos)
+CP_Vector Asteroids_Enemy_Random_Velocity(CP_Vector pos, float speed)
 {
 	CP_Vector vec_to_middle;
 	//CP_Vector velocity;
 
 	//TODO, better implementation
 	vec_to_middle = CP_Vector_Subtract(Asteroids_Utility_GetWindowMiddle(), pos);
+	vec_to_middle = CP_Vector_Normalize(vec_to_middle);
+	vec_to_middle = CP_Vector_Scale(vec_to_middle, speed);
+	
 	return vec_to_middle;
 	
 }

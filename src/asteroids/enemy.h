@@ -29,5 +29,5 @@ void Asteroids_Enemy_Spawn(Enemy arr_enemy[], int count);
 void Asteroids_Enemy_Spawn_Timer(Enemy arr_enemy[], int count);
 
 CP_Vector Asteroids_Enemy_Random_Pos();
-CP_Vector Asteroids_Enemy_Random_Velocity(CP_Vector pos);
+CP_Vector Asteroids_Enemy_Random_Velocity(CP_Vector pos, float speed);
 float Asteroids_Enemy_Random_Speed();

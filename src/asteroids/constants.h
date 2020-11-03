@@ -15,6 +15,7 @@ extern const float BULLET_DAMAGE;
 extern const float ENEMY_HP;
 extern const float ENEMY_SPAWN_TIME;
 extern const float ASTEROID_MAX_SPEED; //pixels per second
+extern const float ASTEROID_MIN_SPEED; //pixels per second
 
 //health bar
 extern const float BAR_WIDTH;
