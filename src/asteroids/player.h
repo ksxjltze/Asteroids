@@ -4,14 +4,17 @@
 #include "collider_circle.h"
 #include "status.h"
 #include "engine.h"
+#include <string.h>
 
 struct Player {
+	char name[10];
 	CP_Vector pos;
 	struct Health hp;
 	struct Collider_Circle collider;
 	struct Engine engine;
 	struct Status status;
 	int active;
+	int score;
 	float speed;
 };
 

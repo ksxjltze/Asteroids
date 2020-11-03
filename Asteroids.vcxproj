@@ -34,6 +34,7 @@
     <ClInclude Include="src\asteroids\health.h" />
     <ClInclude Include="src\asteroids\Heart.h" />
     <ClInclude Include="src\asteroids\init.h" />
+    <ClInclude Include="src\asteroids\leaderboard.h" />
     <ClInclude Include="src\asteroids\menu.h" />
     <ClInclude Include="src\asteroids\particle.h" />
     <ClInclude Include="src\asteroids\pause.h" />
@@ -53,6 +54,7 @@
     <ClCompile Include="src\asteroids\game.c" />
     <ClCompile Include="src\asteroids\gameover.c" />
     <ClCompile Include="src\asteroids\init.c" />
+    <ClCompile Include="src\asteroids\leaderboard.c" />
     <ClCompile Include="src\asteroids\main.c" />
     <ClCompile Include="src\asteroids\menu.c" />
     <ClCompile Include="src\asteroids\pause.c" />
