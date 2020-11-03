@@ -1,6 +1,8 @@
 #include "enemy.h"
 #include "particle.h"
 
+float spawn_timer;
+
 void Asteroids_Enemy_Init(Enemy arr_enemy[], int count, float enemy_width, float enemy_height)
 {
 	for (int i = 0; i < count; i++)
@@ -17,6 +19,8 @@ void Asteroids_Enemy_Init(Enemy arr_enemy[], int count, float enemy_width, float
 		enemy.velocity = Asteroids_Enemy_Random_Velocity(enemy.pos);
 
 		arr_enemy[i] = enemy;
+
+		spawn_timer = ENEMY_SPAWN_TIME;
 
 	}
 
@@ -83,6 +87,19 @@ void Asteroids_Enemy_Spawn(Enemy arr_enemy[], int count)
 			return;
 		}
 	}
+}
+
+void Asteroids_Enemy_Spawn_Timer(Enemy arr_enemy[], int count)
+{
+	float dt = CP_System_GetDt();
+	spawn_timer -= dt;
+
+	if (spawn_timer <= 0)
+	{
+		spawn_timer = ENEMY_SPAWN_TIME;
+		Asteroids_Enemy_Spawn(arr_enemy, count);
+	}
+
 }
 
 CP_Vector Asteroids_Enemy_Random_Velocity(CP_Vector pos)

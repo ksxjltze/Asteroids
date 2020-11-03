@@ -58,12 +58,14 @@ void Asteroids_Update(void)
 
 	if (!Asteroids_Pause_GetStatus())
 	{
-		Asteroids_Cooldown_Update();
-
 		int enemy_count = sizeof(arr_enemy) / sizeof(arr_enemy[0]);
+		Asteroids_Cooldown_Update();
+		Asteroids_Enemy_Spawn_Timer(arr_enemy, enemy_count);
+
 		Asteroids_Bullet_Update(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]), arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]));
 		Asteroids_Enemy_Update(arr_enemy, enemy_count);
 		Asteroids_Player_Update(&player);
+
 		Asteroids_Collision_CheckCollision_Enemy_Player(arr_enemy, enemy_count, &player);
 
 		particle_update();

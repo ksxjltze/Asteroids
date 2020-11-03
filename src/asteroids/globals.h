@@ -24,3 +24,4 @@ extern const float PLAYER_MAX_FUEL = 100.0f;
 extern const float DRAIN_RATE = 5.0f;
 
 extern const CP_KEY ASTEROIDS_PAUSE_KEY = KEY_ESCAPE;
+extern const float ENEMY_SPAWN_TIME = 2.0f;

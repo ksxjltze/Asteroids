@@ -13,6 +13,7 @@ extern const float FIRE_RATE; //bullets per minute
 extern const float HURT_WINDOW; //seconds
 extern const float BULLET_DAMAGE;
 extern const float ENEMY_HP;
+extern const float ENEMY_SPAWN_TIME;
 
 //health bar
 extern const float BAR_WIDTH;
