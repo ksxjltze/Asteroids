@@ -104,11 +104,12 @@ void Asteroids_Enemy_Spawn_Timer(Enemy arr_enemy[], int count)
 
 CP_Vector Asteroids_Enemy_Random_Velocity(CP_Vector pos)
 {
-	CP_Vector vec_to_middle;
+	CP_Vector vec_to_middle; 
 	//CP_Vector velocity;
 
 	//TODO, better implementation
-	vec_to_middle = CP_Vector_Subtract(Asteroids_Utility_GetWindowMiddle(), pos);
+	vec_to_middle = CP_Vector_Normalize(CP_Vector_Subtract(Asteroids_Utility_GetWindowMiddle(), pos));
+	vec_to_middle = CP_Vector_Scale(vec_to_middle, 25.0f);
 	return vec_to_middle;
 	
 }
