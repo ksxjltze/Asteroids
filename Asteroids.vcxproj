@@ -30,7 +30,6 @@
     <ClInclude Include="src\asteroids\fuel.h" />
     <ClInclude Include="src\asteroids\game.h" />
     <ClInclude Include="src\asteroids\gameover.h" />
-    <ClInclude Include="src\asteroids\globals.h" />
     <ClInclude Include="src\asteroids\health.h" />
     <ClInclude Include="src\asteroids\Heart.h" />
     <ClInclude Include="src\asteroids\init.h" />
@@ -50,6 +49,7 @@
     <ClCompile Include="src\asteroids\collider_aabb.c" />
     <ClCompile Include="src\asteroids\collider_circle.c" />
     <ClCompile Include="src\asteroids\collision_manager.c" />
+    <ClCompile Include="src\asteroids\constants.c" />
     <ClCompile Include="src\asteroids\enemy.c" />
     <ClCompile Include="src\asteroids\game.c" />
     <ClCompile Include="src\asteroids\gameover.c" />

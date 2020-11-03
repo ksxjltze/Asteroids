@@ -15,7 +15,6 @@
 #include "menu.h"
 #include "splash.h"
 #include "constants.h"
-#include "globals.h"
 
 CP_Image splash;
 
