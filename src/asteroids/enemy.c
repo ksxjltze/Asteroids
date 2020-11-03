@@ -125,13 +125,13 @@ CP_Vector Asteroids_Enemy_Random_Pos()
 
 	int x, y;
 
-	x = CP_Random_RangeInt(0, win_width * 2) - win_width;
-	y = CP_Random_RangeInt(0, win_height * 2) - win_height;
+	x = CP_Random_RangeInt(0, win_width * 3) - win_width;
+	y = CP_Random_RangeInt(0, win_height * 3) - win_height;
 
-	while (x % win_width == x ||  y % win_height == y)
+	while (x > 0 && x < win_width && y > 0 && y < win_height)
 	{
-		x = CP_Random_RangeInt(0, win_width * 2) - win_width;
-		y = CP_Random_RangeInt(0, win_height * 2) - win_height;
+		x = CP_Random_RangeInt(0, win_width * 3);
+		y = CP_Random_RangeInt(0, win_height * 3) - win_height;
 	}
 
 	pos.x = (float)x;
