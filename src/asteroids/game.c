@@ -10,7 +10,6 @@ CP_Image enemy_sprite;
 CP_Image enemy_hurt_sprite;
 CP_Image health_bar_sprite;
 CP_Image player_health_sprite;
-CP_Image powerups_sprite;
 
 //player
 float player_width;
@@ -23,15 +22,11 @@ float bullet_height;
 float enemy_width;
 float enemy_height;
 
-float powerups_width;
-float powerups_height;
-
 int difficulty = 0; //NORMAL
 int debug_mode = 0;
 
 struct Bullet arr_bullet[999];
 Enemy arr_enemy[100];
-struct Heart arr_heart[3];
 struct Player player;
 
 // use CP_Engine_SetNextGameState to specify this function as the initialization function
@@ -103,17 +98,6 @@ void Asteroids_Entities_Init()
 	Asteroids_Enemy_Init(arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]), enemy_width, enemy_height);
 	Asteroids_Bullet_Init(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]), bullet_width, bullet_height);
 
-	for (int i = 0; i < sizeof(arr_heart) / sizeof(arr_heart[0]); i++)
-	{
-		//
-		struct Heart heart = arr_heart[i];
-		heart.pos = CP_Vector_Set((i+1) * 100.0f, 50.0f);
-		heart.active = 1;
-
-		arr_heart[i] = heart;
-
-	}
-
 }
 
 //@brief Loads sprites from file path and sets their width and height.
@@ -135,9 +119,6 @@ void Asteroids_Sprites_Load()
 
 	enemy_width = (float)CP_Image_GetWidth(enemy_sprite) * 0.1f;
 	enemy_height = (float)CP_Image_GetHeight(enemy_sprite) * 0.1f;
-
-	powerups_width = (float)CP_Image_GetWidth(powerups_sprite) * 0.3f;
-	powerups_height = (float)CP_Image_GetWidth(powerups_sprite) * 0.3f;
 }
 
 void Asteroids_Player_Rotate(CP_Vector direction)
