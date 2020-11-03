@@ -58,6 +58,8 @@ void Asteroids_Enemy_Update(Enemy arr_enemy[], int count)
 
 void Asteroids_Enemy_Debug(Enemy arr_enemy[], int count)
 {
+	CP_Vector mid = Asteroids_Utility_GetWindowMiddle();
+	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
 	for (int i = 0; i < count; i++)
 	{
 		Enemy enemy = arr_enemy[i];
@@ -65,6 +67,7 @@ void Asteroids_Enemy_Debug(Enemy arr_enemy[], int count)
 		{
 			//Asteroids_Collision_Debug_AABB_Draw(enemy.collider, enemy.pos);
 			Asteroids_Collision_Debug_Circle_Draw(enemy.collider, enemy.pos);
+			CP_Graphics_DrawLine(enemy.pos.x, enemy.pos.y, mid.x, mid.y);
 		}
 
 	}
