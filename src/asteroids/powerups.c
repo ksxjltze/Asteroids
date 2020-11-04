@@ -41,46 +41,46 @@ void Asteroids_Init_Powerups(void) //Initialize variables
 		powerup_pool[i].collider.width = width;
 		powerup_pool[i].collider.height = height;
 		powerup_pool[i].type = 0;
+		powerup_pool[i].rotation = 0.0f;
 	}
 }
 
 void Asteroids_Update_Powerups(void) // draws and checks every frame
-{
+{	
 	Asteroids_Floating_Powerup_Lifespan_Manager();
 	for (int i = 0; i < POWERUP_MAX_SIZE; i++)
 	{
 		Powerup p = powerup_pool[i];
 		if (p.active)
 		{
-			Asteroids_Draw_Powerup(p.type, &powerup_pool[i].pos, p.movement_Vel);
+			Asteroids_Draw_Powerup(p.type, &powerup_pool[i].pos, p.movement_Vel, &powerup_pool[i].rotation);
 		}
 	}
-
-	Asteroids_Draw_Powerup(Floating_Powerup.type, &Floating_Powerup.pos, Floating_Powerup.movement_Vel);
+	Asteroids_Draw_Powerup(Floating_Powerup.type, &Floating_Powerup.pos, Floating_Powerup.movement_Vel, &Floating_Powerup.rotation);
 
 }
-void Asteroids_Draw_Powerup(int type, CP_Vector* pos, CP_Vector movement_vel)  // Draws specific powerup based on a random count
+void Asteroids_Draw_Powerup(int type, CP_Vector* pos, CP_Vector movement_vel, float* rotation)  // Draws specific powerup based on a random count
 {
 	switch (type) // change to delta time
 	{
 	case BULLET_SPLIT:
-		CP_Image_Draw(Powerup_Bulletsplit_Sprite, pos->x += movement_vel.x, 
-			pos->y += movement_vel.y, width, height, 255);
+		CP_Image_DrawAdvanced(Powerup_Bulletsplit_Sprite, pos->x += movement_vel.x,
+			pos->y += movement_vel.y, width, height, 255, *rotation += 5.0f);
 			break;
 
 	case RECOVER_HP:
-		CP_Image_Draw(Powerup_Recover_Hp_Sprite, pos->x += movement_vel.x,
-			pos->y += movement_vel.y, width, height, 255);
+		CP_Image_DrawAdvanced(Powerup_Recover_Hp_Sprite, pos->x += movement_vel.x,
+			pos->y += movement_vel.y, width, height, 255, *rotation += 5.0f);
 			break;
 
 	case INVULNERABILITY:
-		CP_Image_Draw(Powerup_Invulnerability_Sprite, pos->x += movement_vel.x,
-			pos->y += movement_vel.y, width, height, 255);
+		CP_Image_DrawAdvanced(Powerup_Invulnerability_Sprite, pos->x += movement_vel.x,
+			pos->y += movement_vel.y, width, height, 255, *rotation += 5.0f);
 			break;
 
 	case INCREASE_BPM:
-		CP_Image_Draw(Powerup_Increase_BPM_Sprite, pos->x += movement_vel.x,
-			pos->y += movement_vel.y, width, height, 255);
+		CP_Image_DrawAdvanced(Powerup_Increase_BPM_Sprite, pos->x += movement_vel.x,
+			pos->y += movement_vel.y, width, height, 255, *rotation += 5.0f);
 			break;
 
 	default:;
@@ -103,6 +103,7 @@ void Asteroids_Generate_Powerup_On_Enemy_Death(CP_Vector position) //Generates r
 			powerup_pool[i].pos = position;
 			powerup_pool[i].movement_Vel.x = CP_Random_RangeFloat(-3, 3);
 			powerup_pool[i].movement_Vel.y = CP_Random_RangeFloat(-3, 3);
+			powerup_pool[i].rotation = 50.0f;
 			return;
 		}
 	}
@@ -133,6 +134,7 @@ void Asteroids_Floating_Powerup_Manager(void)	// function which resets powerup t
 			powerup_pool[i].pos = Asteroids_Utility_Generate_Random_Pos();
 			powerup_pool[i].movement_Vel.x = CP_Random_RangeFloat(-3, 3);
 			powerup_pool[i].movement_Vel.y = CP_Random_RangeFloat(-3, 3);
+			powerup_pool[i].rotation = 50.0f;
 			return;
 		}
 	}
