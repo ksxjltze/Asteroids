@@ -14,6 +14,7 @@ extern const float ENEMY_HP = 3;
 
 extern const float ASTEROID_MIN_SPEED = 50.0f;
 extern const float ASTEROID_MAX_SPEED = 200.0f; //pixels per second
+extern const float SPAWN_OFFSET = 300.0f;
 
 //health bar
 extern const float BAR_WIDTH = 100;
