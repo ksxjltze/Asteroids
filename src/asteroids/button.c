@@ -21,9 +21,21 @@ void Asteroids_Button_Set_Text(Button* button, float textsize, char text[])
 	button->textbox.textSize = textsize;
 }
 
+void Asteroid_Button_Set_Text_Colors(Button* button, CP_Color color)
+{
+	button->textbox.color = color;
+}
+
 void Asteroids_Button_Set_Callback(void(*callback)(), Button* button)
 {
 	button->function = callback;
+}
+
+void Asteroids_Button_Set_Colors(Button* button, CP_Color idle, CP_Color hover, CP_Color clicked)
+{
+	button->colors.idle = idle;
+	button->colors.hover = hover;
+	button->colors.clicked = clicked;
 }
 
 void Asteroids_Button_Init(Button* button_out)
