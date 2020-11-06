@@ -21,7 +21,7 @@ void Asteroids_Button_Set_Text(Button* button, float textsize, char text[])
 	button->textbox.textSize = textsize;
 }
 
-void Asteroid_Button_Set_Text_Colors(Button* button, CP_Color color)
+void Asteroids_Button_Set_Text_Colors(Button* button, CP_Color color)
 {
 	button->textbox.color = color;
 }
