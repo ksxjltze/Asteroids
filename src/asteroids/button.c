@@ -1,14 +1,18 @@
 #include "button.h"
 
-Button Asteroids_Button_Add_New_Button(CP_Vector position, float width, float height)
+Button Asteroids_Button_Add_New_Button(float width, float height)
 {
 	Button button;
 	Asteroids_Button_Init(&button);
-	button.position = position;
 	button.width = width;
 	button.height = height;
 
 	return button;
+}
+
+void Asteroids_Button_Set_Position(Button* button, CP_Vector position)
+{
+	button->position = position;
 }
 
 void Asteroids_Button_Set_Text(Button* button, float textsize, char text[])
