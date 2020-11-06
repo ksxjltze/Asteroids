@@ -8,7 +8,7 @@
 #define POWERUP_MIN_VALUE 1 
 #define POWERUP_MAX_VALUE 4
 
-#define POWERUP_MAX_SIZE 100
+#define POWERUP_MAX_SIZE 5
 
 bool Floating_powerup_status;
 
@@ -23,7 +23,7 @@ Powerup Floating_Powerup;// OBJECT POOLING
 
 static float width = 30.0f;
 static float height = 30.0f;
-int powerup_count;
+static int powerup_count;
 
 void Asteroids_Init_Powerups(void) //Initialize variables 
 {
@@ -148,7 +148,7 @@ void Asteroids_Floating_Powerup_Manager(void)	// function which resets powerup t
 
 void Asteroids_Powerup_Player_Collision(Powerup powerup[], struct Player* player)
 {
-	for (int i = 0; i < powerup_count; i++)
+	for (int i = 0; i < POWERUP_MAX_SIZE; i++)
 	{
 		if (!powerup_pool[i].active) // if 0, continue
 		{

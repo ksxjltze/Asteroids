@@ -5,7 +5,7 @@
 #include "status.h"
 #include "engine.h"
 #include <string.h>
-
+ 
 typedef struct Player {
 	char name[10];
 	CP_Vector pos;
