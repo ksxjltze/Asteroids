@@ -241,22 +241,14 @@ void Asteroids_Debug_Draw_Text()
 {
 	//TEST PLAYER ROTATION
 	char str_rotation[10];
-
-	char str_fuel[10];
-	char* str_fuel_label = "Fuel: ";
-
 	char str_fuel_text[20];
 	memset(str_fuel_text, '\0', sizeof(str_fuel_text));
 
 	_gcvt_s(str_rotation, 10, player_rotation, 4);
-	sprintf_s(str_fuel, 10, "%d", (int)player.engine.fuel.current);
+	sprintf_s(str_fuel_text, 20, "Fuel: %d", (int)player.engine.fuel.current);
 
-	strcat_s(str_fuel_text, sizeof(str_fuel_text), str_fuel_label);
-	strcat_s(str_fuel_text, sizeof(str_fuel_text), str_fuel);
 	CP_Font_DrawText(str_fuel_text, 500, 100);
 	CP_Font_DrawText(str_rotation, 300, 100);
-
-
 }
 
 void Asteroids_Debug()
