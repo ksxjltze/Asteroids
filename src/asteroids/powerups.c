@@ -23,9 +23,11 @@ Powerup Floating_Powerup;// OBJECT POOLING
 
 static float width = 30.0f;
 static float height = 30.0f;
+int powerup_count;
 
 void Asteroids_Init_Powerups(void) //Initialize variables 
 {
+	powerup_count = 0;
 	Floating_powerup_status = true;
 
 	Powerup_Bulletsplit_Sprite = CP_Image_Load("./Assets/Powerup_Bullet_Split_Sprite.png");
@@ -38,29 +40,33 @@ void Asteroids_Init_Powerups(void) //Initialize variables
 		powerup_pool[i].pos = CP_Vector_Zero();
 		powerup_pool[i].movement_Vel = CP_Vector_Zero();
 		powerup_pool[i].active = false;
-		powerup_pool[i].collider.width = width;
-		powerup_pool[i].collider.height = height;
+		powerup_pool[i].collider.diameter = width;
+	/*	powerup_pool[i].collider.width = width;
+		powerup_pool[i].collider.height = height;*/
 		powerup_pool[i].type = 0;
 		powerup_pool[i].rotation = 0.0f;
 	}
 }
 
-void Asteroids_Update_Powerups(void) // draws and checks every frame
+void Asteroids_Update_Powerups(struct Player* player) // draws and checks every frame
 {	
 	Asteroids_Floating_Powerup_Lifespan_Manager();
+	
 	for (int i = 0; i < POWERUP_MAX_SIZE; i++)
 	{
 		Powerup p = powerup_pool[i];
 		if (p.active)
 		{
+			Asteroids_Powerup_Player_Collision(powerup_pool, *&player);
 			Asteroids_Draw_Powerup(p.type, &powerup_pool[i].pos, p.movement_Vel, &powerup_pool[i].rotation);
+			Asteroids_Draw_Powerup(Floating_Powerup.type, &Floating_Powerup.pos, Floating_Powerup.movement_Vel, &Floating_Powerup.rotation);
 		}
 	}
-	Asteroids_Draw_Powerup(Floating_Powerup.type, &Floating_Powerup.pos, Floating_Powerup.movement_Vel, &Floating_Powerup.rotation);
-
+	
 }
 void Asteroids_Draw_Powerup(int type, CP_Vector* pos, CP_Vector movement_vel, float* rotation)  // Draws specific powerup based on a random count
 {
+	powerup_count += 1;
 	switch (type) // change to delta time
 	{
 	case BULLET_SPLIT:
@@ -136,6 +142,23 @@ void Asteroids_Floating_Powerup_Manager(void)	// function which resets powerup t
 			powerup_pool[i].movement_Vel.y = CP_Random_RangeFloat(-3, 3);
 			powerup_pool[i].rotation = 50.0f;
 			return;
+		}
+	}
+}
+
+void Asteroids_Powerup_Player_Collision(Powerup powerup[], struct Player* player)
+{
+	for (int i = 0; i < powerup_count; i++)
+	{
+		if (!powerup_pool[i].active) // if 0, continue
+		{
+			continue;
+		}
+		Powerup* Powerup = &powerup[i];
+		if (Asteroids_Collision_CheckCollision_Circle_Test(Powerup->collider, Powerup->pos, player->collider, player->pos))
+		{
+			powerup[i].active = false;
+			printf("Collision test");
 		}
 	}
 }

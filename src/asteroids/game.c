@@ -74,7 +74,7 @@ void Asteroids_Update(void)
 
 		Asteroids_Draw();
 		Asteroids_Debug();
-		Asteroids_Update_Powerups();
+		Asteroids_Update_Powerups(&player);
 
 	}
 

@@ -1,13 +1,14 @@
 #pragma once
 #include "cprocessing.h"
-#include "collider_aabb.h"
+#include "collider_circle.h"
 #include "utility.h"
 #include <stdbool.h>
 #include <stdio.h>
+#include"player.h"
 
 typedef struct Powerups
 {
-	struct Collider_AABB collider;
+	struct Collider_Circle collider;
 	CP_Vector movement_Vel, pos;
 	float rotation;
 	int type;
@@ -15,8 +16,8 @@ typedef struct Powerups
 }Powerup;
 
 
-void Asteroids_Init_Powerups(void);
-void Asteroids_Update_Powerups(void);
+void Asteroids_Init_Powerups(void);/*
+void Asteroids_Update_Powerups(void);*/
 
 
 int Asteroids_Generate_Random_Powerup(void);
@@ -29,3 +30,6 @@ void Asteroids_Generate_Powerup_On_Enemy_Death(CP_Vector position);
 // Floating time based powerups
 void Asteroids_Floating_Powerup_Lifespan_Manager(void);
 void Asteroids_Floating_Powerup_Manager(void);
+
+void Asteroids_Update_Powerups(struct Player* player);
+void Asteroids_Powerup_Player_Collision(Powerup powerup_pool[], struct Player* player);
