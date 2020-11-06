@@ -12,7 +12,7 @@
 // Copyright � 2020 DigiPen, All rights reserved.
 //---------------------------------------------------------
 #include "game.h"
-#include "menu.h"
+#include "main_menu.h"
 #include "splash.h"
 #include "constants.h"
 

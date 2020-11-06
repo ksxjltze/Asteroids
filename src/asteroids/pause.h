@@ -4,7 +4,7 @@
 #include "utility.h"
 #include "constants.h"
 #include "button.h"
-#include "menu.h"
+#include "main_menu.h"
 
 void Asteroids_Pause_Init();
 void Asteroids_Pause_CheckInput();

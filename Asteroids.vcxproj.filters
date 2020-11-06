@@ -48,9 +48,6 @@
     <ClInclude Include="src\asteroids\init.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\asteroids\menu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\asteroids\pause.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -77,6 +74,9 @@
     </ClInclude>
     <ClInclude Include="src\asteroids\leaderboard.h" />
     <ClInclude Include="src\asteroids\sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\asteroids\main_menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -108,9 +108,6 @@
     <ClCompile Include="src\asteroids\main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\asteroids\menu.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\asteroids\pause.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -132,6 +129,9 @@
     <ClCompile Include="src\asteroids\powerups.c" />
     <ClCompile Include="src\asteroids\leaderboard.c" />
     <ClCompile Include="src\asteroids\constants.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\asteroids\main_menu.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

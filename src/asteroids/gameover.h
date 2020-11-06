@@ -1,6 +1,6 @@
 #include "cprocessing.h"
 #include "constants.h"
-#include "menu.h"
+#include "main_menu.h"
 #include "init.h"
 
 void Asteroids_GameOver_Init(void);
