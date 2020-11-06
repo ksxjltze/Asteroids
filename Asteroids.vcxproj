@@ -40,6 +40,7 @@
     <ClInclude Include="src\asteroids\player.h" />
     <ClInclude Include="src\asteroids\powerups.h" />
     <ClInclude Include="src\asteroids\splash.h" />
+    <ClInclude Include="src\asteroids\sprite.h" />
     <ClInclude Include="src\asteroids\status.h" />
     <ClInclude Include="src\asteroids\utility.h" />
   </ItemGroup>

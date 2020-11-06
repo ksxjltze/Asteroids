@@ -31,7 +31,7 @@ struct Bullet Asteroids_Collision_CheckCollision_Enemy_Bullet(Enemy arr_enemy[],
 	return bullet;
 }
 
-void Asteroids_Collision_CheckCollision_Enemy_Player(Enemy arr_enemy[], int enemy_count, struct Player* player)
+void Asteroids_Collision_CheckCollision_Enemy_Player(Enemy arr_enemy[], int enemy_count, Player* player)
 {
 	for (int i = 0; i < enemy_count; i++)
 	{

@@ -27,7 +27,7 @@ int debug_mode = 0;
 
 struct Bullet arr_bullet[999];
 Enemy arr_enemy[100];
-struct Player player;
+Player player;
 
 // use CP_Engine_SetNextGameState to specify this function as the initialization function
 // this function will be called once at the beginning of the program
