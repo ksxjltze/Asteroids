@@ -129,23 +129,20 @@ CP_Vector Asteroids_Enemy_Random_Velocity(CP_Vector pos, float speed)
 CP_Vector Asteroids_Enemy_Random_Pos()
 {
 	CP_Vector pos;
-	int win_width, win_height;
-	win_width = (int)CP_System_GetWindowWidth();
-	win_height = (int)CP_System_GetWindowHeight();
+	float win_width, win_height;
+	win_width = (float)CP_System_GetWindowWidth();
+	win_height = (float)CP_System_GetWindowHeight();
 
-	int x, y;
+	float x = 0, y = 0;
 
-	x = CP_Random_RangeInt(0, win_width * 3) - win_width;
-	y = CP_Random_RangeInt(0, win_height * 3) - win_height;
-
-	while (x > 0 && x < win_width && y > 0 && y < win_height)
+	while (x >= 0 && x < win_width && y >= 0 && y < win_height)
 	{
-		x = CP_Random_RangeInt(0, win_width * 3) - win_width;
-		y = CP_Random_RangeInt(0, win_height * 3) - win_height;
+		x = CP_Random_RangeFloat(-SPAWN_OFFSET, win_width + SPAWN_OFFSET);
+		y = CP_Random_RangeFloat(-SPAWN_OFFSET, win_height + SPAWN_OFFSET);
 	}
 
-	pos.x = (float)x;
-	pos.y = (float)y;
+	pos.x = x;
+	pos.y = y;
 
 	return pos;
 }

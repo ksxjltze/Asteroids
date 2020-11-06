@@ -27,7 +27,7 @@ int debug_mode = 0;
 
 struct Bullet arr_bullet[999];
 Enemy arr_enemy[100];
-struct Player player;
+Player player;
 
 // use CP_Engine_SetNextGameState to specify this function as the initialization function
 // this function will be called once at the beginning of the program
@@ -241,22 +241,14 @@ void Asteroids_Debug_Draw_Text()
 {
 	//TEST PLAYER ROTATION
 	char str_rotation[10];
-
-	char str_fuel[10];
-	char* str_fuel_label = "Fuel: ";
-
 	char str_fuel_text[20];
 	memset(str_fuel_text, '\0', sizeof(str_fuel_text));
 
 	_gcvt_s(str_rotation, 10, player_rotation, 4);
-	sprintf_s(str_fuel, 10, "%d", (int)player.engine.fuel.current);
+	sprintf_s(str_fuel_text, 20, "Fuel: %d", (int)player.engine.fuel.current);
 
-	strcat_s(str_fuel_text, sizeof(str_fuel_text), str_fuel_label);
-	strcat_s(str_fuel_text, sizeof(str_fuel_text), str_fuel);
 	CP_Font_DrawText(str_fuel_text, 500, 100);
 	CP_Font_DrawText(str_rotation, 300, 100);
-
-
 }
 
 void Asteroids_Debug()

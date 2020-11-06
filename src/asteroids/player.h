@@ -6,7 +6,7 @@
 #include "engine.h"
 #include <string.h>
 
-struct Player {
+typedef struct Player {
 	char name[10];
 	CP_Vector pos;
 	struct Health hp;
@@ -16,12 +16,12 @@ struct Player {
 	int active;
 	int score;
 	float speed;
-};
+} Player;
 
 
 struct Player Asteroids_Player_Init(float player_width, float player_height);
 void Asteroids_Player_Draw(CP_Image player_sprite, CP_Vector pos, float player_width, float player_height, float player_rotation);
 void Asteroids_Player_Wrap(CP_Image player_sprite, CP_Vector pos, float player_width, float player_height, float player_rotation);
-void Asteroids_Player_Update(struct Player* player);
-void Asteroids_Player_Calculate_Fuel(struct Player* player);
-void Asteroids_Player_Debug(struct Player player);
+void Asteroids_Player_Update(Player* player);
+void Asteroids_Player_Calculate_Fuel(Player* player);
+void Asteroids_Player_Debug(Player player);
