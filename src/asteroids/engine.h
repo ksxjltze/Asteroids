@@ -1,7 +1,10 @@
+#pragma once
 #include "fuel.h"
 
-struct Engine
+typedef struct Engine
 {
-	struct Fuel fuel;
+	Fuel fuel;
 	float drain_rate; //per second
-};
+} Engine;
+
+

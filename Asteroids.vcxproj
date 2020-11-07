@@ -52,6 +52,8 @@
     <ClCompile Include="src\asteroids\collision_manager.c" />
     <ClCompile Include="src\asteroids\constants.c" />
     <ClCompile Include="src\asteroids\enemy.c" />
+    <ClCompile Include="src\asteroids\engine.c" />
+    <ClCompile Include="src\asteroids\fuel.c" />
     <ClCompile Include="src\asteroids\game.c" />
     <ClCompile Include="src\asteroids\gameover.c" />
     <ClCompile Include="src\asteroids\health.c" />
