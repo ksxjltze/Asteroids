@@ -19,15 +19,6 @@ void Asteroids_MainMenu_Update(void)
 {
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
 	Asteroids_Draw_MainMenu();
-	//CP_Settings_TextSize(100.0f);
-	//CP_Font_DrawText("CLICK ANYWHERE TO START", (float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
-
-	//if (CP_Input_MouseClicked())
-	//{
-	//	CP_Engine_SetNextGameState(Asteroids_Init, Asteroids_Update, Asteroids_Exit);
-	//	CP_Engine_Run();
-	//}
-
 }
 
 void Asteroids_MainMenu_Exit(void)
@@ -45,8 +36,10 @@ void Asteroids_Draw_MainMenu(void)
 		Asteroids_Button_Update(&Leaderboard);
 		Asteroids_Button_Update(&Quit);
 	}
-	else
+	else if (!status)
+	{
 		Asteroids_MainMenu_CheckInput();
+	}
 
 }
 
@@ -54,8 +47,8 @@ void Asteroids_MainMenu_Button_Init(void)
 {
 	float textSize = 30.0f;
 
-	float x1 = (float)((WIN_WIDTH / 2) - (BUTTON_WIDTH / 2));
-	float x2 = (float)((WIN_WIDTH / 2) + (BUTTON_WIDTH / 2));
+	float x1 = (float)((WIN_WIDTH / 2) - BUTTON_WIDTH);
+	float x2 = (float)(WIN_WIDTH / 2);
 
 	float y2 = (float)(WIN_HEIGHT / 2 - (BUTTON_HEIGHT / 2)); // middle 
 	float y1 = y2 - BUTTON_HEIGHT;
@@ -67,7 +60,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	CP_Vector pos4 = CP_Vector_Set(x2, y1);
 	CP_Vector pos5 = CP_Vector_Set(x2, y2);
 
-	CP_Vector pos6 = CP_Vector_Set((float)(WIN_WIDTH / 2), (float)(WIN_HEIGHT / 2 - BUTTON_HEIGHT / 2));
+	CP_Vector pos6 = CP_Vector_Set((float)((WIN_WIDTH / 2 - BUTTON_WIDTH / 2)), (float)(WIN_HEIGHT / 2 + BUTTON_HEIGHT * 2));
 
 	Play = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	Controls = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -112,7 +105,6 @@ void Asteroids_QuitGame(void)
 void Asteroids_Credits(void)
 {
 	input = 1;
-	printf("input is %d\n", input);
 	status = false;
 
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
@@ -126,7 +118,6 @@ void Asteroids_Credits(void)
 void Asteroids_LeaderBoard(void)
 {
 	input = 2;
-	printf("input is %d\n", input);
 	status = false;
 
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
@@ -139,7 +130,6 @@ void Asteroids_LeaderBoard(void)
 void Asteroids_Controls(void)
 {	
 	input = 3;
-	printf("input is %d\n", input);
 	status = false;
 
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
@@ -160,7 +150,6 @@ void Asteroids_MainMenu_CheckInput(void)
 {
 	switch (input)
 	{
-			
 		case 1:
 			Asteroids_Credits();
 			break;
