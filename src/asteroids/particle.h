@@ -1,5 +1,6 @@
 #pragma once
 #include "game.h"
+#include "collider_circle.h"
 
 struct Dot {
 	CP_Vector pos;

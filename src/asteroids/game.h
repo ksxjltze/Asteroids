@@ -6,19 +6,6 @@
 #include <string.h>
 #include <time.h> //Used to seed rand() function for random number generation.
 
-#include "init.h"
-#include "enemy.h"
-#include "bullet.h"
-#include "Heart.h"
-#include "powerups.h"
-#include "player.h"
-
-#include "utility.h"
-#include "gameover.h"
-#include "pause.h"
-
-#include "particle.h"
-
 void Asteroids_Init(void);
 void Asteroids_Update(void);
 void Asteroids_Exit(void);
@@ -26,8 +13,10 @@ void Asteroids_Exit(void);
 void Asteroids_Check_Input();
 
 void Asteroids_Draw();
-void Asteroids_Debug();
+void Asteroids_UI_Draw();
 void Asteroids_FPS_Draw();
+
+void Asteroids_Debug();
 
 void Asteroids_Sprites_Load();
 void Asteroids_Entities_Init();

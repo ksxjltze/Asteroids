@@ -1,5 +1,6 @@
 #include "enemy.h"
 #include "particle.h"
+#include "powerups.h"
 
 float spawn_timer;
 

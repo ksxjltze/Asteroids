@@ -24,8 +24,13 @@ extern const float BAR_HEIGHT;
 extern const float BAR_OFFSET_Y;
 
 extern const char* PLAYER_SPRITE_PATH;
+extern const char* ASTEROIDS_HEART_SPRITE_PATH;
+
 extern const float PLAYER_MAX_HP;
 extern const float PLAYER_MAX_FUEL;
 extern const float DRAIN_RATE;
 
 extern const CP_KEY ASTEROIDS_PAUSE_KEY;
+
+//ERROR
+extern const char* ASTEROIDS_ERROR_STR_MISSING_SPRITE;

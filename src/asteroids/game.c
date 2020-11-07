@@ -1,6 +1,16 @@
 #pragma once
 #include "game.h"
 #include "constants.h"
+#include "init.h"
+#include "enemy.h"
+#include "bullet.h"
+#include "powerups.h"
+#include "player.h"
+#include "utility.h"
+#include "gameover.h"
+#include "pause.h"
+#include "particle.h"
+#include "health.h"
 
 float shoot_cooldown = 0.0f;
 
@@ -36,6 +46,7 @@ void Asteroids_Init(void)
 	// initialize variables and CProcessing settings for this gamestate
 	Asteroids_Settings_Setup(WIN_WIDTH, WIN_HEIGHT);
 	Asteroids_Sprites_Load();
+	Asteroids_Health_UI_Init();
 	Asteroids_Entities_Init();
 	Asteroids_Pause_Init();
 
@@ -223,18 +234,17 @@ void Asteroids_Draw()
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
 	CP_Font_DrawText("Asteroids", (float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
 
-	Asteroids_FPS_Draw();
 	Asteroids_Bullet_Draw(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]), bullet_sprite, bullet_width, bullet_height);
-
-	//for (int i = 0; i < 20; i++)
-	//{
-	//	draw_particle(arr_enemy[i].pos);
-	//}
-	
 	Asteroids_Enemy_Draw(arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]), enemy_sprite, enemy_width, enemy_height, enemy_hurt_sprite, health_bar_sprite);
-
 	Asteroids_Player_Draw(player_sprite, player.pos, player_width, player_height, player_rotation);
 
+	Asteroids_FPS_Draw();
+	Asteroids_UI_Draw();
+}
+
+void Asteroids_UI_Draw()
+{
+	Asteroids_Health_UI_Draw(player.hp);
 }
 
 void Asteroids_Debug_Draw_Text()

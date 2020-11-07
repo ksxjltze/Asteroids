@@ -42,9 +42,6 @@
     <ClInclude Include="src\asteroids\health.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\asteroids\Heart.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\asteroids\init.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -132,6 +129,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\asteroids\main_menu.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\asteroids\health.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include "cprocessing.h"
 #include "constants.h"
+#define getVarName(name) #name
 
 CP_Vector Asteroids_Utility_Generate_Random_Pos();
 CP_Vector Asteroids_Utility_GetWindowMiddle();
