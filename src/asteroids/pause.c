@@ -70,6 +70,8 @@ void Asteroids_Pause_Continue()
 void Asteroids_Pause_DisplayMenu()
 {
 	CP_Settings_Background(backgroundColor);
+	CP_Settings_TextSize(100.0f);
+	CP_Font_DrawText("Paused", (float)WIN_WIDTH / 2, 100);
 	Asteroids_Pause_Buttons_Update();
 }
 

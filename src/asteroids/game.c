@@ -108,7 +108,7 @@ void Asteroids_Entities_Init()
 	player = Asteroids_Player_Init(player_width, player_height);
 
 	//TODO: Possibly implement an entity manager to manage different types of entities.
-	Asteroids_Enemy_Init(arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]), enemy_width, enemy_height);
+	Asteroids_Enemy_Init(arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]), enemy_width, enemy_height, player);
 	Asteroids_Bullet_Init(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]), bullet_width, bullet_height);
 
 }

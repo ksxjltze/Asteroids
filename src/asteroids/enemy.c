@@ -1,10 +1,16 @@
 #include "enemy.h"
 #include "particle.h"
 #include "powerups.h"
+#include "health.h"
+#include "collider_aabb.h"
+#include "collider_circle.h"
+#include "status.h"
+#include "constants.h"
+#include "utility.h"
 
 static float spawn_timer;
 
-void Asteroids_Enemy_Init(Enemy arr_enemy[], int count, float enemy_width, float enemy_height)
+void Asteroids_Enemy_Init(Enemy arr_enemy[], int count, float enemy_width, float enemy_height, Player player)
 {
 	for (int i = 0; i < count; i++)
 	{
@@ -26,7 +32,7 @@ void Asteroids_Enemy_Init(Enemy arr_enemy[], int count, float enemy_width, float
 
 	}
 
-	Asteroids_Enemy_Init_Spawn(arr_enemy, count);
+	Asteroids_Enemy_Init_Spawn(arr_enemy, count, player);
 
 }
 
@@ -76,16 +82,16 @@ void Asteroids_Enemy_Debug(Enemy arr_enemy[], int count)
 	}
 }
 
-void Asteroids_Enemy_Init_Spawn(Enemy arr_enemy[], int count)
+void Asteroids_Enemy_Init_Spawn(Enemy arr_enemy[], int count, Player player)
 {
 	int spawn_count = CP_Random_RangeInt(ASTEROIDS_ASTEROID_ENEMY_SPAWN_COUNT_MIN, ASTEROIDS_ASTEROID_ENEMY_SPAWN_COUNT_MAX);
 	for (int i = 0; i < spawn_count; i++)
 	{
-		Asteroids_Enemy_Spawn_Static(arr_enemy, count);
+		Asteroids_Enemy_Spawn_Static(arr_enemy, count, player);
 	}
 }
 
-void Asteroids_Enemy_Spawn_Static(Enemy arr_enemy[], int count)
+void Asteroids_Enemy_Spawn_Static(Enemy arr_enemy[], int count, Player player)
 {
 	for (int i = 0; i < count; i++)
 	{
@@ -94,6 +100,10 @@ void Asteroids_Enemy_Spawn_Static(Enemy arr_enemy[], int count)
 		{
 			enemy.active = 1;
 			enemy.pos = Asteroids_Utility_Generate_Random_Pos();
+			while (Asteroids_Collision_CheckCollision_Circle(enemy.collider, enemy.pos, player.collider, player.pos))
+			{
+				enemy.pos = Asteroids_Utility_Generate_Random_Pos();
+			}
 			enemy.speed = 0;
 			enemy.velocity = CP_Vector_Zero();
 			enemy.hp.max = ENEMY_HP;
