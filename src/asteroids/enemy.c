@@ -2,7 +2,7 @@
 #include "particle.h"
 #include "powerups.h"
 
-float spawn_timer;
+static float spawn_timer;
 
 void Asteroids_Enemy_Init(Enemy arr_enemy[], int count, float enemy_width, float enemy_height)
 {

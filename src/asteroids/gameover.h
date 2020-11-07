@@ -6,3 +6,6 @@
 void Asteroids_GameOver_Init(void);
 void Asteroids_GameOver_Update(void);
 void Asteroids_GameOver_Exit(void);
+
+void Asteroids_GameOver_Restart(void);
+void Asteroids_GameOver_Quit(void);

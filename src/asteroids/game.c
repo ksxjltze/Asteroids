@@ -234,7 +234,6 @@ void Asteroids_FPS_Draw()
 void Asteroids_Draw()
 {
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
-	CP_Font_DrawText("Asteroids", (float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
 
 	Asteroids_Bullet_Draw(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]), bullet_sprite, bullet_width, bullet_height);
 	Asteroids_Enemy_Draw(arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]), enemy_sprite, enemy_width, enemy_height, enemy_hurt_sprite, health_bar_sprite);
@@ -252,6 +251,8 @@ void Asteroids_Debug_Draw_Text()
 
 	_gcvt_s(str_rotation, 10, player_rotation, 4);
 	sprintf_s(str_fuel_text, 20, "Fuel: %d", (int)player.engine.fuel.current);
+
+	CP_Settings_TextSize(50.0f);
 
 	CP_Font_DrawText(str_fuel_text, (float)WIN_WIDTH - 500, 100);
 	CP_Font_DrawText(str_rotation, (float)WIN_WIDTH - 300, 100);

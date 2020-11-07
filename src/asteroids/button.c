@@ -133,5 +133,6 @@ void Asteroids_Button_Draw_Text(Button button)
 	textPos.y += button.height / 2;
 
 	CP_Settings_Fill(button.textbox.color);
+	CP_Settings_TextSize(button.textbox.textSize);
 	CP_Font_DrawText(button.textbox.text, textPos.x, textPos.y);
 }

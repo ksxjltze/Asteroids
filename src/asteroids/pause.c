@@ -3,7 +3,6 @@
 bool paused = false;
 
 CP_Vector position;
-float width, height;
 
 CP_Color backgroundColor;
 Button btnContinue;
@@ -12,20 +11,21 @@ Button btnQuit;
 void Asteroids_Pause_Init()
 {
 	position = Asteroids_Utility_GetWindowMiddle();
-	width = 0, height = 0;
+	float btnWidth = 600, btnHeight = 100;
+	float textSize = 50.0f;
 
 	backgroundColor = CP_Color_Create(0, 0, 0, 255);
 
-	btnContinue = Asteroids_Button_Add_New_Button(600, 100);
+	btnContinue = Asteroids_Button_Add_New_Button(btnWidth, btnHeight);
 	CP_Vector btnContinuePos = CP_Vector_Set(CP_System_GetWindowWidth() * 0.5f - btnContinue.width / 2, CP_System_GetWindowHeight() * 0.3f - btnContinue.height / 2);
 	Asteroids_Button_Set_Position(&btnContinue, btnContinuePos);
-	Asteroids_Button_Set_Text(&btnContinue, 20, "Continue");
+	Asteroids_Button_Set_Text(&btnContinue, textSize, "Continue");
 	Asteroids_Button_Set_Callback(&Asteroids_Pause_Continue, &btnContinue);
 
-	btnQuit = Asteroids_Button_Add_New_Button(600, 100);
+	btnQuit = Asteroids_Button_Add_New_Button(btnWidth, btnHeight);
 	CP_Vector btnQuitPos = CP_Vector_Set(CP_System_GetWindowWidth() * 0.5f - btnQuit.width / 2, CP_System_GetWindowHeight() * 0.6f - btnQuit.height);
 	Asteroids_Button_Set_Position(&btnQuit, btnQuitPos);
-	Asteroids_Button_Set_Text(&btnQuit, 20, "Quit");
+	Asteroids_Button_Set_Text(&btnQuit, textSize, "Quit");
 	Asteroids_Button_Set_Callback(&Asteroids_Pause_QuitGame, &btnQuit);
 
 }
