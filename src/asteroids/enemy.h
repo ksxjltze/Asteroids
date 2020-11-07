@@ -25,6 +25,8 @@ void Asteroids_Enemy_Draw(Enemy arr_enemy[], int count, CP_Image enemy_sprite, f
 
 void Asteroids_Enemy_Debug(Enemy arr_enemy[], int count);
 
+void Asteroids_Enemy_Init_Spawn(Enemy arr_enemy[], int count);
+void Asteroids_Enemy_Spawn_Static(Enemy arr_enemy[], int count);
 void Asteroids_Enemy_Spawn(Enemy arr_enemy[], int count);
 void Asteroids_Enemy_Spawn_Timer(Enemy arr_enemy[], int count);
 

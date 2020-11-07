@@ -26,6 +26,8 @@ void Asteroids_Enemy_Init(Enemy arr_enemy[], int count, float enemy_width, float
 
 	}
 
+	Asteroids_Enemy_Init_Spawn(arr_enemy, count);
+
 }
 
 void Asteroids_Enemy_Update(Enemy arr_enemy[], int count)
@@ -71,6 +73,35 @@ void Asteroids_Enemy_Debug(Enemy arr_enemy[], int count)
 			CP_Graphics_DrawLine(enemy.pos.x, enemy.pos.y, target.x, target.y);
 		}
 
+	}
+}
+
+void Asteroids_Enemy_Init_Spawn(Enemy arr_enemy[], int count)
+{
+	int spawn_count = CP_Random_RangeInt(ASTEROIDS_ASTEROID_ENEMY_SPAWN_COUNT_MIN, ASTEROIDS_ASTEROID_ENEMY_SPAWN_COUNT_MAX);
+	for (int i = 0; i < spawn_count; i++)
+	{
+		Asteroids_Enemy_Spawn_Static(arr_enemy, count);
+	}
+}
+
+void Asteroids_Enemy_Spawn_Static(Enemy arr_enemy[], int count)
+{
+	for (int i = 0; i < count; i++)
+	{
+		Enemy enemy = arr_enemy[i];
+		if (!enemy.active)
+		{
+			enemy.active = 1;
+			enemy.pos = Asteroids_Utility_Generate_Random_Pos();
+			enemy.speed = 0;
+			enemy.velocity = CP_Vector_Zero();
+			enemy.hp.max = ENEMY_HP;
+			enemy.hp.current = enemy.hp.max;
+
+			arr_enemy[i] = enemy;
+			return;
+		}
 	}
 }
 

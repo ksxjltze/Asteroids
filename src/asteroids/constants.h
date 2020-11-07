@@ -14,10 +14,16 @@ extern const float HURT_WINDOW; //seconds
 extern const float BULLET_DAMAGE;
 extern const float ENEMY_HP;
 extern const float ENEMY_SPAWN_TIME;
+
 extern const float ASTEROID_MAX_SPEED; //pixels per second
 extern const float ASTEROID_MIN_SPEED; //pixels per second
+
 extern const float ASTEROIDS_ASTEROID_ENEMY_VELOCITY_OFFSET;
 extern const float SPAWN_OFFSET;
+
+//Initial number of asteroids to spawn
+extern const int ASTEROIDS_ASTEROID_ENEMY_SPAWN_COUNT_MIN;
+extern const int ASTEROIDS_ASTEROID_ENEMY_SPAWN_COUNT_MAX;
 
 //health bar
 extern const float BAR_WIDTH;
