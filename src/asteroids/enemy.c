@@ -60,16 +60,15 @@ void Asteroids_Enemy_Update(Enemy arr_enemy[], int count)
 
 void Asteroids_Enemy_Debug(Enemy arr_enemy[], int count)
 {
-	CP_Vector mid = Asteroids_Utility_GetWindowMiddle();
 	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
 	for (int i = 0; i < count; i++)
 	{
 		Enemy enemy = arr_enemy[i];
 		if (enemy.active)
 		{
-			//Asteroids_Collision_Debug_AABB_Draw(enemy.collider, enemy.pos);
+			CP_Vector target = CP_Vector_Scale(enemy.velocity, enemy.speed);
 			Asteroids_Collision_Debug_Circle_Draw(enemy.collider, enemy.pos);
-			CP_Graphics_DrawLine(enemy.pos.x, enemy.pos.y, mid.x, mid.y);
+			CP_Graphics_DrawLine(enemy.pos.x, enemy.pos.y, target.x, target.y);
 		}
 
 	}
@@ -115,11 +114,14 @@ void Asteroids_Enemy_Spawn_Timer(Enemy arr_enemy[], int count)
 
 CP_Vector Asteroids_Enemy_Random_Velocity(CP_Vector pos, float speed)
 {
-	CP_Vector vec_to_middle; 
-	//CP_Vector velocity;
+	CP_Vector vec_to_middle = CP_Vector_Zero();
+	CP_Vector vec_offset = CP_Vector_Zero();
 
-	//TODO, better implementation
+	float offset = CP_Random_RangeFloat(-ASTEROIDS_ASTEROID_ENEMY_VELOCITY_OFFSET, ASTEROIDS_ASTEROID_ENEMY_VELOCITY_OFFSET);
+	vec_offset = CP_Vector_Set(offset, offset);
+
 	vec_to_middle = CP_Vector_Subtract(Asteroids_Utility_GetWindowMiddle(), pos);
+	vec_to_middle = CP_Vector_Add(vec_to_middle, vec_offset);
 	vec_to_middle = CP_Vector_Normalize(vec_to_middle);
 	vec_to_middle = CP_Vector_Scale(vec_to_middle, speed);
 	
