@@ -7,8 +7,11 @@ static CP_Image heart_sprite;
 
 void Asteroids_Health_UI_Draw(Health hp)
 {
-	if (heart_sprite)
-		CP_Image_Draw(heart_sprite, 100, 100, 100, 100, 255);
+	for (float i = 1; i <= hp.current; i++)
+	{
+		if (heart_sprite)
+			CP_Image_Draw(heart_sprite, i * 100, 100, 48, 48, 255);
+	}
 		
 }
 
