@@ -8,7 +8,7 @@
 #define POWERUP_MIN_VALUE 1 
 #define POWERUP_MAX_VALUE 4
 
-#define POWERUP_MAX_SIZE 5
+#define POWERUP_MAX_SIZE 100
 
 bool Floating_powerup_status;
 
