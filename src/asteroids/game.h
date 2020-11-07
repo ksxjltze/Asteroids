@@ -13,7 +13,6 @@ void Asteroids_Exit(void);
 void Asteroids_Check_Input();
 
 void Asteroids_Draw();
-void Asteroids_UI_Draw();
 void Asteroids_FPS_Draw();
 
 void Asteroids_Debug();

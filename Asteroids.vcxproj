@@ -41,6 +41,7 @@
     <ClInclude Include="src\asteroids\splash.h" />
     <ClInclude Include="src\asteroids\sprite.h" />
     <ClInclude Include="src\asteroids\status.h" />
+    <ClInclude Include="src\asteroids\user_interface.h" />
     <ClInclude Include="src\asteroids\utility.h" />
   </ItemGroup>
   <ItemGroup>
@@ -63,6 +64,7 @@
     <ClCompile Include="src\asteroids\particle.c" />
     <ClCompile Include="src\asteroids\powerups.c" />
     <ClCompile Include="src\asteroids\splash.c" />
+    <ClCompile Include="src\asteroids\user_interface.c" />
     <ClCompile Include="src\asteroids\utility.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

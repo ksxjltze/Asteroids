@@ -10,7 +10,7 @@
 #include "gameover.h"
 #include "pause.h"
 #include "particle.h"
-#include "health.h"
+#include "user_interface.h"
 
 float shoot_cooldown = 0.0f;
 
@@ -46,7 +46,7 @@ void Asteroids_Init(void)
 	// initialize variables and CProcessing settings for this gamestate
 	Asteroids_Settings_Setup(WIN_WIDTH, WIN_HEIGHT);
 	Asteroids_Sprites_Load();
-	Asteroids_Health_UI_Init();
+	Asteroids_UI_Health_HP_Init();
 	Asteroids_Entities_Init();
 	Asteroids_Pause_Init();
 
@@ -84,8 +84,10 @@ void Asteroids_Update(void)
 		}
 
 		Asteroids_Draw();
-		Asteroids_Debug();
 		Asteroids_Update_Powerups(&player);
+
+		Asteroids_Debug();
+		Asteroids_UI_Update(player.hp);
 
 	}
 
@@ -226,7 +228,7 @@ void Asteroids_FPS_Draw()
 	sprintf_s(fps_str, 10, "%d", (int)fps); //Convert int to string
 
 	//Display FPS
-	CP_Font_DrawText(fps_str, 100, 100);
+	CP_Font_DrawText(fps_str, (float)WIN_WIDTH - 100, 100);
 }
 
 void Asteroids_Draw()
@@ -239,12 +241,6 @@ void Asteroids_Draw()
 	Asteroids_Player_Draw(player_sprite, player.pos, player_width, player_height, player_rotation);
 
 	Asteroids_FPS_Draw();
-	Asteroids_UI_Draw();
-}
-
-void Asteroids_UI_Draw()
-{
-	Asteroids_Health_UI_Draw(player.hp);
 }
 
 void Asteroids_Debug_Draw_Text()
@@ -257,8 +253,8 @@ void Asteroids_Debug_Draw_Text()
 	_gcvt_s(str_rotation, 10, player_rotation, 4);
 	sprintf_s(str_fuel_text, 20, "Fuel: %d", (int)player.engine.fuel.current);
 
-	CP_Font_DrawText(str_fuel_text, 500, 100);
-	CP_Font_DrawText(str_rotation, 300, 100);
+	CP_Font_DrawText(str_fuel_text, (float)WIN_WIDTH - 500, 100);
+	CP_Font_DrawText(str_rotation, (float)WIN_WIDTH - 300, 100);
 }
 
 void Asteroids_Debug()
