@@ -140,11 +140,5 @@
     <ClCompile Include="src\asteroids\user_interface.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\asteroids\fuel.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\asteroids\engine.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>
