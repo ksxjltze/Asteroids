@@ -6,6 +6,7 @@
 #include <string.h>
 #include <time.h> //Used to seed rand() function for random number generation.
 
+
 void Asteroids_Init(void);
 void Asteroids_Update(void);
 void Asteroids_Exit(void);

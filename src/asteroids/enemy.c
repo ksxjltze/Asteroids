@@ -7,6 +7,7 @@
 #include "status.h"
 #include "constants.h"
 #include "utility.h"
+#include "score.h"
 
 static float spawn_timer;
 
@@ -58,6 +59,7 @@ void Asteroids_Enemy_Update(Enemy arr_enemy[], int count)
 
 		if (enemy->hp.current <= 0) // enemy dies
 		{
+			Score.enemy_kill_score += 1;
 			enemy->active = 0;
 			spawn_particles(enemy->pos, 8, 0, 0);
 			Asteroids_Generate_Powerup_On_Enemy_Death(enemy->pos);
