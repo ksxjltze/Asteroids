@@ -1,7 +1,7 @@
 #pragma once
 #include "game.h"
 #include "collider_circle.h"
-
+#include <stdbool.h>
 
 typedef struct Particles
 {
@@ -15,6 +15,7 @@ typedef struct Particles
 	float delay;
 	int key_frame;
 	float timer;
+	bool loop;
 
 }Particle;
 

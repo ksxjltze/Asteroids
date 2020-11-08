@@ -2,19 +2,24 @@
 #include "game.h"
 
 CP_Vector pos;
-
+//Particle pool
 Particle particle[10000];
 
+//Struct to hold data for Explosion particles
 struct Explosion
 {
 	CP_Image image[8];
 	float w[8];
 	float h[8];
 	int image_count;
+	float delay;
 
 }explosion;
 
-
+/// <summary>
+/// Initialize Particles
+/// </summary>
+/// <param name="void"></param>
 void particle_init(void)
 {
 	explosion.image[0] = CP_Image_Load("./Assets/Explosion/Image001.png");
@@ -47,7 +52,7 @@ void particle_init(void)
 	explosion.h[7] = (float)CP_Image_GetHeight(explosion.image[7]);
 
 	explosion.image_count = 8;
-
+	explosion.delay = 0.1f;
 
 	for (int i = 0; i < sizeof(particle)/ sizeof(particle[0]); i++)
 	{
@@ -58,9 +63,10 @@ void particle_init(void)
 		particle[i].enabled = 0;
 		particle[i].lifetime = 0;
 		particle[i].life = 0;
-		particle[i].delay = 0.1f;
+		particle[i].delay = explosion.delay;
 		particle[i].key_frame = 0;
 		particle[i].timer = particle[i].delay;
+		particle[i].loop = false;
 	}
 
 }
@@ -80,6 +86,7 @@ void draw_particle()
 	}
 }
 
+//Generate particle velocity and set lifetime.
 void particle_velocity(CP_Vector position, int particles, float min_velocity, float max_velocity)
 {
 	CP_Vector velocity;
@@ -96,7 +103,7 @@ void particle_velocity(CP_Vector position, int particles, float min_velocity, fl
 			particle[i].posX = position.x;
 			particle[i].posY = position.y;
 			particle[i].velocity = velocity;
-			particle[i].life = particle[i].delay * (explosion.image_count - 1);
+			particle[i].life = particle[i].delay * (explosion.image_count);
 			particle[i].lifetime = particle[i].life;
 			--particles;
 		}
@@ -123,11 +130,13 @@ void particle_update()
 			if (particle[i].timer <= 0)
 			{
 				particle[i].timer = particle[i].delay;
-				particle[i].key_frame++;
-				if (particle[i].key_frame >= 8)
+				if (particle[i].key_frame >= (explosion.image_count - 1))
 				{
-					particle[i].key_frame = 0;
+					if (particle[i].loop)
+						particle[i].key_frame = 0;
 				}
+				else
+					particle[i].key_frame++;
 			}
 
 			if (particle[i].lifetime <= 0)
