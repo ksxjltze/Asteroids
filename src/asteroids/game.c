@@ -11,6 +11,7 @@
 #include "pause.h"
 #include "particle.h"
 #include "user_interface.h"
+#include "score.h"
 
 float shoot_cooldown = 0.0f;
 
@@ -52,6 +53,7 @@ void Asteroids_Init(void)
 
 	particle_init();
 	Asteroids_Init_Powerups();
+	Asteroids_Init_Score();
 }
 
 // use CP_Engine_SetNextGameState to specify this function as the update function
@@ -88,6 +90,7 @@ void Asteroids_Update(void)
 
 		Asteroids_Debug();
 		Asteroids_UI_Update(player.hp);
+		Asteroids_Draw_Scores();
 
 	}
 

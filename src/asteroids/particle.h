@@ -2,21 +2,19 @@
 #include "game.h"
 #include "collider_circle.h"
 
-struct Dot {
-	CP_Vector pos;
-	struct Collider_Circle collider;
-	CP_Vector velocity;
-	int active;
-};
 
 typedef struct Particles
 {
+	CP_Image image[8];
 	CP_Vector velocity;
 	float posX;
 	float posY;
 	int enabled;
 	float lifetime;
 	float life;
+	float delay;
+	int key_frame;
+	float timer;
 
 }Particle;
 
@@ -24,10 +22,10 @@ void particle_init(void);
 
 void draw_particle(void);
 
-void particle_velocity(void);
+void spawn_particles(CP_Vector position, int particles, float min_velocity, float max_velocity);
 
 void particle_update(void);
 
-void spawn_particles(CP_Vector position, int particles);
+void particle_velocity(CP_Vector position, int particles, float min_velocity, float max_velocity);
 
 void particle_despawning(Particle* particle);
