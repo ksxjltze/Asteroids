@@ -1,16 +1,31 @@
 #include "particle.h"
 #include "game.h"
 
-CP_Image dot;
 CP_Vector pos;
 
 Particle particle[10000];
 
+typedef struct Explosion
+{
+	CP_Image image[8];
+}Explosion;
 
+int explosion_vfx;
 
 void particle_init(void)
 {
-	dot = CP_Image_Load("./Assets/Dot.png");
+	particle[0].image = CP_Image_Load("./Assets/Explosion/Image001.png");
+	particle[1].image = CP_Image_Load("./Assets/Explosion/Image002.png");
+	particle[2].image = CP_Image_Load("./Assets/Explosion/Image003.png");
+	particle[3].image = CP_Image_Load("./Assets/Explosion/Image004.png");
+
+	particle[4].image = CP_Image_Load("./Assets/Explosion/Image005.png");
+	particle[5].image = CP_Image_Load("./Assets/Explosion/Image006.png");
+	particle[6].image = CP_Image_Load("./Assets/Explosion/Image007.png");
+	particle[7].image = CP_Image_Load("./Assets/Explosion/Image008.png");
+
+
+
 	for (int i = 0; i < sizeof(particle)/ sizeof(particle[0]); i++)
 	{
 		particle[i].posX = 0;
@@ -25,20 +40,27 @@ void particle_init(void)
 
 void draw_particle()
 {
-	float w = (float)CP_Image_GetWidth(dot) / 20;
-	float h = (float)CP_Image_GetHeight(dot) / 20;
+	float w;
+	float h;
+
+	for (int i = 0; i < 8; i++)
+	{
+		w = (float)CP_Image_GetWidth(particle[i].image);
+		h = (float)CP_Image_GetHeight(particle[i].image);
+	}
+
 	for (int i = 0; i < sizeof(particle) / sizeof(particle[0]); i++)
 	{
 		if (particle[i].enabled)
 		{
-			CP_Image_Draw(dot, particle[i].posX, particle[i].posY, w, h, (int)(particle[i].lifetime/particle[i].life * 255.0f));
+			CP_Image_Draw(particle[i].image, particle[i].posX, particle[i].posY, w, h, (int)(particle[i].lifetime/particle[i].life * 255.0f));
 
 		}
 
 	}
 }
 
-void spawn_particles(CP_Vector position, int particles)
+void particle_velocity(CP_Vector position, int particles, float min_velocity, float max_velocity)
 {
 	CP_Vector velocity;
 	for (int i = 0; i < sizeof(particle) / sizeof(particle[0]); i++)
@@ -48,8 +70,8 @@ void spawn_particles(CP_Vector position, int particles)
 
 		if (particle[i].enabled == 0)
 		{
-			velocity.x = CP_Random_RangeFloat(-100, 100);
-			velocity.y = CP_Random_RangeFloat(-100, 100);
+			velocity.x = CP_Random_RangeFloat(min_velocity, max_velocity);
+			velocity.y = CP_Random_RangeFloat(min_velocity, max_velocity);
 			particle[i].enabled = 1;
 			particle[i].posX = position.x;
 			particle[i].posY = position.y;
@@ -61,9 +83,9 @@ void spawn_particles(CP_Vector position, int particles)
 	}
 }
 
-void particle_velocity()
+void spawn_particles(CP_Vector position, int particles, float min_velocity, float max_velocity)
 {
-	
+	particle_velocity(position, particles, min_velocity, max_velocity);
 
 }
 
