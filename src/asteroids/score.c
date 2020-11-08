@@ -5,6 +5,7 @@
 #define x1 130.0f
 #define x2 310.0f
 
+#define textsize 40.0f
 
 float time_counter;
 
@@ -29,6 +30,7 @@ void Asteroids_EnemyKill_Score_Manager(void)
 	char kill_buffer[16];
 	sprintf_s(kill_buffer, 16, ":%d", Score.enemy_kill_score);
 
+	CP_Settings_TextSize(textsize);
 	CP_Image_Draw(Score.Asteroid_Killed_Sprite, x2 - 60.0f, y, 50.0f, 50.0f, 255);
 	CP_Font_DrawText(kill_buffer, x2, y);
 }
@@ -40,6 +42,7 @@ void Asteroids_Time_Score_Manager(void)
 
 	char time_buffer[16];
 	sprintf_s(time_buffer, 16, ":%.2f", Score.time_score);
+	CP_Settings_TextSize(textsize);
 	CP_Font_DrawText(time_buffer, x1, y);
 
 	CP_Image_Draw(Score.Time_Score_Sprite, x1 - 90.0f, y, 50.0f, 50.0f, 255);
