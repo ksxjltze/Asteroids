@@ -59,8 +59,7 @@ void Asteroids_Enemy_Update(Enemy arr_enemy[], int count)
 		if (enemy->hp.current <= 0) // enemy dies
 		{
 			enemy->active = 0;
-			//spawn_particles(enemy->pos, 20, -100, 100);
-			spawn_particles(enemy->pos, 32, 0, 0);
+			spawn_particles(enemy->pos, 8, 0, 0);
 			Asteroids_Generate_Powerup_On_Enemy_Death(enemy->pos);
 		}
 

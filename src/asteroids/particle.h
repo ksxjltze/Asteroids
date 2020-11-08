@@ -5,13 +5,16 @@
 
 typedef struct Particles
 {
-	CP_Image image;
+	CP_Image image[8];
 	CP_Vector velocity;
 	float posX;
 	float posY;
 	int enabled;
 	float lifetime;
 	float life;
+	float delay;
+	int key_frame;
+	float timer;
 
 }Particle;
 
