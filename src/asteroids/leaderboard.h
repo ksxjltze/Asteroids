@@ -1,11 +1,11 @@
 #pragma once
 #include "cprocessing.h"
-#include "menu.h"
 #include <stdio.h>
-#include "globals.h"
 #include <string.h>
 #include <stdbool.h>
 #include "player.h"
+#include "main_menu.h"
+#include "button.h"
 
 struct LeaderBoard
 {

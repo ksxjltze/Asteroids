@@ -5,17 +5,24 @@
 
 //#include "leaderboard.h"
 //
+//extern const int WIN_WIDTH;
+//extern const int WIN_HEIGHT;
+//
 //#define MAX_LINE_INPUT 100
 //#define BUFFER_SIZE 20
 //#define MAX_LEADERS 3
 //
 //bool is_leader;
 //
+//Player player;
+//
 //Leader LeaderBoard[MAX_LEADERS] = { 0 };
 //int LeaderBoard_Scores[MAX_LEADERS];
 //
+//
 //const char leaderboard_file[] = "leaderboard.txt";
-//struct Button Button_Exit;
+//
+//Button Button_Exit;
 //
 //
 //void Read_Leaderboard_Data(void)			// Read inputs from leadboard.txt file
@@ -82,7 +89,7 @@
 //	if (is_leader)
 //	{
 //		strcpy_s(LeaderBoard[MAX_LEADERS - 1].name, BUFFER_SIZE, player.name);
-//		LeaderBoard[MAX_LEADERS - 1].score = Player.score;
+//		LeaderBoard[MAX_LEADERS - 1].score = player.score;
 //	}
 //
 //	if (leaderboard == 0)		//file not found
@@ -106,7 +113,7 @@
 //{
 //	for (int i = 0; i < MAX_LEADERS; i++)
 //	{
-//		if (Player.score > LeaderBoard[i].score)
+//		if (player.score > LeaderBoard[i].score)
 //			is_leader = true;
 //	}
 //}
@@ -124,20 +131,22 @@
 //	void(*ptr_exit)() = &Load_Main_Menu;
 //
 //	CP_Vector pos = CP_Vector_Zero();
-//	pos.x = (float)(WIN_WIDTH * 0.5f) - (Menu_button.width / 2);
-//	pos.y = (float)(WIN_HEIGHT * 0.8f) - (Menu_button.height / 2);
+//	pos.x = (float)(WIN_WIDTH * 0.5f) - (Button_Exit.width / 2);
+//	pos.y = (float)(WIN_HEIGHT * 0.8f) - (Button_Exit.height / 2);
 //
-//	Button_Exit = Create_TextButton(pos, Menu_button.width, Menu_button.height, "Exit");
-//	Button_Set_Colors(&Button_Exit, Menu_button.idle, Menu_button.hover, Menu_button.clicked, Menu_button.text);
-//	Button_Set_Text_Size(&Button_Exit, 50);
-//	Button_Set_Callback(&Button_Exit, ptr_exit);
+//	Button Button_Exit = Asteroids_Button_Add_New_Button(100.0f, 100.0f);
+//	Asteroids_Button_Set_Position(&Button_Exit, pos);
+//	Asteroids_Button_Set_Text(&Button_Exit, 50.0f, "Exit");
+//	Asteroids_Button_Draw_Text(Button_Exit);
+//	Asteroids_Button_Set_Callback(&Load_Main_Menu, &Button_Exit);
+//	
 //
 //	int n = sizeof(LeaderBoard_Scores) / sizeof(LeaderBoard_Scores[0]);
 //	Sort_Data(LeaderBoard_Scores, n);
 //
-//	if (Player.name)
+//	if (player.name)
 //	{
-//		counter.name_length = (int)strlen(Player.name);
+//		counter.name_length = (int)strlen(player.name);
 //	}
 //	else
 //		counter.name_length = 0;
@@ -152,7 +161,7 @@
 //	float mousex = CP_Input_GetMouseX();
 //	float mousey = CP_Input_GetMouseY();
 //
-//	Update_Button(Button_Exit, mousex, mousey);
+//	Asteroids_Button_Update(&Button_Exit, mousex, mousey);
 //	Draw_LeaderBoard();
 //
 //}
@@ -164,8 +173,8 @@
 //
 //void LeaderBoard_Display_PlayerName()	// function to display name onto screen
 //{
-//	if (Player.name)
-//		CP_Font_DrawText(Player.name, Leaderboard_Variables.x, Leaderboard_Variables.y);
+//	if (player.name)
+//		CP_Font_DrawText(player.name, Leaderboard_Variables.x, Leaderboard_Variables.y);
 //}
 //
 //void LeaderBoard_ReadInput()			// function to read input for player name
@@ -192,7 +201,7 @@
 //
 //		if (CP_Input_KeyTriggered(i))
 //		{
-//			Player.name[counter.name_length] = (char)i;
+//			player.name[counter.name_length] = (char)i;
 //			counter.name_length++;
 //		}
 //		else if (CP_Input_KeyTriggered(j))
@@ -200,7 +209,7 @@
 //			if (j > KEY_9)
 //				return;
 //
-//			Player.name[counter.name_length] = (char)j;
+//			player.name[counter.name_length] = (char)j;
 //			counter.name_length++;
 //		}
 //

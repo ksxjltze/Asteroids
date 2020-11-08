@@ -28,6 +28,8 @@ void Asteroids_MainMenu_Exit(void)
 
 void Asteroids_Draw_MainMenu(void)
 {
+	CP_Font_DrawTextBox("Asteroids", 0, 50.0f, (float)WIN_WIDTH);
+
 	if (status)
 	{
 		Asteroids_Button_Update(&Play);
@@ -45,7 +47,7 @@ void Asteroids_Draw_MainMenu(void)
 
 void Asteroids_MainMenu_Button_Init(void)
 {
-	float textSize = 30.0f;
+	float textSize = 40.0f;
 
 	float x1 = (float)((WIN_WIDTH / 2) - BUTTON_WIDTH);
 	float x2 = (float)(WIN_WIDTH / 2);
