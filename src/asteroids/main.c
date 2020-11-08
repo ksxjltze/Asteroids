@@ -9,7 +9,7 @@
 // documentation link:
 // https://inside.digipen.edu/main/GSDP:GAM100/CProcessing
 //
-// Copyright � 2020 DigiPen, All rights reserved.
+// Copyright  2020 DigiPen, All rights reserved.
 //---------------------------------------------------------
 #include "game.h"
 #include "init.h"

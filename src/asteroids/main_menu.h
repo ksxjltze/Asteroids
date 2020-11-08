@@ -1,4 +1,28 @@
 #pragma once
+#include "main_menu.h"
+#include "game.h"
+#include "cprocessing.h"
+#include "constants.h"
+#include "init.h"
+#include "button.h"
+#include <stdbool.h>
+
+// ENTRY POINT
 void Asteroids_MainMenu_Init(void);
 void Asteroids_MainMenu_Update(void);
 void Asteroids_MainMenu_Exit(void);
+
+
+//GENERAL 
+void Asteroids_Draw_MainMenu(void);
+void Asteroids_MainMenu_Button_Init(void);
+void Asteroids_MainMenu_CheckInput(void);
+
+
+// MAIN MENU DISPLAYS
+void Asteroids_Play_Game(void);
+void Asteroids_Controls(void);
+void Asteroids_QuitGame(void);
+void Asteroids_Credits(void);
+void Asteroids_LeaderBoard(void);
+void Asteroids_Exit_Screen(void);
