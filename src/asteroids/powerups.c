@@ -5,17 +5,20 @@
 #define INVULNERABILITY 3 // shield
 #define INCREASE_BPM 4 // Bullets per minute 
 
-#define POWERUP_MIN_VALUE 1 
-#define POWERUP_MAX_VALUE 4
+#define POWERUP_MIN_VALUE 1   
+#define POWERUP_MAX_VALUE 4 + 1
 
 #define POWERUP_MAX_SIZE 100
 
+enum Asteroids_Powerup_Type { ASTEROIDS_POWERUP_FUEL_PICKUP = 5 };
 bool Floating_powerup_status;
 
 CP_Image Powerup_Bulletsplit_Sprite;
 CP_Image Powerup_Recover_Hp_Sprite;
 CP_Image Powerup_Invulnerability_Sprite;
 CP_Image Powerup_Increase_BPM_Sprite;
+
+CP_Image Powerup_Fuel_Pickup_Sprite;
 
 Powerup powerup_pool[POWERUP_MAX_SIZE];
 
@@ -34,6 +37,7 @@ void Asteroids_Init_Powerups(void) //Initialize variables
 	Powerup_Recover_Hp_Sprite = CP_Image_Load("./Assets/Powerup_RecoverHealth_Sprite.png");
 	Powerup_Invulnerability_Sprite = CP_Image_Load("./Assets/Powerup_Invunerability_Sprite.png");
 	Powerup_Increase_BPM_Sprite = CP_Image_Load("./Assets/Powerup_Shootfaster_Sprite.png");
+	Powerup_Fuel_Pickup_Sprite = CP_Image_Load("./Assets/Powerup_Fuel_Pickup_Sprite.png");
 
 	for (int i = 0; i < POWERUP_MAX_SIZE; i++)
 	{
@@ -64,6 +68,7 @@ void Asteroids_Update_Powerups(struct Player* player) // draws and checks every 
 	}
 	
 }
+
 void Asteroids_Draw_Powerup(int type, CP_Vector* pos, CP_Vector movement_vel, float* rotation)  // Draws specific powerup based on a random count
 {
 	powerup_count += 1;
@@ -89,9 +94,15 @@ void Asteroids_Draw_Powerup(int type, CP_Vector* pos, CP_Vector movement_vel, fl
 			pos->y += movement_vel.y, width, height, 255, *rotation += 5.0f);
 			break;
 
+	case ASTEROIDS_POWERUP_FUEL_PICKUP:
+		CP_Image_DrawAdvanced(Powerup_Fuel_Pickup_Sprite, pos->x += movement_vel.x,
+			pos->y += movement_vel.y, width, height, 255, *rotation += 5.0f);
+			break;
+
 	default:;
 	}
 }
+
 int Asteroids_Generate_Random_Powerup(void)
 {
 	int random_powerup = CP_Random_RangeInt(POWERUP_MIN_VALUE, POWERUP_MAX_VALUE);
@@ -128,6 +139,7 @@ void Asteroids_Floating_Powerup_Lifespan_Manager(void)	// tracks time life of po
 		TotalElaspedTime = 0.0f;
 	}
 }
+
 void Asteroids_Floating_Powerup_Manager(void)	// function which resets powerup to different value after lifespend
 {
 	for (int i = 0; i < POWERUP_MAX_SIZE; i++)
@@ -159,6 +171,16 @@ void Asteroids_Powerup_Player_Collision(Powerup powerup[], struct Player* player
 		{
 			powerup[i].active = false;
 			printf("Collision test");
+
+			if (powerup[i].type == ASTEROIDS_POWERUP_FUEL_PICKUP)
+			{
+				Asteroids_Powerup_Interact_Fuel_Pickup(player);
+			}
 		}
 	}
+}
+
+void Asteroids_Powerup_Interact_Fuel_Pickup(Player* player)
+{
+	Asteroids_Player_Refuel(20, player);
 }

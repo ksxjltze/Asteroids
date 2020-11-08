@@ -33,3 +33,5 @@ void Asteroids_Floating_Powerup_Manager(void);
 
 void Asteroids_Update_Powerups(struct Player* player);
 void Asteroids_Powerup_Player_Collision(Powerup powerup_pool[], struct Player* player);
+
+void Asteroids_Powerup_Interact_Fuel_Pickup(Player* player);
