@@ -265,7 +265,7 @@ void Asteroids_Enemy_Idle_Rotate(Enemy* enemy, float rotate_rate, float dt)
 
 void Asteroids_Enemy_Collide(Enemy* enemy1, Enemy* enemy2)
 {
-	if (enemy1->parent_id != enemy2->parent_id)
+	if ((enemy1->parent_id != enemy2->parent_id) || (enemy1->parent_id == 0 && enemy2->parent_id == 0))
 	{
 		if ((enemy1->size - enemy2->size) > (enemy1->size * 0.3f))
 			Asteroids_Enemy_Death(enemy2);
