@@ -20,6 +20,10 @@ extern const float ASTEROID_MAX_SPEED; //pixels per second
 extern const float ASTEROID_MIN_SPEED; //pixels per second
 extern const int ASTEROIDS_PLAYER_SIMPLE_SPEED;
 
+extern const float ASTEROIDS_ENEMY_SIZE_MIN;
+extern const float ASTEROIDS_ENEMY_SIZE_MAX;
+extern const int ASTEROIDS_ENEMY_SPLIT_MAX_COUNT;
+
 extern const float ASTEROIDS_ENEMY_IDLE_ROTATE_RATE_MIN;
 extern const float ASTEROIDS_ENEMY_IDLE_ROTATE_RATE_MAX;
 

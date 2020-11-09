@@ -170,7 +170,7 @@ void Asteroids_Player_Decelerate(Player* player, float dt)
 {
 	CP_Vector deceleration = CP_Vector_Scale(player->velocity, -dt);
 	player->velocity = CP_Vector_Add(player->velocity, deceleration);
-	if (CP_Vector_Length(player->velocity) <= 1.0f)
+	if (CP_Vector_Length(player->velocity) >= 2.0f)
 		Asteroids_Player_Drain_Fuel(player);
 }
 

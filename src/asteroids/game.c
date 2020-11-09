@@ -91,11 +91,6 @@ void Asteroids_Update(void)
 
 		particle_update();
 
-		int enemysplit_count = sizeof(arr_enemysplit) / sizeof(arr_enemysplit)[0];
-		Asteroids_Enemysplit_Spawn_Timer(arr_enemysplit, enemysplit_count);
-		Asteroids_Enemysplit_Update(arr_enemysplit, enemy_count);
-
-
 		//Gameover
 		if (player.active != 1)
 		{
@@ -238,7 +233,6 @@ void Asteroids_Draw()
 {
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
 
-	Asteroids_Enemysplit_Draw(arr_enemysplit, sizeof(arr_enemysplit) / sizeof(arr_enemysplit[0]), enemysplit_sprite, enemysplit_width, enemysplit_height, enemysplit_hurt_sprite, health_bar_sprite);
 	Asteroids_Bullet_Draw(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, bullet_sprite, bullet_width, bullet_height);
 	Asteroids_Enemy_Draw(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, enemy_sprite, enemy_width, enemy_height, enemy_hurt_sprite);
 	Asteroids_Player_Draw(player_sprite, player.pos, player_width, player_height, player_rotation);
