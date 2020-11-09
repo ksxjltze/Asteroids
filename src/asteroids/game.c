@@ -54,6 +54,7 @@ void Asteroids_Init(void)
 	particle_init();
 	Asteroids_Init_Powerups();
 	Asteroids_Init_Score();
+	Asteroids_Powerup_Player_Interaction_Init();
 }
 
 // use CP_Engine_SetNextGameState to specify this function as the update function
@@ -128,7 +129,9 @@ void Asteroids_Sprites_Load()
 	player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
 
 	player_width = (float)CP_Image_GetWidth(player_sprite) * 2;
+	printf("player width is %f\n", player_width);
 	player_height = (float)CP_Image_GetHeight(player_sprite) * 2;
+	printf("player height is %f", player_height);
 
 	bullet_width = (float)CP_Image_GetWidth(bullet_sprite);
 	bullet_height = (float)CP_Image_GetHeight(bullet_sprite);

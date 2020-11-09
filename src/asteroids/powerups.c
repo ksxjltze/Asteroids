@@ -10,8 +10,10 @@
 
 #define POWERUP_MAX_SIZE 100
 
-enum Asteroids_Powerup_Type { ASTEROIDS_POWERUP_FUEL_PICKUP = 5 };
 bool Floating_powerup_status;
+extern bool powerup_lifespan = false;
+
+enum Asteroids_Powerup_Type { ASTEROIDS_POWERUP_FUEL_PICKUP = 5 };
 
 CP_Image Powerup_Bulletsplit_Sprite;
 CP_Image Powerup_Recover_Hp_Sprite;
@@ -19,6 +21,7 @@ CP_Image Powerup_Invulnerability_Sprite;
 CP_Image Powerup_Increase_BPM_Sprite;
 
 CP_Image Powerup_Fuel_Pickup_Sprite;
+
 
 Powerup powerup_pool[POWERUP_MAX_SIZE];
 
@@ -39,14 +42,13 @@ void Asteroids_Init_Powerups(void) //Initialize variables
 	Powerup_Increase_BPM_Sprite = CP_Image_Load("./Assets/Powerup_Shootfaster_Sprite.png");
 	Powerup_Fuel_Pickup_Sprite = CP_Image_Load("./Assets/Powerup_Fuel_Pickup_Sprite.png");
 
+
 	for (int i = 0; i < POWERUP_MAX_SIZE; i++)
 	{
 		powerup_pool[i].pos = CP_Vector_Zero();
 		powerup_pool[i].movement_Vel = CP_Vector_Zero();
 		powerup_pool[i].active = false;
 		powerup_pool[i].collider.diameter = width;
-	/*	powerup_pool[i].collider.width = width;
-		powerup_pool[i].collider.height = height;*/
 		powerup_pool[i].type = 0;
 		powerup_pool[i].rotation = 0.0f;
 	}
@@ -66,7 +68,12 @@ void Asteroids_Update_Powerups(struct Player* player) // draws and checks every 
 			Asteroids_Draw_Powerup(Floating_Powerup.type, &Floating_Powerup.pos, Floating_Powerup.movement_Vel, &Floating_Powerup.rotation);
 		}
 	}
-	
+
+	if (powerup_lifespan == true)
+	{
+		Asteroids_Powerup_Lifespan_Manager();
+		Asteroids_Powerup_Player_Invulernability(player);
+	}
 }
 
 void Asteroids_Draw_Powerup(int type, CP_Vector* pos, CP_Vector movement_vel, float* rotation)  // Draws specific powerup based on a random count
@@ -169,6 +176,7 @@ void Asteroids_Powerup_Player_Collision(Powerup powerup[], struct Player* player
 		Powerup* Powerup = &powerup[i];
 		if (Asteroids_Collision_CheckCollision_Circle_Test(Powerup->collider, Powerup->pos, player->collider, player->pos))
 		{
+		
 			powerup[i].active = false;
 			printf("Collision test");
 
@@ -176,11 +184,19 @@ void Asteroids_Powerup_Player_Collision(Powerup powerup[], struct Player* player
 			{
 				Asteroids_Powerup_Interact_Fuel_Pickup(player);
 			}
+
+			if (powerup[i].type == INVULNERABILITY)
+			{
+				powerup_lifespan = true;
+			}
 		}
 	}
 }
+
 
 void Asteroids_Powerup_Interact_Fuel_Pickup(Player* player)
 {
 	Asteroids_Player_Refuel(20, player);
 }
+
+
