@@ -24,6 +24,9 @@ extern const float SPAWN_OFFSET;
 //Initial number of asteroids to spawn
 extern const int ASTEROIDS_ASTEROID_ENEMY_SPAWN_COUNT_MIN;
 extern const int ASTEROIDS_ASTEROID_ENEMY_SPAWN_COUNT_MAX;
+extern const int ASTEROIDS_ASTEROID_ENEMYSPLIT_SPAWN_COUNT_MIN;
+extern const int ASTEROIDS_ASTEROID_ENEMYSPLIT_SPAWN_COUNT_MAX;
+
 
 //health bar
 extern const float BAR_WIDTH;

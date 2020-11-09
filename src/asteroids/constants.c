@@ -19,6 +19,8 @@ extern const float SPAWN_OFFSET = 300.0f;
 
 extern const int ASTEROIDS_ASTEROID_ENEMY_SPAWN_COUNT_MIN = 5;
 extern const int ASTEROIDS_ASTEROID_ENEMY_SPAWN_COUNT_MAX = 15;
+extern const int ASTEROIDS_ASTEROID_ENEMYSPLIT_SPAWN_COUNT_MIN = 2;
+extern const int ASTEROIDS_ASTEROID_ENEMYSPLIT_SPAWN_COUNT_MAX = 3;
 
 //health bar
 extern const float BAR_WIDTH = 100;
