@@ -14,16 +14,16 @@ typedef struct Enemies {
 	struct Status status;
 } Enemy;
 
-void Asteroids_Enemy_Init(Enemy arr_enemy[], int count, float enemy_width, float enemy_height, Player player);
-void Asteroids_Enemy_Update(Enemy arr_enemy[], int count);
-void Asteroids_Enemy_Draw(Enemy arr_enemy[], int count, CP_Image enemy_sprite, float enemy_width, float enemy_height, CP_Image enemy_hurt_sprite, CP_Image health_bar_sprite);
+void Asteroids_Enemy_Init(Enemy enemy_pool[], int count, float enemy_width, float enemy_height, Player player);
+void Asteroids_Enemy_Update(Enemy enemy_pool[], int count);
+void Asteroids_Enemy_Draw(Enemy enemy_pool[], int count, CP_Image enemy_sprite, float enemy_width, float enemy_height, CP_Image enemy_hurt_sprite, CP_Image health_bar_sprite);
 
-void Asteroids_Enemy_Debug(Enemy arr_enemy[], int count);
+void Asteroids_Enemy_Debug(Enemy enemy_pool[], int count);
 
-void Asteroids_Enemy_Init_Spawn(Enemy arr_enemy[], int count, Player player);
-void Asteroids_Enemy_Spawn_Static(Enemy arr_enemy[], int count, Player player);
-void Asteroids_Enemy_Spawn(Enemy arr_enemy[], int count);
-void Asteroids_Enemy_Spawn_Timer(Enemy arr_enemy[], int count);
+void Asteroids_Enemy_Init_Spawn(Enemy enemy_pool[], int count, Player player);
+void Asteroids_Enemy_Spawn_Static(Enemy enemy_pool[], int count, Player player);
+void Asteroids_Enemy_Spawn(Enemy enemy_pool[], int count);
+void Asteroids_Enemy_Spawn_Timer(Enemy enemy_pool[], int count);
 
 
 void Asteroids_Enemysplit_Init(Enemy arr_enemysplit[], int count, float enemy_width, float enemy_height, Player player);

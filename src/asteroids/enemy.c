@@ -11,11 +11,11 @@
 
 static float spawn_timer;
 
-void Asteroids_Enemy_Init(Enemy arr_enemy[], int count, float enemy_width, float enemy_height, Player player)
+void Asteroids_Enemy_Init(Enemy enemy_pool[], int count, float enemy_width, float enemy_height, Player player)
 {
 	for (int i = 0; i < count; i++)
 	{
-		Enemy enemy = arr_enemy[i];
+		Enemy enemy = enemy_pool[i];
 		enemy.collider.diameter = (enemy_width + enemy_height) / 2;
 
 		enemy.active = 0;
@@ -27,21 +27,21 @@ void Asteroids_Enemy_Init(Enemy arr_enemy[], int count, float enemy_width, float
 		enemy.velocity = CP_Vector_Zero();
 		enemy.speed = 0;
 
-		arr_enemy[i] = enemy;
+		enemy_pool[i] = enemy;
 
 		spawn_timer = ENEMY_SPAWN_TIME;
 
 	}
 
-	Asteroids_Enemy_Init_Spawn(arr_enemy, count, player);
+	Asteroids_Enemy_Init_Spawn(enemy_pool, count, player);
 
 }
 
-void Asteroids_Enemy_Update(Enemy arr_enemy[], int count)
+void Asteroids_Enemy_Update(Enemy enemy_pool[], int count)
 {
 	for (int i = 0; i < count; i++)
 	{
-		Enemy* enemy = &arr_enemy[i];
+		Enemy* enemy = &enemy_pool[i];
 		if (enemy->active == 0)
 			continue;
 
@@ -68,12 +68,12 @@ void Asteroids_Enemy_Update(Enemy arr_enemy[], int count)
 	}
 }
 
-void Asteroids_Enemy_Debug(Enemy arr_enemy[], int count)
+void Asteroids_Enemy_Debug(Enemy enemy_pool[], int count)
 {
 	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
 	for (int i = 0; i < count; i++)
 	{
-		Enemy enemy = arr_enemy[i];
+		Enemy enemy = enemy_pool[i];
 		if (enemy.active)
 		{
 			CP_Vector target = CP_Vector_Scale(enemy.velocity, enemy.speed);
@@ -84,20 +84,20 @@ void Asteroids_Enemy_Debug(Enemy arr_enemy[], int count)
 	}
 }
 
-void Asteroids_Enemy_Init_Spawn(Enemy arr_enemy[], int count, Player player)
+void Asteroids_Enemy_Init_Spawn(Enemy enemy_pool[], int count, Player player)
 {
 	int spawn_count = CP_Random_RangeInt(ASTEROIDS_ASTEROID_ENEMY_SPAWN_COUNT_MIN, ASTEROIDS_ASTEROID_ENEMY_SPAWN_COUNT_MAX);
 	for (int i = 0; i < spawn_count; i++)
 	{
-		Asteroids_Enemy_Spawn_Static(arr_enemy, count, player);
+		Asteroids_Enemy_Spawn_Static(enemy_pool, count, player);
 	}
 }
 
-void Asteroids_Enemy_Spawn_Static(Enemy arr_enemy[], int count, Player player)
+void Asteroids_Enemy_Spawn_Static(Enemy enemy_pool[], int count, Player player)
 {
 	for (int i = 0; i < count; i++)
 	{
-		Enemy enemy = arr_enemy[i];
+		Enemy enemy = enemy_pool[i];
 		if (!enemy.active)
 		{
 			enemy.active = 1;
@@ -111,17 +111,17 @@ void Asteroids_Enemy_Spawn_Static(Enemy arr_enemy[], int count, Player player)
 			enemy.hp.max = ENEMY_HP;
 			enemy.hp.current = enemy.hp.max;
 
-			arr_enemy[i] = enemy;
+			enemy_pool[i] = enemy;
 			return;
 		}
 	}
 }
 
-void Asteroids_Enemy_Spawn(Enemy arr_enemy[], int count)
+void Asteroids_Enemy_Spawn(Enemy enemy_pool[], int count)
 {
 	for (int i = 0; i < count; i++)
 	{
-		Enemy enemy = arr_enemy[i];
+		Enemy enemy = enemy_pool[i];
 		if (!enemy.active)
 		{
 			enemy.active = 1;
@@ -131,7 +131,7 @@ void Asteroids_Enemy_Spawn(Enemy arr_enemy[], int count)
 			enemy.hp.max = ENEMY_HP;
 			enemy.hp.current = enemy.hp.max;
 
-			arr_enemy[i] = enemy;
+			enemy_pool[i] = enemy;
 			return;
 		}
 	}
@@ -142,7 +142,7 @@ float Asteroids_Enemy_Random_Speed()
 	return CP_Random_RangeFloat(ASTEROID_MIN_SPEED, ASTEROID_MAX_SPEED);
 }
 
-void Asteroids_Enemy_Spawn_Timer(Enemy arr_enemy[], int count)
+void Asteroids_Enemy_Spawn_Timer(Enemy enemy_pool[], int count)
 {
 	float dt = CP_System_GetDt();
 	spawn_timer -= dt;
@@ -150,7 +150,7 @@ void Asteroids_Enemy_Spawn_Timer(Enemy arr_enemy[], int count)
 	if (spawn_timer <= 0)
 	{
 		spawn_timer = ENEMY_SPAWN_TIME;
-		Asteroids_Enemy_Spawn(arr_enemy, count);
+		Asteroids_Enemy_Spawn(enemy_pool, count);
 	}
 
 }
@@ -193,12 +193,12 @@ CP_Vector Asteroids_Enemy_Random_Pos()
 	return pos;
 }
 
-void Asteroids_Enemy_Draw(Enemy arr_enemy[], int count, CP_Image enemy_sprite, float enemy_width, float enemy_height, CP_Image enemy_hurt_sprite, CP_Image health_bar_sprite)
+void Asteroids_Enemy_Draw(Enemy enemy_pool[], int count, CP_Image enemy_sprite, float enemy_width, float enemy_height, CP_Image enemy_hurt_sprite, CP_Image health_bar_sprite)
 {
 	float offset_y = enemy_height / 2 + BAR_HEIGHT + BAR_OFFSET_Y;
 	for (int i = 0; i < count; i++)
 	{
-		Enemy enemy = arr_enemy[i];
+		Enemy enemy = enemy_pool[i];
 		if (enemy.active)
 		{
 			CP_Image_Draw(enemy_sprite, enemy.pos.x, enemy.pos.y, enemy_width, enemy_height, 255);
