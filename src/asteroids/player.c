@@ -109,3 +109,8 @@ void Asteroids_Player_Decelerate(Player* player, float dt)
 	CP_Vector deceleration = CP_Vector_Scale(player->velocity, -dt);
 	player->velocity = CP_Vector_Add(player->velocity, deceleration);
 }
+
+void Asteroids_Player_Strafe(Player* player, float dt)
+{
+
+}

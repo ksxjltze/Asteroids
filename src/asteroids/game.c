@@ -213,11 +213,11 @@ void Asteroids_Check_Input()
 
 	if (CP_Input_KeyDown(KEY_A))
 	{
-		Asteroids_Player_Accelerate(&player, dt, CP_Vector_Set(-1, 0));
+
 	}
 	else if (CP_Input_KeyDown(KEY_D))
 	{
-		Asteroids_Player_Accelerate(&player, dt, CP_Vector_Set(1, 0));
+
 	}
 
 	if (CP_Input_MouseDown(MOUSE_BUTTON_1))
