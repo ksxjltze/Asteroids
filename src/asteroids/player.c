@@ -13,6 +13,8 @@ struct Player Asteroids_Player_Init(float player_width, float player_height)
 
 	player.hp.max = PLAYER_MAX_HP;
 	player.hp.current = player.hp.max;
+
+	player.velocity = CP_Vector_Zero();
 	player.speed = (float) SPEED;
 
 	player.engine.fuel.current = PLAYER_MAX_FUEL;
@@ -79,4 +81,15 @@ void Asteroids_Player_Debug(Player player)
 {
 	//Asteroids_Collision_Debug_AABB_Draw(player.collider, player.pos);
 	Asteroids_Collision_Debug_Circle_Draw(player.collider, player.pos);
+}
+
+void Asteroids_Player_Update_Movement(Player* player, float dt)
+{
+	CP_Vector movement = CP_Vector_Scale(player->velocity, dt);
+	player->pos = CP_Vector_Add(player->pos, movement);
+}
+
+void Asteroids_Player_Accelerate(Player* player, float dt, CP_Vector direction)
+{
+
 }
