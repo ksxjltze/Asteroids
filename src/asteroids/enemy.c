@@ -30,6 +30,7 @@ void Asteroids_Enemy_Init(Enemy enemy_pool[], int count, float enemy_width, floa
 		enemy.size = 0;
 		enemy.rotate_rate = CP_Random_RangeFloat(ASTEROIDS_ENEMY_IDLE_ROTATE_RATE_MIN, ASTEROIDS_ENEMY_IDLE_ROTATE_RATE_MAX);
 		enemy.parent_id = 0;
+		enemy.split_count = 0;
 
 		enemy_pool[i] = enemy;
 
@@ -67,11 +68,15 @@ void Asteroids_Enemy_Update(Enemy enemy_pool[], int count, Player player)
 		if (enemy->hp.current <= 0) // enemy dies
 		{
 			Asteroids_Enemy_Death(enemy);
-			Asteroids_Enemy_Spawn_Child(enemy_pool, count, *enemy);
-			Asteroids_Enemy_Spawn_Child(enemy_pool, count, *enemy);
-			Asteroids_Enemy_Spawn_Child(enemy_pool, count, *enemy);
-			Asteroids_Enemy_Spawn_Child(enemy_pool, count, *enemy);
-			Asteroids_Enemy_Spawn_Child(enemy_pool, count, *enemy);
+			if (enemy->split_count < ASTEROIDS_ENEMY_SPLIT_MAX_COUNT)
+			{
+				for (unsigned int j = 0; j < CP_Random_RangeInt(0, ASTEROIDS_ENEMY_SPLIT_MAX_NUMBER); j++)
+				{
+					Asteroids_Enemy_Spawn_Child(enemy_pool, count, *enemy);
+
+				}
+
+			}
 		}
 
 	}
@@ -263,6 +268,7 @@ void Asteroids_Enemy_Spawn_Child(Enemy enemy_pool[], int count, Enemy parent)
 			enemy.velocity = CP_Vector_Add(parent.velocity, CP_Vector_Set(CP_Random_RangeFloat(-100, 100), CP_Random_RangeFloat(-100, 100)));
 			enemy.hp.max = ENEMY_HP;
 			enemy.hp.current = enemy.hp.max;
+			enemy.split_count++;
 
 			enemy_pool[i] = enemy;
 			return;

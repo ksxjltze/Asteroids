@@ -15,6 +15,8 @@ typedef struct Enemies {
 	struct Status status;
 	
 	int active;
+	int split_count;
+
 	int id;
 	int parent_id;
 } Enemy;
