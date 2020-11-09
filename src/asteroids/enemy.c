@@ -263,7 +263,7 @@ void Asteroids_Enemysplit_Update(Enemy arr_enemysplit[], int count)
 		if (enemy->hp.current <= 0) // enemy dies
 		{
 			enemy->active = 0;
-			spawn_particles(enemy->pos, 20);
+			spawn_particles(enemy->pos, 20, 0, 0);
 			Asteroids_Generate_Powerup_On_Enemy_Death(enemy->pos);
 		}
 
