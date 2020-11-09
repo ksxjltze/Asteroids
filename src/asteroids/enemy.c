@@ -244,8 +244,15 @@ void Asteroids_Enemy_Collide(Enemy* enemy1, Enemy* enemy2)
 {
 	if (enemy1->parent_id != enemy2->parent_id)
 	{
-		Asteroids_Enemy_Death(enemy1);
-		Asteroids_Enemy_Death(enemy2);
+		if ((enemy1->size - enemy2->size) > (enemy1->size * 0.6f))
+			Asteroids_Enemy_Death(enemy2);
+		else if ((enemy2->size - enemy1->size) > (enemy2->size * 0.6f))
+			Asteroids_Enemy_Death(enemy1);
+		else
+		{
+			Asteroids_Enemy_Death(enemy1);
+			Asteroids_Enemy_Death(enemy2);
+		}
 
 	}
 }
