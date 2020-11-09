@@ -73,7 +73,7 @@ void Asteroids_Player_Calculate_Fuel(Player* player)
 	if (player->engine.fuel.current <= 0)
 	{
 		player->engine.fuel.current = 0.0f;
-		player->speed = 1;
+		player->speed = ASTEROIDS_PLAYER_SLOWED_SPEED;
 		//if(player->active)
 		//	player->active = 0;
 

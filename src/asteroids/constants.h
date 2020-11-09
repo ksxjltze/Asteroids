@@ -7,6 +7,7 @@ extern const float SPLASH_DURATION;
 
 extern const float MAX_VELOCITY; //pixels per second
 extern const float SPEED;
+extern const float ASTEROIDS_PLAYER_SLOWED_SPEED;
 
 extern const int BULLET_SPEED;
 extern const float FIRE_RATE; //bullets per minute
