@@ -362,3 +362,16 @@ void Asteroids_Enemysplit_Spawn(Enemy arr_enemysplit[], int count)
 	}
 }
 
+
+void Asteroids_Enemysplit_Spawn_Timer(Enemy arr_enemysplit[], int count)
+{
+	float dt = CP_System_GetDt();
+	spawn_timer -= dt;
+
+	if (spawn_timer <= 0)
+	{
+		spawn_timer = ENEMY_SPAWN_TIME;
+		Asteroids_Enemy_Spawn(arr_enemysplit, count);
+	}
+
+}

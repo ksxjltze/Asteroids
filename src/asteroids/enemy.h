@@ -36,7 +36,7 @@ void Asteroids_Enemysplit_Draw(Enemy arr_enemysplit[], int count, CP_Image enemy
 void Asteroids_Enemysplit_Init_Spawn(Enemy arr_enemysplit[], int count, Player player);
 void Asteroids_Enemysplit_Spawn_Static(Enemy arr_enemysplit[], int count, Player player);
 void Asteroids_Enemysplit_Spawn(Enemy arr_enemysplit[], int count);
-
+void Asteroids_Enemysplit_Spawn_Timer(Enemy arr_enemysplit[], int count);
 
 
 CP_Vector Asteroids_Enemy_Random_Pos();
