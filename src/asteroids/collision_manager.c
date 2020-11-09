@@ -53,7 +53,7 @@ void Asteroids_Collision_CheckCollision_Enemy_Player(Enemy enemy_pool[], int ene
 	}
 }
 
-void Asteroids_Collision_CheckCollision_Enemy_Enemy(Enemy enemy_pool[], int enemy_count, Enemy* enemy)
+void Asteroids_Collision_CheckCollision_Enemy_Enemy(Enemy enemy_pool[], int enemy_count, Enemy* enemy, Player player)
 {
 	for (int i = 0; i < enemy_count; i++)
 	{
@@ -63,7 +63,7 @@ void Asteroids_Collision_CheckCollision_Enemy_Enemy(Enemy enemy_pool[], int enem
 				continue;
 			else if (Asteroids_Collision_CheckCollision_Circle(enemy_pool[i].collider, enemy_pool[i].pos, enemy->collider, enemy->pos))
 			{
-				Asteroids_Enemy_Collide(&enemy_pool[i], enemy);
+				Asteroids_Enemy_Collide(&enemy_pool[i], enemy, enemy_pool, enemy_count, player);
 				return;
 			}
 

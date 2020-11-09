@@ -52,7 +52,7 @@ void Asteroids_Enemy_Update(Enemy enemy_pool[], int count, Player player)
 
 		enemy->pos = CP_Vector_Add(enemy->pos, CP_Vector_Scale(enemy->velocity, dt));
 		Asteroids_Enemy_Idle_Rotate(enemy, enemy->rotate_rate, dt);
-		Asteroids_Collision_CheckCollision_Enemy_Enemy(enemy_pool, count, &enemy_pool[i]);
+		Asteroids_Collision_CheckCollision_Enemy_Enemy(enemy_pool, count, &enemy_pool[i], player);
 
 		if (enemy->status.hit)
 		{
@@ -66,20 +66,22 @@ void Asteroids_Enemy_Update(Enemy enemy_pool[], int count, Player player)
 
 		if (enemy->hp.current <= 0) // enemy dies
 		{
-			if (enemy->split_count < ASTEROIDS_ENEMY_SPLIT_MAX_COUNT)
-			{
-				if (enemy->collider.diameter > player.bullet_diameter)
-				{
-					for (unsigned int j = 0; j < CP_Random_RangeInt(ASTEROIDS_ENEMY_SPLIT_MIN_NUMBER, ASTEROIDS_ENEMY_SPLIT_MAX_NUMBER); j++)
-					{
-						Asteroids_Enemy_Spawn_Child(enemy_pool, count, *enemy);
-
-					}
-
-				}
-
-			}
+			Asteroids_Enemy_Split(enemy, player, enemy_pool, count);
 			Asteroids_Enemy_Death(enemy);
+		}
+	}
+}
+
+void Asteroids_Enemy_Split(Enemy* enemy, Player player, Enemy enemy_pool[], int count)
+{
+	if (enemy->split_count < ASTEROIDS_ENEMY_SPLIT_MAX_COUNT)
+	{
+		if (enemy->collider.diameter > player.bullet_diameter)
+		{
+			for (unsigned int j = 0; j < CP_Random_RangeInt(ASTEROIDS_ENEMY_SPLIT_MIN_NUMBER, ASTEROIDS_ENEMY_SPLIT_MAX_NUMBER); j++)
+			{
+				Asteroids_Enemy_Spawn_Child(enemy_pool, count, *enemy);
+			}
 		}
 	}
 }
@@ -87,6 +89,9 @@ void Asteroids_Enemy_Update(Enemy enemy_pool[], int count, Player player)
 void Asteroids_Enemy_Death(Enemy* enemy)
 {
 	enemy->active = 0;
+	enemy->split_count = 0;
+	enemy->parent_id = 0;
+
 	Score.enemy_kill_score += 1;
 	spawn_particles(enemy->pos, 8, 0, 0);
 	Asteroids_Generate_Powerup_On_Enemy_Death(enemy->pos);
@@ -263,7 +268,7 @@ void Asteroids_Enemy_Idle_Rotate(Enemy* enemy, float rotate_rate, float dt)
 	enemy->rotation += rotate_rate * dt;
 }
 
-void Asteroids_Enemy_Collide(Enemy* enemy1, Enemy* enemy2)
+void Asteroids_Enemy_Collide(Enemy* enemy1, Enemy* enemy2, Enemy enemy_pool[], int enemy_count, Player player)
 {
 	if ((enemy1->parent_id != enemy2->parent_id) || (enemy1->parent_id == 0 && enemy2->parent_id == 0))
 	{
@@ -273,7 +278,9 @@ void Asteroids_Enemy_Collide(Enemy* enemy1, Enemy* enemy2)
 			Asteroids_Enemy_Death(enemy1);
 		else
 		{
+			Asteroids_Enemy_Split(enemy1, player, enemy_pool, enemy_count);
 			Asteroids_Enemy_Death(enemy1);
+			Asteroids_Enemy_Split(enemy2, player, enemy_pool, enemy_count);
 			Asteroids_Enemy_Death(enemy2);
 		}
 

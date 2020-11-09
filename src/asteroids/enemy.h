@@ -26,7 +26,7 @@ void Asteroids_Enemy_Update(Enemy enemy_pool[], int count ,Player player);
 void Asteroids_Enemy_Draw(Enemy enemy_pool[], int count, CP_Image enemy_sprite, float enemy_width, float enemy_height, CP_Image enemy_hurt_sprite);
 void Asteroids_Enemy_Idle_Rotate(Enemy* enemy, float rotate_rate, float dt);
 
-void Asteroids_Enemy_Collide(Enemy* enemy1, Enemy* enemy2);
+void Asteroids_Enemy_Collide(Enemy* enemy1, Enemy* enemy2, Enemy enemy_pool[], int enemy_count, Player player);
 void Asteroids_Enemy_Death(Enemy* enemy);
 void Asteroids_Enemy_Debug(Enemy enemy_pool[], int count);
 
@@ -41,5 +41,8 @@ float Asteroids_Enemy_Random_Speed();
 void Asteroids_Enemy_Reset(Enemy* enemy);
 float Asteroids_Enemy_Random_Rotation();
 
+void Asteroids_Enemy_Split(Enemy* enemy, Player player, Enemy enemy_pool[], int count);
+
 //LIU KE
 void Asteroids_Enemy_Spawn_Child(Enemy enemy_pool[], int count, Enemy parent);
+
