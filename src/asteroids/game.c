@@ -184,11 +184,11 @@ void Asteroids_Check_Input()
 
 	if (CP_Input_KeyDown(KEY_W))
 	{
-		Asteroids_Player_Accelerate(&player, dt, CP_Vector_Set(0, -1));
+		Asteroids_Player_Accelerate(&player, dt, shoot_direction);
 	}
 	else if (CP_Input_KeyDown(KEY_S))
 	{
-		Asteroids_Player_Accelerate(&player, dt, CP_Vector_Set(0, 1));
+		Asteroids_Player_Decelerate(&player, dt);
 	}
 
 	if (CP_Input_KeyDown(KEY_A))
@@ -237,17 +237,17 @@ void Asteroids_Draw()
 void Asteroids_Debug_Draw_Text()
 {
 	//TEST PLAYER ROTATION
-	char str_rotation[10];
+	//char str_rotation[10];
 	char str_fuel_text[20];
 	memset(str_fuel_text, '\0', sizeof(str_fuel_text));
 
-	_gcvt_s(str_rotation, 10, player_rotation, 4);
+	//_gcvt_s(str_rotation, 10, player_rotation, 4);
 	sprintf_s(str_fuel_text, 20, "Fuel: %d", (int)player.engine.fuel.current);
 
 	CP_Settings_TextSize(50.0f);
 
 	CP_Font_DrawText(str_fuel_text, (float)WIN_WIDTH - 500, 100);
-	CP_Font_DrawText(str_rotation, (float)WIN_WIDTH - 300, 100);
+	//CP_Font_DrawText(str_rotation, (float)WIN_WIDTH - 300, 100);
 }
 
 void Asteroids_Debug()
