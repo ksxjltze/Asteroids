@@ -9,7 +9,6 @@ struct Player Asteroids_Player_Init(float player_width, float player_height)
 	strcpy_s(player.name, 10, "Asteroids");
 
 	player.active = 1;
-	player.moving = 0;
 
 	player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
 	player.velocity = CP_Vector_Zero();

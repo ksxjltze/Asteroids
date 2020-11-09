@@ -15,9 +15,9 @@ typedef struct Player {
 	struct Engine engine;
 	struct Status status;
 	int active;
-	int moving;
 	char name[10];
 	int score;
+	float bullet_diameter;
 } Player;
 
 

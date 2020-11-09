@@ -35,10 +35,11 @@ void Asteroids_Enemy_Spawn_Static(Enemy enemy_pool[], int count, Player player);
 void Asteroids_Enemy_Spawn(Enemy enemy_pool[], int count);
 void Asteroids_Enemy_Spawn_Timer(Enemy enemy_pool[], int count);
 
-//LIU KE
-void Asteroids_Enemy_Spawn_Child(Enemy enemy_pool[], int count, Enemy parent);
-
-
 CP_Vector Asteroids_Enemy_Random_Pos();
 CP_Vector Asteroids_Enemy_Random_Velocity(CP_Vector pos, float speed);
 float Asteroids_Enemy_Random_Speed();
+void Asteroids_Enemy_Reset(Enemy* enemy);
+float Asteroids_Enemy_Random_Rotation();
+
+//LIU KE
+void Asteroids_Enemy_Spawn_Child(Enemy enemy_pool[], int count, Enemy parent);

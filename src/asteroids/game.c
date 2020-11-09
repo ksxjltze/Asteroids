@@ -128,6 +128,9 @@ void Asteroids_Entities_Init()
 	Asteroids_Enemy_Init(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, enemy_width, enemy_height, player);
 	Asteroids_Bullet_Init(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, bullet_width, bullet_height);
 
+	//temp
+	player.bullet_diameter = bullet_pool[0].collider.diameter;
+
 }
 
 //@brief Loads sprites from file path and sets their width and height.
@@ -151,8 +154,8 @@ void Asteroids_Sprites_Load()
 	bullet_width = (float)CP_Image_GetWidth(bullet_sprite);
 	bullet_height = (float)CP_Image_GetHeight(bullet_sprite);
 
-	enemy_width = (float)CP_Image_GetWidth(enemy_sprite) * 0.1f;
-	enemy_height = (float)CP_Image_GetHeight(enemy_sprite) * 0.1f;
+	enemy_width = (float)ASTEROIDS_ENEMY_BASE_DIAMETER;
+	enemy_height = (float)ASTEROIDS_ENEMY_BASE_DIAMETER;
 
 	enemysplit_width = (float)CP_Image_GetWidth(enemysplit_sprite) * 0.05f;
 	enemysplit_height = (float)CP_Image_GetHeight(enemysplit_sprite) * 0.05f;
