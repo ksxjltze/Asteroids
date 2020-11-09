@@ -14,6 +14,9 @@ extern const float ENEMY_HP = 3;
 
 extern const float ASTEROID_MIN_SPEED = 50.0f;
 extern const float ASTEROID_MAX_SPEED = 200.0f; //pixels per second
+extern const float ASTEROIDS_ENEMY_IDLE_ROTATE_RATE_MIN = -60.0f;
+extern const float ASTEROIDS_ENEMY_IDLE_ROTATE_RATE_MAX = 60.0f;
+
 extern const float ASTEROIDS_ASTEROID_ENEMY_VELOCITY_OFFSET = 300.0f;
 extern const float SPAWN_OFFSET = 300.0f;
 

@@ -17,6 +17,8 @@ extern const float ENEMY_SPAWN_TIME;
 
 extern const float ASTEROID_MAX_SPEED; //pixels per second
 extern const float ASTEROID_MIN_SPEED; //pixels per second
+extern const float ASTEROIDS_ENEMY_IDLE_ROTATE_RATE_MIN;
+extern const float ASTEROIDS_ENEMY_IDLE_ROTATE_RATE_MAX;
 
 extern const float ASTEROIDS_ASTEROID_ENEMY_VELOCITY_OFFSET;
 extern const float SPAWN_OFFSET;

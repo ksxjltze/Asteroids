@@ -26,6 +26,8 @@ void Asteroids_Enemy_Init(Enemy enemy_pool[], int count, float enemy_width, floa
 		enemy.pos = CP_Vector_Zero();
 		enemy.velocity = CP_Vector_Zero();
 		enemy.speed = 0;
+		enemy.rotation = 0;
+		enemy.rotate_rate = CP_Random_RangeFloat(ASTEROIDS_ENEMY_IDLE_ROTATE_RATE_MIN, ASTEROIDS_ENEMY_IDLE_ROTATE_RATE_MAX);
 
 		enemy_pool[i] = enemy;
 
@@ -39,13 +41,15 @@ void Asteroids_Enemy_Init(Enemy enemy_pool[], int count, float enemy_width, floa
 
 void Asteroids_Enemy_Update(Enemy enemy_pool[], int count)
 {
+	float dt = CP_System_GetDt();
 	for (int i = 0; i < count; i++)
 	{
 		Enemy* enemy = &enemy_pool[i];
 		if (enemy->active == 0)
 			continue;
 
-		enemy->pos = CP_Vector_Add(enemy->pos, CP_Vector_Scale(enemy->velocity, CP_System_GetDt()));
+		enemy->pos = CP_Vector_Add(enemy->pos, CP_Vector_Scale(enemy->velocity, dt));
+		Asteroids_Enemy_Idle_Rotate(enemy, enemy->rotate_rate, dt);
 
 		if (enemy->status.hit)
 		{
@@ -193,26 +197,30 @@ CP_Vector Asteroids_Enemy_Random_Pos()
 	return pos;
 }
 
-void Asteroids_Enemy_Draw(Enemy enemy_pool[], int count, CP_Image enemy_sprite, float enemy_width, float enemy_height, CP_Image enemy_hurt_sprite, CP_Image health_bar_sprite)
+void Asteroids_Enemy_Draw(Enemy enemy_pool[], int count, CP_Image enemy_sprite, float enemy_width, float enemy_height, CP_Image enemy_hurt_sprite)
 {
-	float offset_y = enemy_height / 2 + BAR_HEIGHT + BAR_OFFSET_Y;
 	for (int i = 0; i < count; i++)
 	{
 		Enemy enemy = enemy_pool[i];
 		if (enemy.active)
 		{
-			CP_Image_Draw(enemy_sprite, enemy.pos.x, enemy.pos.y, enemy_width, enemy_height, 255);
-			float percent = enemy.hp.current / enemy.hp.max;
-			CP_Image_Draw(health_bar_sprite, enemy.pos.x, enemy.pos.y - offset_y, percent * BAR_WIDTH, BAR_HEIGHT, 255);
+			CP_Image_DrawAdvanced(enemy_sprite, enemy.pos.x, enemy.pos.y, enemy_width, enemy_height, 255, enemy.rotation);
 
 			if (enemy.status.hit)
 			{
-				CP_Image_Draw(enemy_hurt_sprite, enemy.pos.x, enemy.pos.y, enemy_width, enemy_height, 255);
+				CP_Image_DrawAdvanced(enemy_hurt_sprite, enemy.pos.x, enemy.pos.y, enemy_width, enemy_height, 255, enemy.rotation);
 			}
 		}
 	}
 }
 
+void Asteroids_Enemy_Idle_Rotate(Enemy* enemy, float rotate_rate, float dt)
+{
+	enemy->rotation += rotate_rate * dt;
+}
+
+
+//LIU KE
 
 void Asteroids_Enemysplit_Init(Enemy arr_enemysplit[], int count, float enemy_width, float enemy_height, Player player)
 {

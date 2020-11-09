@@ -23,7 +23,6 @@ CP_Image player_sprite;
 CP_Image bullet_sprite;
 CP_Image enemy_sprite;
 CP_Image enemy_hurt_sprite;
-CP_Image health_bar_sprite;
 CP_Image player_health_sprite;
 
 //player
@@ -231,7 +230,7 @@ void Asteroids_Draw()
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
 
 	Asteroids_Bullet_Draw(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, bullet_sprite, bullet_width, bullet_height);
-	Asteroids_Enemy_Draw(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, enemy_sprite, enemy_width, enemy_height, enemy_hurt_sprite, health_bar_sprite);
+	Asteroids_Enemy_Draw(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, enemy_sprite, enemy_width, enemy_height, enemy_hurt_sprite);
 	Asteroids_Player_Draw(player_sprite, player.pos, player_width, player_height, player_rotation);
 
 	Asteroids_FPS_Draw();
