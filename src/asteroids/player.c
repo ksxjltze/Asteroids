@@ -1,5 +1,6 @@
 #include "player.h"
 #include "constants.h"
+#include <stdio.h>
 
 struct Player Asteroids_Player_Init(float player_width, float player_height)
 {
@@ -169,7 +170,8 @@ void Asteroids_Player_Decelerate(Player* player, float dt)
 {
 	CP_Vector deceleration = CP_Vector_Scale(player->velocity, -dt);
 	player->velocity = CP_Vector_Add(player->velocity, deceleration);
-	Asteroids_Player_Drain_Fuel(player);
+	if (CP_Vector_Length(player->velocity) <= 1.0f)
+		Asteroids_Player_Drain_Fuel(player);
 }
 
 void Asteroids_Player_Strafe_Port(Player* player, float dt, CP_Vector direction)
