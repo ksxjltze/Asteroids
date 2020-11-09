@@ -1,8 +1,9 @@
 #include "powerup_interaction.h"
 
-
 CP_Image Invulnerability;
+
 extern bool powerup_lifespan;
+extern bool invulnerability;
 
 void Asteroids_Powerup_Player_Interaction_Init(void)
 {
@@ -10,9 +11,11 @@ void Asteroids_Powerup_Player_Interaction_Init(void)
 }
 
 void Asteroids_Powerup_Player_Invulernability(Player* player)
-	{
-		CP_Image_DrawAdvanced(Invulnerability, player->pos.x, player->pos.y, 54.0f, 54.0f, 255, 0.0f);
-	}
+{
+	CP_Image_DrawAdvanced(Invulnerability, player->pos.x, player->pos.y, 54.0f, 54.0f, 255, 0.0f);
+	if (!powerup_lifespan)
+		invulnerability = false;
+}
 
 void Asteroids_Powerup_Lifespan_Manager(void)
 {
@@ -22,7 +25,7 @@ void Asteroids_Powerup_Lifespan_Manager(void)
 
 	printf("dt is %.2f\n", TotalElaspedTime);
 
-	if (TotalElaspedTime >= 3.0f)
+	if (TotalElaspedTime >= 30.0f)
 	{
 		powerup_lifespan = false;
 		TotalElaspedTime = 0.0f;

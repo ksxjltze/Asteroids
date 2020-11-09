@@ -12,6 +12,7 @@
 
 bool Floating_powerup_status;
 extern bool powerup_lifespan = false;
+extern bool invulnerability = false;
 
 enum Asteroids_Powerup_Type { ASTEROIDS_POWERUP_FUEL_PICKUP = 5 };
 
@@ -187,6 +188,7 @@ void Asteroids_Powerup_Player_Collision(Powerup powerup[], struct Player* player
 
 			if (powerup[i].type == INVULNERABILITY)
 			{
+				invulnerability = true;
 				powerup_lifespan = true;
 			}
 		}

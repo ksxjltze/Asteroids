@@ -1,5 +1,9 @@
 #include "collision_manager.h"
 #include "collider_circle.h"
+#include "powerups.h"
+#include "powerup_interaction.h"
+
+extern bool invulnerability;
 
 Bullet Asteroids_Collision_CheckCollision_Enemy_Bullet(Enemy enemy_pool[], int enemy_count, Bullet bullet)
 {
@@ -35,17 +39,20 @@ void Asteroids_Collision_CheckCollision_Enemy_Player(Enemy enemy_pool[], int ene
 			continue;
 
 		Enemy* enemy = &enemy_pool[i];
-		if (Asteroids_Collision_CheckCollision_Circle(enemy->collider, enemy->pos, player->collider, player->pos))
-		{
-			//player->active = 0;
-			if (!player->status.hit)
-			{
-				player->hp.current -= 1;
-				player->status.hit = 1;
-			}
-			enemy->active = 0;
-			return;
 
+		if (!invulnerability)
+		{
+			if (Asteroids_Collision_CheckCollision_Circle(enemy->collider, enemy->pos, player->collider, player->pos))
+			{
+				//player->active = 0;
+				if (!player->status.hit)
+				{
+					player->hp.current -= 1;
+					player->status.hit = 1;
+				}
+				enemy->active = 0;
+				return;
+			}
 		}
 
 	}
