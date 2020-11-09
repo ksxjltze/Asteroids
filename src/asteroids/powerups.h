@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include"player.h"
+#include "powerup_interaction.h"
 
 typedef struct Powerups
 {
@@ -16,13 +17,15 @@ typedef struct Powerups
 }Powerup;
 
 
-void Asteroids_Init_Powerups(void);/*
-void Asteroids_Update_Powerups(void);*/
+// GENERAL
+void Asteroids_Init_Powerups(void);
+void Asteroids_Update_Powerups(struct Player* player);
 
-
-int Asteroids_Generate_Random_Powerup(void);
-
+//DRAWING POWERUPS
 void Asteroids_Draw_Powerup(int type, CP_Vector* pos, CP_Vector movement_vel, float* rotation);
+
+// UTILITY 
+int Asteroids_Generate_Random_Powerup(void);
 
 // Asteroid death powerups 
 void Asteroids_Generate_Powerup_On_Enemy_Death(CP_Vector position);
@@ -31,7 +34,8 @@ void Asteroids_Generate_Powerup_On_Enemy_Death(CP_Vector position);
 void Asteroids_Floating_Powerup_Lifespan_Manager(void);
 void Asteroids_Floating_Powerup_Manager(void);
 
-void Asteroids_Update_Powerups(struct Player* player);
-void Asteroids_Powerup_Player_Collision(Powerup powerup_pool[], struct Player* player);
 
+// COLLISION
+void Asteroids_Powerup_Player_Collision(Powerup powerup_pool[], struct Player* player);
 void Asteroids_Powerup_Interact_Fuel_Pickup(Player* player);
+

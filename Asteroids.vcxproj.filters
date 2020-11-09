@@ -80,6 +80,7 @@
     <ClInclude Include="src\asteroids\utility.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\asteroids\powerup_interaction.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\asteroids\bullet.c">
@@ -142,5 +143,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\asteroids\score.c" />
+    <ClCompile Include="src\asteroids\powerup_interaction.c" />
   </ItemGroup>
 </Project>

@@ -40,7 +40,39 @@ void Asteroids_Enemy_Init(Enemy enemy_pool[], int count, float enemy_width, floa
 
 }
 
-void Asteroids_Enemy_Update(Enemy enemy_pool[], int count)
+
+void Asteroids_Enemysplit_Init_Spawn(Enemy arr_enemysplit[], int count, Player player)
+{
+	int spawn_count = CP_Random_RangeInt(ASTEROIDS_ASTEROID_ENEMYSPLIT_SPAWN_COUNT_MIN, ASTEROIDS_ASTEROID_ENEMYSPLIT_SPAWN_COUNT_MAX);
+	for (int i = 0; i < spawn_count; i++)
+	{
+		Asteroids_Enemy_Spawn_Static(arr_enemysplit, count, player);
+	}
+}
+
+
+void Asteroids_Enemysplit_Spawn(Enemy arr_enemysplit[], int count)
+{
+	for (int i = 0; i < count; i++)
+	{
+		Enemy enemy = arr_enemysplit[i];
+		if (!enemy.active)
+		{
+			enemy.active = 1;
+			enemy.pos = Asteroids_Enemy_Random_Pos();
+			enemy.speed = Asteroids_Enemy_Random_Speed();
+			enemy.velocity = Asteroids_Enemy_Random_Velocity(enemy.pos, enemy.speed);
+			enemy.hp.max = ENEMY_HP;
+			enemy.hp.current = enemy.hp.max;
+
+			arr_enemysplit[i] = enemy;
+			return;
+		}
+	}
+}
+
+
+void Asteroids_Enemy_Update(Enemy enemy_pool[], int count, Player player)
 {
 	float dt = CP_System_GetDt();
 	for (int i = 0; i < count; i++)
@@ -65,8 +97,17 @@ void Asteroids_Enemy_Update(Enemy enemy_pool[], int count)
 
 		if (enemy->hp.current <= 0) // enemy dies
 		{
-			Asteroids_Enemy_Death(enemy);
+			Score.enemy_kill_score += 1;
+			enemy->active = 0;
+			spawn_particles(enemy->pos, 8, 0, 0);
+			Asteroids_Generate_Powerup_On_Enemy_Death(enemy->pos);
+			Asteroids_Enemysplit_Init_Spawn(enemy_pool, 100 , player);
+			Asteroids_Enemysplit_Spawn(enemy_pool,2);
+
+
 		}
+	//		Asteroids_Enemy_Death(enemy);
+		
 
 	}
 }
@@ -314,14 +355,6 @@ void Asteroids_Enemysplit_Draw(Enemy arr_enemysplit[], int count, CP_Image enemy
 }
 
 
-void Asteroids_Enemysplit_Init_Spawn(Enemy arr_enemysplit[], int count, Player player)
-{
-	int spawn_count = CP_Random_RangeInt(ASTEROIDS_ASTEROID_ENEMYSPLIT_SPAWN_COUNT_MIN, ASTEROIDS_ASTEROID_ENEMYSPLIT_SPAWN_COUNT_MAX);
-	for (int i = 0; i < spawn_count; i++)
-	{
-		Asteroids_Enemy_Spawn_Static(arr_enemysplit, count, player);
-	}
-}
 
 
 
@@ -350,25 +383,6 @@ void Asteroids_Enemysplit_Spawn_Static(Enemy arr_enemysplit[], int count, Player
 }
 
 
-void Asteroids_Enemysplit_Spawn(Enemy arr_enemysplit[], int count)
-{
-	for (int i = 0; i < count; i++)
-	{
-		Enemy enemy = arr_enemysplit[i];
-		if (!enemy.active)
-		{
-			enemy.active = 1;
-			enemy.pos = Asteroids_Enemy_Random_Pos();
-			enemy.speed = Asteroids_Enemy_Random_Speed();
-			enemy.velocity = Asteroids_Enemy_Random_Velocity(enemy.pos, enemy.speed);
-			enemy.hp.max = ENEMY_HP;
-			enemy.hp.current = enemy.hp.max;
-
-			arr_enemysplit[i] = enemy;
-			return;
-		}
-	}
-}
 
 
 void Asteroids_Enemysplit_Spawn_Timer(Enemy arr_enemysplit[], int count)
