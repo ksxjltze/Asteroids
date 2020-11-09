@@ -16,7 +16,7 @@
 
 #define ASTEROIDS_POOLSIZE_BULLETS 999
 #define ASTEROIDS_POOLSIZE_ENEMIES 100
-#define EZ_MODE 1
+#define EZ_MODE 0
 
 float shoot_cooldown = 0.0f;
 

@@ -7,16 +7,17 @@
 #include <string.h>
  
 typedef struct Player {
-	char name[10];
 	CP_Vector pos;
+	CP_Vector velocity;
+	float speed;
 	struct Health hp;
 	struct Collider_Circle collider;
 	struct Engine engine;
 	struct Status status;
 	int active;
+	int moving;
+	char name[10];
 	int score;
-	float speed;
-	CP_Vector velocity;
 } Player;
 
 
@@ -26,6 +27,7 @@ void Asteroids_Player_Update(Player* player);
 void Asteroids_Player_Draw(CP_Image player_sprite, CP_Vector pos, float player_width, float player_height, float player_rotation);
 
 void Asteroids_Player_Calculate_Fuel(Player* player);
+void Asteroids_Player_Drain_Fuel(Player* player);
 void Asteroids_Player_Refuel(float amount, Player* player);
 
 void Asteroids_Player_Debug(Player player);

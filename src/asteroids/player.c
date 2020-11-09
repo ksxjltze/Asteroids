@@ -6,21 +6,23 @@ struct Player Asteroids_Player_Init(float player_width, float player_height)
 	
 	struct Player player;
 	strcpy_s(player.name, 10, "Asteroids");
+
 	player.active = 1;
+	player.moving = 0;
+
 	player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
+	player.velocity = CP_Vector_Zero();
+	player.speed = (float) SPEED;
 
 	player.collider.diameter = (player_width + player_height) / 2;
 
 	player.hp.max = PLAYER_MAX_HP;
 	player.hp.current = player.hp.max;
 
-	player.velocity = CP_Vector_Zero();
-	player.speed = (float) SPEED;
-
 	player.engine.fuel.current = PLAYER_MAX_FUEL;
 	player.engine.fuel.max = player.engine.fuel.current;
-
 	player.engine.drain_rate = DRAIN_RATE;
+
 	return player;
 }
 
@@ -76,6 +78,11 @@ void Asteroids_Player_Refuel(float amount, Player* player)
 
 }
 
+void Asteroids_Player_Drain_Fuel(Player* player)
+{
+	player->engine.fuel.current -= player->engine.drain_rate * CP_System_GetDt();
+}
+
 void Asteroids_Player_Calculate_Fuel(Player* player)
 {
 	//temp
@@ -89,9 +96,9 @@ void Asteroids_Player_Calculate_Fuel(Player* player)
 		return;
 	}
 
-	player->engine.fuel.current -= player->engine.drain_rate * CP_System_GetDt();
-
 }
+
+
 
 void Asteroids_Player_Simple_Movement(Player* player)
 {
@@ -153,13 +160,16 @@ void Asteroids_Player_Accelerate(Player* player, float dt, CP_Vector direction)
 	direction = CP_Vector_Normalize(direction);
 	CP_Vector acceleration = CP_Vector_Scale(direction, dt);
 	acceleration = CP_Vector_Scale(acceleration, player->speed);
+
 	player->velocity = CP_Vector_Add(player->velocity, acceleration);
+	Asteroids_Player_Drain_Fuel(player);
 }
 
 void Asteroids_Player_Decelerate(Player* player, float dt)
 {
 	CP_Vector deceleration = CP_Vector_Scale(player->velocity, -dt);
 	player->velocity = CP_Vector_Add(player->velocity, deceleration);
+	Asteroids_Player_Drain_Fuel(player);
 }
 
 void Asteroids_Player_Strafe_Port(Player* player, float dt, CP_Vector direction)
