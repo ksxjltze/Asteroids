@@ -164,6 +164,8 @@ void Asteroids_Check_Input()
 	CP_Vector mousePos = CP_Vector_Set(mouseX, mouseY);
 	CP_Vector shoot_direction = CP_Vector_Normalize(CP_Vector_Subtract(mousePos, player.pos));
 
+	float dt = CP_System_GetDt();
+
 	Asteroids_Player_Rotate(shoot_direction);
 
 	if (CP_Input_KeyDown(KEY_GRAVE_ACCENT))
@@ -182,24 +184,20 @@ void Asteroids_Check_Input()
 
 	if (CP_Input_KeyDown(KEY_W))
 	{
-		//velocity.y -= speed;
-		player.pos.y -= player.speed;
+		Asteroids_Player_Accelerate(&player, dt, CP_Vector_Set(0, -1));
 	}
 	else if (CP_Input_KeyDown(KEY_S))
 	{
-		//velocity.y += speed;
-		player.pos.y += player.speed;
+		Asteroids_Player_Accelerate(&player, dt, CP_Vector_Set(0, 1));
 	}
 
 	if (CP_Input_KeyDown(KEY_A))
 	{
-		//velocity.x -= speed;
-		player.pos.x -= player.speed;
+		Asteroids_Player_Accelerate(&player, dt, CP_Vector_Set(-1, 0));
 	}
 	else if (CP_Input_KeyDown(KEY_D))
 	{
-		//velocity.x += speed;
-		player.pos.x += player.speed;
+		Asteroids_Player_Accelerate(&player, dt, CP_Vector_Set(1, 0));
 	}
 
 	if (CP_Input_MouseDown(MOUSE_BUTTON_1))

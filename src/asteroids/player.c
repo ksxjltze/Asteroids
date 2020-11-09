@@ -37,11 +37,18 @@ void Asteroids_Player_Update(Player* player)
 		}
 	}
 
+	Asteroids_Player_Update_Movement(player, CP_System_GetDt());
+
 	if (player->hp.current <= 0)
 	{
-		player->active = 0;
+		Asteroids_Player_Death(player);
 	}
 
+}
+
+void Asteroids_Player_Death(Player* player)
+{
+	player->active = 0;
 }
 
 void Asteroids_Player_Draw(CP_Image player_sprite, CP_Vector pos, float player_width, float player_height, float player_rotation)
@@ -91,5 +98,8 @@ void Asteroids_Player_Update_Movement(Player* player, float dt)
 
 void Asteroids_Player_Accelerate(Player* player, float dt, CP_Vector direction)
 {
-
+	direction = CP_Vector_Normalize(direction);
+	CP_Vector acceleration = CP_Vector_Scale(direction, dt);
+	acceleration = CP_Vector_Scale(acceleration, player->speed);
+	player->velocity = CP_Vector_Add(player->velocity, acceleration);
 }
