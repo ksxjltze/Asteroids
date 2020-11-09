@@ -21,6 +21,7 @@ void Asteroids_Enemy_Update(Enemy enemy_pool[], int count);
 void Asteroids_Enemy_Draw(Enemy enemy_pool[], int count, CP_Image enemy_sprite, float enemy_width, float enemy_height, CP_Image enemy_hurt_sprite);
 void Asteroids_Enemy_Idle_Rotate(Enemy* enemy, float rotate_rate, float dt);
 
+void Asteroids_Enemy_Death(Enemy* enemy);
 void Asteroids_Enemy_Debug(Enemy enemy_pool[], int count);
 
 void Asteroids_Enemy_Init_Spawn(Enemy enemy_pool[], int count, Player player);

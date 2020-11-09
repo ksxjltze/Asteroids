@@ -63,13 +63,18 @@ void Asteroids_Enemy_Update(Enemy enemy_pool[], int count)
 
 		if (enemy->hp.current <= 0) // enemy dies
 		{
-			Score.enemy_kill_score += 1;
-			enemy->active = 0;
-			spawn_particles(enemy->pos, 8, 0, 0);
-			Asteroids_Generate_Powerup_On_Enemy_Death(enemy->pos);
+			Asteroids_Enemy_Death(enemy);
 		}
 
 	}
+}
+
+void Asteroids_Enemy_Death(Enemy* enemy)
+{
+	Score.enemy_kill_score += 1;
+	enemy->active = 0;
+	spawn_particles(enemy->pos, 8, 0, 0);
+	Asteroids_Generate_Powerup_On_Enemy_Death(enemy->pos);
 }
 
 void Asteroids_Enemy_Debug(Enemy enemy_pool[], int count)
