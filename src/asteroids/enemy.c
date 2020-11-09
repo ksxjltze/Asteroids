@@ -263,7 +263,7 @@ void Asteroids_Enemysplit_Update(Enemy arr_enemysplit[], int count)
 		if (enemy->hp.current <= 0) // enemy dies
 		{
 			enemy->active = 0;
-			spawn_particles(enemy->pos, 20);
+			spawn_particles(enemy->pos, 20, 0 ,0);
 			Asteroids_Generate_Powerup_On_Enemy_Death(enemy->pos);
 		}
 
@@ -349,3 +349,16 @@ void Asteroids_Enemysplit_Spawn(Enemy arr_enemysplit[], int count)
 	}
 }
 
+
+void Asteroids_Enemysplit_Spawn_Timer(Enemy arr_enemysplit[], int count)
+{
+	float dt = CP_System_GetDt();
+	spawn_timer -= dt;
+
+	if (spawn_timer <= 0)
+	{
+		spawn_timer = ENEMY_SPAWN_TIME;
+		Asteroids_Enemy_Spawn(arr_enemysplit, count);
+	}
+
+}

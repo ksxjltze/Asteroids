@@ -18,7 +18,9 @@ float shoot_cooldown = 0.0f;
 CP_Image player_sprite;
 CP_Image bullet_sprite;
 CP_Image enemy_sprite;
+CP_Image enemysplit_sprite;
 CP_Image enemy_hurt_sprite;
+CP_Image enemysplit_hurt_sprite;
 CP_Image health_bar_sprite;
 CP_Image player_health_sprite;
 
@@ -33,11 +35,16 @@ float bullet_height;
 float enemy_width;
 float enemy_height;
 
+float enemysplit_width;
+float enemysplit_height;
+
+
 int difficulty = 0; //NORMAL
 int debug_mode = 0;
 
 struct Bullet arr_bullet[999];
 Enemy arr_enemy[100];
+Enemy arr_enemysplit[100];
 Player player;
 
 // use CP_Engine_SetNextGameState to specify this function as the initialization function
@@ -78,6 +85,11 @@ void Asteroids_Update(void)
 
 		particle_update();
 
+		int enemysplit_count = sizeof(arr_enemysplit) / sizeof(arr_enemysplit)[0];
+		Asteroids_Enemysplit_Spawn_Timer(arr_enemysplit, enemysplit_count);
+		Asteroids_Enemysplit_Update(arr_enemy, enemy_count);
+
+
 		//Gameover
 		if (player.active != 1)
 		{
@@ -91,6 +103,7 @@ void Asteroids_Update(void)
 		Asteroids_Debug();
 		Asteroids_UI_Update(player.hp);
 		Asteroids_Draw_Scores();
+	
 
 	}
 
@@ -122,7 +135,9 @@ void Asteroids_Sprites_Load()
 	player_sprite = CP_Image_Load(PLAYER_SPRITE_PATH);
 	bullet_sprite = CP_Image_Load("./Assets/bullet.png");
 	enemy_sprite = CP_Image_Load("./Assets/asteroids_cropped.png");
+	enemysplit_sprite = CP_Image_Load("./Assets/Asteroids_small.png");
 	Asteroids_Utility_Generate_Hurt_Sprite(enemy_sprite, &enemy_hurt_sprite);
+
 	player_health_sprite = CP_Image_Load("./Assets/heart.png");
 
 	player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
@@ -135,6 +150,10 @@ void Asteroids_Sprites_Load()
 
 	enemy_width = (float)CP_Image_GetWidth(enemy_sprite) * 0.1f;
 	enemy_height = (float)CP_Image_GetHeight(enemy_sprite) * 0.1f;
+
+	enemysplit_width = (float)CP_Image_GetWidth(enemysplit_sprite) * 0.05f;
+	enemysplit_height = (float)CP_Image_GetHeight(enemysplit_sprite) * 0.05f;
+
 }
 
 void Asteroids_Player_Rotate(CP_Vector direction)
@@ -234,12 +253,13 @@ void Asteroids_FPS_Draw()
 	CP_Font_DrawText(fps_str, (float)WIN_WIDTH - 100, 100);
 }
 
-void Asteroids_Draw()
+void Asteroids_Draw() 
 {
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
 
 	Asteroids_Bullet_Draw(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]), bullet_sprite, bullet_width, bullet_height);
 	Asteroids_Enemy_Draw(arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]), enemy_sprite, enemy_width, enemy_height, enemy_hurt_sprite, health_bar_sprite);
+	Asteroids_Enemysplit_Draw(arr_enemysplit, sizeof(arr_enemysplit) / sizeof(arr_enemysplit[0]), enemysplit_sprite, enemysplit_width, enemysplit_height, enemysplit_hurt_sprite, health_bar_sprite);
 	Asteroids_Player_Draw(player_sprite, player.pos, player_width, player_height, player_rotation);
 
 	Asteroids_FPS_Draw();
