@@ -16,6 +16,7 @@
 
 #define ASTEROIDS_POOLSIZE_BULLETS 999
 #define ASTEROIDS_POOLSIZE_ENEMIES 100
+#define EZ_MODE 1
 
 float shoot_cooldown = 0.0f;
 
@@ -205,23 +206,10 @@ void Asteroids_Check_Input()
 		Asteroids_Enemy_Spawn(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES);
 	}
 
-	if (CP_Input_KeyDown(KEY_W))
-	{
-		Asteroids_Player_Accelerate(&player, dt, shoot_direction);
-	}
-	else if (CP_Input_KeyDown(KEY_S))
-	{
-		Asteroids_Player_Decelerate(&player, dt);
-	}
-
-	if (CP_Input_KeyDown(KEY_A))
-	{
-		Asteroids_Player_Strafe_Port(&player, dt, shoot_direction);
-	}
-	else if (CP_Input_KeyDown(KEY_D))
-	{
-		Asteroids_Player_Strafe_Starboard(&player, dt, shoot_direction);
-	}
+	if (EZ_MODE)
+		Asteroids_Player_Simple_Movement(&player);
+	else
+		Asteroids_Player_Check_Input(&player, dt, shoot_direction);
 
 	if (CP_Input_MouseDown(MOUSE_BUTTON_1))
 	{
