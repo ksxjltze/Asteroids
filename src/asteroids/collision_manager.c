@@ -50,3 +50,22 @@ void Asteroids_Collision_CheckCollision_Enemy_Player(Enemy enemy_pool[], int ene
 
 	}
 }
+
+void Asteroids_Collision_CheckCollision_Enemy_Enemy(Enemy enemy_pool[], int enemy_count, Enemy* enemy)
+{
+	for (int i = 0; i < enemy_count; i++)
+	{
+		if (enemy_pool[i].active)
+		{
+			if (enemy_pool[i].id == enemy->id)
+				continue;
+			else if (Asteroids_Collision_CheckCollision_Circle(enemy_pool[i].collider, enemy_pool[i].pos, enemy->collider, enemy->pos))
+			{
+				Asteroids_Enemy_Collide(&enemy_pool[i], enemy);
+				return;
+			}
+
+		}
+
+	}
+}
