@@ -1,11 +1,7 @@
 #include "collision_manager.h"
+#include "collider_circle.h"
 
-int Asteroids_Collision_CheckCollision_Circle_AABB(struct Collider_Circle collider1, CP_Vector pos1, struct Collider_AABB collider2, CP_Vector pos2)
-{
-	return 0;
-}
-
-struct Bullet Asteroids_Collision_CheckCollision_Enemy_Bullet(Enemy arr_enemy[], int enemy_count, struct Bullet bullet)
+Bullet Asteroids_Collision_CheckCollision_Enemy_Bullet(Enemy arr_enemy[], int enemy_count, Bullet bullet)
 {
 	for (int j = 0; j < enemy_count; j++)
 	{

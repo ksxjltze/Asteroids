@@ -12,6 +12,9 @@
 #include "particle.h"
 #include "user_interface.h"
 #include "score.h"
+#include "collision_manager.h"
+
+#define ASTEROIDS_POOLSIZE_BULLETS 999
 
 float shoot_cooldown = 0.0f;
 
@@ -36,7 +39,7 @@ float enemy_height;
 int difficulty = 0; //NORMAL
 int debug_mode = 0;
 
-struct Bullet arr_bullet[999];
+Bullet arr_bullet[ASTEROIDS_POOLSIZE_BULLETS];
 Enemy arr_enemy[100];
 Player player;
 
@@ -205,19 +208,7 @@ void Asteroids_Check_Input()
 			return;
 
 		shoot_cooldown = 60 / FIRE_RATE; //seconds per bullet
-
-		for (int i = 0; i < sizeof(arr_bullet) / sizeof(arr_bullet[0]); i++)
-		{
-			struct Bullet bullet = arr_bullet[i];
-			if (!bullet.active) {
-				bullet.pos = CP_Vector_Set(player.pos.x, player.pos.y);
-				bullet.velocity = CP_Vector_Set(shoot_direction.x * BULLET_SPEED, shoot_direction.y * BULLET_SPEED);
-				bullet.active = 1;
-
-				arr_bullet[i] = bullet;
-				break;
-			}
-		}
+		Asteroids_Bullet_Spawn(arr_bullet, ASTEROIDS_POOLSIZE_BULLETS, player, shoot_direction);
 
 	}
 }
