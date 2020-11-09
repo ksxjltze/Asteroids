@@ -1,5 +1,9 @@
 #include "collision_manager.h"
 #include "collider_circle.h"
+#include "powerups.h"
+#include "powerup_interaction.h"
+
+extern bool invulnerable;
 
 Bullet Asteroids_Collision_CheckCollision_Enemy_Bullet(Enemy enemy_pool[], int enemy_count, Bullet bullet)
 {
@@ -35,16 +39,33 @@ void Asteroids_Collision_CheckCollision_Enemy_Player(Enemy enemy_pool[], int ene
 			continue;
 
 		Enemy* enemy = &enemy_pool[i];
-		if (Asteroids_Collision_CheckCollision_Circle(enemy->collider, enemy->pos, player->collider, player->pos))
-		{
-			//player->active = 0;
-			if (!player->status.hit)
+
+			if (Asteroids_Collision_CheckCollision_Circle(enemy->collider, enemy->pos, player->collider, player->pos))
 			{
-				player->hp.current -= 1;
-				player->status.hit = 1;
+				Asteroids_Enemy_Death(enemy);
+				if (!invulnerable)
+				{
+					Asteroids_Player_Hit(player);
+				}
+				return;
 			}
-			enemy->active = 0;
-			return;
+
+	}
+}
+
+void Asteroids_Collision_CheckCollision_Enemy_Enemy(Enemy enemy_pool[], int enemy_count, Enemy* enemy)
+{
+	for (int i = 0; i < enemy_count; i++)
+	{
+		if (enemy_pool[i].active)
+		{
+			if (enemy_pool[i].id == enemy->id)
+				continue;
+			else if (Asteroids_Collision_CheckCollision_Circle(enemy_pool[i].collider, enemy_pool[i].pos, enemy->collider, enemy->pos))
+			{
+				Asteroids_Enemy_Collide(&enemy_pool[i], enemy);
+				return;
+			}
 
 		}
 

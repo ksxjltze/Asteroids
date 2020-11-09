@@ -4,7 +4,8 @@ extern const int WIN_HEIGHT = 720;
 extern const float SPLASH_DURATION = 3.0f;
 
 extern const float MAX_VELOCITY = 10.0f; //pixels per second
-extern const int SPEED = 10;
+extern const float SPEED = 200.0f;
+extern const float ASTEROIDS_PLAYER_SLOWED_SPEED = 20.0f;
 
 extern const int BULLET_SPEED = 1000;
 extern const float FIRE_RATE = 600.0f; //bullets per minute
@@ -14,6 +15,7 @@ extern const float ENEMY_HP = 3;
 
 extern const float ASTEROID_MIN_SPEED = 50.0f;
 extern const float ASTEROID_MAX_SPEED = 200.0f; //pixels per second
+extern const int ASTEROIDS_PLAYER_SIMPLE_SPEED = 10;
 extern const float ASTEROIDS_ENEMY_IDLE_ROTATE_RATE_MIN = -60.0f;
 extern const float ASTEROIDS_ENEMY_IDLE_ROTATE_RATE_MAX = 60.0f;
 

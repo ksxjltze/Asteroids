@@ -16,6 +16,7 @@
 
 #define ASTEROIDS_POOLSIZE_BULLETS 999
 #define ASTEROIDS_POOLSIZE_ENEMIES 100
+#define EZ_MODE 1
 
 float shoot_cooldown = 0.0f;
 
@@ -48,8 +49,6 @@ int debug_mode = 0;
 
 Bullet bullet_pool[ASTEROIDS_POOLSIZE_BULLETS];
 Enemy enemy_pool[ASTEROIDS_POOLSIZE_ENEMIES];
-struct Bullet arr_bullet[999];
-Enemy arr_enemy[100];
 Enemy arr_enemysplit[100];
 Player player;
 
@@ -67,6 +66,7 @@ void Asteroids_Init(void)
 	particle_init();
 	Asteroids_Init_Powerups();
 	Asteroids_Init_Score();
+	Asteroids_Powerup_Player_Interaction_Init();
 }
 
 // use CP_Engine_SetNextGameState to specify this function as the update function
@@ -93,7 +93,7 @@ void Asteroids_Update(void)
 
 		int enemysplit_count = sizeof(arr_enemysplit) / sizeof(arr_enemysplit)[0];
 		Asteroids_Enemysplit_Spawn_Timer(arr_enemysplit, enemysplit_count);
-		Asteroids_Enemysplit_Update(arr_enemy, enemy_count);
+		Asteroids_Enemysplit_Update(arr_enemysplit, enemy_count);
 
 
 		//Gameover
@@ -149,7 +149,9 @@ void Asteroids_Sprites_Load()
 	player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
 
 	player_width = (float)CP_Image_GetWidth(player_sprite) * 2;
+	printf("player width is %f\n", player_width);
 	player_height = (float)CP_Image_GetHeight(player_sprite) * 2;
+	printf("player height is %f", player_height);
 
 	bullet_width = (float)CP_Image_GetWidth(bullet_sprite);
 	bullet_height = (float)CP_Image_GetHeight(bullet_sprite);
@@ -186,6 +188,8 @@ void Asteroids_Check_Input()
 	CP_Vector mousePos = CP_Vector_Set(mouseX, mouseY);
 	CP_Vector shoot_direction = CP_Vector_Normalize(CP_Vector_Subtract(mousePos, player.pos));
 
+	float dt = CP_System_GetDt();
+
 	Asteroids_Player_Rotate(shoot_direction);
 
 	if (CP_Input_KeyDown(KEY_GRAVE_ACCENT))
@@ -202,27 +206,10 @@ void Asteroids_Check_Input()
 		Asteroids_Enemy_Spawn(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES);
 	}
 
-	if (CP_Input_KeyDown(KEY_W))
-	{
-		//velocity.y -= speed;
-		player.pos.y -= player.speed;
-	}
-	else if (CP_Input_KeyDown(KEY_S))
-	{
-		//velocity.y += speed;
-		player.pos.y += player.speed;
-	}
-
-	if (CP_Input_KeyDown(KEY_A))
-	{
-		//velocity.x -= speed;
-		player.pos.x -= player.speed;
-	}
-	else if (CP_Input_KeyDown(KEY_D))
-	{
-		//velocity.x += speed;
-		player.pos.x += player.speed;
-	}
+	if (EZ_MODE)
+		Asteroids_Player_Simple_Movement(&player);
+	else
+		Asteroids_Player_Check_Input(&player, dt, shoot_direction);
 
 	if (CP_Input_MouseDown(MOUSE_BUTTON_1))
 	{
@@ -251,8 +238,6 @@ void Asteroids_Draw()
 {
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
 
-	Asteroids_Bullet_Draw(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]), bullet_sprite, bullet_width, bullet_height);
-	Asteroids_Enemy_Draw(arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]), enemy_sprite, enemy_width, enemy_height, enemy_hurt_sprite);
 	Asteroids_Enemysplit_Draw(arr_enemysplit, sizeof(arr_enemysplit) / sizeof(arr_enemysplit[0]), enemysplit_sprite, enemysplit_width, enemysplit_height, enemysplit_hurt_sprite, health_bar_sprite);
 	Asteroids_Bullet_Draw(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, bullet_sprite, bullet_width, bullet_height);
 	Asteroids_Enemy_Draw(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, enemy_sprite, enemy_width, enemy_height, enemy_hurt_sprite);
@@ -264,17 +249,17 @@ void Asteroids_Draw()
 void Asteroids_Debug_Draw_Text()
 {
 	//TEST PLAYER ROTATION
-	char str_rotation[10];
+	//char str_rotation[10];
 	char str_fuel_text[20];
 	memset(str_fuel_text, '\0', sizeof(str_fuel_text));
 
-	_gcvt_s(str_rotation, 10, player_rotation, 4);
+	//_gcvt_s(str_rotation, 10, player_rotation, 4);
 	sprintf_s(str_fuel_text, 20, "Fuel: %d", (int)player.engine.fuel.current);
 
 	CP_Settings_TextSize(50.0f);
 
 	CP_Font_DrawText(str_fuel_text, (float)WIN_WIDTH - 500, 100);
-	CP_Font_DrawText(str_rotation, (float)WIN_WIDTH - 300, 100);
+	//CP_Font_DrawText(str_rotation, (float)WIN_WIDTH - 300, 100);
 }
 
 void Asteroids_Debug()

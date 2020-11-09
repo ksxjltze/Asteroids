@@ -2,12 +2,12 @@
 #include "particle.h"
 #include "powerups.h"
 #include "health.h"
-#include "collider_aabb.h"
 #include "collider_circle.h"
 #include "status.h"
 #include "constants.h"
 #include "utility.h"
 #include "score.h"
+#include "collision_manager.h"
 
 static float spawn_timer;
 
@@ -17,6 +17,7 @@ void Asteroids_Enemy_Init(Enemy enemy_pool[], int count, float enemy_width, floa
 	{
 		Enemy enemy = enemy_pool[i];
 		enemy.collider.diameter = (enemy_width + enemy_height) / 2;
+		enemy.id = i + 1;
 
 		enemy.active = 0;
 		enemy.hp.max = ENEMY_HP;
@@ -82,6 +83,7 @@ void Asteroids_Enemy_Update(Enemy enemy_pool[], int count, Player player)
 
 		enemy->pos = CP_Vector_Add(enemy->pos, CP_Vector_Scale(enemy->velocity, dt));
 		Asteroids_Enemy_Idle_Rotate(enemy, enemy->rotate_rate, dt);
+		Asteroids_Collision_CheckCollision_Enemy_Enemy(enemy_pool, count, &enemy_pool[i]);
 
 		if (enemy->status.hit)
 		{
@@ -104,8 +106,18 @@ void Asteroids_Enemy_Update(Enemy enemy_pool[], int count, Player player)
 
 
 		}
+			Asteroids_Enemy_Death(enemy);
+		}
 
 	}
+}
+
+void Asteroids_Enemy_Death(Enemy* enemy)
+{
+	Score.enemy_kill_score += 1;
+	enemy->active = 0;
+	spawn_particles(enemy->pos, 8, 0, 0);
+	Asteroids_Generate_Powerup_On_Enemy_Death(enemy->pos);
 }
 
 void Asteroids_Enemy_Debug(Enemy enemy_pool[], int count)
@@ -253,6 +265,12 @@ void Asteroids_Enemy_Draw(Enemy enemy_pool[], int count, CP_Image enemy_sprite, 
 void Asteroids_Enemy_Idle_Rotate(Enemy* enemy, float rotate_rate, float dt)
 {
 	enemy->rotation += rotate_rate * dt;
+}
+
+void Asteroids_Enemy_Collide(Enemy* enemy1, Enemy* enemy2)
+{
+	Asteroids_Enemy_Death(enemy1);
+	Asteroids_Enemy_Death(enemy2);
 }
 
 
