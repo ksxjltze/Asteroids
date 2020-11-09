@@ -106,8 +106,8 @@ void Asteroids_Enemy_Update(Enemy enemy_pool[], int count, Player player)
 
 
 		}
-			Asteroids_Enemy_Death(enemy);
-		}
+	//		Asteroids_Enemy_Death(enemy);
+		
 
 	}
 }
