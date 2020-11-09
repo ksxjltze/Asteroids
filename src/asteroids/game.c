@@ -48,8 +48,6 @@ int debug_mode = 0;
 
 Bullet bullet_pool[ASTEROIDS_POOLSIZE_BULLETS];
 Enemy enemy_pool[ASTEROIDS_POOLSIZE_ENEMIES];
-struct Bullet arr_bullet[999];
-Enemy arr_enemy[100];
 Enemy arr_enemysplit[100];
 Player player;
 
@@ -93,7 +91,7 @@ void Asteroids_Update(void)
 
 		int enemysplit_count = sizeof(arr_enemysplit) / sizeof(arr_enemysplit)[0];
 		Asteroids_Enemysplit_Spawn_Timer(arr_enemysplit, enemysplit_count);
-		Asteroids_Enemysplit_Update(arr_enemy, enemy_count);
+		Asteroids_Enemysplit_Update(arr_enemysplit, enemy_count);
 
 
 		//Gameover
@@ -249,8 +247,6 @@ void Asteroids_Draw()
 {
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
 
-	Asteroids_Bullet_Draw(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]), bullet_sprite, bullet_width, bullet_height);
-	Asteroids_Enemy_Draw(arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]), enemy_sprite, enemy_width, enemy_height, enemy_hurt_sprite);
 	Asteroids_Enemysplit_Draw(arr_enemysplit, sizeof(arr_enemysplit) / sizeof(arr_enemysplit[0]), enemysplit_sprite, enemysplit_width, enemysplit_height, enemysplit_hurt_sprite, health_bar_sprite);
 	Asteroids_Bullet_Draw(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, bullet_sprite, bullet_width, bullet_height);
 	Asteroids_Enemy_Draw(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, enemy_sprite, enemy_width, enemy_height, enemy_hurt_sprite);
