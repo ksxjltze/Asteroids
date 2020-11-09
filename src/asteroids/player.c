@@ -110,7 +110,14 @@ void Asteroids_Player_Decelerate(Player* player, float dt)
 	player->velocity = CP_Vector_Add(player->velocity, deceleration);
 }
 
-void Asteroids_Player_Strafe(Player* player, float dt)
+void Asteroids_Player_Strafe_Port(Player* player, float dt, CP_Vector direction)
 {
+	CP_Vector strafe_vector = CP_Vector_Set(direction.y, -direction.x);
+	Asteroids_Player_Accelerate(player, dt, strafe_vector);
+}
 
+void Asteroids_Player_Strafe_Starboard(Player* player, float dt, CP_Vector direction)
+{
+	CP_Vector strafe_vector = CP_Vector_Set(-direction.y, direction.x);
+	Asteroids_Player_Accelerate(player, dt, strafe_vector);
 }

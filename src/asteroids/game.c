@@ -213,11 +213,11 @@ void Asteroids_Check_Input()
 
 	if (CP_Input_KeyDown(KEY_A))
 	{
-
+		Asteroids_Player_Strafe_Port(&player, dt, shoot_direction);
 	}
 	else if (CP_Input_KeyDown(KEY_D))
 	{
-
+		Asteroids_Player_Strafe_Starboard(&player, dt, shoot_direction);
 	}
 
 	if (CP_Input_MouseDown(MOUSE_BUTTON_1))
