@@ -12,6 +12,10 @@
 #include "particle.h"
 #include "user_interface.h"
 #include "score.h"
+#include "collision_manager.h"
+
+#define ASTEROIDS_POOLSIZE_BULLETS 999
+#define ASTEROIDS_POOLSIZE_ENEMIES 100
 
 float shoot_cooldown = 0.0f;
 
@@ -42,6 +46,8 @@ float enemysplit_height;
 int difficulty = 0; //NORMAL
 int debug_mode = 0;
 
+Bullet bullet_pool[ASTEROIDS_POOLSIZE_BULLETS];
+Enemy enemy_pool[ASTEROIDS_POOLSIZE_ENEMIES];
 struct Bullet arr_bullet[999];
 Enemy arr_enemy[100];
 Enemy arr_enemysplit[100];
@@ -73,15 +79,15 @@ void Asteroids_Update(void)
 
 	if (!Asteroids_Pause_GetStatus())
 	{
-		int enemy_count = sizeof(arr_enemy) / sizeof(arr_enemy[0]);
+		int enemy_count = ASTEROIDS_POOLSIZE_ENEMIES;
 		Asteroids_Cooldown_Update();
-		Asteroids_Enemy_Spawn_Timer(arr_enemy, enemy_count);
+		Asteroids_Enemy_Spawn_Timer(enemy_pool, enemy_count);
 
-		Asteroids_Bullet_Update(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]), arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]));
-		Asteroids_Enemy_Update(arr_enemy, enemy_count);
+		Asteroids_Bullet_Update(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, enemy_pool, enemy_count);
+		Asteroids_Enemy_Update(enemy_pool, enemy_count);
 		Asteroids_Player_Update(&player);
 
-		Asteroids_Collision_CheckCollision_Enemy_Player(arr_enemy, enemy_count, &player);
+		Asteroids_Collision_CheckCollision_Enemy_Player(enemy_pool, enemy_count, &player);
 
 		particle_update();
 
@@ -124,8 +130,8 @@ void Asteroids_Entities_Init()
 	player = Asteroids_Player_Init(player_width, player_height);
 
 	//TODO: Possibly implement an entity manager to manage different types of entities.
-	Asteroids_Enemy_Init(arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]), enemy_width, enemy_height, player);
-	Asteroids_Bullet_Init(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]), bullet_width, bullet_height);
+	Asteroids_Enemy_Init(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, enemy_width, enemy_height, player);
+	Asteroids_Bullet_Init(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, bullet_width, bullet_height);
 
 }
 
@@ -193,7 +199,7 @@ void Asteroids_Check_Input()
 	
 	if (CP_Input_KeyTriggered(KEY_SPACE))
 	{
-		Asteroids_Enemy_Spawn(arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]));
+		Asteroids_Enemy_Spawn(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES);
 	}
 
 	if (CP_Input_KeyDown(KEY_W))
@@ -224,19 +230,7 @@ void Asteroids_Check_Input()
 			return;
 
 		shoot_cooldown = 60 / FIRE_RATE; //seconds per bullet
-
-		for (int i = 0; i < sizeof(arr_bullet) / sizeof(arr_bullet[0]); i++)
-		{
-			struct Bullet bullet = arr_bullet[i];
-			if (!bullet.active) {
-				bullet.pos = CP_Vector_Set(player.pos.x, player.pos.y);
-				bullet.velocity = CP_Vector_Set(shoot_direction.x * BULLET_SPEED, shoot_direction.y * BULLET_SPEED);
-				bullet.active = 1;
-
-				arr_bullet[i] = bullet;
-				break;
-			}
-		}
+		Asteroids_Bullet_Spawn(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, player, shoot_direction);
 
 	}
 }
@@ -260,6 +254,8 @@ void Asteroids_Draw()
 	Asteroids_Bullet_Draw(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]), bullet_sprite, bullet_width, bullet_height);
 	Asteroids_Enemy_Draw(arr_enemy, sizeof(arr_enemy) / sizeof(arr_enemy[0]), enemy_sprite, enemy_width, enemy_height, enemy_hurt_sprite, health_bar_sprite);
 	Asteroids_Enemysplit_Draw(arr_enemysplit, sizeof(arr_enemysplit) / sizeof(arr_enemysplit[0]), enemysplit_sprite, enemysplit_width, enemysplit_height, enemysplit_hurt_sprite, health_bar_sprite);
+	Asteroids_Bullet_Draw(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, bullet_sprite, bullet_width, bullet_height);
+	Asteroids_Enemy_Draw(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, enemy_sprite, enemy_width, enemy_height, enemy_hurt_sprite);
 	Asteroids_Player_Draw(player_sprite, player.pos, player_width, player_height, player_rotation);
 
 	Asteroids_FPS_Draw();
@@ -289,8 +285,8 @@ void Asteroids_Debug()
 		return;
 
 	Asteroids_Player_Debug(player);
-	Asteroids_Enemy_Debug(arr_enemy, sizeof(arr_enemy)/sizeof(arr_enemy[0]));
-	Asteroids_Bullet_Debug(arr_bullet, sizeof(arr_bullet) / sizeof(arr_bullet[0]));
+	Asteroids_Enemy_Debug(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES);
+	Asteroids_Bullet_Debug(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS);
 
 }
 
