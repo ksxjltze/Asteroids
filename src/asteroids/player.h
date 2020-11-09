@@ -31,9 +31,13 @@ void Asteroids_Player_Refuel(float amount, Player* player);
 void Asteroids_Player_Debug(Player player);
 
 void Asteroids_Player_Update_Movement(Player* player, float dt);
+void Asteroids_Player_Simple_Movement(Player* player);
+void Asteroids_Player_Check_Input(Player* player, float dt, CP_Vector direction);
+
 void Asteroids_Player_Accelerate(Player* player, float dt, CP_Vector direction);
 void Asteroids_Player_Decelerate(Player* player, float dt);
 void Asteroids_Player_Strafe_Port(Player* player, float dt, CP_Vector direction);
 void Asteroids_Player_Strafe_Starboard(Player* player, float dt, CP_Vector direction);
 
 void Asteroids_Player_Death(Player* player);
+void Asteroids_Player_Hit(Player* player);

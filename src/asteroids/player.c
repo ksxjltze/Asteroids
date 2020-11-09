@@ -51,6 +51,15 @@ void Asteroids_Player_Death(Player* player)
 	player->active = 0;
 }
 
+void Asteroids_Player_Hit(Player* player)
+{
+	if (!player->status.hit)
+	{
+		player->hp.current -= 1;
+		player->status.hit = 1;
+	}
+}
+
 void Asteroids_Player_Draw(CP_Image player_sprite, CP_Vector pos, float player_width, float player_height, float player_rotation)
 {
 	CP_Image_DrawAdvanced(player_sprite, pos.x, pos.y, player_width, player_height, 255, player_rotation);
@@ -82,6 +91,49 @@ void Asteroids_Player_Calculate_Fuel(Player* player)
 
 	player->engine.fuel.current -= player->engine.drain_rate * CP_System_GetDt();
 
+}
+
+void Asteroids_Player_Simple_Movement(Player* player)
+{
+	if (CP_Input_KeyDown(KEY_W))
+	{
+		player->pos.y -= ASTEROIDS_PLAYER_SIMPLE_SPEED;
+	}
+	else if (CP_Input_KeyDown(KEY_S))
+	{
+		player->pos.y += ASTEROIDS_PLAYER_SIMPLE_SPEED;
+	}
+	if (CP_Input_KeyDown(KEY_A))
+	{
+		player->pos.x -= ASTEROIDS_PLAYER_SIMPLE_SPEED;
+	}
+	else if (CP_Input_KeyDown(KEY_D))
+	{
+		player->pos.x += ASTEROIDS_PLAYER_SIMPLE_SPEED;
+	}
+}
+
+void Asteroids_Player_Check_Input(Player* player, float dt, CP_Vector direction)
+{
+	if (CP_Input_KeyDown(KEY_W))
+	{
+		Asteroids_Player_Accelerate(player, dt, direction);
+	}
+
+	if (CP_Input_KeyDown(KEY_S))
+	{
+		Asteroids_Player_Decelerate(player, dt);
+	}
+
+	if (CP_Input_KeyDown(KEY_A))
+	{
+		Asteroids_Player_Strafe_Port(player, dt, direction);
+	}
+
+	if (CP_Input_KeyDown(KEY_D))
+	{
+		Asteroids_Player_Strafe_Starboard(player, dt, direction);
+	}
 }
 
 void Asteroids_Player_Debug(Player player)

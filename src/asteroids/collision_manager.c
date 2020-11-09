@@ -37,13 +37,8 @@ void Asteroids_Collision_CheckCollision_Enemy_Player(Enemy enemy_pool[], int ene
 		Enemy* enemy = &enemy_pool[i];
 		if (Asteroids_Collision_CheckCollision_Circle(enemy->collider, enemy->pos, player->collider, player->pos))
 		{
-			//player->active = 0;
-			if (!player->status.hit)
-			{
-				player->hp.current -= 1;
-				player->status.hit = 1;
-			}
-			enemy->active = 0;
+			Asteroids_Player_Hit(player);
+			Asteroids_Enemy_Death(enemy);
 			return;
 
 		}
