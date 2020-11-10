@@ -32,26 +32,13 @@ void particle_init(void)
 	explosion.image[6] = CP_Image_Load("./Assets/Explosion/Image007.png");
 	explosion.image[7] = CP_Image_Load("./Assets/Explosion/Image008.png");
 
-	explosion.w[0] = (float)CP_Image_GetWidth(explosion.image[0]);
-	explosion.w[1] = (float)CP_Image_GetWidth(explosion.image[1]);
-	explosion.w[2] = (float)CP_Image_GetWidth(explosion.image[2]);
-	explosion.w[3] = (float)CP_Image_GetWidth(explosion.image[3]);
-	explosion.w[4] = (float)CP_Image_GetWidth(explosion.image[4]);
-	explosion.w[5] = (float)CP_Image_GetWidth(explosion.image[5]);
-	explosion.w[6] = (float)CP_Image_GetWidth(explosion.image[6]);
-	explosion.w[7] = (float)CP_Image_GetWidth(explosion.image[7]);
-											  
-	explosion.h[0] = (float)CP_Image_GetHeight(explosion.image[0]);
-	explosion.h[1] = (float)CP_Image_GetHeight(explosion.image[1]);
-	explosion.h[2] = (float)CP_Image_GetHeight(explosion.image[2]);
-	explosion.h[3] = (float)CP_Image_GetHeight(explosion.image[3]);
+	explosion.image_count = 7;
+	for (int i = 0; i < explosion.image_count; i++)
+	{
+		explosion.w[i] = (float)CP_Image_GetWidth(explosion.image[i]) * 0.3f;
+		explosion.h[i] = (float)CP_Image_GetHeight(explosion.image[i]) * 0.3f;
+	}
 
-	explosion.h[4] = (float)CP_Image_GetHeight(explosion.image[4]);
-	explosion.h[5] = (float)CP_Image_GetHeight(explosion.image[5]);
-	explosion.h[6] = (float)CP_Image_GetHeight(explosion.image[6]);
-	explosion.h[7] = (float)CP_Image_GetHeight(explosion.image[7]);
-
-	explosion.image_count = 8;
 	explosion.delay = 0.1f;
 
 	for (int i = 0; i < sizeof(particle)/ sizeof(particle[0]); i++)
@@ -79,7 +66,7 @@ void draw_particle()
 		
 		if (particle[i].enabled)
 		{
-			CP_Image_Draw(explosion.image[particle[i].key_frame], particle[i].posX, particle[i].posY, explosion.w[particle[i].key_frame], explosion.h[particle[i].key_frame], (int)(particle[i].lifetime/particle[i].life * 255.0f));
+			CP_Image_Draw(explosion.image[particle[i].key_frame], particle[i].posX, particle[i].posY, particle[i].size * explosion.w[particle[i].key_frame], particle[i].size * explosion.h[particle[i].key_frame], (int)(particle[i].lifetime/particle[i].life * 255.0f));
 
 		}
 
@@ -87,7 +74,7 @@ void draw_particle()
 }
 
 //Generate particle velocity and set lifetime.
-void particle_velocity(CP_Vector position, int particles, float min_velocity, float max_velocity)
+void particle_velocity(CP_Vector position, int particles, float min_velocity, float max_velocity, float size)
 {
 	CP_Vector velocity;
 	for (int i = 0; i < sizeof(particle) / sizeof(particle[0]); i++)
@@ -105,14 +92,15 @@ void particle_velocity(CP_Vector position, int particles, float min_velocity, fl
 			particle[i].velocity = velocity;
 			particle[i].life = particle[i].delay * (explosion.image_count);
 			particle[i].lifetime = particle[i].life;
+			particle[i].size = size;
 			--particles;
 		}
 	}
 }
 
-void spawn_particles(CP_Vector position, int particles, float min_velocity, float max_velocity)
+void spawn_particles(CP_Vector position, int particles, float min_velocity, float max_velocity, float size)
 {
-	particle_velocity(position, particles, min_velocity, max_velocity);
+	particle_velocity(position, particles, min_velocity, max_velocity, size);
 }
 
 void particle_update()
