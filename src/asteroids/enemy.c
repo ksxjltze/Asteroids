@@ -78,9 +78,10 @@ void Asteroids_Enemy_Split(Enemy* enemy, Player player, Enemy enemy_pool[], int 
 	{
 		if (enemy->collider.diameter > player.bullet_diameter)
 		{
-			for (unsigned int j = 0; j < CP_Random_RangeInt(ASTEROIDS_ENEMY_SPLIT_MIN_NUMBER, ASTEROIDS_ENEMY_SPLIT_MAX_NUMBER); j++)
+			unsigned int split_count = CP_Random_RangeInt(ASTEROIDS_ENEMY_SPLIT_MIN_NUMBER, ASTEROIDS_ENEMY_SPLIT_MAX_NUMBER);
+			for (unsigned int j = 0; j < split_count; j++)
 			{
-				Asteroids_Enemy_Spawn_Child(enemy_pool, count, *enemy);
+				Asteroids_Enemy_Spawn_Child(enemy_pool, count, *enemy, split_count);
 			}
 		}
 	}
@@ -289,9 +290,9 @@ void Asteroids_Enemy_Collide(Enemy* enemy1, Enemy* enemy2, Enemy enemy_pool[], i
 
 
 //LIU KE
-void Asteroids_Enemy_Spawn_Child(Enemy enemy_pool[], int count, Enemy parent)
+void Asteroids_Enemy_Spawn_Child(Enemy enemy_pool[], int pool_count, Enemy parent, int count)
 {
-	for (int i = 0; i < count; i++)
+	for (int i = 0; i < pool_count; i++)
 	{
 		Enemy enemy = enemy_pool[i];
 		if (!enemy.active)
@@ -299,9 +300,9 @@ void Asteroids_Enemy_Spawn_Child(Enemy enemy_pool[], int count, Enemy parent)
 			enemy.active = 1;
 			enemy.parent_id = parent.id;
 			enemy.pos = parent.pos;
-			enemy.speed = parent.speed * 2;
-			enemy.size = parent.size / 2;
-			enemy.collider.diameter = parent.collider.diameter / 2;
+			enemy.speed = parent.speed * count;
+			enemy.size = parent.size / count;
+			enemy.collider.diameter = parent.collider.diameter / count;
 			enemy.rotate_rate = Asteroids_Enemy_Random_Rotation();
 			enemy.velocity = CP_Vector_Add(parent.velocity, CP_Vector_Set(CP_Random_RangeFloat(-100, 100), CP_Random_RangeFloat(-100, 100)));
 			enemy.hp.max = ENEMY_HP;

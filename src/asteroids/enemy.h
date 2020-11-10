@@ -44,5 +44,5 @@ float Asteroids_Enemy_Random_Rotation();
 void Asteroids_Enemy_Split(Enemy* enemy, Player player, Enemy enemy_pool[], int count);
 
 //LIU KE
-void Asteroids_Enemy_Spawn_Child(Enemy enemy_pool[], int count, Enemy parent);
+void Asteroids_Enemy_Spawn_Child(Enemy enemy_pool[], int pool_count, Enemy parent, int count);
 
