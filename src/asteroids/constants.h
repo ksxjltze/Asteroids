@@ -31,7 +31,7 @@ extern const float ASTEROIDS_ENEMY_IDLE_ROTATE_RATE_MIN;
 extern const float ASTEROIDS_ENEMY_IDLE_ROTATE_RATE_MAX;
 
 extern const float ASTEROIDS_ASTEROID_ENEMY_VELOCITY_OFFSET;
-extern const float SPAWN_OFFSET;
+extern const float ASTEROIDS_ENEMY_SPAWN_OFFSET;
 
 //Initial number of asteroids to spawn
 extern const int ASTEROIDS_ASTEROID_ENEMY_SPAWN_COUNT_MIN;

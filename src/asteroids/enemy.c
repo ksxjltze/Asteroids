@@ -47,27 +47,44 @@ void Asteroids_Enemy_Update(Enemy enemy_pool[], int count, Player player)
 	for (int i = 0; i < count; i++)
 	{
 		Enemy* enemy = &enemy_pool[i];
-		if (enemy->active == 0)
-			continue;
-
-		enemy->pos = CP_Vector_Add(enemy->pos, CP_Vector_Scale(enemy->velocity, dt));
-		Asteroids_Enemy_Idle_Rotate(enemy, enemy->rotate_rate, dt);
-		Asteroids_Collision_CheckCollision_Enemy_Enemy(enemy_pool, count, &enemy_pool[i], player);
-
-		if (enemy->status.hit)
+		if (enemy->active)
 		{
-			enemy->status.hit_cooldown -= CP_System_GetDt();
-			if (enemy->status.hit_cooldown <= 0)
+			enemy->pos = CP_Vector_Add(enemy->pos, CP_Vector_Scale(enemy->velocity, dt));
+			Asteroids_Enemy_Idle_Rotate(enemy, enemy->rotate_rate, dt);
+			Asteroids_Collision_CheckCollision_Enemy_Enemy(enemy_pool, count, &enemy_pool[i], player);
+			Asteroids_Enemy_Check_OutOfBounds(enemy_pool, count);
+
+			if (enemy->status.hit)
 			{
-				enemy->status.hit = 0;
-				enemy->status.hit_cooldown = HURT_WINDOW;
+				enemy->status.hit_cooldown -= CP_System_GetDt();
+				if (enemy->status.hit_cooldown <= 0)
+				{
+					enemy->status.hit = 0;
+					enemy->status.hit_cooldown = HURT_WINDOW;
+				}
 			}
+
+			if (enemy->hp.current < 0) // enemy dies
+			{
+				Asteroids_Enemy_Split(enemy, player, enemy_pool, count);
+				Asteroids_Enemy_Death(enemy);
+			}
+
 		}
 
-		if (enemy->hp.current <= 0) // enemy dies
+	}
+}
+
+void Asteroids_Enemy_Check_OutOfBounds(Enemy enemy_pool[], int pool_size)
+{
+	for (int i = 0; i < pool_size; i++)
+	{
+		if (!enemy_pool[i].active)
+			continue;
+
+		if ((enemy_pool[i].pos.x > WIN_WIDTH + ASTEROIDS_ENEMY_SPAWN_OFFSET) || (enemy_pool[i].pos.x < 0 - ASTEROIDS_ENEMY_SPAWN_OFFSET) || (enemy_pool[i].pos.y > WIN_HEIGHT + ASTEROIDS_ENEMY_SPAWN_OFFSET) || (enemy_pool[i].pos.y < 0 - ASTEROIDS_ENEMY_SPAWN_OFFSET))
 		{
-			Asteroids_Enemy_Split(enemy, player, enemy_pool, count);
-			Asteroids_Enemy_Death(enemy);
+			Asteroids_Enemy_Reset(&enemy_pool[i]);
 		}
 	}
 }
@@ -89,14 +106,10 @@ void Asteroids_Enemy_Split(Enemy* enemy, Player player, Enemy enemy_pool[], int 
 
 void Asteroids_Enemy_Death(Enemy* enemy)
 {
-	enemy->active = 0;
-	enemy->split_count = 0;
-	enemy->parent_id = 0;
-
 	Score.enemy_kill_score += 1;
 	spawn_particles(enemy->pos, 8, 0, 0);
 	Asteroids_Generate_Powerup_On_Enemy_Death(enemy->pos);
-	//Asteroids_Enemy_Reset(enemy);
+	Asteroids_Enemy_Reset(enemy);
 }
 
 void Asteroids_Enemy_Reset(Enemy* enemy)
@@ -237,8 +250,8 @@ CP_Vector Asteroids_Enemy_Random_Pos()
 
 	while (x >= 0 && x < win_width && y >= 0 && y < win_height)
 	{
-		x = CP_Random_RangeFloat(-SPAWN_OFFSET, win_width + SPAWN_OFFSET);
-		y = CP_Random_RangeFloat(-SPAWN_OFFSET, win_height + SPAWN_OFFSET);
+		x = CP_Random_RangeFloat(-ASTEROIDS_ENEMY_SPAWN_OFFSET, win_width + ASTEROIDS_ENEMY_SPAWN_OFFSET);
+		y = CP_Random_RangeFloat(-ASTEROIDS_ENEMY_SPAWN_OFFSET, win_height + ASTEROIDS_ENEMY_SPAWN_OFFSET);
 	}
 
 	pos.x = x;
