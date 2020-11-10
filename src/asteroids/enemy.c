@@ -107,7 +107,7 @@ void Asteroids_Enemy_Split(Enemy* enemy, Player player, Enemy enemy_pool[], int 
 void Asteroids_Enemy_Death(Enemy* enemy)
 {
 	Score.enemy_kill_score += 1;
-	spawn_particles(enemy->pos, 8, 0, 0);
+	spawn_particles(enemy->pos, 8, 0, 0, enemy->size);
 	Asteroids_Generate_Powerup_On_Enemy_Death(enemy->pos);
 	Asteroids_Enemy_Reset(enemy);
 }
