@@ -13,6 +13,12 @@
 bool Floating_powerup_status;
 extern bool powerup_lifespan = false;
 extern bool invulnerable = false;
+extern bool bullet_split = false;
+
+//extern struct powerup
+//{
+//	bool powerup_lifespan;
+//}
 
 enum Asteroids_Powerup_Type { ASTEROIDS_POWERUP_FUEL_PICKUP = 5 };
 
@@ -36,6 +42,8 @@ void Asteroids_Init_Powerups(void) //Initialize variables
 {
 	powerup_count = 0;
 	Floating_powerup_status = true;
+	invulnerable = false;
+	bullet_split = false;
 
 	Powerup_Bulletsplit_Sprite = CP_Image_Load("./Assets/Powerup_Bullet_Split_Sprite.png");
 	Powerup_Recover_Hp_Sprite = CP_Image_Load("./Assets/Powerup_RecoverHealth_Sprite.png");
@@ -73,7 +81,10 @@ void Asteroids_Update_Powerups(struct Player* player) // draws and checks every 
 	if (powerup_lifespan == true)
 	{
 		Asteroids_Powerup_Lifespan_Manager();
-		Asteroids_Powerup_Player_Invulernability(player);
+		if (invulnerable)
+		{
+			Asteroids_Powerup_Player_Invulernability(player);
+		}
 	}
 }
 
@@ -191,6 +202,11 @@ void Asteroids_Powerup_Player_Collision(Powerup powerup[], struct Player* player
 				invulnerable = true;
 				powerup_lifespan = true;
 			}
+			if (powerup[i].type == BULLET_SPLIT)
+			{
+				bullet_split = true;
+				powerup_lifespan = true;
+			}
 		}
 	}
 }
@@ -201,4 +217,9 @@ void Asteroids_Powerup_Interact_Fuel_Pickup(Player* player)
 	Asteroids_Player_Refuel(20, player);
 }
 
+int Asteroids_Powerup_RNG(void)
+{
+	int rng = CP_Random_RangeInt(1, 10);
+	return rng;
+}
 

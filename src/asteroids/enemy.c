@@ -94,7 +94,11 @@ void Asteroids_Enemy_Death(Enemy* enemy)
 
 	Score.enemy_kill_score += 1;
 	spawn_particles(enemy->pos, 8, 0, 0);
-	Asteroids_Generate_Powerup_On_Enemy_Death(enemy->pos);
+	int random = Asteroids_Powerup_RNG();
+	if (random <= 2)
+	{
+		Asteroids_Generate_Powerup_On_Enemy_Death(enemy->pos);
+	}
 	//Asteroids_Enemy_Reset(enemy);
 }
 

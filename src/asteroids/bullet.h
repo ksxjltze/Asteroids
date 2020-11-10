@@ -14,3 +14,4 @@ void Asteroids_Bullet_Update(Bullet bullets[], int bullet_count, Enemy enemy_poo
 void Asteroids_Bullet_Draw(Bullet bullets[], int count, CP_Image bullet_sprite, float bullet_width, float bullet_height);
 void Asteroids_Bullet_Debug(Bullet bullets[], int count);
 void Asteroids_Bullet_Spawn(Bullet bullets[], int count, Player player, CP_Vector shoot_direction);
+void Asteroids_Bullet_Powerup_Split(Bullet bullets[], int count, Player player, CP_Vector shoot_direction);

@@ -3,6 +3,11 @@
 #include "collider_aabb.h"
 #include "collider_circle.h"
 #include "constants.h"
+#include "powerups.h"
+#include "powerup_interaction.h"
+
+extern bool bullet_split;
+extern bool powerup_lifespan;
 
 void Asteroids_Bullet_Init(Bullet bullets[], int count, float bullet_width, float bullet_height)
 {
@@ -89,5 +94,26 @@ void Asteroids_Bullet_Spawn(Bullet bullets[], int count, Player player, CP_Vecto
 			bullets[i] = bullet;
 			break;
 		}
+	}
+}
+void Asteroids_Bullet_Powerup_Split(Bullet bullets[], int count, Player player, CP_Vector shoot_direction)
+{
+
+	CP_Matrix Rotate1 = CP_Matrix_Rotate(15.0f);
+	CP_Matrix Rotate2 = CP_Matrix_Rotate(-15.0f);
+
+	CP_Vector split_1 = shoot_direction;
+	CP_Vector split_2 = shoot_direction;
+
+	split_1 = CP_Vector_MatrixMultiply(Rotate1, split_1);
+	split_2 = CP_Vector_MatrixMultiply(Rotate2, split_2);
+	if (bullet_split)
+	{
+		Asteroids_Bullet_Spawn(bullets, count, player, split_1);
+		Asteroids_Bullet_Spawn(bullets, count, player, split_2);
+	}
+	if (powerup_lifespan == false)
+	{
+		bullet_split = false;
 	}
 }

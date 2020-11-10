@@ -26,6 +26,7 @@ void Asteroids_Draw_Powerup(int type, CP_Vector* pos, CP_Vector movement_vel, fl
 
 // UTILITY 
 int Asteroids_Generate_Random_Powerup(void);
+int Asteroids_Powerup_RNG(void);
 
 // Asteroid death powerups 
 void Asteroids_Generate_Powerup_On_Enemy_Death(CP_Vector position);

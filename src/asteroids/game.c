@@ -16,7 +16,7 @@
 
 #define ASTEROIDS_POOLSIZE_BULLETS 999
 #define ASTEROIDS_POOLSIZE_ENEMIES 100
-#define EZ_MODE 0
+#define EZ_MODE 1
 
 float shoot_cooldown = 0.0f;
 
@@ -216,6 +216,7 @@ void Asteroids_Check_Input()
 
 		shoot_cooldown = 60 / FIRE_RATE; //seconds per bullet
 		Asteroids_Bullet_Spawn(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, player, shoot_direction);
+		Asteroids_Bullet_Powerup_Split(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, player, shoot_direction);
 
 	}
 }
