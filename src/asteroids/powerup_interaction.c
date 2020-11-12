@@ -24,8 +24,6 @@ void Asteroids_Powerup_Lifespan_Manager(void)
 	static float TotalElaspedTime = 0;
 	TotalElaspedTime += dt;
 
-	printf("dt is %.2f\n", TotalElaspedTime);
-
 	if (TotalElaspedTime >= 10.0f)
 	{
 		powerup_lifespan = false;

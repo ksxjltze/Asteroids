@@ -1,6 +1,7 @@
 #pragma once
 #include "cprocessing.h"
 #include "player.h"
+#include "game.h"
 
 typedef struct Enemies {
 	CP_Vector pos;
@@ -34,6 +35,9 @@ void Asteroids_Enemy_Init_Spawn(Enemy enemy_pool[], int count, Player player);
 void Asteroids_Enemy_Spawn_Static(Enemy enemy_pool[], int count, Player player);
 void Asteroids_Enemy_Spawn(Enemy enemy_pool[], int count);
 void Asteroids_Enemy_Spawn_Timer(Enemy enemy_pool[], int count);
+void Asteroids_Enemy_Spawn_Set_Interval(float interval);
+void Asteroids_Enemy_Spawn_Decrease_Interval(float amount);
+void Asteroids_Enemy_Spawn_Scale_Interval(DIFFICULTY difficulty);
 
 CP_Vector Asteroids_Enemy_Random_Pos();
 CP_Vector Asteroids_Enemy_Random_Velocity(CP_Vector pos, float speed);

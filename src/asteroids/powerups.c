@@ -165,7 +165,6 @@ void Asteroids_Floating_Powerup_Manager(void)	// function which resets powerup t
 	{
 		if (!powerup_pool[i].active)
 		{
-			printf("Spawn\n");
 			powerup_pool[i].active = true;
 			powerup_pool[i].type = Asteroids_Generate_Random_Powerup();
 			powerup_pool[i].pos = Asteroids_Utility_Generate_Random_Pos();
@@ -190,7 +189,6 @@ void Asteroids_Powerup_Player_Collision(Powerup powerup[], struct Player* player
 		{
 		
 			powerup[i].active = false;
-			printf("Collision test");
 
 			if (powerup[i].type == ASTEROIDS_POWERUP_FUEL_PICKUP)
 			{

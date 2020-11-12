@@ -84,6 +84,7 @@ void Asteroids_Update(void)
 	{
 		int enemy_count = ASTEROIDS_POOLSIZE_ENEMIES;
 		Asteroids_Cooldown_Update();
+		Asteroids_Difficulty_Update();
 		Asteroids_Enemy_Spawn_Timer(enemy_pool, enemy_count);
 
 		Asteroids_Bullet_Update(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, enemy_pool, enemy_count);
@@ -136,9 +137,20 @@ void Asteroids_Set_Difficulty(DIFFICULTY difficulty)
 	ASTEROIDS_GAME_DIFFICULTY = difficulty;
 }
 
+void Asteroids_Difficulty_Update()
+{
+	difficulty_timer += CP_System_GetDt();
+	if (difficulty_timer >= ASTEROIDS_DIFFICULTY_INTERVAL)
+	{
+		Asteroids_Raise_Difficulty();
+		difficulty_timer = 0;
+	}
+}
+
 void Asteroids_Raise_Difficulty()
 {
-	
+	Asteroids_Enemy_Spawn_Scale_Interval(ASTEROIDS_GAME_DIFFICULTY);
+	ASTEROIDS_GAME_DIFFICULTY++;
 }
 
 //@brief Initializes game entities. Populates entity struct arrays with data (e.g. position, health, etc.)

@@ -14,7 +14,6 @@ extern const float FIRE_RATE; //bullets per minute
 extern const float HURT_WINDOW; //seconds
 extern const float BULLET_DAMAGE;
 extern const float ASTEROIDS_ENEMY_BASE_MAX_HP;
-extern const float ENEMY_SPAWN_TIME;
 
 extern const float ASTEROID_MAX_SPEED; //pixels per second
 extern const float ASTEROID_MIN_SPEED; //pixels per second
@@ -26,6 +25,7 @@ extern const int ASTEROIDS_ENEMY_SPLIT_MAX_COUNT;
 extern const int ASTEROIDS_ENEMY_SPLIT_MIN_NUMBER;
 extern const int ASTEROIDS_ENEMY_SPLIT_MAX_NUMBER;
 extern const int ASTEROIDS_ENEMY_BASE_DIAMETER;
+extern const float ASTEROIDS_ENEMY_BASE_SPAWN_INTERVAL;
 
 extern const float ASTEROIDS_ENEMY_IDLE_ROTATE_RATE_MIN;
 extern const float ASTEROIDS_ENEMY_IDLE_ROTATE_RATE_MAX;
