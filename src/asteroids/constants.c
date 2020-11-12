@@ -46,6 +46,7 @@ const float PLAYER_MAX_FUEL = 100.0f;
 const float DRAIN_RATE = 5.0f;
 
 const CP_KEY ASTEROIDS_PAUSE_KEY = KEY_ESCAPE;
+const float ASTEROIDS_ENEMY_BASE_MAX_HP = 3.0f;
 const float ENEMY_SPAWN_TIME = 2.0f;
 
 const char* PLAYER_SPRITE_PATH = "./Assets/spaceship1.png";
