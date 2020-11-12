@@ -18,6 +18,8 @@
 #include "constants.h"
 
 CP_Image splash;
+int WIN_WIDTH = 1280;
+int WIN_HEIGHT = 720;
 
 // main() the starting point for the program
 // CP_Engine_SetNextGameState() tells CProcessing which functions to use for init, update and exit
@@ -27,7 +29,12 @@ void main_init(void)
 {
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
 	Asteroids_Menu_Settings_Setup(WIN_WIDTH, WIN_HEIGHT);
+
+	WIN_WIDTH = CP_System_GetWindowWidth();
+	WIN_HEIGHT = CP_System_GetWindowHeight();
+
 	splash = CP_Image_Load("./Assets/DigiPen_WHITE.png");
+
 
 }
 

@@ -1,8 +1,8 @@
 #pragma once
 #include "cprocessing.h"
 
-extern const int WIN_WIDTH;
-extern const int WIN_HEIGHT;
+extern int WIN_WIDTH;
+extern int WIN_HEIGHT;
 extern const float SPLASH_DURATION;
 
 extern const float MAX_VELOCITY; //pixels per second
