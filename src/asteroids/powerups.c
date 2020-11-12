@@ -8,7 +8,7 @@
 #define POWERUP_MIN_VALUE 1   
 #define POWERUP_MAX_VALUE 4 + 1
 
-#define POWERUP_MAX_SIZE 100
+#define POWERUP_MAX_SIZE 10
 
 bool Floating_powerup_status;
 extern bool powerup_lifespan = false;
@@ -77,6 +77,7 @@ void Asteroids_Update_Powerups(struct Player* player) // draws and checks every 
 			Asteroids_Powerup_Player_Collision(powerup_pool, *&player);
 			Asteroids_Draw_Powerup(p.type, &powerup_pool[i].pos, p.movement_Vel, &powerup_pool[i].rotation);
 			Asteroids_Draw_Powerup(Floating_Powerup.type, &Floating_Powerup.pos, Floating_Powerup.movement_Vel, &Floating_Powerup.rotation);
+			Asteroids_Checkpowerup_Location();
 		}
 	}
 
@@ -92,7 +93,7 @@ void Asteroids_Update_Powerups(struct Player* player) // draws and checks every 
 
 void Asteroids_Draw_Powerup(int type, CP_Vector* pos, CP_Vector movement_vel, float* rotation)  // Draws specific powerup based on a random count
 {
-	powerup_count += 1;
+
 	switch (type) // change to delta time
 	{
 	case BULLET_SPLIT:
@@ -218,7 +219,6 @@ void Asteroids_Powerup_Player_Collision(Powerup powerup[], struct Player* player
 	}
 }
 
-
 void Asteroids_Powerup_Interact_Fuel_Pickup(Player* player)
 {
 	Asteroids_Player_Refuel(20, player);
@@ -226,7 +226,22 @@ void Asteroids_Powerup_Interact_Fuel_Pickup(Player* player)
 
 int Asteroids_Powerup_RNG(void)
 {
-	int rng = CP_Random_RangeInt(1, 10);
+	int rng = CP_Random_RangeInt(1, 20);
 	return rng;
+}
+
+void Asteroids_Checkpowerup_Location(void)
+{
+	for (int i = 0; i < POWERUP_MAX_SIZE; i++)
+	{
+		if (powerup_pool[i].active)
+		{
+			if (powerup_pool[i].pos.x > WIN_WIDTH || powerup_pool[i].pos.x < 0 ||
+				powerup_pool[i].pos.y > WIN_HEIGHT || powerup_pool[i].pos.y < 0)
+			{
+				powerup_pool[i].active = false;
+			}
+		}
+	}
 }
 
