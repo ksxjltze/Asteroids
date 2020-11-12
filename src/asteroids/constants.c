@@ -1,6 +1,4 @@
 #include "constants.h"
-const int WIN_WIDTH = 1280;
-const int WIN_HEIGHT = 720;
 const float SPLASH_DURATION = 3.0f;
 
 const float MAX_VELOCITY = 10.0f; //pixels per second
