@@ -8,6 +8,7 @@
 
 extern bool bullet_split;
 extern bool powerup_lifespan;
+extern bool BPM;
 
 void Asteroids_Bullet_Init(Bullet bullets[], int count, float bullet_width, float bullet_height)
 {
@@ -88,7 +89,14 @@ void Asteroids_Bullet_Spawn(Bullet bullets[], int count, Player player, CP_Vecto
 		if (!bullet.active)
 		{
 			bullet.pos = CP_Vector_Set(player.pos.x, player.pos.y);
-			bullet.velocity = CP_Vector_Set(shoot_direction.x * BULLET_SPEED, shoot_direction.y * BULLET_SPEED);
+			if (BPM)
+			{
+				bullet.velocity = CP_Vector_Set(shoot_direction.x * BULLET_SPEED * 2, shoot_direction.y * BULLET_SPEED * 2);
+				if (!powerup_lifespan)
+					BPM = false;
+			}
+			else
+				bullet.velocity = CP_Vector_Set(shoot_direction.x * BULLET_SPEED, shoot_direction.y * BULLET_SPEED);
 			bullet.active = 1;
 
 			bullets[i] = bullet;

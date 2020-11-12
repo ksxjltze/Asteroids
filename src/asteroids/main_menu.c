@@ -7,6 +7,7 @@ bool status;
 static int input;
 
 Button Credits, Play, Quit, Leaderboard, Controls, Exit;
+CP_Image Control_screen;
 
 void Asteroids_MainMenu_Init(void)
 {
@@ -57,13 +58,15 @@ void Asteroids_MainMenu_Button_Init(void)
 	float y1 = y2 - BUTTON_HEIGHT;
 	float y3 = y2 + BUTTON_HEIGHT;
 
+	Control_screen = CP_Image_Load("./Assets/Control_screen.png");
+
 	CP_Vector pos1 = CP_Vector_Set(x1, y1);
 	CP_Vector pos2 = CP_Vector_Set(x1, y2);
 	CP_Vector pos3 = CP_Vector_Set(x1, y3);
 	CP_Vector pos4 = CP_Vector_Set(x2, y1);
 	CP_Vector pos5 = CP_Vector_Set(x2, y2);
 
-	CP_Vector pos6 = CP_Vector_Set((float)((WIN_WIDTH / 2 - BUTTON_WIDTH / 2)), (float)(WIN_HEIGHT / 2 + BUTTON_HEIGHT * 2));
+	CP_Vector pos6 = CP_Vector_Set((float)((WIN_WIDTH / 2 - BUTTON_WIDTH / 2)), (float)(WIN_HEIGHT / 2 + BUTTON_HEIGHT * 5));
 
 	Play = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	Controls = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -136,9 +139,7 @@ void Asteroids_Controls(void)
 	status = false;
 
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
-	CP_Settings_TextSize(100.0f);
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Font_DrawTextBox("Controls (TODO)", 0.0f, (float)(WIN_HEIGHT / 2), (float)WIN_WIDTH);
+	CP_Image_Draw(Control_screen, (float)WIN_WIDTH/2.0f, (float)WIN_HEIGHT / 2.0f, (float)WIN_WIDTH, (float)WIN_HEIGHT, 255);
 
 	Asteroids_Button_Update(&Exit);
 }

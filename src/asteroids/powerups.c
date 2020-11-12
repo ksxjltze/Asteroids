@@ -14,6 +14,7 @@ bool Floating_powerup_status;
 extern bool powerup_lifespan = false;
 extern bool invulnerable = false;
 extern bool bullet_split = false;
+extern bool BPM = false;
 
 //extern struct powerup
 //{
@@ -44,6 +45,7 @@ void Asteroids_Init_Powerups(void) //Initialize variables
 	Floating_powerup_status = true;
 	invulnerable = false;
 	bullet_split = false;
+	BPM = false;
 
 	Powerup_Bulletsplit_Sprite = CP_Image_Load("./Assets/Powerup_Bullet_Split_Sprite.png");
 	Powerup_Recover_Hp_Sprite = CP_Image_Load("./Assets/Powerup_RecoverHealth_Sprite.png");
@@ -195,6 +197,11 @@ void Asteroids_Powerup_Player_Collision(Powerup powerup[], struct Player* player
 				Asteroids_Powerup_Interact_Fuel_Pickup(player);
 			}
 
+			if (powerup[i].type == INCREASE_BPM)
+			{
+				BPM = true;
+				powerup_lifespan = true;
+			}
 			if (powerup[i].type == INVULNERABILITY)
 			{
 				invulnerable = true;
