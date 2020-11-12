@@ -13,11 +13,12 @@
 #include "user_interface.h"
 #include "score.h"
 #include "collision_manager.h"
+#include <stdbool.h>
 
 #define ASTEROIDS_POOLSIZE_BULLETS 999
 #define ASTEROIDS_POOLSIZE_ENEMIES 100
-#define EZ_MODE 1
 
+DIFFICULTY ASTEROIDS_GAME_DIFFICULTY = NORMAL;
 float shoot_cooldown = 0.0f;
 
 CP_Image player_sprite;
@@ -43,9 +44,10 @@ float enemy_height;
 float enemysplit_width;
 float enemysplit_height;
 
-
-int difficulty = 0; //NORMAL
 int debug_mode = 0;
+
+static float difficulty_timer;
+static bool ez_mode;
 
 Bullet bullet_pool[ASTEROIDS_POOLSIZE_BULLETS];
 Enemy enemy_pool[ASTEROIDS_POOLSIZE_ENEMIES];
@@ -58,6 +60,7 @@ void Asteroids_Init(void)
 {
 	// initialize variables and CProcessing settings for this gamestate
 	Asteroids_Settings_Setup(WIN_WIDTH, WIN_HEIGHT);
+	Asteroids_Set_Difficulty(NORMAL);
 	Asteroids_Sprites_Load();
 	Asteroids_UI_Health_HP_Init();
 	Asteroids_Entities_Init();
@@ -116,6 +119,26 @@ void Asteroids_Cooldown_Update()
 		shoot_cooldown = 0;
 	else
 		shoot_cooldown -= CP_System_GetDt();
+}
+
+void Asteroids_Set_Difficulty(DIFFICULTY difficulty)
+{
+	difficulty_timer = 0;
+	ez_mode = 0;
+	switch (difficulty)
+	{
+	case EASY:
+		ez_mode = 1;
+		break;
+	default:
+		break;
+	}
+	ASTEROIDS_GAME_DIFFICULTY = difficulty;
+}
+
+void Asteroids_Raise_Difficulty()
+{
+	
 }
 
 //@brief Initializes game entities. Populates entity struct arrays with data (e.g. position, health, etc.)
@@ -204,7 +227,7 @@ void Asteroids_Check_Input()
 		Asteroids_Enemy_Spawn(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES);
 	}
 
-	if (EZ_MODE)
+	if (ez_mode)
 		Asteroids_Player_Simple_Movement(&player);
 	else
 		Asteroids_Player_Check_Input(&player, dt, shoot_direction);

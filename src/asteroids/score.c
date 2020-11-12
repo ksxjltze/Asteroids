@@ -19,6 +19,7 @@ void Asteroids_Init_Score(void)
 }
 void Asteroids_Draw_Scores(void)
 {
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	Asteroids_Time_Score_Manager();
 	Asteroids_EnemyKill_Score_Manager();
 }

@@ -28,6 +28,7 @@ void Asteroids_MainMenu_Exit(void)
 
 void Asteroids_Draw_MainMenu(void)
 {
+	CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
 	CP_Font_DrawTextBox("Asteroids", 0, 50.0f, (float)WIN_WIDTH);
 
 	if (status)
