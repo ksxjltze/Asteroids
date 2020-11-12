@@ -5,8 +5,8 @@
 */
 CP_Vector Asteroids_Utility_Generate_Random_Pos()
 {
-	float x = (float)(CP_Random_GetInt() % WIN_WIDTH);
-	float y = (float)(CP_Random_GetInt() % WIN_HEIGHT);
+	float x = (float)(CP_Random_GetInt() % CP_System_GetWindowWidth());
+	float y = (float)(CP_Random_GetInt() % CP_System_GetWindowHeight());
 
 	return CP_Vector_Set(x, y);
 }

@@ -59,7 +59,6 @@ Player player;
 void Asteroids_Init(void)
 {
 	// initialize variables and CProcessing settings for this gamestate
-	Asteroids_Settings_Setup(WIN_WIDTH, WIN_HEIGHT);
 	Asteroids_Set_Difficulty(NORMAL);
 	Asteroids_Sprites_Load();
 	Asteroids_UI_Health_HP_Init();

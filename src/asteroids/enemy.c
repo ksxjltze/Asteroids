@@ -84,7 +84,7 @@ void Asteroids_Enemy_Check_OutOfBounds(Enemy enemy_pool[], int pool_size)
 		if (!enemy_pool[i].active)
 			continue;
 
-		if ((enemy_pool[i].pos.x > WIN_WIDTH + ASTEROIDS_ENEMY_SPAWN_OFFSET) || (enemy_pool[i].pos.x < 0 - ASTEROIDS_ENEMY_SPAWN_OFFSET) || (enemy_pool[i].pos.y > WIN_HEIGHT + ASTEROIDS_ENEMY_SPAWN_OFFSET) || (enemy_pool[i].pos.y < 0 - ASTEROIDS_ENEMY_SPAWN_OFFSET))
+		if ((enemy_pool[i].pos.x > CP_System_GetWindowWidth() + ASTEROIDS_ENEMY_SPAWN_OFFSET) || (enemy_pool[i].pos.x < 0 - ASTEROIDS_ENEMY_SPAWN_OFFSET) || (enemy_pool[i].pos.y > CP_System_GetWindowHeight() + ASTEROIDS_ENEMY_SPAWN_OFFSET) || (enemy_pool[i].pos.y < 0 - ASTEROIDS_ENEMY_SPAWN_OFFSET))
 		{
 			Asteroids_Enemy_Reset(&enemy_pool[i]);
 		}
