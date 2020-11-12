@@ -44,7 +44,7 @@ void Asteroids_Collision_CheckCollision_Enemy_Player(Enemy enemy_pool[], int ene
 			{
 				if (!invulnerable)
 				{
-					Asteroids_Player_Hit(player, enemy->size);
+					Asteroids_Player_Hit(player, enemy->size * ASTEROIDS_ASTEROID_ENEMY_BASE_DAMAGE);
 				}
 				Asteroids_Enemy_Death(enemy);
 				return;

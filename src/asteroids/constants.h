@@ -39,11 +39,11 @@ extern const int ASTEROIDS_ASTEROID_ENEMY_SPAWN_COUNT_MAX;
 extern const int ASTEROIDS_ASTEROID_ENEMYSPLIT_SPAWN_COUNT_MIN;
 extern const int ASTEROIDS_ASTEROID_ENEMYSPLIT_SPAWN_COUNT_MAX;
 
+extern const float ASTEROIDS_ASTEROID_ENEMY_BASE_DAMAGE;
+
 
 //health bar
-extern const float BAR_WIDTH;
-extern const float BAR_HEIGHT;
-extern const float BAR_OFFSET_Y;
+extern const float ASTEROIDS_UI_PLAYER_HEALTH_BAR_WIDTH;
 
 extern const char* PLAYER_SPRITE_PATH;
 extern const char* ASTEROIDS_HEART_SPRITE_PATH;
