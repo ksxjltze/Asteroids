@@ -42,7 +42,7 @@ extern const float BAR_OFFSET_Y = 10;
 
 extern const char* PLAYER_SPRITE_PATH = "./Assets/spaceship1.png";
 extern const char* ASTEROIDS_HEART_SPRITE_PATH = "./Assets/heart.png";
-extern const float PLAYER_MAX_HP = 3;
+extern const float PLAYER_MAX_HP = 100;
 
 extern const float PLAYER_MAX_FUEL = 100.0f;
 extern const float DRAIN_RATE = 5.0f;

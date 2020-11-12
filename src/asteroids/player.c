@@ -23,6 +23,9 @@ struct Player Asteroids_Player_Init(float player_width, float player_height)
 	player.engine.fuel.max = player.engine.fuel.current;
 	player.engine.drain_rate = DRAIN_RATE;
 
+	player.status.hit = 0;
+	player.status.hit_cooldown = 0;
+
 	return player;
 }
 
@@ -53,12 +56,14 @@ void Asteroids_Player_Death(Player* player)
 	player->active = 0;
 }
 
-void Asteroids_Player_Hit(Player* player)
+void Asteroids_Player_Hit(Player* player, float damage)
 {
 	if (!player->status.hit)
 	{
-		player->hp.current -= 1;
+		player->hp.current -= damage;
+		printf("%f\n", damage);
 		player->status.hit = 1;
+		player->status.hit_cooldown = HURT_WINDOW;
 	}
 }
 

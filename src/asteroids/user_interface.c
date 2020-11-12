@@ -22,18 +22,13 @@ void Asteroids_UI_Draw(Health hp)
 
 void Asteroids_UI_Health_HP_Draw(Health hp)
 {
-	for (float i = 1; i <= hp.current; i++)
-	{
-		if (heart_sprite)
-			CP_Image_Draw(heart_sprite, i * 100, 100, 48, 48, 255);
-	}
-
+	CP_Settings_Fill(CP_Color_Create(50, 50, 50, 255));
+	CP_Graphics_DrawRect(100, 50, hp.max/hp.max * 300, 50);
+	CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
+	CP_Graphics_DrawRect(100, 50, hp.current/hp.max * 300, 50);
 }
 
 void Asteroids_UI_Health_HP_Init()
 {
-	heart_sprite = NULL;
-	heart_sprite = CP_Image_Load(ASTEROIDS_HEART_SPRITE_PATH);
-	if (!heart_sprite)
-		fprintf(stderr, "%s:%s\n", ASTEROIDS_ERROR_STR_MISSING_SPRITE, getVarName(heart_sprite));
+
 }

@@ -240,24 +240,20 @@ void Asteroids_Draw()
 	Asteroids_Bullet_Draw(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, bullet_sprite, bullet_width, bullet_height);
 	Asteroids_Enemy_Draw(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, enemy_sprite, enemy_width, enemy_height, enemy_hurt_sprite);
 	Asteroids_Player_Draw(player_sprite, player.pos, player_width, player_height, player_rotation);
-
-	Asteroids_FPS_Draw();
 }
 
 void Asteroids_Debug_Draw_Text()
 {
-	//TEST PLAYER ROTATION
-	//char str_rotation[10];
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	char str_fuel_text[20];
 	memset(str_fuel_text, '\0', sizeof(str_fuel_text));
 
-	//_gcvt_s(str_rotation, 10, player_rotation, 4);
 	sprintf_s(str_fuel_text, 20, "Fuel: %d", (int)player.engine.fuel.current);
 
 	CP_Settings_TextSize(50.0f);
 
 	CP_Font_DrawText(str_fuel_text, (float)WIN_WIDTH - 500, 100);
-	//CP_Font_DrawText(str_rotation, (float)WIN_WIDTH - 300, 100);
+	Asteroids_FPS_Draw();
 }
 
 void Asteroids_Debug()

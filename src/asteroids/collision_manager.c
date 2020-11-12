@@ -42,11 +42,11 @@ void Asteroids_Collision_CheckCollision_Enemy_Player(Enemy enemy_pool[], int ene
 
 			if (Asteroids_Collision_CheckCollision_Circle(enemy->collider, enemy->pos, player->collider, player->pos))
 			{
-				Asteroids_Enemy_Death(enemy);
 				if (!invulnerable)
 				{
-					Asteroids_Player_Hit(player);
+					Asteroids_Player_Hit(player, enemy->size);
 				}
+				Asteroids_Enemy_Death(enemy);
 				return;
 			}
 
