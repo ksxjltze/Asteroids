@@ -36,7 +36,7 @@ void Asteroids_Bullet_Update(Bullet arr_bullet[], int bullet_count, Enemy enemy_
 		Bullet bullet = arr_bullet[i];
 		if (bullet.active)
 		{
-			if ((bullet.pos.x > WIN_WIDTH || bullet.pos.x < 0) && (bullet.pos.y > WIN_HEIGHT || bullet.pos.y < 0))
+			if ((bullet.pos.x > CP_System_GetWindowWidth() || bullet.pos.x < 0) && (bullet.pos.y > CP_System_GetWindowHeight() || bullet.pos.y < 0))
 			{
 				bullet.active = 0;
 				bullet.pos = CP_Vector_Set(-1, -1);

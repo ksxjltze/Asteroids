@@ -1,8 +1,8 @@
 #pragma once
 #include "cprocessing.h"
 
-extern const int WIN_WIDTH;
-extern const int WIN_HEIGHT;
+extern int WIN_WIDTH;
+extern int WIN_HEIGHT;
 extern const float SPLASH_DURATION;
 
 extern const float MAX_VELOCITY; //pixels per second
@@ -14,7 +14,6 @@ extern const float FIRE_RATE; //bullets per minute
 extern const float HURT_WINDOW; //seconds
 extern const float BULLET_DAMAGE;
 extern const float ASTEROIDS_ENEMY_BASE_MAX_HP;
-extern const float ENEMY_SPAWN_TIME;
 
 extern const float ASTEROID_MAX_SPEED; //pixels per second
 extern const float ASTEROID_MIN_SPEED; //pixels per second
@@ -26,6 +25,7 @@ extern const int ASTEROIDS_ENEMY_SPLIT_MAX_COUNT;
 extern const int ASTEROIDS_ENEMY_SPLIT_MIN_NUMBER;
 extern const int ASTEROIDS_ENEMY_SPLIT_MAX_NUMBER;
 extern const int ASTEROIDS_ENEMY_BASE_DIAMETER;
+extern const float ASTEROIDS_ENEMY_BASE_SPAWN_INTERVAL;
 
 extern const float ASTEROIDS_ENEMY_IDLE_ROTATE_RATE_MIN;
 extern const float ASTEROIDS_ENEMY_IDLE_ROTATE_RATE_MAX;
@@ -56,3 +56,4 @@ extern const CP_KEY ASTEROIDS_PAUSE_KEY;
 
 //ERROR
 extern const char* ASTEROIDS_ERROR_STR_MISSING_SPRITE;
+extern const float ASTEROIDS_DIFFICULTY_INTERVAL;

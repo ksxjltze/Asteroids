@@ -1,6 +1,4 @@
 #include "constants.h"
-const int WIN_WIDTH = 1280;
-const int WIN_HEIGHT = 720;
 const float SPLASH_DURATION = 3.0f;
 
 const float MAX_VELOCITY = 10.0f; //pixels per second
@@ -11,7 +9,6 @@ const int BULLET_SPEED = 1000;
 const float FIRE_RATE = 600.0f; //bullets per minute
 const float HURT_WINDOW = 0.1f; //seconds
 const float BULLET_DAMAGE = 1;
-const float ENEMY_HP = 3;
 
 const float ASTEROID_MIN_SPEED = 50.0f;
 const float ASTEROID_MAX_SPEED = 200.0f; //pixels per second
@@ -47,8 +44,9 @@ const float DRAIN_RATE = 5.0f;
 
 const CP_KEY ASTEROIDS_PAUSE_KEY = KEY_ESCAPE;
 const float ASTEROIDS_ENEMY_BASE_MAX_HP = 3.0f;
-const float ENEMY_SPAWN_TIME = 2.0f;
+const float ASTEROIDS_ENEMY_BASE_SPAWN_INTERVAL = 2.0f;
 
 const char* PLAYER_SPRITE_PATH = "./Assets/spaceship1.png";
 const char* ASTEROIDS_HEART_SPRITE_PATH = "./Assets/heart.png";
 const char* ASTEROIDS_ERROR_STR_MISSING_SPRITE = "ERROR - Missing Sprite";
+const float ASTEROIDS_DIFFICULTY_INTERVAL = 42.0f;

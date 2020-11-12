@@ -61,7 +61,6 @@ void Asteroids_Player_Hit(Player* player, float damage)
 	if (!player->status.hit)
 	{
 		player->hp.current -= damage;
-		printf("%f\n", damage);
 		player->status.hit = 1;
 		player->status.hit_cooldown = HURT_WINDOW;
 	}

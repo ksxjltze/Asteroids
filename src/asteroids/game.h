@@ -6,6 +6,10 @@
 #include <string.h>
 #include <time.h> //Used to seed rand() function for random number generation.
 
+typedef int DIFFICULTY;
+enum DIFFICULTY_TYPE {EASY, NORMAL, HARD, INSANE, IMPOSSIBLE};
+
+extern DIFFICULTY ASTEROIDS_GAME_DIFFICULTY;
 
 void Asteroids_Init(void);
 void Asteroids_Update(void);
@@ -24,3 +28,8 @@ void Asteroids_Entities_Init();
 void Asteroids_Player_Rotate(CP_Vector direction);
 
 void Asteroids_Cooldown_Update();
+
+//Difficulty
+void Asteroids_Set_Difficulty(DIFFICULTY difficulty);
+void Asteroids_Difficulty_Update();
+void Asteroids_Raise_Difficulty();

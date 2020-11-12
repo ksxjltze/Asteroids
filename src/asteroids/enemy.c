@@ -10,6 +10,7 @@
 #include "collision_manager.h"
 
 static float spawn_timer;
+static float spawn_interval;
 void Asteroids_Enemy_Init(Enemy enemy_pool[], int count, float enemy_width, float enemy_height, Player player)
 {
 	for (int i = 0; i < count; i++)
@@ -33,7 +34,8 @@ void Asteroids_Enemy_Init(Enemy enemy_pool[], int count, float enemy_width, floa
 
 		enemy_pool[i] = enemy;
 
-		spawn_timer = ENEMY_SPAWN_TIME;
+		spawn_interval = ASTEROIDS_ENEMY_BASE_SPAWN_INTERVAL;
+		spawn_timer = spawn_interval;
 
 	}
 
@@ -82,7 +84,7 @@ void Asteroids_Enemy_Check_OutOfBounds(Enemy enemy_pool[], int pool_size)
 		if (!enemy_pool[i].active)
 			continue;
 
-		if ((enemy_pool[i].pos.x > WIN_WIDTH + ASTEROIDS_ENEMY_SPAWN_OFFSET) || (enemy_pool[i].pos.x < 0 - ASTEROIDS_ENEMY_SPAWN_OFFSET) || (enemy_pool[i].pos.y > WIN_HEIGHT + ASTEROIDS_ENEMY_SPAWN_OFFSET) || (enemy_pool[i].pos.y < 0 - ASTEROIDS_ENEMY_SPAWN_OFFSET))
+		if ((enemy_pool[i].pos.x > CP_System_GetWindowWidth() + ASTEROIDS_ENEMY_SPAWN_OFFSET) || (enemy_pool[i].pos.x < 0 - ASTEROIDS_ENEMY_SPAWN_OFFSET) || (enemy_pool[i].pos.y > CP_System_GetWindowHeight() + ASTEROIDS_ENEMY_SPAWN_OFFSET) || (enemy_pool[i].pos.y < 0 - ASTEROIDS_ENEMY_SPAWN_OFFSET))
 		{
 			Asteroids_Enemy_Reset(&enemy_pool[i]);
 		}
@@ -215,6 +217,21 @@ float Asteroids_Enemy_Random_Speed()
 	return CP_Random_RangeFloat(ASTEROID_MIN_SPEED, ASTEROID_MAX_SPEED);
 }
 
+void Asteroids_Enemy_Spawn_Set_Interval(float interval)
+{
+	spawn_interval = interval;
+}
+
+void Asteroids_Enemy_Spawn_Decrease_Interval(float amount)
+{
+	Asteroids_Enemy_Spawn_Set_Interval(spawn_interval - amount);
+}
+
+void Asteroids_Enemy_Spawn_Scale_Interval(DIFFICULTY difficulty)
+{
+	Asteroids_Enemy_Spawn_Set_Interval(spawn_interval / (float)difficulty);
+}
+
 void Asteroids_Enemy_Spawn_Timer(Enemy enemy_pool[], int count)
 {
 	float dt = CP_System_GetDt();
@@ -222,7 +239,7 @@ void Asteroids_Enemy_Spawn_Timer(Enemy enemy_pool[], int count)
 
 	if (spawn_timer <= 0)
 	{
-		spawn_timer = ENEMY_SPAWN_TIME;
+		spawn_timer = spawn_interval;
 		Asteroids_Enemy_Spawn(enemy_pool, count);
 	}
 
