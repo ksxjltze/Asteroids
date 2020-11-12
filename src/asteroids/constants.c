@@ -51,4 +51,4 @@ const float ASTEROIDS_ENEMY_BASE_SPAWN_INTERVAL = 2.0f;
 const char* PLAYER_SPRITE_PATH = "./Assets/spaceship1.png";
 const char* ASTEROIDS_HEART_SPRITE_PATH = "./Assets/heart.png";
 const char* ASTEROIDS_ERROR_STR_MISSING_SPRITE = "ERROR - Missing Sprite";
-const float ASTEROIDS_DIFFICULTY_INTERVAL = 60.0f;
+const float ASTEROIDS_DIFFICULTY_INTERVAL = 42.0f;
