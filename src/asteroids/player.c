@@ -107,6 +107,7 @@ void Asteroids_Player_Calculate_Fuel(Player* player)
 
 void Asteroids_Player_Simple_Movement(Player* player)
 {
+	CP_Vector oldPos = player->pos;
 	if (CP_Input_KeyDown(KEY_W))
 	{
 		player->pos.y -= ASTEROIDS_PLAYER_SIMPLE_SPEED;
@@ -122,6 +123,12 @@ void Asteroids_Player_Simple_Movement(Player* player)
 	else if (CP_Input_KeyDown(KEY_D))
 	{
 		player->pos.x += ASTEROIDS_PLAYER_SIMPLE_SPEED;
+	}
+
+	if (!Asteroids_Utility_isInWindow(player->pos))
+	{
+		CP_Vector offset = CP_Vector_Subtract(oldPos, player->pos);
+		player->pos = CP_Vector_Add(player->pos, offset);
 	}
 }
 
