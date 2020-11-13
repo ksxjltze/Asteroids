@@ -175,9 +175,10 @@ void Asteroids_Floating_Powerup_Lifespan_Manager(void)	// tracks time life of po
 	}
 }
 
-void Asteroids_Floating_Powerup_Manager(void)	// function which resets powerup to different value after lifespend
+void Asteroids_Floating_Powerup_Manager(void)	// Initialize variables for floating stuff
 {
-	for (int i = 0; i < POWERUP_MAX_SIZE; i++)
+	//kinda whack, why do i have this. maybe i i'll change dis
+	for(int i = 0; i < POWERUP_MAX_SIZE; i++)
 	{
 		if (!powerup_pool[i].active)
 		{
@@ -202,7 +203,7 @@ void Asteroids_Powerup_Player_Collision(Powerup powerup[], struct Player* player
 			continue;
 		}
 
-		Powerup* P = &powerup[i];
+		Powerup* P = &powerup[i]; //Use *p cuz typing powerup[i] is too long
 		if (Asteroids_Collision_CheckCollision_Circle_Test(P->collider, P->pos, player->collider, player->pos))
 		{
 			
