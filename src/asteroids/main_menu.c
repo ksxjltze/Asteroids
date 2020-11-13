@@ -6,7 +6,9 @@
 bool status;
 static int input;
 
-Button Credits, Play, Quit, Leaderboard, Controls, Exit;
+DIFFICULTY ASTEROIDS_GAME_DIFFICULTY = NORMAL;
+
+Button Credits, Play, Quit, Leaderboard, Controls, Exit, EzButton;
 CP_Image Control_screen;
 
 void Asteroids_MainMenu_Init(void)
@@ -39,6 +41,7 @@ void Asteroids_Draw_MainMenu(void)
 		Asteroids_Button_Update(&Credits);
 		Asteroids_Button_Update(&Leaderboard);
 		Asteroids_Button_Update(&Quit);
+		Asteroids_Button_Update(&EzButton);
 	}
 	else if (!status)
 	{
@@ -67,6 +70,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	CP_Vector pos5 = CP_Vector_Set(x2, y2);
 
 	CP_Vector pos6 = CP_Vector_Set((float)((WIN_WIDTH / 2 - BUTTON_WIDTH / 2)), (float)(WIN_HEIGHT / 2 + BUTTON_HEIGHT * 5));
+	CP_Vector pos7 = CP_Vector_Set((float)WIN_WIDTH - 200, 50);
 
 	Play = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	Controls = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -74,6 +78,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	Leaderboard = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	Quit = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	Exit = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
+	EzButton = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 
 	Asteroids_Button_Set_Text(&Play, textSize, "Play");
 	Asteroids_Button_Set_Text(&Controls, textSize, "Controls");
@@ -81,6 +86,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Text(&Leaderboard, textSize, "Leaderboard");
 	Asteroids_Button_Set_Text(&Quit, textSize, "Quit");
 	Asteroids_Button_Set_Text(&Exit, textSize, "Exit");
+	Asteroids_Button_Set_Text(&EzButton, textSize, "Ez Mode");
 
 	Asteroids_Button_Set_Position(&Play, pos1);
 	Asteroids_Button_Set_Position(&Controls, pos2);
@@ -88,6 +94,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Position(&Leaderboard, pos4);
 	Asteroids_Button_Set_Position(&Quit, pos5);
 	Asteroids_Button_Set_Position(&Exit, pos6);
+	Asteroids_Button_Set_Position(&EzButton, pos7);
 
 	Asteroids_Button_Set_Callback(&Asteroids_Play_Game, &Play);
 	Asteroids_Button_Set_Callback(&Asteroids_Controls, &Controls);
@@ -95,6 +102,13 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Callback(&Asteroids_LeaderBoard, &Leaderboard);
 	Asteroids_Button_Set_Callback(&Asteroids_QuitGame, &Quit);
 	Asteroids_Button_Set_Callback(&Asteroids_Exit_Screen, &Exit);
+	Asteroids_Button_Set_Callback(&Asteroids_Exit_Screen, &Exit);
+	Asteroids_Button_Set_Callback(&Asteroids_Menu_Set_Difficulty, &EzButton);
+}
+
+void Asteroids_Menu_Set_Difficulty(void)
+{
+	ASTEROIDS_GAME_DIFFICULTY = EASY;
 }
 
 void Asteroids_Play_Game(void)
