@@ -171,7 +171,7 @@ void Asteroids_Entities_Init()
 void Asteroids_Sprites_Load()
 {
 	player_sprite = CP_Image_Load(PLAYER_SPRITE_PATH);
-	bullet_sprite = CP_Image_Load("./Assets/bullet.png");
+	bullet_sprite = CP_Image_Load("./Assets/bullet_long.png");
 	enemy_sprite = CP_Image_Load("./Assets/asteroids_cropped.png");
 	enemysplit_sprite = CP_Image_Load("./Assets/Asteroids_small.png");
 	Asteroids_Utility_Generate_Hurt_Sprite(enemy_sprite, &enemy_hurt_sprite);

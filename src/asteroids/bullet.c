@@ -41,6 +41,7 @@ void Asteroids_Bullet_Update(Bullet arr_bullet[], int bullet_count, Enemy enemy_
 				bullet.active = 0;
 				bullet.pos = CP_Vector_Set(-1, -1);
 				bullet.velocity = CP_Vector_Set(0, 0);
+				bullet.rotation = 0;
 
 				arr_bullet[i] = bullet;
 				continue;
@@ -62,7 +63,7 @@ void Asteroids_Bullet_Draw(Bullet arr_bullet[], int count, CP_Image bullet_sprit
 	{
 		Bullet bullet = arr_bullet[i];
 		if (bullet.active) {
-			CP_Image_Draw(bullet_sprite, bullet.pos.x, bullet.pos.y, bullet_width, bullet_height, 255);
+			CP_Image_DrawAdvanced(bullet_sprite, bullet.pos.x, bullet.pos.y, bullet_width, bullet_height, 255, bullet.rotation);
 		}
 	}
 }
@@ -83,12 +84,21 @@ void Asteroids_Bullet_Debug(Bullet arr_bullet[], int count)
 
 void Asteroids_Bullet_Spawn(Bullet bullets[], int count, Player player, CP_Vector shoot_direction)
 {
+	CP_Vector right = CP_Vector_Set(1, 0);
+	CP_Vector up = CP_Vector_Set(0, 1);
+
+	float rotate = CP_Vector_Angle(shoot_direction, right);
+	if (CP_Vector_DotProduct(shoot_direction, up) < 0)
+		rotate = -rotate;
+
 	for (int i = 0; i < count; i++)
 	{
 		Bullet bullet = bullets[i];
 		if (!bullet.active)
 		{
 			bullet.pos = CP_Vector_Set(player.pos.x, player.pos.y);
+			bullet.rotation = rotate;
+
 			if (BPM)
 			{
 				bullet.velocity = CP_Vector_Set(shoot_direction.x * BULLET_SPEED * 2, shoot_direction.y * BULLET_SPEED * 2);

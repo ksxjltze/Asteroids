@@ -6,6 +6,7 @@ typedef struct Bullet {
 	CP_Vector pos;
 	struct Collider_Circle collider;
 	CP_Vector velocity;
+	float rotation;
 	int active;
 } Bullet;
 
