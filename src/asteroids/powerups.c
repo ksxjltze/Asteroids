@@ -1,20 +1,29 @@
 #include "powerups.h"
 
-#define BULLET_SPLIT 1 //looks = rotate 'W' by cw 90 degrees 
-#define RECOVER_HP 2 // heart
-#define INVULNERABILITY 3 // shield
-#define INCREASE_BPM 4 // Bullets per minute 
+// Powerup types
+#define BULLET_SPLIT 1 
+#define RECOVER_HP 2 
+#define INVULNERABILITY 3 
+#define INCREASE_BPM 4 
 
+// Powerup size
 #define POWERUP_MIN_VALUE 1   
-#define POWERUP_MAX_VALUE 4 + 1
+#define POWERUP_MAX_VALUE 5
 
+// Maximum number of powerup
 #define POWERUP_MAX_SIZE 10
 
+// Floating powerups spawn controller
 bool Floating_powerup_status;
+
+// Powerup status;
 extern bool powerup_lifespan = false;
 extern bool invulnerable = false;
 extern bool bullet_split = false;
 extern bool BPM = false;
+
+// Static variables
+#define RECOVER_HP_VALUE 5.0
 
 //extern struct powerup
 //{
@@ -155,7 +164,7 @@ void Asteroids_Floating_Powerup_Lifespan_Manager(void)	// tracks time life of po
 	static float TotalElaspedTime = 0;
 	TotalElaspedTime += CurrentElaspedTime;
 	
-	if (TotalElaspedTime >= 2.0f)
+	if (TotalElaspedTime >= 10.0f)
 	{
 		Asteroids_Floating_Powerup_Manager();
 		TotalElaspedTime = 0.0f;
@@ -213,21 +222,13 @@ void Asteroids_Powerup_Player_Collision(Powerup powerup[], struct Player* player
 				bullet_split = true;
 				powerup_lifespan = true;
 			}
+			if (powerup[i].type == RECOVER_HP)
+			{
+				Asteroids_Pickup_Interact_Hp(player);
+			}
 		}
 	}
 }
-
-void Asteroids_Powerup_Interact_Fuel_Pickup(Player* player)
-{
-	Asteroids_Player_Refuel(ASTEROIDS_PLAYER_FUEL_REFUEL_AMOUNT, player);
-}
-
-int Asteroids_Powerup_RNG(void)
-{
-	int rng = CP_Random_RangeInt(1, 20);
-	return rng;
-}
-
 void Asteroids_Checkpowerup_Location(void)
 {
 	for (int i = 0; i < POWERUP_MAX_SIZE; i++)
@@ -242,4 +243,22 @@ void Asteroids_Checkpowerup_Location(void)
 		}
 	}
 }
+
+int Asteroids_Powerup_RNG(void)
+{
+	int rng = CP_Random_RangeInt(1, 20);
+	return rng;
+}
+
+void Asteroids_Powerup_Interact_Fuel_Pickup(Player* player)
+{
+	Asteroids_Player_Refuel(ASTEROIDS_PLAYER_FUEL_REFUEL_AMOUNT, player);
+}
+
+
+void Asteroids_Pickup_Interact_Hp(Player* player)
+{
+	player->hp.current += RECOVER_HP_VALUE;
+}
+
 
