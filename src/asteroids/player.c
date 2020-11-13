@@ -1,6 +1,7 @@
 #include "player.h"
 #include "constants.h"
 #include <stdio.h>
+#include "utility.h"
 
 struct Player Asteroids_Player_Init(float player_width, float player_height)
 {
@@ -157,6 +158,12 @@ void Asteroids_Player_Update_Movement(Player* player, float dt)
 {
 	CP_Vector movement = CP_Vector_Scale(player->velocity, dt);
 	player->pos = CP_Vector_Add(player->pos, movement);
+
+	if (!Asteroids_Utility_isInWindow(player->pos))
+	{
+		player->pos = CP_Vector_Add(player->pos, CP_Vector_Negate(movement));
+		player->velocity = CP_Vector_Negate(movement);
+	}
 }
 
 void Asteroids_Player_Accelerate(Player* player, float dt, CP_Vector direction)
