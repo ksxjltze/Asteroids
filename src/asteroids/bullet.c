@@ -9,6 +9,7 @@
 extern bool bullet_split;
 extern bool powerup_lifespan;
 extern bool BPM;
+extern bool ez_mode;
 
 void Asteroids_Bullet_Init(Bullet bullets[], int count, float bullet_width, float bullet_height)
 {
@@ -130,6 +131,20 @@ void Asteroids_Bullet_Powerup_Split(Bullet bullets[], int count, Player player, 
 		Asteroids_Bullet_Spawn(bullets, count, player, split_1);
 		Asteroids_Bullet_Spawn(bullets, count, player, split_2);
 	}
+
+	if (ez_mode)
+	{
+		int max_split = 6;
+		float angle = 5.0f;
+		for (int i = 0; i < max_split; i++)
+		{
+			CP_Vector split = shoot_direction;
+			CP_Matrix rotate = CP_Matrix_Rotate(angle * i - angle * max_split / 2);
+			split = CP_Vector_MatrixMultiply(rotate, split);
+			Asteroids_Bullet_Spawn(bullets, count, player, split);
+		}
+	}
+
 	if (powerup_lifespan == false)
 	{
 		bullet_split = false;
