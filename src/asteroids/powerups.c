@@ -219,7 +219,7 @@ void Asteroids_Powerup_Player_Collision(Powerup powerup[], struct Player* player
 
 void Asteroids_Powerup_Interact_Fuel_Pickup(Player* player)
 {
-	Asteroids_Player_Refuel(20, player);
+	Asteroids_Player_Refuel(ASTEROIDS_PLAYER_FUEL_REFUEL_AMOUNT, player);
 }
 
 int Asteroids_Powerup_RNG(void)

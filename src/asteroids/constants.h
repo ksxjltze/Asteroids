@@ -53,6 +53,7 @@ extern const char* ASTEROIDS_HEART_SPRITE_PATH;
 extern const float PLAYER_MAX_HP;
 extern const float PLAYER_MAX_FUEL;
 extern const float DRAIN_RATE;
+extern const float ASTEROIDS_PLAYER_FUEL_REFUEL_AMOUNT;
 
 extern const CP_KEY ASTEROIDS_PAUSE_KEY;
 
