@@ -110,7 +110,7 @@ void Asteroids_Enemy_Death(Enemy* enemy)
 {
 	Score.enemy_kill_score += 1;
 	int random = Asteroids_Powerup_RNG();
-	if (random <= 2)
+	if (random == 1)
 	{
 		Asteroids_Generate_Powerup_On_Enemy_Death(enemy->pos);
 	}
