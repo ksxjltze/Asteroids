@@ -61,7 +61,7 @@ void Asteroids_Init(void)
 	// initialize variables and CProcessing settings for this gamestate
 	Asteroids_Set_Difficulty(NORMAL);
 	Asteroids_Sprites_Load();
-	Asteroids_UI_Health_HP_Init();
+	Asteroids_UI_Init();
 	Asteroids_Entities_Init();
 	Asteroids_Pause_Init();
 
@@ -105,7 +105,7 @@ void Asteroids_Update(void)
 		Asteroids_Update_Powerups(&player);
 
 		Asteroids_Debug();
-		Asteroids_UI_Update(player.hp);
+		Asteroids_UI_Update(player);
 		Asteroids_Draw_Scores();
 	
 

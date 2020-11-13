@@ -44,6 +44,8 @@ extern const float ASTEROIDS_ASTEROID_ENEMY_BASE_DAMAGE;
 
 //health bar
 extern const float ASTEROIDS_UI_PLAYER_HEALTH_BAR_WIDTH;
+extern const float ASTEROIDS_UI_PLAYER_FUEL_METER_BAR_WIDTH;
+extern const float ASTEROIDS_UI_PLAYER_FUEL_METER_BAR_HEIGHT;
 
 extern const char* PLAYER_SPRITE_PATH;
 extern const char* ASTEROIDS_HEART_SPRITE_PATH;
