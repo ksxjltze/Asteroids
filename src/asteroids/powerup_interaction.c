@@ -13,20 +13,22 @@ void Asteroids_Powerup_Player_Interaction_Init(void)
 void Asteroids_Powerup_Player_Invulernability(Player* player)
 {
 	CP_Image_DrawAdvanced(Invulnerability, player->pos.x, player->pos.y, 54.0f, 54.0f, 255, 0.0f);
-	if(!powerup_lifespan)
-		invulnerable = false;
+	//if(!powerup_lifespan)
+	//	invulnerable = false;
 }
 	
 
-void Asteroids_Powerup_Lifespan_Manager(void)
+void Asteroids_Powerup_Lifespan_Manager(Powerup* powerup)
 {
 	float dt = CP_System_GetDt();
-	static float TotalElaspedTime = 0;
-	TotalElaspedTime += dt;
+	/*static float TotalElaspedTime = 0; // old code
+	TotalElaspedTime += dt;*/ // old code
 
-	if (TotalElaspedTime >= 10.0f)
+
+	powerup->lifespan -= dt; // starts from 10.0f, minus dt every frame.
+
+	if (powerup->lifespan < 0) //if lifespan reaches 0
 	{
-		powerup_lifespan = false;
-		TotalElaspedTime = 0.0f;
+		powerup->status = false; // set status to false, i.e: powerup effect stops
 	}
 }

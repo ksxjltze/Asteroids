@@ -71,6 +71,8 @@ void Asteroids_Init_Powerups(void) //Initialize variables
 		powerup_pool[i].collider.diameter = width;
 		powerup_pool[i].type = 0;
 		powerup_pool[i].rotation = 0.0f;
+		powerup_pool[i].lifespan = 0.0f;
+		powerup_pool[i].status = false;
 	}
 }
 
@@ -90,14 +92,15 @@ void Asteroids_Update_Powerups(struct Player* player) // draws and checks every 
 		}
 	}
 
-	if (powerup_lifespan == true)
-	{
-		Asteroids_Powerup_Lifespan_Manager();
-		if (invulnerable)
-		{
-			Asteroids_Powerup_Player_Invulernability(player);
-		}
-	}
+if (invulnerable)
+{
+	Asteroids_Powerup_Player_Invulernability(player);
+}
+
+	//if (powerup_lifespan == true) old code
+	//{
+	//	//Asteroids_Powerup_Lifespan_Manager(); old code
+	//}
 }
 
 void Asteroids_Draw_Powerup(int type, CP_Vector* pos, CP_Vector movement_vel, float* rotation)  // Draws specific powerup based on a random count
@@ -134,13 +137,13 @@ void Asteroids_Draw_Powerup(int type, CP_Vector* pos, CP_Vector movement_vel, fl
 	}
 }
 
-int Asteroids_Generate_Random_Powerup(void)
+int Asteroids_Generate_Random_Powerup(void) //Returns random powerup type
 {
 	int random_powerup = CP_Random_RangeInt(POWERUP_MIN_VALUE, POWERUP_MAX_VALUE);
 	return random_powerup;
 }
 
-void Asteroids_Generate_Powerup_On_Enemy_Death(CP_Vector position) //Generates random movement
+void Asteroids_Generate_Powerup_On_Enemy_Death(CP_Vector position) //Guarded by RNG fnc, initialize powerup if rng is beaten
 {
 	for (int i = 0; i < POWERUP_MAX_SIZE; i++)
 	{
@@ -152,6 +155,7 @@ void Asteroids_Generate_Powerup_On_Enemy_Death(CP_Vector position) //Generates r
 			powerup_pool[i].movement_Vel.x = CP_Random_RangeFloat(-3, 3);
 			powerup_pool[i].movement_Vel.y = CP_Random_RangeFloat(-3, 3);
 			powerup_pool[i].rotation = 50.0f;
+			powerup_pool[i].lifespan = 10.0f;
 			return;
 		}
 	}
@@ -166,7 +170,7 @@ void Asteroids_Floating_Powerup_Lifespan_Manager(void)	// tracks time life of po
 	
 	if (TotalElaspedTime >= 10.0f)
 	{
-		Asteroids_Floating_Powerup_Manager();
+		Asteroids_Floating_Powerup_Manager(); //Spawns powerup every 10s
 		TotalElaspedTime = 0.0f;
 	}
 }
@@ -183,6 +187,7 @@ void Asteroids_Floating_Powerup_Manager(void)	// function which resets powerup t
 			powerup_pool[i].movement_Vel.x = CP_Random_RangeFloat(-3, 3);
 			powerup_pool[i].movement_Vel.y = CP_Random_RangeFloat(-3, 3);
 			powerup_pool[i].rotation = 50.0f;
+			powerup_pool[i].lifespan = 10.0f;
 			return;
 		}
 	}
@@ -192,37 +197,41 @@ void Asteroids_Powerup_Player_Collision(Powerup powerup[], struct Player* player
 {
 	for (int i = 0; i < POWERUP_MAX_SIZE; i++)
 	{
-		if (!powerup_pool[i].active) // if 0, continue
+		if (!powerup_pool[i].active) // if not active, continue
 		{
 			continue;
 		}
-		Powerup* Powerup = &powerup[i];
-		if (Asteroids_Collision_CheckCollision_Circle_Test(Powerup->collider, Powerup->pos, player->collider, player->pos))
-		{
-		
-			powerup[i].active = false;
 
-			if (powerup[i].type == ASTEROIDS_POWERUP_FUEL_PICKUP)
+		Powerup* P = &powerup[i];
+		if (Asteroids_Collision_CheckCollision_Circle_Test(P->collider, P->pos, player->collider, player->pos))
+		{
+			
+			P[i].active = false; // set active to false to stop drawing
+			P[i].status = true; // set status to true to start powerup lifetime.
+
+			Asteroids_Powerup_Lifespan_Manager(&P[i]); // call function to track time. set status to false after lifespan exhausts
+
+			if (P[i].type == ASTEROIDS_POWERUP_FUEL_PICKUP)
 			{
 				Asteroids_Powerup_Interact_Fuel_Pickup(player);
 			}
 
-			if (powerup[i].type == INCREASE_BPM)
+			if (P[i].type == INCREASE_BPM)
 			{
 				BPM = true;
-				powerup_lifespan = true;
+		/*		powerup_lifespan = true;*/		// old code
 			}
-			if (powerup[i].type == INVULNERABILITY)
+			if (P[i].type == INVULNERABILITY)
 			{
 				invulnerable = true;
-				powerup_lifespan = true;
+				//powerup_lifespan = true;		// old code
 			}
-			if (powerup[i].type == BULLET_SPLIT)
+			if (P[i].type == BULLET_SPLIT)
 			{
 				bullet_split = true;
-				powerup_lifespan = true;
+				//powerup_lifespan = true;
 			}
-			if (powerup[i].type == RECOVER_HP)
+			if (P[i].type == RECOVER_HP)	// old code
 			{
 				Asteroids_Pickup_Interact_Hp(player);
 			}

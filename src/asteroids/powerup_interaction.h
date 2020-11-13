@@ -13,4 +13,4 @@ void Asteroids_Powerup_Player_Interaction_Init(void);
 
 // DRAWING OF INTERACTION
 void Asteroids_Powerup_Player_Invulernability(Player* player);
-void Asteroids_Powerup_Lifespan_Manager(void);
+void Asteroids_Powerup_Lifespan_Manager(Powerup* powerup);

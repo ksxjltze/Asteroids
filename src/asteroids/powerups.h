@@ -11,9 +11,9 @@ typedef struct Powerups
 {
 	struct Collider_Circle collider;
 	CP_Vector movement_Vel, pos;
-	float rotation;
+	float rotation, lifespan;
 	int type;
-	bool active;
+	bool active, status;
 }Powerup;
 
 
