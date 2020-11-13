@@ -18,7 +18,6 @@
 #define ASTEROIDS_POOLSIZE_BULLETS 999
 #define ASTEROIDS_POOLSIZE_ENEMIES 100
 
-DIFFICULTY ASTEROIDS_GAME_DIFFICULTY = NORMAL;
 float shoot_cooldown = 0.0f;
 
 CP_Image player_sprite;
@@ -47,7 +46,7 @@ float enemysplit_height;
 int debug_mode = 0;
 
 static float difficulty_timer;
-static bool ez_mode;
+extern bool ez_mode = 0;
 
 Bullet bullet_pool[ASTEROIDS_POOLSIZE_BULLETS];
 Enemy enemy_pool[ASTEROIDS_POOLSIZE_ENEMIES];
@@ -59,7 +58,7 @@ Player player;
 void Asteroids_Init(void)
 {
 	// initialize variables and CProcessing settings for this gamestate
-	Asteroids_Set_Difficulty(NORMAL);
+	Asteroids_Set_Difficulty(ASTEROIDS_GAME_DIFFICULTY);
 	Asteroids_Sprites_Load();
 	Asteroids_UI_Init();
 	Asteroids_Entities_Init();

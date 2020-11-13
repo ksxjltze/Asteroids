@@ -7,6 +7,8 @@
 #include "button.h"
 #include <stdbool.h>
 
+extern DIFFICULTY ASTEROIDS_GAME_DIFFICULTY;
+
 // ENTRY POINT
 void Asteroids_MainMenu_Init(void);
 void Asteroids_MainMenu_Update(void);
@@ -26,3 +28,4 @@ void Asteroids_QuitGame(void);
 void Asteroids_Credits(void);
 void Asteroids_LeaderBoard(void);
 void Asteroids_Exit_Screen(void);
+void Asteroids_Menu_Set_Difficulty(void);
