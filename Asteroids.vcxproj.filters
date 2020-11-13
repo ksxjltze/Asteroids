@@ -66,7 +66,6 @@
     <ClInclude Include="src\asteroids\button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\asteroids\leaderboard.h" />
     <ClInclude Include="src\asteroids\sprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -76,11 +75,18 @@
     <ClInclude Include="src\asteroids\user_interface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\asteroids\score.h" />
     <ClInclude Include="src\asteroids\utility.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\asteroids\powerup_interaction.h" />
+    <ClInclude Include="src\asteroids\leaderboard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\asteroids\powerup_interaction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\asteroids\score.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\asteroids\bullet.c">
@@ -128,8 +134,6 @@
     <ClCompile Include="src\asteroids\button.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\asteroids\powerups.c" />
-    <ClCompile Include="src\asteroids\leaderboard.c" />
     <ClCompile Include="src\asteroids\constants.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -142,7 +146,17 @@
     <ClCompile Include="src\asteroids\user_interface.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\asteroids\score.c" />
-    <ClCompile Include="src\asteroids\powerup_interaction.c" />
+    <ClCompile Include="src\asteroids\leaderboard.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\asteroids\powerup_interaction.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\asteroids\powerups.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\asteroids\score.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

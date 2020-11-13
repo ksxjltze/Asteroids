@@ -70,3 +70,13 @@ bool isMouseOver_Rect(CP_Vector position, float width, float height, float mouse
 
 	return left && right && top && bottom;
 }
+
+bool Asteroids_Utility_isInWindow(CP_Vector position)
+{
+	bool left = position.x > 0;
+	bool right = position.x < WIN_WIDTH;
+	bool top = position.y > 0;
+	bool bottom = position.y < WIN_HEIGHT;
+
+	return left && right && top && bottom;
+}

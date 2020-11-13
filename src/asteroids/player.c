@@ -1,6 +1,7 @@
 #include "player.h"
 #include "constants.h"
 #include <stdio.h>
+#include "utility.h"
 
 struct Player Asteroids_Player_Init(float player_width, float player_height)
 {
@@ -106,6 +107,7 @@ void Asteroids_Player_Calculate_Fuel(Player* player)
 
 void Asteroids_Player_Simple_Movement(Player* player)
 {
+	CP_Vector oldPos = player->pos;
 	if (CP_Input_KeyDown(KEY_W))
 	{
 		player->pos.y -= ASTEROIDS_PLAYER_SIMPLE_SPEED;
@@ -121,6 +123,12 @@ void Asteroids_Player_Simple_Movement(Player* player)
 	else if (CP_Input_KeyDown(KEY_D))
 	{
 		player->pos.x += ASTEROIDS_PLAYER_SIMPLE_SPEED;
+	}
+
+	if (!Asteroids_Utility_isInWindow(player->pos))
+	{
+		CP_Vector offset = CP_Vector_Subtract(oldPos, player->pos);
+		player->pos = CP_Vector_Add(player->pos, offset);
 	}
 }
 
@@ -157,6 +165,12 @@ void Asteroids_Player_Update_Movement(Player* player, float dt)
 {
 	CP_Vector movement = CP_Vector_Scale(player->velocity, dt);
 	player->pos = CP_Vector_Add(player->pos, movement);
+
+	if (!Asteroids_Utility_isInWindow(player->pos))
+	{
+		player->pos = CP_Vector_Add(player->pos, CP_Vector_Negate(movement));
+		player->velocity = CP_Vector_Negate(movement);
+	}
 }
 
 void Asteroids_Player_Accelerate(Player* player, float dt, CP_Vector direction)
