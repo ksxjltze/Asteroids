@@ -7,6 +7,10 @@ bool status;
 static int input;
 
 DIFFICULTY ASTEROIDS_GAME_DIFFICULTY = NORMAL;
+static CP_Color backgroundColor;
+static CP_Color textColor;
+static float menuTextSize;
+static char* menuText = "Asteroids";
 
 Button Credits, Play, Quit, Leaderboard, Controls, Exit, EzButton;
 CP_Image Control_screen;
@@ -16,11 +20,14 @@ void Asteroids_MainMenu_Init(void)
 	status = true;
 	Asteroids_Menu_Settings_Setup(WIN_WIDTH, WIN_HEIGHT);
 	Asteroids_MainMenu_Button_Init();
+	backgroundColor = CP_Color_Create(0, 0, 0, 255);
+	textColor = CP_Color_Create(255, 255, 255, 255);
+	menuTextSize = 100.0f;
 }
 
 void Asteroids_MainMenu_Update(void)
 {
-	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
+	CP_Settings_Background(backgroundColor);
 	Asteroids_Draw_MainMenu();
 }
 
@@ -32,7 +39,9 @@ void Asteroids_MainMenu_Exit(void)
 void Asteroids_Draw_MainMenu(void)
 {
 	CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
-	CP_Font_DrawTextBox("Asteroids", 0, 50.0f, (float)WIN_WIDTH);
+	CP_Settings_Fill(textColor);
+	CP_Settings_TextSize(menuTextSize);
+	CP_Font_DrawTextBox(menuText, 0, 50.0f + menuTextSize / 2, (float)WIN_WIDTH);
 
 	if (status)
 	{
@@ -108,7 +117,24 @@ void Asteroids_MainMenu_Button_Init(void)
 
 void Asteroids_Menu_Set_Difficulty(void)
 {
-	ASTEROIDS_GAME_DIFFICULTY = EASY;
+	if (ASTEROIDS_GAME_DIFFICULTY == NORMAL)
+	{
+		ASTEROIDS_GAME_DIFFICULTY = EASY;
+
+		backgroundColor = CP_Color_Create(255, 255, 0, 255);
+		textColor = CP_Color_Create(255, 0, 255, 255);
+		menuText = "aStErOiDs";
+		menuTextSize = 300.0f;
+	}
+	else
+	{
+		ASTEROIDS_GAME_DIFFICULTY = NORMAL;
+		backgroundColor = CP_Color_Create(0, 0, 0, 255);
+		textColor = CP_Color_Create(255, 255, 255, 255);
+		menuText = "Asteroids";
+		menuTextSize = 100.0f;
+	}
+
 }
 
 void Asteroids_Play_Game(void)
