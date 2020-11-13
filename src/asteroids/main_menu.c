@@ -20,6 +20,17 @@ void Asteroids_MainMenu_Init(void)
 	status = true;
 	Asteroids_Menu_Settings_Setup(WIN_WIDTH, WIN_HEIGHT);
 	Asteroids_MainMenu_Button_Init();
+
+	if (ASTEROIDS_GAME_DIFFICULTY == EASY)
+	{
+		backgroundColor = CP_Color_Create(255, 255, 0, 255);
+		textColor = CP_Color_Create(255, 0, 255, 255);
+		menuText = "aStErOiDs";
+		menuTextSize = 300.0f;
+		return;
+	}
+
+	menuText = "Asteroids";
 	backgroundColor = CP_Color_Create(0, 0, 0, 255);
 	textColor = CP_Color_Create(255, 255, 255, 255);
 	menuTextSize = 100.0f;
@@ -123,7 +134,7 @@ void Asteroids_Menu_Set_Difficulty(void)
 
 		backgroundColor = CP_Color_Create(255, 255, 0, 255);
 		textColor = CP_Color_Create(255, 0, 255, 255);
-		menuText = "aStErOiDs";
+		menuText = "EZ EZ EZ";
 		menuTextSize = 300.0f;
 	}
 	else

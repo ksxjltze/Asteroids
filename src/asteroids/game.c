@@ -172,7 +172,6 @@ void Asteroids_Sprites_Load()
 	player_sprite = CP_Image_Load(PLAYER_SPRITE_PATH);
 	bullet_sprite = CP_Image_Load("./Assets/bullet_long.png");
 	enemy_sprite = CP_Image_Load("./Assets/asteroids_cropped.png");
-	enemysplit_sprite = CP_Image_Load("./Assets/Asteroids_small.png");
 	Asteroids_Utility_Generate_Hurt_Sprite(enemy_sprite, &enemy_hurt_sprite);
 
 	player_health_sprite = CP_Image_Load("./Assets/heart.png");
@@ -190,8 +189,6 @@ void Asteroids_Sprites_Load()
 	enemy_width = (float)ASTEROIDS_ENEMY_BASE_DIAMETER;
 	enemy_height = (float)ASTEROIDS_ENEMY_BASE_DIAMETER;
 
-	enemysplit_width = (float)CP_Image_GetWidth(enemysplit_sprite) * 0.05f;
-	enemysplit_height = (float)CP_Image_GetHeight(enemysplit_sprite) * 0.05f;
 
 }
 
