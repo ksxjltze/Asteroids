@@ -4,7 +4,7 @@
 #include "utility.h"
 #include <stdbool.h>
 #include <stdio.h>
-#include"player.h"
+#include "player.h"
 #include "powerup_interaction.h"
 
 typedef struct Powerups
@@ -34,6 +34,7 @@ void Asteroids_Generate_Powerup_On_Enemy_Death(CP_Vector position);
 
 // Floating time based powerups
 void Asteroids_Floating_Powerup_Lifespan_Manager(void);
+void Asteroids_Powerup_Lifespan_Manager(Powerup* powerup);
 void Asteroids_Floating_Powerup_Manager(void);
 
 
@@ -43,4 +44,5 @@ void Asteroids_Powerup_Player_Collision(Powerup powerup_pool[], struct Player* p
 // INTERACTION
 void Asteroids_Powerup_Interact_Fuel_Pickup(Player* player);
 void Asteroids_Pickup_Interact_Hp(Player* player);
+
 

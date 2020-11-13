@@ -271,4 +271,17 @@ void Asteroids_Pickup_Interact_Hp(Player* player)
 	player->hp.current += RECOVER_HP_VALUE;
 }
 
+void Asteroids_Powerup_Lifespan_Manager(Powerup* powerup)
+{
+	float dt = CP_System_GetDt();
+	/*static float TotalElaspedTime = 0; // old code
+	TotalElaspedTime += dt;*/ // old code
 
+
+	powerup->lifespan -= dt; // starts from 10.0f, minus dt every frame.
+
+	if (powerup->lifespan < 0) //if lifespan reaches 0
+	{
+		powerup->status = false; // set status to false, i.e: powerup effect stops
+	}
+}
