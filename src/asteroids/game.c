@@ -80,8 +80,8 @@ void Asteroids_Update(void)
 		Asteroids_Difficulty_Update();
 		Asteroids_Enemy_Spawn_Timer(enemy_pool, enemy_count);
 
-		Asteroids_Bullet_Update(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, enemy_pool, enemy_count);
 		Asteroids_Enemy_Update(enemy_pool, enemy_count, player);
+		Asteroids_Bullet_Update(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, enemy_pool, enemy_count);
 		Asteroids_Player_Update(&player);
 
 		Asteroids_Collision_CheckCollision_Enemy_Player(enemy_pool, enemy_count, &player);

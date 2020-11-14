@@ -60,15 +60,7 @@ void Asteroids_Enemy_Update(Enemy enemy_pool[], int count, Player player)
 			Asteroids_Collision_CheckCollision_Enemy_Enemy(enemy_pool, count, &enemy_pool[i], player);
 			Asteroids_Enemy_Check_OutOfBounds(enemy_pool, count);
 
-			if (enemy->status.hit)
-			{
-				enemy->status.hit_cooldown -= CP_System_GetDt();
-				if (enemy->status.hit_cooldown <= 0)
-				{
-					enemy->status.hit = 0;
-					enemy->status.hit_cooldown = HURT_WINDOW;
-				}
-			}
+			Asteroid_Enemy_Check_Status(enemy);
 
 			if (enemy->hp.current < 0) // enemy dies
 			{
@@ -78,6 +70,19 @@ void Asteroids_Enemy_Update(Enemy enemy_pool[], int count, Player player)
 
 		}
 
+	}
+}
+
+void Asteroid_Enemy_Check_Status(Enemy* enemy)
+{
+	if (enemy->status.hit)
+	{
+		enemy->status.hit_cooldown -= CP_System_GetDt();
+		if (enemy->status.hit_cooldown <= 0)
+		{
+			enemy->status.hit = 0;
+			enemy->status.hit_cooldown = HURT_WINDOW;
+		}
 	}
 }
 
@@ -346,6 +351,15 @@ void Asteroids_Enemy_Collide(Enemy* enemy1, Enemy* enemy2, Enemy enemy_pool[], i
 	}
 }
 
+
+void Asteroids_Enemy_Hit(Enemy* enemy, float damage)
+{
+	if (!enemy->status.hit)
+	{
+		enemy->status.hit = 1;
+		enemy->hp.current -= damage;
+	}
+}
 
 //LIU KE
 void Asteroids_Enemy_Spawn_Child(Enemy enemy_pool[], int pool_count, Enemy parent, int count)

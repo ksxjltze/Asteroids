@@ -19,11 +19,7 @@ Bullet Asteroids_Collision_CheckCollision_Enemy_Bullet(Enemy enemy_pool[], int e
 			bullet.pos = CP_Vector_Set(-1, -1);
 			bullet.velocity = CP_Vector_Set(0, 0);
 
-			if (!enemy->status.hit)
-			{
-				enemy->status.hit = 1;
-				enemy->hp.current -= BULLET_DAMAGE;
-			}
+			Asteroids_Enemy_Hit(enemy, BULLET_DAMAGE);
 
 			return bullet;
 		}
