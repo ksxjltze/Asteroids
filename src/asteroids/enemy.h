@@ -20,6 +20,8 @@ typedef struct Enemies {
 
 	int id;
 	int parent_id;
+
+	int sprite_type;
 } Enemy;
 
 void Asteroids_Enemy_Init(Enemy enemy_pool[], int count, float enemy_width, float enemy_height, Player player);
