@@ -16,15 +16,16 @@ typedef struct Powerups
 	bool active, effect;
 }Powerup;
 
-
-// GENERAL
+// Function which initialize powerup variables on game launch
 void Asteroids_Init_Powerups(void);
+
+// Function which handles update every frame
 void Asteroids_Update_Powerups(struct Player* player);
 
-//DRAWING POWERUPS
+// Function which handles the drawing of powerups
 void Asteroids_Draw_Powerup(int type, CP_Vector* pos, CP_Vector movement_vel, float* rotation);
 
-// UTILITY 
+// UTILITY: 
 int Asteroids_Generate_Random_Powerup(void);
 int Asteroids_Powerup_RNG(void);
 void Asteroids_Checkpowerup_Location(Powerup* powerup);
@@ -33,9 +34,13 @@ void Asteroids_Powerup_Reset(Powerup* powerup);
 // Spawn powerup on asteroid death 
 void Asteroids_Generate_Powerup_On_Enemy_Death(CP_Vector position);
 
-// Floating time based powerups
+// Manages the 
 void Asteroids_Floating_Powerup_Lifespan_Manager(void);
+
+// Tracks the powerup effect lifespan.
 void Asteroids_Powerup_Lifespan_Manager(Powerup* powerup);
+
+// Function which spawns a random floating powerup
 void Asteroids_Spawn_Floating_Powerup(void);
 
 

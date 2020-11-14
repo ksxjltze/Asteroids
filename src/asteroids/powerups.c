@@ -1,4 +1,5 @@
 #include "powerups.h"
+#include "constants.h"
 
 // Powerup types
 #define BULLET_SPLIT 1 
@@ -60,7 +61,7 @@ void Asteroids_Init_Powerups(void) //Initialize variables
 	Powerup_Fuel_Pickup_Sprite = CP_Image_Load("./Assets/Powerup_Fuel_Pickup_Sprite.png");
 
 
-	for (int i = 0; i < POWERUP_MAX_SIZE; i++)
+	for (int i = 0; i < POWERUP_MAX_SIZE; i++) //initialize to prevent getting rubbish values
 	{
 		powerup_pool[i].pos = CP_Vector_Zero();
 		powerup_pool[i].movement_Vel = CP_Vector_Zero();
@@ -79,26 +80,26 @@ void Asteroids_Update_Powerups(struct Player* player) // draws and checks every 
 	{
 		Powerup p = powerup_pool[i];
 
-
-		if (powerup_pool[i].effect == true) // if powerup effect is running
+		if (powerup_pool[i].effect == true) // Update every frame if powerup effect is running
 		{
 			Asteroids_Powerup_Lifespan_Manager(&powerup_pool[i]);
 		}
-		if (powerup_pool[i].active == true)		// if power up exists on screen
+		if (powerup_pool[i].active == true) // Update every frame if power up is on screen
 		{
 			Asteroids_Checkpowerup_Location(&powerup_pool[i]);
 			Asteroids_Powerup_Player_Collision(powerup_pool, *&player);
 			Asteroids_Draw_Powerup(p.type, &powerup_pool[i].pos, p.movement_Vel, &powerup_pool[i].rotation);
 			Asteroids_Draw_Powerup(Floating_Powerup.type, &Floating_Powerup.pos, Floating_Powerup.movement_Vel, &Floating_Powerup.rotation);
 		}
-	Asteroids_Powerup_Player_Invulernability(player);
 	}
+	Asteroids_Powerup_Player_Invulernability(player); //Draw invulnerability circle if invulnerable 
+
 	Asteroids_Floating_Powerup_Lifespan_Manager(); // spawn random powerup every 10s
 }
 
 void Asteroids_Draw_Powerup(int type, CP_Vector* pos, CP_Vector movement_vel, float* rotation)  // Draws specific powerup based on a random count
 {
-	switch (type) // change to delta time
+	switch (type) // Switch the powerup type to draw
 	{
 	case BULLET_SPLIT:
 		CP_Image_DrawAdvanced(Powerup_Bulletsplit_Sprite, pos->x += movement_vel.x,
@@ -269,11 +270,13 @@ void Asteroids_Powerup_Lifespan_Manager(Powerup* powerup)
 	{
 		if (powerup_pool[i].type == powerup->type && powerup_pool[i].effect == powerup->effect) //same type, and both active
 		{
-			if(powerup_pool[i].lifespan > powerup->lifespan) // pool lifespan > pointer lifespan
+			if (powerup_pool[i].lifespan > powerup->lifespan) // pool lifespan > pointer lifespan
+			{
 				powerup->lifespan = powerup_pool[i].lifespan; // write pool lifespan into pointer lifespan
+				powerup_pool[i].effect = false;
+			}
 		}
 	}
-
 	powerup->lifespan -= dt;
 	if (powerup->lifespan <= 0) //if lifespan reaches 0
 	{
@@ -300,5 +303,5 @@ void Asteroids_Powerup_Lifespan_Manager(Powerup* powerup)
 void Asteroids_Powerup_Reset(Powerup* powerup)
 {
 	powerup->active = false;
-	//powerup->effect = false;
+	powerup->effect = false; // just to play safe
 }
