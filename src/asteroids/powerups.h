@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include "player.h"
 #include "powerup_interaction.h"
+#include "constants.h"
 
 typedef struct Powerups
 {

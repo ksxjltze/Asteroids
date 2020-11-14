@@ -99,9 +99,9 @@ void Asteroids_Bullet_Spawn(Bullet bullets[], int count, Player player, CP_Vecto
 			bullet.pos = CP_Vector_Set(player.pos.x, player.pos.y);
 			bullet.rotation = rotate;
 
-			if (BPM)
+			if (BPM) // if powerup bpm
 			{
-				bullet.velocity = CP_Vector_Set(shoot_direction.x * BULLET_SPEED * 2, shoot_direction.y * BULLET_SPEED * 2);
+				bullet.velocity = CP_Vector_Set(shoot_direction.x * BULLET_SPEED * ASTEROIDS_POWERUP_INCREASE_FIRERATE_VALUE, shoot_direction.y * BULLET_SPEED * 2);
 			}
 			else
 				bullet.velocity = CP_Vector_Set(shoot_direction.x * BULLET_SPEED, shoot_direction.y * BULLET_SPEED);
@@ -115,8 +115,8 @@ void Asteroids_Bullet_Spawn(Bullet bullets[], int count, Player player, CP_Vecto
 void Asteroids_Bullet_Powerup_Split(Bullet bullets[], int count, Player player, CP_Vector shoot_direction)
 {
 
-	CP_Matrix Rotate1 = CP_Matrix_Rotate(15.0f);
-	CP_Matrix Rotate2 = CP_Matrix_Rotate(-15.0f);
+	CP_Matrix Rotate1 = CP_Matrix_Rotate(ASTEROIDS_POWERUP_BULLET_SPLIT_ANGLE);
+	CP_Matrix Rotate2 = CP_Matrix_Rotate(-ASTEROIDS_POWERUP_BULLET_SPLIT_ANGLE);
 
 	CP_Vector split_1 = shoot_direction;
 	CP_Vector split_2 = shoot_direction;

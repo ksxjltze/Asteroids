@@ -1,5 +1,4 @@
 #include "powerups.h"
-#include "constants.h"
 
 // Powerup types
 #define BULLET_SPLIT 1 
@@ -21,9 +20,6 @@ bool Floating_powerup_status;
 extern bool invulnerable = false;
 extern bool bullet_split = false;
 extern bool BPM = false;
-
-// Static variables
-#define RECOVER_HP_VALUE 5.0
 
 //extern struct powerup
 //{
@@ -259,7 +255,7 @@ void Asteroids_Powerup_Interact_Fuel_Pickup(Player* player)
 
 void Asteroids_Pickup_Interact_Hp(Player* player)
 {
-	player->hp.current += RECOVER_HP_VALUE;
+	player->hp.current += ASTEROIDS_POWERUP_HP_RECOVERY_VALUE;
 }
 
 void Asteroids_Powerup_Lifespan_Manager(Powerup* powerup)
