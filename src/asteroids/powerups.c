@@ -75,8 +75,6 @@ void Asteroids_Init_Powerups(void) //Initialize variables
 
 void Asteroids_Update_Powerups(struct Player* player) // draws and checks every frame
 {	
-	Asteroids_Floating_Powerup_Lifespan_Manager(); // spawn random powerup every 10s
-
 	for (int i = 0; i < POWERUP_MAX_SIZE; i++)
 	{
 		Powerup p = powerup_pool[i];
@@ -92,14 +90,10 @@ void Asteroids_Update_Powerups(struct Player* player) // draws and checks every 
 			Asteroids_Powerup_Player_Collision(powerup_pool, *&player);
 			Asteroids_Draw_Powerup(p.type, &powerup_pool[i].pos, p.movement_Vel, &powerup_pool[i].rotation);
 			Asteroids_Draw_Powerup(Floating_Powerup.type, &Floating_Powerup.pos, Floating_Powerup.movement_Vel, &Floating_Powerup.rotation);
-			/*printf("active\n");*/
 		}
-		//if (&powerup_pool[i].active == false && &powerup_pool[i].effect == false) // if inactive and effect is off
-		//{
-		//	Asteroids_Powerup_Reset(&powerup_pool[i]); //reset
-		//}
 	Asteroids_Powerup_Player_Invulernability(player);
 	}
+	Asteroids_Floating_Powerup_Lifespan_Manager(); // spawn random powerup every 10s
 }
 
 void Asteroids_Draw_Powerup(int type, CP_Vector* pos, CP_Vector movement_vel, float* rotation)  // Draws specific powerup based on a random count
@@ -109,7 +103,6 @@ void Asteroids_Draw_Powerup(int type, CP_Vector* pos, CP_Vector movement_vel, fl
 	case BULLET_SPLIT:
 		CP_Image_DrawAdvanced(Powerup_Bulletsplit_Sprite, pos->x += movement_vel.x,
 			pos->y += movement_vel.y, width, height, 255, *rotation += 5.0f);
-		printf("draw bullet split powerup\n");
 			break;
 
 	case RECOVER_HP:
@@ -120,13 +113,11 @@ void Asteroids_Draw_Powerup(int type, CP_Vector* pos, CP_Vector movement_vel, fl
 	case INVULNERABILITY:
 		CP_Image_DrawAdvanced(Powerup_Invulnerability_Sprite, pos->x += movement_vel.x,
 			pos->y += movement_vel.y, width, height, 255, *rotation += 5.0f);
-			printf("draw invulnerable powerup\n");
 			break;
 
 	case INCREASE_BPM:
 		CP_Image_DrawAdvanced(Powerup_Increase_BPM_Sprite, pos->x += movement_vel.x,
 			pos->y += movement_vel.y, width, height, 255, *rotation += 5.0f);
-		printf("draw increase fire rate powerup\n");
 			break;
 
 	case ASTEROIDS_POWERUP_FUEL_PICKUP:
@@ -148,7 +139,7 @@ void Asteroids_Generate_Powerup_On_Enemy_Death(CP_Vector position) //Guarded by 
 {
 	for (int i = 0; i < POWERUP_MAX_SIZE; i++)
 	{
-		if (!powerup_pool[i].active)
+		if (!powerup_pool[i].active && !powerup_pool[i].effect)
 		{
 			/*printf("spawn\n");*/
 			powerup_pool[i].active = true;
@@ -182,7 +173,7 @@ void Asteroids_Spawn_Floating_Powerup(void)	// Initialize variables for floating
 	//kinda whack, why do i have this. maybe i i'll change dis
 	for(int i = 0; i < POWERUP_MAX_SIZE; i++)
 	{
-		if (!powerup_pool[i].active) //if inactive, spawn.
+		if (!powerup_pool[i].active && !powerup_pool[i].effect) //if inactive and effect not running, spawn.
 		{
 			printf("spawn\n");
 			powerup_pool[i].active = true;
@@ -209,8 +200,7 @@ void Asteroids_Powerup_Player_Collision(Powerup powerup[], struct Player* player
 		Powerup* P = &powerup[i]; //Use *p cuz typing powerup[i] is too long
 		if (Asteroids_Collision_CheckCollision_Circle_Test(P->collider, P->pos, player->collider, player->pos))
 		{
-			printf("collide\n");
-			powerup[i].effect = true; // P->effect = true;
+			powerup[i].effect = true; // effects starts running
 			powerup[i].active = false; // set active to false to stop drawing
 			if (powerup[i].type == ASTEROIDS_POWERUP_FUEL_PICKUP)
 			{
@@ -230,7 +220,6 @@ void Asteroids_Powerup_Player_Collision(Powerup powerup[], struct Player* player
 			else if (powerup[i].type == BULLET_SPLIT)
 			{
 				bullet_split = true;
-				printf("bullet split\n");
 			}
 			else if (powerup[i].type == RECOVER_HP)
 			{
@@ -244,9 +233,6 @@ void Asteroids_Checkpowerup_Location(Powerup* powerup)
 {
 	for (int i = 0; i < POWERUP_MAX_SIZE; i++)
 	{
-		//if (!powerup_pool[i].active)
-		//	continue;
-
 		if (powerup->active && powerup->effect == false)
 		{
 			if (powerup->pos.x > WIN_WIDTH || powerup->pos.x < 0 || // If out of screen
@@ -279,12 +265,21 @@ void Asteroids_Powerup_Lifespan_Manager(Powerup* powerup)
 {
 	float dt = CP_System_GetDt();
 
-	if (powerup->effect == true)
-		powerup->lifespan -= dt; // starts from 10.0f, minus dt every frame.
-		printf("%.2f\n", powerup->lifespan);
+	for (int i = 0; i < POWERUP_MAX_SIZE; i++)
 	{
-		if (powerup->lifespan <= 0) //if lifespan reaches 0
+		if (powerup_pool[i].type == powerup->type && powerup_pool[i].effect == powerup->effect) //same type, and both active
 		{
+			if(powerup_pool[i].lifespan > powerup->lifespan) // pool lifespan > pointer lifespan
+			powerup->lifespan = powerup_pool[i].lifespan; // write pool lifespan into pointer lifespan
+		}
+	}
+
+	powerup->lifespan -= dt;
+	printf("%.2f\n", powerup->lifespan);
+
+	if (powerup->lifespan <= 0) //if lifespan reaches 0
+	{
+		powerup->effect = false; // set status to false, i.e: powerup effect stops
 			switch (powerup->type)
 			{
 			case INVULNERABILITY:
@@ -293,22 +288,19 @@ void Asteroids_Powerup_Lifespan_Manager(Powerup* powerup)
 				break;
 			case BULLET_SPLIT:
 				bullet_split = false;
-				printf("bullet split = false\n");
 				break;
 			case INCREASE_BPM:
 				BPM = false;
 				printf("BPM = false\n");
 				break;
 			default:;
-			}
-			powerup->effect = false; // set status to false, i.e: powerup effect stops
-			Asteroids_Powerup_Reset(powerup); //reset the powerup
+								
 		}
+		Asteroids_Powerup_Reset(powerup); //reset the powerup
 	}
 }
 void Asteroids_Powerup_Reset(Powerup* powerup)
 {
-	printf("reset\n");
 	powerup->active = false;
-	powerup->effect = false;
+	//powerup->effect = false;
 }
