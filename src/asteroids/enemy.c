@@ -169,10 +169,8 @@ void Asteroids_Enemy_Spawn_Static(Enemy enemy_pool[], int count, Player player)
 		{
 			enemy.active = 1;
 			enemy.pos = Asteroids_Utility_Generate_Random_Pos();
-			while (Asteroids_Collision_CheckCollision_Circle(enemy.collider, enemy.pos, player.collider, player.pos))
-			{
-				enemy.pos = Asteroids_Utility_Generate_Random_Pos();
-			}
+
+
 			enemy.speed = 0;
 			enemy.size = CP_Random_RangeFloat(ASTEROIDS_ENEMY_SIZE_MIN, ASTEROIDS_ENEMY_SIZE_MAX);
 
@@ -182,6 +180,23 @@ void Asteroids_Enemy_Spawn_Static(Enemy enemy_pool[], int count, Player player)
 			enemy.rotate_rate = Asteroids_Enemy_Random_Rotation();
 			enemy.collider.diameter = ASTEROIDS_ENEMY_BASE_DIAMETER * enemy.size;
 			enemy.velocity = CP_Vector_Zero();
+
+			for (int j = 0; j < i; j++)
+			{
+				if (Asteroids_Collision_CheckCollision_Circle(enemy.collider, enemy.pos, enemy_pool[j].collider, enemy_pool[j].pos))
+				{
+					enemy.pos = Asteroids_Utility_Generate_Random_Pos();
+					j = -1;
+				}
+
+				while (Asteroids_Collision_CheckCollision_Circle(enemy.collider, enemy.pos, player.collider, player.pos))
+				{
+					enemy.pos = Asteroids_Utility_Generate_Random_Pos();
+					j = -1;
+				}
+
+
+			}
 
 			enemy_pool[i] = enemy;
 			return;
