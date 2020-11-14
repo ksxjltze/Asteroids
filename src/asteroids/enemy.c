@@ -298,18 +298,18 @@ CP_Vector Asteroids_Enemy_Random_Pos()
 	return pos;
 }
 
-void Asteroids_Enemy_Draw(Enemy enemy_pool[], int count, CP_Image enemy_sprite, float enemy_width, float enemy_height, CP_Image enemy_hurt_sprite)
+void Asteroids_Enemy_Draw(Enemy enemy_pool[], int count, CP_Image sprites[], CP_Image hurt_sprites[], float enemy_width, float enemy_height)
 {
 	for (int i = 0; i < count; i++)
 	{
 		Enemy enemy = enemy_pool[i];
 		if (enemy.active)
 		{
-			CP_Image_DrawAdvanced(enemy_sprite, enemy.pos.x, enemy.pos.y, enemy.size * enemy_width, enemy.size * enemy_height, 255, enemy.rotation);
+			CP_Image_DrawAdvanced(sprites[0], enemy.pos.x, enemy.pos.y, enemy.size * enemy_width, enemy.size * enemy_height, 255, enemy.rotation);
 
 			if (enemy.status.hit)
 			{
-				CP_Image_DrawAdvanced(enemy_hurt_sprite, enemy.pos.x, enemy.pos.y, enemy.size * enemy_width, enemy.size * enemy_height, 255, enemy.rotation);
+				CP_Image_DrawAdvanced(hurt_sprites[0], enemy.pos.x, enemy.pos.y, enemy.size * enemy_width, enemy.size * enemy_height, 255, enemy.rotation);
 			}
 		}
 	}
