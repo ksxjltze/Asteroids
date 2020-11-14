@@ -17,7 +17,10 @@ void Asteroids_Enemy_Init(Enemy enemy_pool[], int count, float enemy_width, floa
 	{
 		Enemy enemy = enemy_pool[i];
 		enemy.collider.diameter = (enemy_width + enemy_height)/2;
+
 		enemy.id = i + 1;
+		enemy.parent_id = 0;
+		enemy.split_count = 0;
 
 		enemy.active = 0;
 		enemy.hp.max = 0;
@@ -26,11 +29,12 @@ void Asteroids_Enemy_Init(Enemy enemy_pool[], int count, float enemy_width, floa
 		enemy.pos = CP_Vector_Zero();
 		enemy.velocity = CP_Vector_Zero();
 		enemy.speed = 0;
+
 		enemy.rotation = 0;
-		enemy.size = 0;
 		enemy.rotate_rate = 0;
-		enemy.parent_id = 0;
-		enemy.split_count = 0;
+
+		enemy.size = 0;
+		enemy.sprite_type = 0;
 
 		enemy_pool[i] = enemy;
 
@@ -169,10 +173,8 @@ void Asteroids_Enemy_Spawn_Static(Enemy enemy_pool[], int count, Player player)
 		{
 			enemy.active = 1;
 			enemy.pos = Asteroids_Utility_Generate_Random_Pos();
-			while (Asteroids_Collision_CheckCollision_Circle(enemy.collider, enemy.pos, player.collider, player.pos))
-			{
-				enemy.pos = Asteroids_Utility_Generate_Random_Pos();
-			}
+
+
 			enemy.speed = 0;
 			enemy.size = CP_Random_RangeFloat(ASTEROIDS_ENEMY_SIZE_MIN, ASTEROIDS_ENEMY_SIZE_MAX);
 
@@ -182,6 +184,25 @@ void Asteroids_Enemy_Spawn_Static(Enemy enemy_pool[], int count, Player player)
 			enemy.rotate_rate = Asteroids_Enemy_Random_Rotation();
 			enemy.collider.diameter = ASTEROIDS_ENEMY_BASE_DIAMETER * enemy.size;
 			enemy.velocity = CP_Vector_Zero();
+
+			enemy.sprite_type = CP_Random_RangeInt(0, 1);
+
+			for (int j = 0; j < i; j++)
+			{
+				if (Asteroids_Collision_CheckCollision_Circle(enemy.collider, enemy.pos, enemy_pool[j].collider, enemy_pool[j].pos))
+				{
+					enemy.pos = Asteroids_Utility_Generate_Random_Pos();
+					j = -1;
+				}
+
+				while (Asteroids_Collision_CheckCollision_Circle(enemy.collider, enemy.pos, player.collider, player.pos))
+				{
+					enemy.pos = Asteroids_Utility_Generate_Random_Pos();
+					j = -1;
+				}
+
+
+			}
 
 			enemy_pool[i] = enemy;
 			return;
@@ -205,6 +226,7 @@ void Asteroids_Enemy_Spawn(Enemy enemy_pool[], int count)
 			enemy.collider.diameter = ASTEROIDS_ENEMY_BASE_DIAMETER * enemy.size;
 			enemy.hp.max = enemy.size * ASTEROIDS_ENEMY_BASE_MAX_HP;
 			enemy.hp.current = enemy.hp.max;
+			enemy.sprite_type = CP_Random_RangeInt(0, 1);
 
 			enemy_pool[i] = enemy;
 			return;
@@ -283,18 +305,18 @@ CP_Vector Asteroids_Enemy_Random_Pos()
 	return pos;
 }
 
-void Asteroids_Enemy_Draw(Enemy enemy_pool[], int count, CP_Image enemy_sprite, float enemy_width, float enemy_height, CP_Image enemy_hurt_sprite)
+void Asteroids_Enemy_Draw(Enemy enemy_pool[], int count, CP_Image sprites[], CP_Image hurt_sprites[], float enemy_width, float enemy_height)
 {
 	for (int i = 0; i < count; i++)
 	{
 		Enemy enemy = enemy_pool[i];
 		if (enemy.active)
 		{
-			CP_Image_DrawAdvanced(enemy_sprite, enemy.pos.x, enemy.pos.y, enemy.size * enemy_width, enemy.size * enemy_height, 255, enemy.rotation);
+			CP_Image_DrawAdvanced(sprites[enemy.sprite_type], enemy.pos.x, enemy.pos.y, enemy.size * enemy_width, enemy.size * enemy_height, 255, enemy.rotation);
 
 			if (enemy.status.hit)
 			{
-				CP_Image_DrawAdvanced(enemy_hurt_sprite, enemy.pos.x, enemy.pos.y, enemy.size * enemy_width, enemy.size * enemy_height, 255, enemy.rotation);
+				CP_Image_DrawAdvanced(hurt_sprites[enemy.sprite_type], enemy.pos.x, enemy.pos.y, enemy.size * enemy_width, enemy.size * enemy_height, 255, enemy.rotation);
 			}
 		}
 	}
