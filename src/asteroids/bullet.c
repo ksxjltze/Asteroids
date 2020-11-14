@@ -7,7 +7,6 @@
 #include "powerup_interaction.h"
 
 extern bool bullet_split;
-extern bool powerup_lifespan;
 extern bool BPM;
 extern bool ez_mode;
 
@@ -103,8 +102,6 @@ void Asteroids_Bullet_Spawn(Bullet bullets[], int count, Player player, CP_Vecto
 			if (BPM)
 			{
 				bullet.velocity = CP_Vector_Set(shoot_direction.x * BULLET_SPEED * 2, shoot_direction.y * BULLET_SPEED * 2);
-				if (!powerup_lifespan)
-					BPM = false;
 			}
 			else
 				bullet.velocity = CP_Vector_Set(shoot_direction.x * BULLET_SPEED, shoot_direction.y * BULLET_SPEED);
@@ -143,10 +140,5 @@ void Asteroids_Bullet_Powerup_Split(Bullet bullets[], int count, Player player, 
 			split = CP_Vector_MatrixMultiply(rotate, split);
 			Asteroids_Bullet_Spawn(bullets, count, player, split);
 		}
-	}
-
-	if (powerup_lifespan == false)
-	{
-		bullet_split = false;
 	}
 }

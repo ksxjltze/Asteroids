@@ -13,7 +13,7 @@ typedef struct Powerups
 	CP_Vector movement_Vel, pos;
 	float rotation, lifespan;
 	int type;
-	bool active, status;
+	bool active, effect;
 }Powerup;
 
 
@@ -27,15 +27,16 @@ void Asteroids_Draw_Powerup(int type, CP_Vector* pos, CP_Vector movement_vel, fl
 // UTILITY 
 int Asteroids_Generate_Random_Powerup(void);
 int Asteroids_Powerup_RNG(void);
-void Asteroids_Checkpowerup_Location(void);
+void Asteroids_Checkpowerup_Location(Powerup* powerup);
+void Asteroids_Powerup_Reset(Powerup* powerup);
 
-// Asteroid death powerups 
+// Spawn powerup on asteroid death 
 void Asteroids_Generate_Powerup_On_Enemy_Death(CP_Vector position);
 
 // Floating time based powerups
 void Asteroids_Floating_Powerup_Lifespan_Manager(void);
 void Asteroids_Powerup_Lifespan_Manager(Powerup* powerup);
-void Asteroids_Floating_Powerup_Manager(void);
+void Asteroids_Spawn_Floating_Powerup(void);
 
 
 // COLLISION

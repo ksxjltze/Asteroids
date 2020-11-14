@@ -12,7 +12,6 @@ void Asteroids_Powerup_Player_Interaction_Init(void)
 
 void Asteroids_Powerup_Player_Invulernability(Player* player)
 {
-	CP_Image_DrawAdvanced(Invulnerability, player->pos.x, player->pos.y, 54.0f, 54.0f, 255, 0.0f);
-	//if(!powerup_lifespan)
-	//	invulnerable = false;
+	if(invulnerable)
+		CP_Image_DrawAdvanced(Invulnerability, player->pos.x, player->pos.y, 54.0f, 54.0f, 255, 0.0f);
 }
