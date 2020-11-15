@@ -6,20 +6,29 @@
 bool status;
 static int input;
 
+bool page1;
+bool page2;
+
 DIFFICULTY ASTEROIDS_GAME_DIFFICULTY = NORMAL;
 static CP_Color backgroundColor;
 static CP_Color textColor;
 static float menuTextSize;
 static char* menuText = "Asteroids";
 
-Button Credits, Play, Quit, Leaderboard, Controls, Exit, EzButton;
+Button Credits, Play, Quit, Leaderboard, Controls, Exit, EzButton, NextPage, PrevPage;
 CP_Image Control_screen;
+CP_Image Control_screen2;
 
 void Asteroids_MainMenu_Init(void)
 {
 	status = true;
+	page1 = true;
+	page2 = false;
+
 	Asteroids_Menu_Settings_Setup(WIN_WIDTH, WIN_HEIGHT);
 	Asteroids_MainMenu_Button_Init();
+	Control_screen = CP_Image_Load("./Assets/Control_screen.png");
+	Control_screen2 = CP_Image_Load("./Assets/Control_screen2.png");
 
 	if (ASTEROIDS_GAME_DIFFICULTY == EASY)
 	{
@@ -66,6 +75,7 @@ void Asteroids_Draw_MainMenu(void)
 	else if (!status)
 	{
 		Asteroids_MainMenu_CheckInput();
+		Asteroids_Button_Update(&Exit);
 	}
 
 }
@@ -81,16 +91,19 @@ void Asteroids_MainMenu_Button_Init(void)
 	float y1 = y2 - BUTTON_HEIGHT;
 	float y3 = y2 + BUTTON_HEIGHT;
 
-	Control_screen = CP_Image_Load("./Assets/Control_screen.png");
-
+	// Main Menu Button
 	CP_Vector pos1 = CP_Vector_Set(x1, y1);
 	CP_Vector pos2 = CP_Vector_Set(x1, y2);
 	CP_Vector pos3 = CP_Vector_Set(x1, y3);
 	CP_Vector pos4 = CP_Vector_Set(x2, y1);
 	CP_Vector pos5 = CP_Vector_Set(x2, y2);
 
-	CP_Vector pos6 = CP_Vector_Set((float)((WIN_WIDTH / 2 - BUTTON_WIDTH / 2)), (float)(WIN_HEIGHT / 2 + BUTTON_HEIGHT * 5));
+	CP_Vector pos6 = CP_Vector_Set((float)((WIN_WIDTH / 2 - BUTTON_WIDTH / 2)), (float)(WIN_HEIGHT - BUTTON_HEIGHT));
 	CP_Vector pos7 = CP_Vector_Set((float)WIN_WIDTH - 200, 50);
+
+	// Control screen buttons
+	CP_Vector pos8 = CP_Vector_Set((float)WIN_WIDTH - BUTTON_WIDTH, (float)(WIN_HEIGHT / 2)); // Next Page
+	CP_Vector pos9 = CP_Vector_Set(0, (float)(WIN_HEIGHT / 2)); // Prev page
 
 	Play = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	Controls = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -99,14 +112,18 @@ void Asteroids_MainMenu_Button_Init(void)
 	Quit = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	Exit = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	EzButton = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
+	NextPage = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
+	PrevPage = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 
 	Asteroids_Button_Set_Text(&Play, textSize, "Play");
-	Asteroids_Button_Set_Text(&Controls, textSize, "Controls");
+	Asteroids_Button_Set_Text(&Controls, textSize, "Help");
 	Asteroids_Button_Set_Text(&Credits, textSize, "Credits");
 	Asteroids_Button_Set_Text(&Leaderboard, textSize, "Leaderboard");
 	Asteroids_Button_Set_Text(&Quit, textSize, "Quit");
 	Asteroids_Button_Set_Text(&Exit, textSize, "Exit");
 	Asteroids_Button_Set_Text(&EzButton, textSize, "Ez Mode");
+	Asteroids_Button_Set_Text(&NextPage, textSize, "Next");
+	Asteroids_Button_Set_Text(&PrevPage, textSize, "Back");
 
 	Asteroids_Button_Set_Position(&Play, pos1);
 	Asteroids_Button_Set_Position(&Controls, pos2);
@@ -115,13 +132,14 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Position(&Quit, pos5);
 	Asteroids_Button_Set_Position(&Exit, pos6);
 	Asteroids_Button_Set_Position(&EzButton, pos7);
+	Asteroids_Button_Set_Position(&NextPage, pos8);
+	Asteroids_Button_Set_Position(&PrevPage, pos9);
 
 	Asteroids_Button_Set_Callback(&Asteroids_Play_Game, &Play);
 	Asteroids_Button_Set_Callback(&Asteroids_Controls, &Controls);
 	Asteroids_Button_Set_Callback(&Asteroids_Credits, &Credits);
 	Asteroids_Button_Set_Callback(&Asteroids_LeaderBoard, &Leaderboard);
 	Asteroids_Button_Set_Callback(&Asteroids_QuitGame, &Quit);
-	Asteroids_Button_Set_Callback(&Asteroids_Exit_Screen, &Exit);
 	Asteroids_Button_Set_Callback(&Asteroids_Exit_Screen, &Exit);
 	Asteroids_Button_Set_Callback(&Asteroids_Menu_Set_Difficulty, &EzButton);
 }
@@ -169,7 +187,6 @@ void Asteroids_Credits(void)
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Font_DrawTextBox("Credits (TODO)", 0.0f, (float)(WIN_HEIGHT / 2), (float)WIN_WIDTH);
 
-	Asteroids_Button_Update(&Exit);
 }
 
 void Asteroids_LeaderBoard(void)
@@ -180,9 +197,9 @@ void Asteroids_LeaderBoard(void)
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
 	CP_Settings_TextSize(100.0f);
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+
 	CP_Font_DrawTextBox("LeaderBoard (TODO)", 0.0f, (float)(WIN_HEIGHT / 2), (float)WIN_WIDTH);
 
-	Asteroids_Button_Update(&Exit);
 }
 void Asteroids_Controls(void)
 {	
@@ -190,15 +207,49 @@ void Asteroids_Controls(void)
 	status = false;
 
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
-	CP_Image_Draw(Control_screen, (float)WIN_WIDTH/2.0f, (float)WIN_HEIGHT / 2.0f, (float)WIN_WIDTH, (float)WIN_HEIGHT, 255);
+	CP_Vector pos8 = CP_Vector_Set((float)WIN_WIDTH - BUTTON_WIDTH, (float)(WIN_HEIGHT / 2)); // Next Page
+	CP_Vector pos9 = CP_Vector_Set(0, (float)(WIN_HEIGHT / 2)); // Prev page
+	CP_Vector mouse;
+	mouse.x = CP_Input_GetMouseX();
+	mouse.y = CP_Input_GetMouseY();
 
-	Asteroids_Button_Update(&Exit);
+	if(page1)
+	{
+		CP_Image_Draw(Control_screen, (float)WIN_WIDTH / 2.0f, (float)WIN_HEIGHT / 2.0f, (float)WIN_WIDTH, (float)WIN_HEIGHT, 255);
+		Asteroids_Button_Update(&NextPage);
+		if (mouse.x >= pos8.x && mouse.x <= pos8.x + BUTTON_WIDTH && 
+			mouse.y >= pos8.y && mouse.y <= pos8.y + BUTTON_HEIGHT)
+		{
+			if (CP_Input_MouseClicked())
+			{
+				page1 = false;
+				page2 = true;
+			}
+		}
+	}
+	if (page2)
+	{
+		CP_Image_Draw(Control_screen2, (float)WIN_WIDTH / 2.0f, (float)WIN_HEIGHT / 2.0f, (float)WIN_WIDTH, (float)WIN_HEIGHT, 255);
+		Asteroids_Button_Update(&PrevPage);
+		if (mouse.x >= pos9.x && mouse.x <= pos9.x + BUTTON_WIDTH &&
+			mouse.y >= pos9.y && mouse.y <= pos9.y + BUTTON_HEIGHT)
+		{
+			if (CP_Input_MouseClicked())
+			{
+				page1 = true;
+				page2 = false;
+			}
+		}
+	}
+
 }
 
 void Asteroids_Exit_Screen(void)
 {
 	input = 0;
 	status = true;
+	page1 = true;
+	page2 = false;
 }
 
 void Asteroids_MainMenu_CheckInput(void)

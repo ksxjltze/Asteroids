@@ -172,7 +172,6 @@ void Asteroids_Spawn_Floating_Powerup(void)	// Initialize variables for floating
 	{
 		if (!powerup_pool[i].active && !powerup_pool[i].effect) //if inactive and effect not running, spawn.
 		{
-			printf("spawn\n");
 			powerup_pool[i].active = true;
 			powerup_pool[i].type = Asteroids_Generate_Random_Powerup();
 			powerup_pool[i].pos = Asteroids_Utility_Generate_Random_Pos();
@@ -207,12 +206,10 @@ void Asteroids_Powerup_Player_Collision(Powerup powerup[], struct Player* player
 			else if (powerup[i].type == INCREASE_BPM)
 			{
 				BPM = true;
-				printf("bpm = true \n");
 			}
 			else if (powerup[i].type == INVULNERABILITY)
 			{
 				invulnerable = true;
-				printf("invulnerable\n");
 			}
 			else if (powerup[i].type == BULLET_SPLIT)
 			{
@@ -281,14 +278,12 @@ void Asteroids_Powerup_Lifespan_Manager(Powerup* powerup)
 			{
 			case INVULNERABILITY:
 				invulnerable = false;
-				printf("invulnerability = false\n");
 				break;
 			case BULLET_SPLIT:
 				bullet_split = false;
 				break;
 			case INCREASE_BPM:
 				BPM = false;
-				printf("BPM = false\n");
 				break;
 			default:;
 								
