@@ -19,7 +19,12 @@ Button Credits, Play, Quit, Leaderboard, Controls, Exit, EzButton, NextPage, Pre
 CP_Image Control_screen;
 CP_Image Control_screen2;
 CP_Image Credits_screen;
+
 CP_Image backgroundImage;
+
+CP_Vector backgroundPos;
+CP_Vector backgroundPos2;
+CP_Vector backgroundPos3;
 
 void Asteroids_MainMenu_Init(void)
 {
@@ -32,7 +37,14 @@ void Asteroids_MainMenu_Init(void)
 	Control_screen = CP_Image_Load("./Assets/Control_screen.png");
 	Control_screen2 = CP_Image_Load("./Assets/Control_screen2.png");
 	Credits_screen = CP_Image_Load("./Assets/credits.png");
+
 	backgroundImage = CP_Image_Load("./Assets/starfield.png");
+	backgroundPos = Asteroids_Utility_GetWindowMiddle();
+	backgroundPos2 = backgroundPos;
+	backgroundPos3 = backgroundPos2;
+
+	backgroundPos2.x = backgroundPos.x + (float)WIN_WIDTH - ASTEROIDS_MAINMENU_BACKGROUND_SCROLL_OFFSET;
+	backgroundPos3.x = backgroundPos2.x + (float)WIN_WIDTH - ASTEROIDS_MAINMENU_BACKGROUND_SCROLL_OFFSET;
 
 	if (ASTEROIDS_GAME_DIFFICULTY == EASY)
 	{
@@ -52,6 +64,7 @@ void Asteroids_MainMenu_Init(void)
 void Asteroids_MainMenu_Update(void)
 {
 	CP_Settings_Background(backgroundColor);
+	Asteroids_MainMenu_Update_Background();
 	Asteroids_Draw_MainMenu();
 }
 
@@ -60,13 +73,41 @@ void Asteroids_MainMenu_Exit(void)
 
 }
 
+void Asteroids_MainMenu_Update_Background(void)
+{
+	float dt = CP_System_GetDt();
+	float offset = (float)WIN_WIDTH / 2;
+
+	backgroundPos.x -= dt * ASTEROIDS_MAINMENU_BACKGROUND_SCROLL_SPEED;
+	backgroundPos2.x -= dt * ASTEROIDS_MAINMENU_BACKGROUND_SCROLL_SPEED;
+	backgroundPos3.x -= dt * ASTEROIDS_MAINMENU_BACKGROUND_SCROLL_SPEED;
+
+	if (backgroundPos.x + offset < 0)
+		backgroundPos.x = backgroundPos3.x + (float)WIN_WIDTH - ASTEROIDS_MAINMENU_BACKGROUND_SCROLL_OFFSET;
+
+	if (backgroundPos2.x + offset < 0)
+		backgroundPos2.x = backgroundPos.x + (float)WIN_WIDTH - ASTEROIDS_MAINMENU_BACKGROUND_SCROLL_OFFSET;
+
+	if (backgroundPos3.x + offset < 0)
+		backgroundPos3.x = backgroundPos2.x + (float)WIN_WIDTH - ASTEROIDS_MAINMENU_BACKGROUND_SCROLL_OFFSET;
+
+}
+
+void Asteroids_MainMenu_Draw_Background(void)
+{
+	CP_Image_Draw(backgroundImage, backgroundPos.x, backgroundPos.y, (float)WIN_WIDTH, (float)WIN_HEIGHT, 255);
+	CP_Image_Draw(backgroundImage, backgroundPos2.x, backgroundPos2.y, (float)WIN_WIDTH, (float)WIN_HEIGHT, 255);
+	CP_Image_Draw(backgroundImage, backgroundPos3.x, backgroundPos3.y, (float)WIN_WIDTH, (float)WIN_HEIGHT, 255);
+
+}
+
 void Asteroids_Draw_MainMenu(void)
 {
+	Asteroids_MainMenu_Draw_Background();
 	CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
 	CP_Settings_Fill(textColor);
 	CP_Settings_TextSize(menuTextSize);
 	CP_Font_DrawTextBox(menuText, 0, 50.0f + menuTextSize / 2, (float)WIN_WIDTH);
-	CP_Image_Draw(backgroundImage, (float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2, (float)WIN_WIDTH, (float)WIN_HEIGHT, 255);
 
 	if (status)
 	{
