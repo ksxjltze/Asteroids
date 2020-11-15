@@ -18,6 +18,7 @@ static char* menuText = "Asteroids";
 Button Credits, Play, Quit, Leaderboard, Controls, Exit, EzButton, NextPage, PrevPage;
 CP_Image Control_screen;
 CP_Image Control_screen2;
+CP_Image Credits_screen;
 
 void Asteroids_MainMenu_Init(void)
 {
@@ -29,6 +30,7 @@ void Asteroids_MainMenu_Init(void)
 	Asteroids_MainMenu_Button_Init();
 	Control_screen = CP_Image_Load("./Assets/Control_screen.png");
 	Control_screen2 = CP_Image_Load("./Assets/Control_screen2.png");
+	Credits_screen = CP_Image_Load("./Assets/credits.png");
 
 	if (ASTEROIDS_GAME_DIFFICULTY == EASY)
 	{
@@ -98,7 +100,10 @@ void Asteroids_MainMenu_Button_Init(void)
 	CP_Vector pos4 = CP_Vector_Set(x2, y1);
 	CP_Vector pos5 = CP_Vector_Set(x2, y2);
 
+	// Exit Button
 	CP_Vector pos6 = CP_Vector_Set((float)((WIN_WIDTH / 2 - BUTTON_WIDTH / 2)), (float)(WIN_HEIGHT - BUTTON_HEIGHT));
+
+	// EZ MODE Button
 	CP_Vector pos7 = CP_Vector_Set((float)WIN_WIDTH - 200, 50);
 
 	// Control screen buttons
@@ -183,10 +188,12 @@ void Asteroids_Credits(void)
 	status = false;
 
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
-	CP_Settings_TextSize(100.0f);
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Font_DrawTextBox("Credits (TODO)", 0.0f, (float)(WIN_HEIGHT / 2), (float)WIN_WIDTH);
+	CP_Image_Draw(Credits_screen, (float)(WIN_WIDTH / 2), (float)(WIN_HEIGHT / 2), (float)WIN_WIDTH, (float)WIN_HEIGHT, 255);
 
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 20));
+	CP_Settings_TextSize(50.0f);
+	CP_Font_DrawText("Ty for carry", (float)(WIN_WIDTH / 2 + 350.0f), (float)(WIN_HEIGHT * 0.28));
+	Asteroids_Button_Update(&Exit);
 }
 
 void Asteroids_LeaderBoard(void)
@@ -247,7 +254,10 @@ void Asteroids_Controls(void)
 void Asteroids_Exit_Screen(void)
 {
 	input = 0;
+	// Draw main menu screen. 
 	status = true;
+
+	//Reset control page display to first page
 	page1 = true;
 	page2 = false;
 }
