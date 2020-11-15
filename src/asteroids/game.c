@@ -282,12 +282,11 @@ void Asteroids_Debug_Draw_Text()
 
 void Asteroids_Debug()
 {
-	Asteroids_Debug_Draw_Text();
-	Asteroids_Debug_Check_Input();
-
 	if (!debug_mode)
 		return;
 
+	Asteroids_Debug_Draw_Text();
+	Asteroids_Debug_Check_Input();
 	Asteroids_Player_Debug(player);
 	Asteroids_Enemy_Debug(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES);
 	Asteroids_Bullet_Debug(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS);

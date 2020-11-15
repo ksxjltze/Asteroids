@@ -49,9 +49,13 @@ void Asteroids_UI_Fuel_Draw(Fuel fuel)
 	float backgroundHeight = fuel.max / fuel.max * height;
 	float foregroundHeight = fuel.current / fuel.max * height;
 
-	CP_Settings_Fill(CP_Color_Create(50, 50, 50, 255));
+	CP_Settings_TextSize(40);
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	CP_Font_DrawText("Fuel", pos.x + 20, pos.y - 35);
+
+	CP_Settings_Fill(CP_Color_Create(50, 50, 50, 255)); //Orange
 	CP_Graphics_DrawRect(pos.x, pos.y, width, backgroundHeight);
 
-	CP_Settings_Fill(CP_Color_Create(0, 255, 255, 255));
+	CP_Settings_Fill(CP_Color_Create(235, 146, 52, 255)); //Orange
 	CP_Graphics_DrawRect(pos.x, pos.y + (backgroundHeight - foregroundHeight), width, foregroundHeight);
 }
