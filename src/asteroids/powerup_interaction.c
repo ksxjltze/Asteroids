@@ -2,7 +2,6 @@
 
 CP_Image Invulnerability;
 
-extern bool powerup_lifespan;
 extern bool invulnerable;
 
 void Asteroids_Powerup_Player_Interaction_Init(void)

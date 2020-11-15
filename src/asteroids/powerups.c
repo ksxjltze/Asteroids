@@ -193,7 +193,7 @@ void Asteroids_Powerup_Player_Collision(Powerup powerup[], struct Player* player
 			continue;
 		}
 
-		Powerup* P = &powerup[i]; //Use *p cuz typing powerup[i] is too long
+		Powerup* P = &powerup[i];
 		if (Asteroids_Collision_CheckCollision_Circle_Test(P->collider, P->pos, player->collider, player->pos))
 		{
 			powerup[i].effect = true; // effects starts running
