@@ -21,6 +21,7 @@ void Asteroids_Draw();
 void Asteroids_FPS_Draw();
 
 void Asteroids_Debug();
+void Asteroids_Debug_Check_Input();
 
 void Asteroids_Sprites_Load();
 void Asteroids_Entities_Init();

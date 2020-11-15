@@ -9,3 +9,6 @@ void Asteroids_GameOver_Exit(void);
 
 void Asteroids_GameOver_Restart(void);
 void Asteroids_GameOver_Quit(void);
+
+void Asteroids_GameOver_Init_Score(void);
+void Asteroids_GameOver_Display_Score(void);

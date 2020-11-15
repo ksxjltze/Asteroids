@@ -227,11 +227,6 @@ void Asteroids_Check_Input()
 
 	if (CP_Input_KeyTriggered(KEY_F1))
 		debug_mode = !debug_mode;
-	
-	if (CP_Input_KeyTriggered(KEY_SPACE))
-	{
-		Asteroids_Enemy_Spawn(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES);
-	}
 
 	if (ez_mode)
 		Asteroids_Player_Simple_Movement(&player);
@@ -288,6 +283,7 @@ void Asteroids_Debug_Draw_Text()
 void Asteroids_Debug()
 {
 	Asteroids_Debug_Draw_Text();
+	Asteroids_Debug_Check_Input();
 
 	if (!debug_mode)
 		return;
@@ -296,6 +292,19 @@ void Asteroids_Debug()
 	Asteroids_Enemy_Debug(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES);
 	Asteroids_Bullet_Debug(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS);
 
+}
+
+void Asteroids_Debug_Check_Input()
+{
+	if (CP_Input_KeyTriggered(KEY_SPACE))
+	{
+		Asteroids_Enemy_Spawn(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES);
+	}
+
+	if (CP_Input_KeyTriggered(KEY_MINUS))
+	{
+		Asteroids_Player_Death(&player);
+	}
 }
 
 // use CP_Engine_SetNextGameState to specify this function as the exit function

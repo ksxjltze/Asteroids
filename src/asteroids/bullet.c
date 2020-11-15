@@ -112,6 +112,7 @@ void Asteroids_Bullet_Spawn(Bullet bullets[], int count, Player player, CP_Vecto
 		}
 	}
 }
+
 void Asteroids_Bullet_Powerup_Split(Bullet bullets[], int count, Player player, CP_Vector shoot_direction)
 {
 
