@@ -19,6 +19,7 @@ Button Credits, Play, Quit, Leaderboard, Controls, Exit, EzButton, NextPage, Pre
 CP_Image Control_screen;
 CP_Image Control_screen2;
 CP_Image Credits_screen;
+CP_Image backgroundImage;
 
 void Asteroids_MainMenu_Init(void)
 {
@@ -31,6 +32,7 @@ void Asteroids_MainMenu_Init(void)
 	Control_screen = CP_Image_Load("./Assets/Control_screen.png");
 	Control_screen2 = CP_Image_Load("./Assets/Control_screen2.png");
 	Credits_screen = CP_Image_Load("./Assets/credits.png");
+	backgroundImage = CP_Image_Load("./Assets/starfield.png");
 
 	if (ASTEROIDS_GAME_DIFFICULTY == EASY)
 	{
@@ -64,6 +66,7 @@ void Asteroids_Draw_MainMenu(void)
 	CP_Settings_Fill(textColor);
 	CP_Settings_TextSize(menuTextSize);
 	CP_Font_DrawTextBox(menuText, 0, 50.0f + menuTextSize / 2, (float)WIN_WIDTH);
+	CP_Image_Draw(backgroundImage, (float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2, (float)WIN_WIDTH, (float)WIN_HEIGHT, 255);
 
 	if (status)
 	{
