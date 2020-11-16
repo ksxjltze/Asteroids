@@ -153,7 +153,7 @@ void Asteroids_Entities_Init()
 //@brief Loads sprites from file path and sets their width and height.
 void Asteroids_Sprites_Load()
 {
-	player_sprite = CP_Image_Load(PLAYER_SPRITE_PATH);
+	player_sprite = CP_Image_Load(ASTEROIDS_PLAYER_SPRITE_PATH_DEFAULT);
 	bullet_sprite = CP_Image_Load("./Assets/bullet_long.png");
 
 	enemy_sprites[0] = CP_Image_Load("./Assets/asteroids_cropped.png");
@@ -166,9 +166,9 @@ void Asteroids_Sprites_Load()
 
 	player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
 
-	player_width = 36.0f;
+	player_width = ASTEROIDS_PLAYER_SPRITE_WIDTH;
 	printf("player width is %f\n", player_width);
-	player_height = 54.0f;
+	player_height = ASTEROIDS_PLAYER_SPRITE_HEIGHT;
 	printf("player height is %f", player_height);
 
 	bullet_width = (float)CP_Image_GetWidth(bullet_sprite);

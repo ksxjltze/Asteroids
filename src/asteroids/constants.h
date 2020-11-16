@@ -47,7 +47,11 @@ extern const float ASTEROIDS_UI_PLAYER_HEALTH_BAR_WIDTH;
 extern const float ASTEROIDS_UI_PLAYER_FUEL_METER_BAR_WIDTH;
 extern const float ASTEROIDS_UI_PLAYER_FUEL_METER_BAR_HEIGHT;
 
-extern const char* PLAYER_SPRITE_PATH;
+extern const char* ASTEROIDS_PLAYER_SPRITE_PATH_DEFAULT;
+extern const char* ASTEROIDS_PLAYER_SPRITE_PATH_LEGACY;
+extern const float ASTEROIDS_PLAYER_SPRITE_WIDTH;
+extern const float ASTEROIDS_PLAYER_SPRITE_HEIGHT;
+
 extern const char* ASTEROIDS_HEART_SPRITE_PATH;
 
 extern const float PLAYER_MAX_HP;
