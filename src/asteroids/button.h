@@ -25,9 +25,14 @@ typedef struct Colors
 	CP_Color disabled;
 }ButtonColors;
 
-typedef struct Buttons
+typedef struct Callbacks
 {
 	void(*function)();
+}Callback;
+
+typedef struct Buttons
+{
+	Callback callback;
 	ButtonText textbox;
 	ButtonColors colors;
 
