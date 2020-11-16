@@ -7,7 +7,7 @@ const float ASTEROIDS_PLAYER_SLOWED_SPEED = 20.0f;
 
 const int BULLET_SPEED = 1000;
 const float FIRE_RATE = 600.0f; //bullets per minute
-const float HURT_WINDOW = 0; //seconds
+const float HURT_WINDOW = 0.1f; //seconds
 const float BULLET_DAMAGE = 1;
 
 const float ASTEROID_MIN_SPEED = 50.0f;

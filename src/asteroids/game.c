@@ -65,7 +65,7 @@ void Asteroids_Init(void)
 	Asteroids_Init_Score();
 	Asteroids_Powerup_Player_Interaction_Init();
 	Asteroids_Obstacles_Init();
-	Asteroids_Boss_Init(enemy_sprites, enemy_hurt_sprites, enemy_width, enemy_height);
+	Asteroids_Boss_Init(enemy_sprites, enemy_hurt_sprites, enemy_width, enemy_height, &player);
 
 }
 
@@ -101,7 +101,7 @@ void Asteroids_Update(void)
 
 		Asteroids_Obstacles_Update(enemy_pool, &player, enemy_count);
 		Asteroids_Draw();
-		Asteroids_Boss_Update();
+		Asteroids_Boss_Update(&player, enemy_pool, enemy_count, bullet_pool);
 		Asteroids_Update_Powerups(&player);
 
 		Asteroids_Debug();
