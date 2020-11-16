@@ -12,3 +12,6 @@ void Asteroids_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_count, 
 
 void Asteroids_Enemy_Draw_Boss(void);
 void Asteroids_Enemy_Boss_Spawn(void);
+
+CP_Vector Asteroids_Boss_Random_Spawn_Location(void);
+Bullet Asteroids_Collision_CheckCollision_EnemyBoss_Bullet(Enemy enemy_pool, Bullet bullet);

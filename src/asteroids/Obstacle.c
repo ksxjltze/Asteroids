@@ -92,7 +92,6 @@ void Asteroids_Obstacle_Check_Collision(Enemy enemy_pool[], Player* player, Obst
 		if (Asteroids_Collision_CheckCollision_Circle_Test(obstacle->Collider2, obstacle->pos, enemy_pool[i].collider, enemy_pool[i].pos))
 		{
 			enemy_pool[i].active = false;
-			//spawn_particles(enemy_pool[i].pos, 8, 0, 0, enemy_pool[i].size);
 		}
 	}
 }
