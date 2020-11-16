@@ -14,6 +14,7 @@
 #include "score.h"
 #include "collision_manager.h"
 #include <stdbool.h>
+#include "Obstacle.h"
 
 #define ASTEROIDS_POOLSIZE_BULLETS 999
 #define ASTEROIDS_POOLSIZE_ENEMIES 100
@@ -63,6 +64,7 @@ void Asteroids_Init(void)
 	Asteroids_Init_Powerups();
 	Asteroids_Init_Score();
 	Asteroids_Powerup_Player_Interaction_Init();
+	Asteroids_Obstacles_Init();
 }
 
 // use CP_Engine_SetNextGameState to specify this function as the update function
@@ -95,13 +97,13 @@ void Asteroids_Update(void)
 			CP_Engine_Run();
 		}
 
+		Asteroids_Obstacles_Update(enemy_pool, &player, enemy_count);
 		Asteroids_Draw();
 		Asteroids_Update_Powerups(&player);
 
 		Asteroids_Debug();
 		Asteroids_UI_Update(player);
 		Asteroids_Draw_Scores();
-	
 
 	}
 
