@@ -38,7 +38,7 @@ void Asteroids_MainMenu_Init(void)
 	Control_screen2 = CP_Image_Load("./Assets/Control_screen2.png");
 	Credits_screen = CP_Image_Load("./Assets/credits.png");
 
-	backgroundImage = CP_Image_Load("./Assets/starfield.png");
+	backgroundImage = CP_Image_Load("./Assets/background.png");
 	backgroundPos = Asteroids_Utility_GetWindowMiddle();
 	backgroundPos2 = backgroundPos;
 	backgroundPos3 = backgroundPos2;
