@@ -51,6 +51,8 @@ const float ASTEROIDS_ENEMY_BASE_SPAWN_INTERVAL = 2.0f;
 
 const char* ASTEROIDS_PLAYER_SPRITE_PATH_DEFAULT = "./Assets/Spaceship2.png";
 const char* ASTEROIDS_PLAYER_SPRITE_PATH_LEGACY = "./Assets/spaceship1.png";
+const char* ASTEROIDS_PLAYER_SPRITE_PATH_PROTOTYPE = "./Assets/ship_temp.png";
+
 const float ASTEROIDS_PLAYER_SPRITE_WIDTH = 36.0f;
 const float ASTEROIDS_PLAYER_SPRITE_HEIGHT = 54.0f;
 
