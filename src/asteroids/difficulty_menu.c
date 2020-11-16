@@ -8,7 +8,10 @@ static Button difficultyButton;
 void Asteroids_Difficulty_Menu_Init(void)
 {
 	CP_Vector pos = Asteroids_Utility_GetWindowMiddle();
-	difficultyButton = Asteroids_Button_Add_New_Button(200, 100);
+	difficultyButton = Asteroids_Button_Add_New_Button(300, 100);
+	pos.x -= difficultyButton.width / 2;
+	pos.y -= difficultyButton.height / 2;
+
 	Asteroids_Button_Set_Position(&difficultyButton, pos);
 	Asteroids_Difficulty_Menu_Update_ButtonText(&difficultyButton);
 	Asteroids_Button_Set_Callback_Button(&Asteroids_Difficulty_Set_NextDifficulty, &difficultyButton);
@@ -18,17 +21,27 @@ void Asteroids_Difficulty_Menu_Init(void)
 void Asteroids_Difficulty_Menu_Update_ButtonText(Button* button)
 {
 	float textSize = button->textbox.textSize;
+	if (textSize == 0)
+	{
+		button->textbox.textSize = 50.0f;
+		textSize = button->textbox.textSize;
+	}
+
 	switch (ASTEROIDS_GAME_DIFFICULTY)
 	{
 	case EASY:
-		Asteroids_Button_Set_Text(&difficultyButton, textSize, "EASY");
+		Asteroids_Button_Set_Text(button, textSize, "EASY");
+		break;
 	case NORMAL:
-		Asteroids_Button_Set_Text(&difficultyButton, textSize, "NORMAL");
+		Asteroids_Button_Set_Text(button, textSize, "NORMAL");
+		break;
 	case HARD:
-		Asteroids_Button_Set_Text(&difficultyButton, textSize, "HARD");
+		Asteroids_Button_Set_Text(button, textSize, "HARD");
+		break;
 	default:
 		break;
 	}
+
 }
 
 void Asteroids_Difficulty_Menu_Update(void)
@@ -49,5 +62,6 @@ void Asteroids_Difficulty_Set_NextDifficulty(Button* button)
 		ASTEROIDS_GAME_DIFFICULTY = EASY;
 
 	Asteroids_Difficulty_Menu_Update_ButtonText(button);
+
 }
 
