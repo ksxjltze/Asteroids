@@ -187,13 +187,13 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Position(&NextPage, pos8);
 	Asteroids_Button_Set_Position(&PrevPage, pos9);
 
-	Asteroids_Button_Set_Callback(&Asteroids_Play_Game, &Play);
-	Asteroids_Button_Set_Callback(&Asteroids_Controls, &Controls);
-	Asteroids_Button_Set_Callback(&Asteroids_Credits, &Credits);
-	Asteroids_Button_Set_Callback(&Asteroids_LeaderBoard, &Leaderboard);
-	Asteroids_Button_Set_Callback(&Asteroids_QuitGame, &Quit);
-	Asteroids_Button_Set_Callback(&Asteroids_Exit_Screen, &Exit);
-	Asteroids_Button_Set_Callback(&Asteroids_Menu_Set_Difficulty, &EzButton);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_Play_Game, &Play);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_Controls, &Controls);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_Credits, &Credits);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_LeaderBoard, &Leaderboard);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_QuitGame, &Quit);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_Exit_Screen, &Exit);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Set_Difficulty, &EzButton);
 }
 
 void Asteroids_Menu_Set_Difficulty(void)

@@ -26,9 +26,14 @@ void Asteroids_Button_Set_Text_Colors(Button* button, CP_Color color)
 	button->textbox.color = color;
 }
 
-void Asteroids_Button_Set_Callback(void(*callback)(), Button* button)
+void Asteroids_Button_Set_Callback_Void(void(*callback)(void), Button* button)
 {
-	button->callback.function = callback;
+	button->callback.void_callback = callback;
+}
+
+void Asteroids_Button_Set_Callback_Button(void(*callback)(Button* button), Button* button)
+{
+	button->callback.button_callback = callback;
 }
 
 void Asteroids_Button_Set_Colors(Button* button, CP_Color idle, CP_Color hover, CP_Color clicked)
@@ -41,7 +46,8 @@ void Asteroids_Button_Set_Colors(Button* button, CP_Color idle, CP_Color hover, 
 void Asteroids_Button_Init(Button* button_out)
 {
 	Button button;
-	button.callback.function = NULL;
+	button.callback.void_callback = NULL;
+	button.callback.button_callback = NULL;
 
 	button.position = CP_Vector_Zero();
 	button.width = 0;
@@ -97,8 +103,8 @@ void Asteroids_Button_Update(Button* button)
 
 void Asteroids_Button_Execute_Callback(Button button)
 {
-	if (button.callback.function)
-		button.callback.function();
+	if (button.callback.void_callback)
+		button.callback.void_callback();
 }
 
 void Asteroids_Button_Draw(Button button)
