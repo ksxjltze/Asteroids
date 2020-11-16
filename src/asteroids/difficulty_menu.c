@@ -56,6 +56,8 @@ void Asteroids_Difficulty_Menu_Display_Info(void)
 void Asteroids_Difficulty_Menu_Update(void)
 {
 	Asteroids_Difficulty_Menu_Draw();
+	CP_Settings_TextSize(30.0f);
+	CP_Font_DrawText("Current Difficulty:", difficultyButton.position.x + difficultyButton.width / 2, difficultyButton.position.y - 20);
 	Asteroids_Button_Update(&difficultyButton);
 }
 
