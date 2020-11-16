@@ -8,7 +8,6 @@
 
 extern bool bullet_split;
 extern bool BPM;
-extern bool ez_mode;
 
 void Asteroids_Bullet_Init(Bullet bullets[], int count, float bullet_width, float bullet_height)
 {
@@ -115,6 +114,8 @@ void Asteroids_Bullet_Spawn(Bullet bullets[], int count, Player player, CP_Vecto
 
 void Asteroids_Bullet_Powerup_Split(Bullet bullets[], int count, Player player, CP_Vector shoot_direction)
 {
+	if (!bullet_split)
+		return;
 
 	CP_Matrix Rotate1 = CP_Matrix_Rotate(ASTEROIDS_POWERUP_BULLET_SPLIT_ANGLE);
 	CP_Matrix Rotate2 = CP_Matrix_Rotate(-ASTEROIDS_POWERUP_BULLET_SPLIT_ANGLE);
@@ -124,22 +125,19 @@ void Asteroids_Bullet_Powerup_Split(Bullet bullets[], int count, Player player, 
 
 	split_1 = CP_Vector_MatrixMultiply(Rotate1, split_1);
 	split_2 = CP_Vector_MatrixMultiply(Rotate2, split_2);
-	if (bullet_split)
+
+	Asteroids_Bullet_Spawn(bullets, count, player, split_1);
+	Asteroids_Bullet_Spawn(bullets, count, player, split_2);
+}
+
+void Asteroids_Bullet_Split(Bullet bullets[], int pool_size, int bullet_count, float angle, Player player, CP_Vector shoot_direction)
+{
+	for (int i = 0; i < bullet_count; i++)
 	{
-		Asteroids_Bullet_Spawn(bullets, count, player, split_1);
-		Asteroids_Bullet_Spawn(bullets, count, player, split_2);
+		CP_Vector split = shoot_direction;
+		CP_Matrix rotate = CP_Matrix_Rotate(angle * i - angle * (float)bullet_count / 2);
+		split = CP_Vector_MatrixMultiply(rotate, split);
+		Asteroids_Bullet_Spawn(bullets, pool_size, player, split);
 	}
 
-	if (ez_mode)
-	{
-		int max_split = 6;
-		float angle = 5.0f;
-		for (int i = 0; i < max_split; i++)
-		{
-			CP_Vector split = shoot_direction;
-			CP_Matrix rotate = CP_Matrix_Rotate(angle * i - angle * max_split / 2);
-			split = CP_Vector_MatrixMultiply(rotate, split);
-			Asteroids_Bullet_Spawn(bullets, count, player, split);
-		}
-	}
 }

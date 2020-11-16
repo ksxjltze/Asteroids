@@ -1,21 +1,26 @@
 #include "main_menu.h"
+#include "difficulty_menu.h"
 
 #define BUTTON_WIDTH 200.0f
 #define BUTTON_HEIGHT 50.0f
 
 bool status;
-static int input;
+static int overlay_type;
 
 bool page1;
 bool page2;
 
+enum OVERLAY_TYPE { CREDITS_SCREEN, LEADERBOARD_SCREEN, CONTROLS_SCREEN, DIFFICULTY_MENU};
+
 DIFFICULTY ASTEROIDS_GAME_DIFFICULTY = NORMAL;
+DIFFICULTY DIFFICULTY_OPTION = NORMAL;
+
 static CP_Color backgroundColor;
 static CP_Color textColor;
 static float menuTextSize;
 static char* menuText = "Asteroids";
 
-Button Credits, Play, Quit, Leaderboard, Controls, Exit, EzButton, NextPage, PrevPage;
+Button Credits, Play, Quit, Leaderboard, Controls, Exit, DifficultyBtn, NextPage, PrevPage;
 CP_Image Control_screen;
 CP_Image Control_screen2;
 CP_Image Credits_screen;
@@ -38,22 +43,13 @@ void Asteroids_MainMenu_Init(void)
 	Control_screen2 = CP_Image_Load("./Assets/Control_screen2.png");
 	Credits_screen = CP_Image_Load("./Assets/credits.png");
 
-	backgroundImage = CP_Image_Load("./Assets/starfield.png");
+	backgroundImage = CP_Image_Load("./Assets/background.png");
 	backgroundPos = Asteroids_Utility_GetWindowMiddle();
 	backgroundPos2 = backgroundPos;
 	backgroundPos3 = backgroundPos2;
 
 	backgroundPos2.x = backgroundPos.x + (float)WIN_WIDTH - ASTEROIDS_MAINMENU_BACKGROUND_SCROLL_OFFSET;
 	backgroundPos3.x = backgroundPos2.x + (float)WIN_WIDTH - ASTEROIDS_MAINMENU_BACKGROUND_SCROLL_OFFSET;
-
-	if (ASTEROIDS_GAME_DIFFICULTY == EASY)
-	{
-		backgroundColor = CP_Color_Create(255, 255, 0, 255);
-		textColor = CP_Color_Create(255, 0, 255, 255);
-		menuText = "aStErOiDs";
-		menuTextSize = 300.0f;
-		return;
-	}
 
 	menuText = "Asteroids";
 	backgroundColor = CP_Color_Create(0, 0, 0, 255);
@@ -119,7 +115,7 @@ void Asteroids_Draw_MainMenu(void)
 		Asteroids_Button_Update(&Credits);
 		Asteroids_Button_Update(&Leaderboard);
 		Asteroids_Button_Update(&Quit);
-		Asteroids_Button_Update(&EzButton);
+		Asteroids_Button_Update(&DifficultyBtn);
 	}
 	else if (!status)
 	{
@@ -163,7 +159,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	Leaderboard = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	Quit = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	Exit = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
-	EzButton = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
+	DifficultyBtn = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	NextPage = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	PrevPage = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 
@@ -173,7 +169,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Text(&Leaderboard, textSize, "Leaderboard");
 	Asteroids_Button_Set_Text(&Quit, textSize, "Quit");
 	Asteroids_Button_Set_Text(&Exit, textSize, "Exit");
-	Asteroids_Button_Set_Text(&EzButton, textSize, "Ez Mode");
+	Asteroids_Button_Set_Text(&DifficultyBtn, textSize, "Difficulty");
 	Asteroids_Button_Set_Text(&NextPage, textSize, "Next");
 	Asteroids_Button_Set_Text(&PrevPage, textSize, "Back");
 
@@ -183,39 +179,27 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Position(&Leaderboard, pos4);
 	Asteroids_Button_Set_Position(&Quit, pos5);
 	Asteroids_Button_Set_Position(&Exit, pos6);
-	Asteroids_Button_Set_Position(&EzButton, pos7);
+	Asteroids_Button_Set_Position(&DifficultyBtn, pos7);
 	Asteroids_Button_Set_Position(&NextPage, pos8);
 	Asteroids_Button_Set_Position(&PrevPage, pos9);
 
-	Asteroids_Button_Set_Callback(&Asteroids_Play_Game, &Play);
-	Asteroids_Button_Set_Callback(&Asteroids_Controls, &Controls);
-	Asteroids_Button_Set_Callback(&Asteroids_Credits, &Credits);
-	Asteroids_Button_Set_Callback(&Asteroids_LeaderBoard, &Leaderboard);
-	Asteroids_Button_Set_Callback(&Asteroids_QuitGame, &Quit);
-	Asteroids_Button_Set_Callback(&Asteroids_Exit_Screen, &Exit);
-	Asteroids_Button_Set_Callback(&Asteroids_Menu_Set_Difficulty, &EzButton);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_Play_Game, &Play);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_Controls, &Controls);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_Credits, &Credits);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_LeaderBoard, &Leaderboard);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_QuitGame, &Quit);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_Exit_Screen, &Exit);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_DifficultyMenu, &DifficultyBtn);
+
+	DifficultyBtn.colors.idle = CP_Color_Create(255, 255, 0, 255);
+	Asteroids_Button_Set_Text_Colors(&DifficultyBtn, CP_Color_Create(0, 0, 0, 255));
 }
 
-void Asteroids_Menu_Set_Difficulty(void)
+void Asteroids_Menu_Display_DifficultyMenu(void)
 {
-	if (ASTEROIDS_GAME_DIFFICULTY == NORMAL)
-	{
-		ASTEROIDS_GAME_DIFFICULTY = EASY;
-
-		backgroundColor = CP_Color_Create(255, 255, 0, 255);
-		textColor = CP_Color_Create(255, 0, 255, 255);
-		menuText = "EZ EZ EZ";
-		menuTextSize = 300.0f;
-	}
-	else
-	{
-		ASTEROIDS_GAME_DIFFICULTY = NORMAL;
-		backgroundColor = CP_Color_Create(0, 0, 0, 255);
-		textColor = CP_Color_Create(255, 255, 255, 255);
-		menuText = "Asteroids";
-		menuTextSize = 100.0f;
-	}
-
+	status = false;
+	overlay_type = DIFFICULTY_MENU;
+	Asteroids_Difficulty_Menu_Init();
 }
 
 void Asteroids_Play_Game(void)
@@ -231,7 +215,7 @@ void Asteroids_QuitGame(void)
 
 void Asteroids_Credits(void)
 {
-	input = 1;
+	overlay_type = CREDITS_SCREEN;
 	status = false;
 
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
@@ -245,7 +229,7 @@ void Asteroids_Credits(void)
 
 void Asteroids_LeaderBoard(void)
 {
-	input = 2;
+	overlay_type = LEADERBOARD_SCREEN;
 	status = false;
 
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
@@ -257,7 +241,7 @@ void Asteroids_LeaderBoard(void)
 }
 void Asteroids_Controls(void)
 {	
-	input = 3;
+	overlay_type = CONTROLS_SCREEN;
 	status = false;
 
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
@@ -300,7 +284,7 @@ void Asteroids_Controls(void)
 
 void Asteroids_Exit_Screen(void)
 {
-	input = 0;
+	overlay_type = 0;
 	// Draw main menu screen. 
 	status = true;
 
@@ -311,16 +295,19 @@ void Asteroids_Exit_Screen(void)
 
 void Asteroids_MainMenu_CheckInput(void)
 {
-	switch (input)
+	switch (overlay_type)
 	{
-		case 1:
+		case CREDITS_SCREEN:
 			Asteroids_Credits();
 			break;
-		case 2:
+		case LEADERBOARD_SCREEN:
 			Asteroids_LeaderBoard();
 			break;
-		case 3:
+		case CONTROLS_SCREEN:
 			Asteroids_Controls();
+			break;
+		case DIFFICULTY_MENU:
+			Asteroids_Difficulty_Menu_Update();
 			break;
 	}
 }

@@ -138,7 +138,7 @@
 //	Asteroids_Button_Set_Position(&Button_Exit, pos);
 //	Asteroids_Button_Set_Text(&Button_Exit, 50.0f, "Exit");
 //	Asteroids_Button_Draw_Text(Button_Exit);
-//	Asteroids_Button_Set_Callback(&Load_Main_Menu, &Button_Exit);
+//	Asteroids_Button_Set_Callback_Void(&Load_Main_Menu, &Button_Exit);
 //	
 //
 //	int n = sizeof(LeaderBoard_Scores) / sizeof(LeaderBoard_Scores[0]);

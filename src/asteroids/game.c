@@ -39,9 +39,7 @@ float enemy_width;
 float enemy_height;
 
 int debug_mode = 0;
-
 static float difficulty_timer;
-extern bool ez_mode = 0;
 
 Bullet bullet_pool[ASTEROIDS_POOLSIZE_BULLETS];
 Enemy enemy_pool[ASTEROIDS_POOLSIZE_ENEMIES];
@@ -53,7 +51,7 @@ Player player;
 void Asteroids_Init(void)
 {
 	// initialize variables and CProcessing settings for this gamestate
-	Asteroids_Set_Difficulty(ASTEROIDS_GAME_DIFFICULTY);
+	Asteroids_Set_Difficulty(DIFFICULTY_OPTION);
 	Asteroids_Sprites_Load();
 	Asteroids_UI_Init();
 	Asteroids_Entities_Init();
@@ -118,15 +116,6 @@ void Asteroids_Cooldown_Update()
 void Asteroids_Set_Difficulty(DIFFICULTY difficulty)
 {
 	difficulty_timer = 0;
-	ez_mode = 0;
-	switch (difficulty)
-	{
-	case EASY:
-		ez_mode = 1;
-		break;
-	default:
-		break;
-	}
 	ASTEROIDS_GAME_DIFFICULTY = difficulty;
 }
 
@@ -228,10 +217,21 @@ void Asteroids_Check_Input()
 	if (CP_Input_KeyTriggered(KEY_F1))
 		debug_mode = !debug_mode;
 
-	if (ez_mode)
+	switch (DIFFICULTY_OPTION)
+	{
+	case EASY:
 		Asteroids_Player_Simple_Movement(&player);
-	else
+		break;
+	case NORMAL:
+		Asteroids_Player_Simple_Movement(&player);
+		break;
+	case HARD:
 		Asteroids_Player_Check_Input(&player, dt, shoot_direction);
+		break;
+	case INSANE:
+		Asteroids_Player_Check_Input(&player, dt, shoot_direction);
+		break;
+	}	
 
 	if (CP_Input_MouseDown(MOUSE_BUTTON_1))
 	{
@@ -241,6 +241,9 @@ void Asteroids_Check_Input()
 		shoot_cooldown = 60 / FIRE_RATE; //seconds per bullet
 		Asteroids_Bullet_Spawn(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, player, shoot_direction);
 		Asteroids_Bullet_Powerup_Split(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, player, shoot_direction);
+
+		if (DIFFICULTY_OPTION == EASY)
+			Asteroids_Bullet_Split(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, 4, 15.0f, player, shoot_direction);
 
 	}
 }

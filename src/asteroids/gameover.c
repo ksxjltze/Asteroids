@@ -20,13 +20,13 @@ void Asteroids_GameOver_Init(void)
 	CP_Vector btnRestartPos = CP_Vector_Set(CP_System_GetWindowWidth() * 0.5f - btnRestart.width / 2, CP_System_GetWindowHeight() * 0.6f - btnRestart.height / 2);
 	Asteroids_Button_Set_Position(&btnRestart, btnRestartPos);
 	Asteroids_Button_Set_Text(&btnRestart, textSize, "Restart");
-	Asteroids_Button_Set_Callback(&Asteroids_GameOver_Restart, &btnRestart);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_GameOver_Restart, &btnRestart);
 	
 	CP_Vector btnExitPos = CP_Vector_Set(CP_System_GetWindowWidth() * 0.5f - btnRestart.width / 2, CP_System_GetWindowHeight() * 0.8f - btnRestart.height / 2);
 	btnQuit = Asteroids_Button_Add_New_Button(btnWidth, btnHeight);
 	Asteroids_Button_Set_Position(&btnQuit, btnExitPos);
 	Asteroids_Button_Set_Text(&btnQuit, textSize, "Quit");
-	Asteroids_Button_Set_Callback(&Asteroids_GameOver_Quit, &btnQuit);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_GameOver_Quit, &btnQuit);
 }
 
 void Asteroids_GameOver_Restart()
