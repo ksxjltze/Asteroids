@@ -15,6 +15,7 @@
 #include "collision_manager.h"
 #include <stdbool.h>
 #include "Obstacle.h"
+#include "Boss.h"
 
 #define ASTEROIDS_POOLSIZE_BULLETS 999
 #define ASTEROIDS_POOLSIZE_ENEMIES 100
@@ -45,6 +46,7 @@ static float difficulty_timer;
 Bullet bullet_pool[ASTEROIDS_POOLSIZE_BULLETS];
 Enemy enemy_pool[ASTEROIDS_POOLSIZE_ENEMIES];
 Enemy arr_enemysplit[100];
+Enemy Boss;
 Player player;
 
 // use CP_Engine_SetNextGameState to specify this function as the initialization function
@@ -63,6 +65,8 @@ void Asteroids_Init(void)
 	Asteroids_Init_Score();
 	Asteroids_Powerup_Player_Interaction_Init();
 	Asteroids_Obstacles_Init();
+	Asteroids_Boss_Init(enemy_sprites, enemy_hurt_sprites, enemy_width, enemy_height);
+
 }
 
 // use CP_Engine_SetNextGameState to specify this function as the update function
@@ -97,6 +101,7 @@ void Asteroids_Update(void)
 
 		Asteroids_Obstacles_Update(enemy_pool, &player, enemy_count);
 		Asteroids_Draw();
+		Asteroids_Boss_Update();
 		Asteroids_Update_Powerups(&player);
 
 		Asteroids_Debug();
@@ -169,9 +174,7 @@ void Asteroids_Sprites_Load()
 	player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
 
 	player_width = (float)CP_Image_GetWidth(player_sprite) * 2;
-	printf("player width is %f\n", player_width);
 	player_height = (float)CP_Image_GetHeight(player_sprite) * 2;
-	printf("player height is %f", player_height);
 
 	bullet_width = (float)CP_Image_GetWidth(bullet_sprite);
 	bullet_height = (float)CP_Image_GetHeight(bullet_sprite);

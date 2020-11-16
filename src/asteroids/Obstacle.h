@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include "player.h"
 #include "enemy.h"
+#include "particle.h"
 
 typedef struct Obstacles
 {

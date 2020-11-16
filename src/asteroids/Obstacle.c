@@ -53,8 +53,8 @@ void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_co
 
 void Asteroids_Spawn_Blackhole(void)
 {
-	Blackhole.width = 200;
-	Blackhole.height = 200;
+	Blackhole.width = 100;
+	Blackhole.height = 100;
 	Blackhole.Collider2.diameter = Blackhole.width; //Circle collider
 	Blackhole.pos = Asteroids_Utility_Generate_Random_Pos();
 	Blackhole.lifespan = 10.0;
@@ -77,14 +77,14 @@ void Asteroids_Spawn_GammaRay(void)
 void Asteroids_Draw_Obstacle(Obstacle* obstacle)
 {
 	CP_Image_DrawAdvanced(obstacle->Sprite, obstacle->pos.x, obstacle->pos.y, 
-		obstacle->width, obstacle->height, 255, 0);
+		obstacle->width, obstacle->height, 150, 0);
 }
 
 void Asteroids_Obstacle_Check_Collision(Enemy enemy_pool[], Player* player, Obstacle* obstacle, int enemy_count)
 {
 	if (Asteroids_Collision_CheckCollision_Circle_Test(obstacle->Collider2, obstacle->pos, player->collider, player->pos))
 	{
-		player->hp.current -= (float)0.1;
+		player->hp.current -= ASTEROIDS_OBSTACLE_BACKHOLE_DAMAGE;
 	}
 
 	for (int i = 0; i < enemy_count; i++)
@@ -92,6 +92,7 @@ void Asteroids_Obstacle_Check_Collision(Enemy enemy_pool[], Player* player, Obst
 		if (Asteroids_Collision_CheckCollision_Circle_Test(obstacle->Collider2, obstacle->pos, enemy_pool[i].collider, enemy_pool[i].pos))
 		{
 			enemy_pool[i].active = false;
+			//spawn_particles(enemy_pool[i].pos, 8, 0, 0, enemy_pool[i].size);
 		}
 	}
 }
