@@ -41,6 +41,7 @@
     <ClInclude Include="src\asteroids\powerups.h" />
     <ClInclude Include="src\asteroids\powerup_interaction.h" />
     <ClInclude Include="src\asteroids\score.h" />
+    <ClInclude Include="src\asteroids\skin_menu.h" />
     <ClInclude Include="src\asteroids\splash.h" />
     <ClInclude Include="src\asteroids\sprite.h" />
     <ClInclude Include="src\asteroids\status.h" />
@@ -69,6 +70,7 @@
     <ClCompile Include="src\asteroids\powerups.c" />
     <ClCompile Include="src\asteroids\powerup_interaction.c" />
     <ClCompile Include="src\asteroids\score.c" />
+    <ClCompile Include="src\asteroids\skin_menu.c" />
     <ClCompile Include="src\asteroids\splash.c" />
     <ClCompile Include="src\asteroids\user_interface.c" />
     <ClCompile Include="src\asteroids\utility.c" />

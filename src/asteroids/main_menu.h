@@ -28,7 +28,6 @@ void Asteroids_QuitGame(void);
 void Asteroids_Credits(void);
 void Asteroids_LeaderBoard(void);
 void Asteroids_Exit_Screen(void);
-void Asteroids_Menu_Set_Easy(void);
 
 //BACKGROUND
 void Asteroids_MainMenu_Update_Background(void);
@@ -36,3 +35,6 @@ void Asteroids_MainMenu_Draw_Background(void);
 
 //DIFFICULTY MENU
 void Asteroids_Menu_Display_DifficultyMenu(void);
+
+//SKIN MENU
+void Asteroids_Menu_Display_SkinMenu(void);
