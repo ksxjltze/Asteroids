@@ -16,6 +16,7 @@
 #include <stdbool.h>
 #include "Obstacle.h"
 #include "Boss.h"
+#include "skin_menu.h"
 
 #define ASTEROIDS_POOLSIZE_BULLETS 999
 #define ASTEROIDS_POOLSIZE_ENEMIES 100
@@ -160,7 +161,7 @@ void Asteroids_Entities_Init()
 //@brief Loads sprites from file path and sets their width and height.
 void Asteroids_Sprites_Load()
 {
-	player_sprite = CP_Image_Load(PLAYER_SPRITE_PATH);
+	player_sprite = current_skin.sprite;
 	bullet_sprite = CP_Image_Load("./Assets/bullet_long.png");
 
 	enemy_sprites[0] = CP_Image_Load("./Assets/asteroids_cropped.png");
@@ -175,6 +176,10 @@ void Asteroids_Sprites_Load()
 
 	player_width = (float)CP_Image_GetWidth(player_sprite) * 2;
 	player_height = (float)CP_Image_GetHeight(player_sprite) * 2;
+	player_width = ASTEROIDS_PLAYER_SPRITE_WIDTH;
+	printf("player width is %f\n", player_width);
+	player_height = ASTEROIDS_PLAYER_SPRITE_HEIGHT;
+	printf("player height is %f", player_height);
 
 	bullet_width = (float)CP_Image_GetWidth(bullet_sprite);
 	bullet_height = (float)CP_Image_GetHeight(bullet_sprite);
