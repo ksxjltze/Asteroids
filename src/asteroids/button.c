@@ -105,6 +105,8 @@ void Asteroids_Button_Execute_Callback(Button button)
 {
 	if (button.callback.void_callback)
 		button.callback.void_callback();
+	else if (button.callback.button_callback)
+		button.callback.button_callback(&button);
 }
 
 void Asteroids_Button_Draw(Button button)

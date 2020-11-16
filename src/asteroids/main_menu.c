@@ -1,4 +1,5 @@
 #include "main_menu.h"
+#include "difficulty_menu.h"
 
 #define BUTTON_WIDTH 200.0f
 #define BUTTON_HEIGHT 50.0f
