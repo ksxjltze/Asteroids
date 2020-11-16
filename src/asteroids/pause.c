@@ -20,13 +20,13 @@ void Asteroids_Pause_Init()
 	CP_Vector btnContinuePos = CP_Vector_Set(CP_System_GetWindowWidth() * 0.5f - btnContinue.width / 2, CP_System_GetWindowHeight() * 0.3f - btnContinue.height / 2);
 	Asteroids_Button_Set_Position(&btnContinue, btnContinuePos);
 	Asteroids_Button_Set_Text(&btnContinue, textSize, "Continue");
-	Asteroids_Button_Set_Callback(&Asteroids_Pause_Continue, &btnContinue);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_Pause_Continue, &btnContinue);
 
 	btnQuit = Asteroids_Button_Add_New_Button(btnWidth, btnHeight);
 	CP_Vector btnQuitPos = CP_Vector_Set(CP_System_GetWindowWidth() * 0.5f - btnQuit.width / 2, CP_System_GetWindowHeight() * 0.6f - btnQuit.height);
 	Asteroids_Button_Set_Position(&btnQuit, btnQuitPos);
 	Asteroids_Button_Set_Text(&btnQuit, textSize, "Quit");
-	Asteroids_Button_Set_Callback(&Asteroids_Pause_QuitGame, &btnQuit);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_Pause_QuitGame, &btnQuit);
 
 }
 
