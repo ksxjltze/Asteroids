@@ -1,6 +1,5 @@
 #include "difficulty_menu.h"
 #include "button.h"
-#include "game.h"
 #include "utility.h"
 
 static Button difficultyButton;
@@ -27,7 +26,7 @@ void Asteroids_Difficulty_Menu_Update_ButtonText(Button* button)
 		textSize = button->textbox.textSize;
 	}
 
-	switch (ASTEROIDS_GAME_DIFFICULTY)
+	switch (DIFFICULTY_OPTION)
 	{
 	case EASY:
 		Asteroids_Button_Set_Text(button, textSize, "EASY");
@@ -46,6 +45,14 @@ void Asteroids_Difficulty_Menu_Update_ButtonText(Button* button)
 
 }
 
+void Asteroids_Difficulty_Menu_Display_Info(void)
+{
+	switch (DIFFICULTY_OPTION)
+	{
+
+	}
+}
+
 void Asteroids_Difficulty_Menu_Update(void)
 {
 	Asteroids_Difficulty_Menu_Draw();
@@ -59,9 +66,9 @@ void Asteroids_Difficulty_Menu_Draw(void)
 
 void Asteroids_Difficulty_Set_NextDifficulty(Button* button)
 {
-	ASTEROIDS_GAME_DIFFICULTY++;
-	if (ASTEROIDS_GAME_DIFFICULTY > INSANE)
-		ASTEROIDS_GAME_DIFFICULTY = EASY;
+	DIFFICULTY_OPTION++;
+	if (DIFFICULTY_OPTION > INSANE)
+		DIFFICULTY_OPTION = EASY;
 
 	Asteroids_Difficulty_Menu_Update_ButtonText(button);
 
