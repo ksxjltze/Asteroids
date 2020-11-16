@@ -40,8 +40,8 @@ float enemy_height;
 
 int debug_mode = 0;
 
+DIFFICULTY DIFFICULTY_OPTION = NORMAL;
 static float difficulty_timer;
-static int DIFFICULTY_OPTION;
 
 Bullet bullet_pool[ASTEROIDS_POOLSIZE_BULLETS];
 Enemy enemy_pool[ASTEROIDS_POOLSIZE_ENEMIES];
@@ -229,6 +229,9 @@ void Asteroids_Check_Input()
 		Asteroids_Player_Simple_Movement(&player);
 		break;
 	case HARD:
+		Asteroids_Player_Check_Input(&player, dt, shoot_direction);
+		break;
+	case INSANE:
 		Asteroids_Player_Check_Input(&player, dt, shoot_direction);
 		break;
 	}	

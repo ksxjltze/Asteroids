@@ -38,6 +38,8 @@ void Asteroids_Difficulty_Menu_Update_ButtonText(Button* button)
 	case HARD:
 		Asteroids_Button_Set_Text(button, textSize, "HARD");
 		break;
+	case INSANE:
+		Asteroids_Button_Set_Text(button, textSize, "INSANE");
 	default:
 		break;
 	}
@@ -58,7 +60,7 @@ void Asteroids_Difficulty_Menu_Draw(void)
 void Asteroids_Difficulty_Set_NextDifficulty(Button* button)
 {
 	ASTEROIDS_GAME_DIFFICULTY++;
-	if (ASTEROIDS_GAME_DIFFICULTY > HARD)
+	if (ASTEROIDS_GAME_DIFFICULTY > INSANE)
 		ASTEROIDS_GAME_DIFFICULTY = EASY;
 
 	Asteroids_Difficulty_Menu_Update_ButtonText(button);

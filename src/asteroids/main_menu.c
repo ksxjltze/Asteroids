@@ -49,15 +49,6 @@ void Asteroids_MainMenu_Init(void)
 	backgroundPos2.x = backgroundPos.x + (float)WIN_WIDTH - ASTEROIDS_MAINMENU_BACKGROUND_SCROLL_OFFSET;
 	backgroundPos3.x = backgroundPos2.x + (float)WIN_WIDTH - ASTEROIDS_MAINMENU_BACKGROUND_SCROLL_OFFSET;
 
-	if (ASTEROIDS_GAME_DIFFICULTY == EASY)
-	{
-		backgroundColor = CP_Color_Create(255, 255, 0, 255);
-		textColor = CP_Color_Create(255, 0, 255, 255);
-		menuText = "aStErOiDs";
-		menuTextSize = 300.0f;
-		return;
-	}
-
 	menuText = "Asteroids";
 	backgroundColor = CP_Color_Create(0, 0, 0, 255);
 	textColor = CP_Color_Create(255, 255, 255, 255);
@@ -176,7 +167,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Text(&Leaderboard, textSize, "Leaderboard");
 	Asteroids_Button_Set_Text(&Quit, textSize, "Quit");
 	Asteroids_Button_Set_Text(&Exit, textSize, "Exit");
-	Asteroids_Button_Set_Text(&DifficultyBtn, textSize, "Ez Mode");
+	Asteroids_Button_Set_Text(&DifficultyBtn, textSize, "Difficulty");
 	Asteroids_Button_Set_Text(&NextPage, textSize, "Next");
 	Asteroids_Button_Set_Text(&PrevPage, textSize, "Back");
 
@@ -197,6 +188,9 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Callback_Void(&Asteroids_QuitGame, &Quit);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Exit_Screen, &Exit);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_DifficultyMenu, &DifficultyBtn);
+
+	DifficultyBtn.colors.idle = CP_Color_Create(255, 255, 0, 255);
+	Asteroids_Button_Set_Text_Colors(&DifficultyBtn, CP_Color_Create(0, 0, 0, 255));
 }
 
 void Asteroids_Menu_Display_DifficultyMenu(void)
@@ -204,28 +198,6 @@ void Asteroids_Menu_Display_DifficultyMenu(void)
 	status = false;
 	overlay_type = DIFFICULTY_MENU;
 	Asteroids_Difficulty_Menu_Init();
-}
-
-void Asteroids_Menu_Set_Easy(void)
-{
-	if (ASTEROIDS_GAME_DIFFICULTY == NORMAL)
-	{
-		ASTEROIDS_GAME_DIFFICULTY = EASY;
-
-		backgroundColor = CP_Color_Create(255, 255, 0, 255);
-		textColor = CP_Color_Create(255, 0, 255, 255);
-		menuText = "EZ EZ EZ";
-		menuTextSize = 300.0f;
-	}
-	else
-	{
-		ASTEROIDS_GAME_DIFFICULTY = NORMAL;
-		backgroundColor = CP_Color_Create(0, 0, 0, 255);
-		textColor = CP_Color_Create(255, 255, 255, 255);
-		menuText = "Asteroids";
-		menuTextSize = 100.0f;
-	}
-
 }
 
 void Asteroids_Play_Game(void)

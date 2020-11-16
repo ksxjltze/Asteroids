@@ -2,6 +2,7 @@
 #include "constants.h"
 #include <stdio.h>
 #include "utility.h"
+#include "game.h"
 
 struct Player Asteroids_Player_Init(float player_width, float player_height)
 {
@@ -138,6 +139,8 @@ void Asteroids_Player_Check_Input(Player* player, float dt, CP_Vector direction)
 	{
 		Asteroids_Player_Accelerate(player, dt, direction);
 	}
+	else if (DIFFICULTY_OPTION < INSANE)
+		Asteroids_Player_Decelerate(player, dt);
 
 	if (CP_Input_KeyDown(KEY_S))
 	{

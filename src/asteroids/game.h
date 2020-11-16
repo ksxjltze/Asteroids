@@ -10,6 +10,7 @@ typedef int DIFFICULTY;
 enum DIFFICULTY_TYPE {EASY = 1, NORMAL, HARD, INSANE, IMPOSSIBLE};
 
 extern DIFFICULTY ASTEROIDS_GAME_DIFFICULTY;
+extern DIFFICULTY DIFFICULTY_OPTION;
 
 void Asteroids_Init(void);
 void Asteroids_Update(void);
