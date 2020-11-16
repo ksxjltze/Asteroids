@@ -1,20 +1,12 @@
 #include "skin_menu.h"
-#include "cprocessing.h"
 #include "utility.h"
 #include "button.h"
 #include "constants.h"
 
-typedef struct Skins
-{
-	CP_Image sprite;
-	const char* name;
-	float cost;
-}Skin;
-
 enum PLAYER_SKINS { DEFAULT, LEGACY, PROTOTYPE};
 static int current_skinID;
 
-static Skin current_skin;
+Skin current_skin;
 static CP_Vector skinDisplayPos;
 static CP_Vector Btn_NextSkin_Pos;
 

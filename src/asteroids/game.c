@@ -14,6 +14,7 @@
 #include "score.h"
 #include "collision_manager.h"
 #include <stdbool.h>
+#include "skin_menu.h"
 
 #define ASTEROIDS_POOLSIZE_BULLETS 999
 #define ASTEROIDS_POOLSIZE_ENEMIES 100
@@ -153,7 +154,7 @@ void Asteroids_Entities_Init()
 //@brief Loads sprites from file path and sets their width and height.
 void Asteroids_Sprites_Load()
 {
-	player_sprite = CP_Image_Load(ASTEROIDS_PLAYER_SPRITE_PATH_DEFAULT);
+	player_sprite = current_skin.sprite;
 	bullet_sprite = CP_Image_Load("./Assets/bullet_long.png");
 
 	enemy_sprites[0] = CP_Image_Load("./Assets/asteroids_cropped.png");

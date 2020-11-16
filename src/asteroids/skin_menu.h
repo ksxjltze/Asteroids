@@ -1,4 +1,14 @@
+#pragma once
+#include "cprocessing.h"
 
+typedef struct Skins
+{
+	CP_Image sprite;
+	const char* name;
+	float cost;
+}Skin;
+
+extern Skin current_skin;
 
 void Asteroids_Skin_Menu_Init(void);
 void Asteroids_Skin_Menu_Update(void);
