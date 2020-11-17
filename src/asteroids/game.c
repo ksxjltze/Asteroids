@@ -171,9 +171,7 @@ void Asteroids_Sprites_Load()
 	player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
 
 	player_width = ASTEROIDS_PLAYER_SPRITE_WIDTH;
-	printf("player width is %f\n", player_width);
 	player_height = ASTEROIDS_PLAYER_SPRITE_HEIGHT;
-	printf("player height is %f", player_height);
 
 	bullet_width = (float)CP_Image_GetWidth(bullet_sprite);
 	bullet_height = (float)CP_Image_GetHeight(bullet_sprite);
