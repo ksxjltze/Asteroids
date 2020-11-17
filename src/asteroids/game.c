@@ -272,7 +272,7 @@ void Asteroids_FPS_Draw()
 
 void Asteroids_Draw() 
 {
-	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
+	CP_Settings_Background(CP_Color_Create(8, 5, 20, 247));
 
 	Asteroids_Bullet_Draw(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, bullet_sprite, bullet_width, bullet_height);
 	Asteroids_Enemy_Draw(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, enemy_sprites, enemy_hurt_sprites, enemy_width, enemy_height);

@@ -134,24 +134,21 @@ CP_Vector Asteroids_Boss_Random_Spawn_Location(void)
 			position.x = x1;
 			position.y = y1;
 			return position;
-			break;
+			
 		case 2:
 			position.x = x2;
 			position.y = y2;
 			return position;
-			break;
+			
 		case 3:
 			position.x = x3;
 			position.y = y3;
 			return position;
-			break;
+	
 		case 4:
 			position.x = x4;
 			position.y = y4;
 			return position;
-			break;
-
-		default:;
 	}
 
 	return position;

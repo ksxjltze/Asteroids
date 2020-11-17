@@ -16,3 +16,12 @@ void Asteroids_Collision_Debug_AABB_Draw(struct Collider_AABB collider, CP_Vecto
 {
 	CP_Graphics_DrawRect(pos.x - collider.width/2, pos.y - collider.height /2, collider.width, collider.height);
 }
+
+//bool Asteroids_Collision_CheckCollision_Circle_AABB(struct Collider_AABB collider1, CP_Vector pos1, struct Collider_Circle collider2, CP_Vector pos2)
+//{
+//	// fuck?
+//	float collider1.height / 2;
+//	collider1.width;
+//	
+//	collider2.diameter;
+//}

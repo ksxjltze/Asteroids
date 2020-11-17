@@ -33,4 +33,6 @@ void Asteroids_Spawn_GammaRay(void);
 void Asteroids_Draw_Obstacle(Obstacle* obstacle);
 
 // Collision
-void Asteroids_Obstacle_Check_Collision(Enemy* enemy, Player* player, Obstacle* obstacle, int enemy_count);
+void Asteroids_Obstacle_Check_Collision(Enemy enemy_pool[], Player* player, Obstacle* obstacle, int enemy_count);
+
+void Asteroids_Obstacle_Check_LifeSpan(Obstacle* obstacle);
