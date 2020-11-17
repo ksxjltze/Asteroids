@@ -9,12 +9,13 @@ Particle particle[10000];
 struct Explosion
 {
 	CP_Image image[8];
-	float w[8];
-	float h[8];
+	CP_Vector dimensions[8];
 	int image_count;
 	float delay;
 
 }explosion;
+
+Sprite explosion_sprite;
 
 /// <summary>
 /// Initialize Particles
@@ -32,17 +33,20 @@ void particle_init(void)
 	explosion.image[6] = CP_Image_Load("./Assets/Explosion/Image007.png");
 	explosion.image[7] = CP_Image_Load("./Assets/Explosion/Image008.png");
 
-	explosion.image_count = 7;
+
+	explosion.image_count = 8;
 	for (int i = 0; i < explosion.image_count; i++)
 	{
-		explosion.w[i] = (float)CP_Image_GetWidth(explosion.image[i]) * 0.3f;
-		explosion.h[i] = (float)CP_Image_GetHeight(explosion.image[i]) * 0.3f;
+		explosion.dimensions[i].x = (float)CP_Image_GetWidth(explosion.image[i]) * 0.3f;
+		explosion.dimensions[i].y = (float)CP_Image_GetHeight(explosion.image[i]) * 0.3f;
 	}
 
 	explosion.delay = 0.1f;
+	explosion_sprite = Asteroids_Sprite_Create(explosion.image, explosion.dimensions, explosion.image_count, explosion.delay * explosion.image_count, 0);
 
 	for (int i = 0; i < sizeof(particle)/ sizeof(particle[0]); i++)
 	{
+		particle[i].sprite = explosion_sprite;
 		particle[i].posX = 0;
 		particle[i].posY = 0;
 		particle[i].velocity.x = 0;
@@ -50,9 +54,6 @@ void particle_init(void)
 		particle[i].enabled = 0;
 		particle[i].lifetime = 0;
 		particle[i].life = 0;
-		particle[i].delay = explosion.delay;
-		particle[i].key_frame = 0;
-		particle[i].timer = particle[i].delay;
 		particle[i].loop = false;
 	}
 
@@ -66,7 +67,9 @@ void draw_particle()
 		
 		if (particle[i].enabled)
 		{
-			CP_Image_Draw(explosion.image[particle[i].key_frame], particle[i].posX, particle[i].posY, particle[i].size * explosion.w[particle[i].key_frame], particle[i].size * explosion.h[particle[i].key_frame], (int)(particle[i].lifetime/particle[i].life * 255.0f));
+			int keyframe = particle[i].sprite.keyframe;
+			CP_Vector dimensions = particle[i].sprite.dimensions[keyframe];
+			CP_Image_Draw(particle[i].sprite.images[keyframe], particle[i].posX, particle[i].posY, particle[i].size * dimensions.x, particle[i].size * dimensions.y, (int)(particle[i].lifetime/particle[i].life * 255.0f));
 
 		}
 
@@ -90,7 +93,7 @@ void particle_velocity(CP_Vector position, int particles, float min_velocity, fl
 			particle[i].posX = position.x;
 			particle[i].posY = position.y;
 			particle[i].velocity = velocity;
-			particle[i].life = particle[i].delay * (explosion.image_count);
+			particle[i].life = particle[i].sprite.duration;
 			particle[i].lifetime = particle[i].life;
 			particle[i].size = size;
 			--particles;
@@ -113,18 +116,18 @@ void particle_update()
 			particle[i].posX += particle[i].velocity.x * dt;
 			particle[i].posY += particle[i].velocity.y * dt;
 			particle[i].lifetime -= dt;
-			particle[i].timer -= dt;
+			particle[i].sprite.time -= dt;
 
-			if (particle[i].timer <= 0)
+			if (particle[i].sprite.time <= 0)
 			{
-				particle[i].timer = particle[i].delay;
-				if (particle[i].key_frame >= (explosion.image_count - 1))
+				particle[i].sprite.time = particle[i].sprite.duration / particle[i].sprite.frame_count;
+				if (particle[i].sprite.keyframe >= (explosion.image_count - 1))
 				{
 					if (particle[i].loop)
-						particle[i].key_frame = 0;
+						particle[i].sprite.keyframe = 0;
 				}
 				else
-					particle[i].key_frame++;
+					particle[i].sprite.keyframe++;
 			}
 
 			if (particle[i].lifetime <= 0)
@@ -135,8 +138,8 @@ void particle_update()
 				particle[i].velocity.y = 0;
 				particle[i].enabled = 0;
 				particle[i].lifetime = 0;
-				particle[i].timer = 0;
-				particle[i].key_frame = 0;
+				particle[i].sprite.time = 0;
+				particle[i].sprite.keyframe = 0;
 				//particle_despawning(&particle[i]);
 			}
 		}
@@ -156,7 +159,7 @@ void particle_despawning(Particle* p)
 	p->velocity.y = 0;
 	p->enabled = 0;
 	p->lifetime = 0;
-	p->timer = 0;
-	p->key_frame = 0;
+	p->sprite.time = 0;
+	p->sprite.keyframe = 0;
 }
 

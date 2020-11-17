@@ -182,5 +182,8 @@
     <ClCompile Include="src\asteroids\skin_menu.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\asteroids\sprite.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

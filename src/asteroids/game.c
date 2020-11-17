@@ -162,6 +162,9 @@ void Asteroids_Entities_Init()
 void Asteroids_Sprites_Load()
 {
 	player_sprite = current_skin.sprite;
+	if (!player_sprite)
+		player_sprite = CP_Image_Load(ASTEROIDS_PLAYER_SPRITE_PATH_DEFAULT);
+
 	bullet_sprite = CP_Image_Load("./Assets/bullet_long.png");
 
 	enemy_sprites[0] = CP_Image_Load("./Assets/asteroids_cropped.png");
@@ -177,16 +180,13 @@ void Asteroids_Sprites_Load()
 	player_width = (float)CP_Image_GetWidth(player_sprite) * 2;
 	player_height = (float)CP_Image_GetHeight(player_sprite) * 2;
 	player_width = ASTEROIDS_PLAYER_SPRITE_WIDTH;
-	printf("player width is %f\n", player_width);
 	player_height = ASTEROIDS_PLAYER_SPRITE_HEIGHT;
-	printf("player height is %f", player_height);
 
 	bullet_width = (float)CP_Image_GetWidth(bullet_sprite);
 	bullet_height = (float)CP_Image_GetHeight(bullet_sprite);
 
 	enemy_width = (float)ASTEROIDS_ENEMY_BASE_DIAMETER;
 	enemy_height = (float)ASTEROIDS_ENEMY_BASE_DIAMETER;
-
 
 }
 

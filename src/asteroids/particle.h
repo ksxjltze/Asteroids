@@ -2,19 +2,17 @@
 #include "game.h"
 #include "collider_circle.h"
 #include <stdbool.h>
+#include "sprite.h"
 
 typedef struct Particles
 {
-	CP_Image image[8];
+	Sprite sprite;
 	CP_Vector velocity;
 	float posX;
 	float posY;
 	int enabled;
 	float lifetime;
 	float life;
-	float delay;
-	int key_frame;
-	float timer;
 	float size;
 	bool loop;
 
