@@ -179,7 +179,6 @@ void Asteroids_Sprites_Load()
 	enemy_width = (float)ASTEROIDS_ENEMY_BASE_DIAMETER;
 	enemy_height = (float)ASTEROIDS_ENEMY_BASE_DIAMETER;
 
-
 }
 
 void Asteroids_Player_Rotate(CP_Vector direction)
