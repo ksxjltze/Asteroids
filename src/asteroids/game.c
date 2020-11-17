@@ -155,6 +155,9 @@ void Asteroids_Entities_Init()
 void Asteroids_Sprites_Load()
 {
 	player_sprite = current_skin.sprite;
+	if (!player_sprite)
+		player_sprite = CP_Image_Load(ASTEROIDS_PLAYER_SPRITE_PATH_DEFAULT);
+
 	bullet_sprite = CP_Image_Load("./Assets/bullet_long.png");
 
 	enemy_sprites[0] = CP_Image_Load("./Assets/asteroids_cropped.png");
