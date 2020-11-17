@@ -1,5 +1,6 @@
 #include "particle.h"
 #include "game.h"
+#include "constants.h"
 
 CP_Vector pos;
 //Particle pool
@@ -37,8 +38,8 @@ void particle_init(void)
 	explosion.image_count = 8;
 	for (int i = 0; i < explosion.image_count; i++)
 	{
-		explosion.dimensions[i].x = (float)CP_Image_GetWidth(explosion.image[i]) * 0.3f;
-		explosion.dimensions[i].y = (float)CP_Image_GetHeight(explosion.image[i]) * 0.3f;
+		explosion.dimensions[i].x = (float)CP_Image_GetWidth(explosion.image[i]) * ASTEROIDS_SPRITE_EXPLOSION_DIMENSIONS_SCALE_FACTOR;
+		explosion.dimensions[i].y = (float)CP_Image_GetHeight(explosion.image[i]) * ASTEROIDS_SPRITE_EXPLOSION_DIMENSIONS_SCALE_FACTOR;
 	}
 
 	explosion.delay = 0.1f;
