@@ -47,7 +47,7 @@ float Asteroids_Enemy_Random_Speed();
 void Asteroids_Enemy_Reset(Enemy* enemy);
 float Asteroids_Enemy_Random_Rotation();
 
-void Asteroids_Enemy_Split(Enemy* enemy, Player player, Enemy enemy_pool[], int count);
+void Asteroids_Enemy_Split(Enemy* enemy, Player player, Enemy enemy_pool[], int count, int boss);
 void Asteroids_Enemy_Check_OutOfBounds(Enemy enemy_pool[], int pool_size);
 void Asteroid_Enemy_Check_Status(Enemy* enemy);
 void Asteroids_Enemy_Hit(Enemy* enemy, float damage);

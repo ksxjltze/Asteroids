@@ -9,12 +9,15 @@ CP_Image Boss_HurtSprite[2];
 float boss_width;
 float boss_height;
 
+float boss_interval;
+
 CP_Vector pos;
 
 bool collide;
 
 #define ASTEROIDS_POOLSIZE_BULLETS 999
-#define Boss_Scale_Factor 17
+#define ASTEROIDS_POOLSIZE_ENEMIES 100
+#define Boss_Scale_Factor 18
 
 void Asteroids_Boss_Init(CP_Image EnemySprite[], CP_Image EnemyHurtSprite[], float enemy_width, float enemy_height, Player* player)
 {
@@ -26,26 +29,28 @@ void Asteroids_Boss_Init(CP_Image EnemySprite[], CP_Image EnemyHurtSprite[], flo
 
 	boss_height = enemy_height;
 	boss_width = enemy_width;
+
+	boss_interval = ASTEROIDS_ENEMY_BOSS_SPAWN_INTERVAL;
 }
 
 void Asteroids_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_count, Bullet bullet_pool[])
 {
 	float dt = CP_System_GetDt();
+	//Asteroids_Enemy_Boss_Spawn_Interval();
 	if (Boss.active)
 	{	
 		Boss.pos = CP_Vector_Add(Boss.pos, CP_Vector_Scale(Boss.velocity, dt));
 		Asteroids_Enemy_Draw_Boss();
-		printf("%.2f\n", Boss.hp.current);
 
 		collide = Asteroids_Collision_CheckCollision_Circle(player->collider, player->pos, Boss.collider, Boss.pos);
 		Asteroids_Collision_CheckCollision_Enemy_Enemy(enemy_pool, enemy_count, &Boss, *player);
+		Asteroids_Enemy_Check_Boss_Hp(&Boss, *player, enemy_pool, Boss.split_count);
+		Asteroid_Enemy_Check_Status(&Boss);
 
 		for (int i = 0; i < ASTEROIDS_POOLSIZE_BULLETS; i++)
 		{
 			bullet_pool[i] = Asteroids_Collision_CheckCollision_EnemyBoss_Bullet(&Boss, bullet_pool[i]);
 		}
-		Asteroid_Enemy_Check_Status(&Boss);
-		Asteroids_Enemy_Check_Boss_Hp(&Boss, *player, enemy_pool, 1);
 
 		if (collide)
 		{
@@ -71,10 +76,8 @@ void Asteroids_Enemy_Boss_Spawn(void)
 	Boss.size = Boss_Scale_Factor;
 	Boss.pos = Asteroids_Boss_Random_Spawn_Location();
 
-	Boss.hp.max = Boss.size * ASTEROIDS_ENEMY_BASE_MAX_HP; //Boss.size *
+	Boss.hp.max = ASTEROIDS_ENEMY_BOSS_BASE_HP;
 	Boss.hp.current = Boss.hp.max;
-	printf("%.2f", Boss.hp.max);
-
 
 	Boss.rotate_rate = Asteroids_Enemy_Random_Rotation();
 	Boss.collider.diameter = ASTEROIDS_ENEMY_BASE_DIAMETER * Boss.size;
@@ -84,6 +87,11 @@ void Asteroids_Enemy_Boss_Spawn(void)
 	Boss.velocity = CP_Vector_Scale(Boss.velocity, Boss.speed);
 
 	Boss.sprite_type = CP_Random_RangeInt(0, 1);
+
+	Boss.id = 101;
+	Boss.parent_id = 0;
+
+	Boss.split_count = 10;
 }
 Bullet Asteroids_Collision_CheckCollision_EnemyBoss_Bullet(Enemy* boss, Bullet bullet)
 {
@@ -92,11 +100,7 @@ Bullet Asteroids_Collision_CheckCollision_EnemyBoss_Bullet(Enemy* boss, Bullet b
 		bullet.active = 0;
 		bullet.pos = CP_Vector_Set(-1, -1);
 		bullet.velocity = CP_Vector_Set(0, 0);
-		//boss->active = 0;
-
-
 		Asteroids_Enemy_Hit(boss, BULLET_DAMAGE);
-		printf("hit status after: %d\n", boss->status.hit);
 
 		return bullet;
 	}
@@ -152,12 +156,27 @@ CP_Vector Asteroids_Boss_Random_Spawn_Location(void)
 
 	return position;
 }
-void Asteroids_Enemy_Check_Boss_Hp(Enemy* boss, Player player, Enemy enemy_pool[], int count)
+void Asteroids_Enemy_Check_Boss_Hp(Enemy* boss, Player player, Enemy enemy_pool[], int split)
 {
 	if (boss->hp.current <= 0)
 	{
 		boss->active = 0;
-		Asteroids_Enemy_Split(boss, player, enemy_pool, count);
+		for (int i = 0; i < ASTEROIDS_POOLSIZE_ENEMIES; i++)
+		{
+			Asteroids_Enemy_Death(enemy_pool +i);
+		}
+		Asteroids_Enemy_Split(boss, player, enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, split);
 		Asteroids_Enemy_Death(boss);
+	}
+}
+
+void Asteroids_Enemy_Boss_Spawn_Interval(void)
+{
+	float dt = CP_System_GetDt();
+	boss_interval -= dt;
+	if(boss_interval <= 0)
+	{
+		Asteroids_Enemy_Boss_Spawn();
+		boss_interval = ASTEROIDS_ENEMY_BOSS_SPAWN_INTERVAL;
 	}
 }

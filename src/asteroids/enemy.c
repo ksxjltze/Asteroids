@@ -64,7 +64,7 @@ void Asteroids_Enemy_Update(Enemy enemy_pool[], int count, Player player)
 
 			if (enemy->hp.current < 0) // enemy dies
 			{
-				Asteroids_Enemy_Split(enemy, player, enemy_pool, count);
+				Asteroids_Enemy_Split(enemy, player, enemy_pool, count, 0);
 				Asteroids_Enemy_Death(enemy);
 			}
 
@@ -100,17 +100,22 @@ void Asteroids_Enemy_Check_OutOfBounds(Enemy enemy_pool[], int pool_size)
 	}
 }
 
-void Asteroids_Enemy_Split(Enemy* enemy, Player player, Enemy enemy_pool[], int count)
+void Asteroids_Enemy_Split(Enemy* enemy, Player player, Enemy enemy_pool[], int count, int boss)
 {
-	if (enemy->split_count < ASTEROIDS_ENEMY_SPLIT_MAX_COUNT)
+	//if (enemy->split_count < ASTEROIDS_ENEMY_SPLIT_MAX_COUNT)
+	if (enemy->collider.diameter > player.bullet_diameter)
 	{
-		if (enemy->collider.diameter > player.bullet_diameter)
+		if (boss == 10)
 		{
-			unsigned int split_count = CP_Random_RangeInt(ASTEROIDS_ENEMY_SPLIT_MIN_NUMBER, ASTEROIDS_ENEMY_SPLIT_MAX_NUMBER);
-			for (unsigned int j = 0; j < split_count; j++)
+			for (int j = 0; j < boss; j++)
 			{
-				Asteroids_Enemy_Spawn_Child(enemy_pool, count, *enemy, split_count);
+				Asteroids_Enemy_Spawn_Child(enemy_pool, count, *enemy, boss);
 			}
+		}
+		unsigned int split_count = CP_Random_RangeInt(ASTEROIDS_ENEMY_SPLIT_MIN_NUMBER, ASTEROIDS_ENEMY_SPLIT_MAX_NUMBER);
+		for (unsigned int j = 0; j < split_count; j++)
+		{
+			Asteroids_Enemy_Spawn_Child(enemy_pool, count, *enemy, split_count);
 		}
 	}
 }
@@ -342,9 +347,9 @@ void Asteroids_Enemy_Collide(Enemy* enemy1, Enemy* enemy2, Enemy enemy_pool[], i
 			Asteroids_Enemy_Death(enemy1);
 		else
 		{
-			Asteroids_Enemy_Split(enemy1, player, enemy_pool, enemy_count);
+			Asteroids_Enemy_Split(enemy1, player, enemy_pool, enemy_count, 0);
 			Asteroids_Enemy_Death(enemy1);
-			Asteroids_Enemy_Split(enemy2, player, enemy_pool, enemy_count);
+			Asteroids_Enemy_Split(enemy2, player, enemy_pool, enemy_count, 0);
 			Asteroids_Enemy_Death(enemy2);
 		}
 
