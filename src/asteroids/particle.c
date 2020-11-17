@@ -9,8 +9,7 @@ Particle particle[10000];
 struct Explosion
 {
 	CP_Image image[8];
-	float w[8];
-	float h[8];
+	CP_Vector dimensions[8];
 	int image_count;
 	float delay;
 
@@ -38,12 +37,12 @@ void particle_init(void)
 	explosion.image_count = 8;
 	for (int i = 0; i < explosion.image_count; i++)
 	{
-		explosion.w[i] = (float)CP_Image_GetWidth(explosion.image[i]) * 0.3f;
-		explosion.h[i] = (float)CP_Image_GetHeight(explosion.image[i]) * 0.3f;
+		explosion.dimensions[i].x = (float)CP_Image_GetWidth(explosion.image[i]) * 0.3f;
+		explosion.dimensions[i].y = (float)CP_Image_GetHeight(explosion.image[i]) * 0.3f;
 	}
 
 	explosion.delay = 0.1f;
-	explosion_sprite = Asteroids_Sprite_Create(explosion.image, 8, explosion.delay * explosion.image_count, 0);
+	explosion_sprite = Asteroids_Sprite_Create(explosion.image, explosion.dimensions, explosion.image_count, explosion.delay * explosion.image_count, 0);
 
 	for (int i = 0; i < sizeof(particle)/ sizeof(particle[0]); i++)
 	{
@@ -68,7 +67,9 @@ void draw_particle()
 		
 		if (particle[i].enabled)
 		{
-			CP_Image_Draw(explosion.image[particle[i].sprite.keyframe], particle[i].posX, particle[i].posY, particle[i].size * explosion.w[particle[i].sprite.keyframe], particle[i].size * explosion.h[particle[i].sprite.keyframe], (int)(particle[i].lifetime/particle[i].life * 255.0f));
+			int keyframe = particle[i].sprite.keyframe;
+			CP_Vector dimensions = particle[i].sprite.dimensions[keyframe];
+			CP_Image_Draw(particle[i].sprite.images[keyframe], particle[i].posX, particle[i].posY, particle[i].size * dimensions.x, particle[i].size * dimensions.y, (int)(particle[i].lifetime/particle[i].life * 255.0f));
 
 		}
 
