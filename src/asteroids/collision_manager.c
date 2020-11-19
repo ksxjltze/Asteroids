@@ -1,5 +1,4 @@
 #include "collision_manager.h"
-#include "collider_circle.h"
 #include "powerups.h"
 #include "powerup_interaction.h"
 
@@ -66,4 +65,18 @@ void Asteroids_Collision_CheckCollision_Enemy_Enemy(Enemy enemy_pool[], int enem
 		}
 
 	}
+}
+
+bool Asteroids_Collision_CheckCollision_AABB_Circle(struct Collider_AABB aabb, CP_Vector aabb_pos, struct Collider_Circle circle, CP_Vector circle_pos)
+{
+	CP_Vector difference = CP_Vector_Subtract(circle_pos, aabb_pos);
+	CP_Vector clamped = CP_Vector_Zero();
+
+	clamped.x = CP_Math_ClampFloat(difference.x, -(aabb.width / 2), aabb.width / 2);
+	clamped.y = CP_Math_ClampFloat(difference.y, -(aabb.height / 2), aabb.height / 2);
+
+	CP_Vector closest = CP_Vector_Add(aabb_pos, clamped);
+	difference = CP_Vector_Subtract(closest, circle_pos);
+
+	return CP_Vector_Length(difference) < (circle.diameter / 2);
 }
