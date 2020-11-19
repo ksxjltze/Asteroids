@@ -2,6 +2,7 @@
 #include "cprocessing.h"
 #include "collider_aabb.h"
 #include "collider_circle.h"
+#include "collision_manager.h"
 #include "utility.h"
 #include "constants.h"
 #include <stdio.h>
@@ -16,7 +17,7 @@ typedef struct Obstacles
 	struct Collider_AABB Collider;
 	struct Collider_Circle Collider2;
 	float width, height;
-	float lifespan;
+	float lifespan, interval;
 	bool active;
 
 }Obstacle;
@@ -28,11 +29,14 @@ void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_co
 // SPAWNING FUNCTIONS
 void Asteroids_Spawn_Blackhole(void);
 void Asteroids_Spawn_GammaRay(void);
+void Asteroids_Obstacle_TimeInterval(void);
 
 // DRAWING
 void Asteroids_Draw_Obstacle(Obstacle* obstacle);
 
 // Collision
 void Asteroids_Obstacle_Check_Collision(Enemy enemy_pool[], Player* player, Obstacle* obstacle, int enemy_count);
-
 void Asteroids_Obstacle_Check_LifeSpan(Obstacle* obstacle);
+
+
+void Asteroids_Environment_Warning(void);
