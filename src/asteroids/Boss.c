@@ -72,7 +72,7 @@ void Asteroids_Enemy_Boss_Spawn(void)
 {
 	Boss.active = 1;
 
-	Boss.speed = 20.0f;
+	Boss.speed = ASTEROIDS_ENEMY_BOSS_SPEED;
 	Boss.size = Boss_Scale_Factor;
 	Boss.pos = Asteroids_Boss_Random_Spawn_Location();
 

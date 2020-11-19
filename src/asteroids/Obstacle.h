@@ -13,11 +13,12 @@
 typedef struct Obstacles
 {
 	CP_Image Sprite;
-	CP_Vector pos; //suction;
+	CP_Vector pos, velocity; //suction;
 	struct Collider_AABB Collider;
 	struct Collider_Circle Collider2;
-	float width, height;
+	float width, height, speed;
 	float lifespan, interval;
+
 	bool active;
 
 }Obstacle;
@@ -33,10 +34,8 @@ void Asteroids_Obstacle_TimeInterval(void);
 
 // DRAWING
 void Asteroids_Draw_Obstacle(Obstacle* obstacle);
+void Asteroids_Environment_Warning(void);
 
 // Collision
 void Asteroids_Obstacle_Check_Collision(Enemy enemy_pool[], Player* player, Obstacle* obstacle, int enemy_count);
 void Asteroids_Obstacle_Check_LifeSpan(Obstacle* obstacle);
-
-
-void Asteroids_Environment_Warning(void);
