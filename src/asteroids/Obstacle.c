@@ -61,17 +61,17 @@ void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_co
 	//	GammaRay.active = false;
 	//}
 	//// Spawn GammaRay
-	if (CP_Input_KeyTriggered(KEY_G))
-	{
-		Asteroids_Obstacle_Spawn_GammaRay();
-	}
-	//// Blackhole testing
+	//if (CP_Input_KeyTriggered(KEY_G))
+	//{
+	//	Asteroids_Obstacle_Spawn_GammaRay();
+	//}
+	////// Blackhole testing
 
-	// Spawn Blackhole
-	if (CP_Input_KeyTriggered(KEY_B))
-	{
-		Asteroids_Obstacle_Spawn_Blackhole();
-	}
+	//// Spawn Blackhole
+	//if (CP_Input_KeyTriggered(KEY_B))
+	//{
+	//	Asteroids_Obstacle_Spawn_Blackhole();
+	//}
 
 	//// Deactivate Blackhole
 	//if (CP_Input_KeyTriggered(KEY_N))
@@ -99,7 +99,7 @@ void Asteroids_Obstacle_Spawn_Blackhole(void)
 void Asteroids_Obstacle_Spawn_GammaRay(void)
 {
 	GammaRay.width = (float)WIN_WIDTH / 4;
-	GammaRay.height = 20;
+	GammaRay.height = 10;
 	
 	// AABB Collider 
 	GammaRay.Collider.width = GammaRay.width; 
@@ -179,7 +179,7 @@ void Asteroids_Obstacle_TimeInterval(void)
 	obstacle_interval -= dt;
 	warning_interval -= dt;
 
-	int rng = CP_Random_RangeInt(2, 2); //change
+	int rng = CP_Random_RangeInt(1, 2); //change
 
 	if (warning_interval < 0)
 	{
