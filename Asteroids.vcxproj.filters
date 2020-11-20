@@ -102,6 +102,12 @@
     <ClInclude Include="src\asteroids\upgrades_menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\asteroids\file_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\asteroids\currency.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\asteroids\bullet.c">
@@ -189,6 +195,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\asteroids\upgrades_menu.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\asteroids\file_manager.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\asteroids\currency.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

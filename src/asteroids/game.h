@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h> //Used to seed rand() function for random number generation.
 
 typedef int DIFFICULTY;
 enum DIFFICULTY_TYPE {EASY = 1, NORMAL, HARD, INSANE, IMPOSSIBLE, PEPEGA, BRUH};
