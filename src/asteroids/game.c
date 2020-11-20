@@ -19,7 +19,7 @@
 #include "skin_menu.h"
 
 #define ASTEROIDS_POOLSIZE_BULLETS 999
-#define ASTEROIDS_POOLSIZE_ENEMIES 100
+#define ASTEROIDS_POOLSIZE_ENEMIES 200
 
 float shoot_cooldown = 0.0f;
 
