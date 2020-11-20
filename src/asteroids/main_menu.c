@@ -1,6 +1,7 @@
 #include "main_menu.h"
 #include "difficulty_menu.h"
 #include "skin_menu.h"
+#include "upgrades_menu.h"
 
 #define BUTTON_WIDTH 200.0f
 #define BUTTON_HEIGHT 50.0f
@@ -11,7 +12,7 @@ static int overlay_type;
 bool page1;
 bool page2;
 
-enum OVERLAY_TYPE { CREDITS_SCREEN, LEADERBOARD_SCREEN, CONTROLS_SCREEN, DIFFICULTY_MENU, SKIN_MENU};
+enum OVERLAY_TYPE { CREDITS_SCREEN, LEADERBOARD_SCREEN, CONTROLS_SCREEN, DIFFICULTY_MENU, SKIN_MENU, UPGRADES_MENU};
 
 DIFFICULTY ASTEROIDS_GAME_DIFFICULTY = NORMAL;
 DIFFICULTY DIFFICULTY_OPTION = NORMAL;
@@ -21,7 +22,7 @@ static CP_Color textColor;
 static float menuTextSize;
 static char* menuText = "Asteroids";
 
-Button Credits, Play, Quit, Leaderboard, Controls, Exit, DifficultyBtn, SkinsBtn, NextPage, PrevPage;
+Button Credits, Play, Quit, Leaderboard, Controls, Exit, DifficultyBtn, SkinsBtn, NextPage, PrevPage, UpgradesBtn;
 CP_Image Control_screen;
 CP_Image Control_screen2;
 CP_Image Credits_screen;
@@ -118,6 +119,7 @@ void Asteroids_Draw_MainMenu(void)
 		Asteroids_Button_Update(&Quit);
 		Asteroids_Button_Update(&DifficultyBtn);
 		Asteroids_Button_Update(&SkinsBtn);
+		Asteroids_Button_Update(&UpgradesBtn);
 	}
 	else if (!status)
 	{
@@ -149,8 +151,9 @@ void Asteroids_MainMenu_Button_Init(void)
 	// Exit Button
 	CP_Vector pos6 = CP_Vector_Set((float)((WIN_WIDTH / 2 - BUTTON_WIDTH / 2)), (float)(WIN_HEIGHT - BUTTON_HEIGHT));
 
-	// EZ MODE Button
+	// Difficulty Button
 	CP_Vector pos7 = CP_Vector_Set((float)WIN_WIDTH - 200, 50);
+	CP_Vector upgradesPos = CP_Vector_Set((float)WIN_WIDTH - 200, 100);
 
 	// Control screen buttons
 	CP_Vector pos8 = CP_Vector_Set((float)WIN_WIDTH - BUTTON_WIDTH, (float)(WIN_HEIGHT / 2)); // Next Page
@@ -166,6 +169,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	SkinsBtn = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	NextPage = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	PrevPage = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
+	UpgradesBtn = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 
 	Asteroids_Button_Set_Text(&Play, textSize, "Play");
 	Asteroids_Button_Set_Text(&Controls, textSize, "Help");
@@ -177,6 +181,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Text(&SkinsBtn, textSize, "Skins");
 	Asteroids_Button_Set_Text(&NextPage, textSize, "Next");
 	Asteroids_Button_Set_Text(&PrevPage, textSize, "Back");
+	Asteroids_Button_Set_Text(&UpgradesBtn, textSize, "Upgrades");
 
 	Asteroids_Button_Set_Position(&Play, pos1);
 	Asteroids_Button_Set_Position(&Controls, pos2);
@@ -188,6 +193,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Position(&NextPage, pos8);
 	Asteroids_Button_Set_Position(&PrevPage, pos9);
 	Asteroids_Button_Set_Position(&SkinsBtn, pos5);
+	Asteroids_Button_Set_Position(&UpgradesBtn, upgradesPos);
 
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Play_Game, &Play);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Controls, &Controls);
@@ -197,9 +203,19 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Exit_Screen, &Exit);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_DifficultyMenu, &DifficultyBtn);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_SkinMenu, &SkinsBtn);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_UpgradesMenu, &UpgradesBtn);
 
 	DifficultyBtn.colors.idle = CP_Color_Create(255, 255, 0, 255);
 	Asteroids_Button_Set_Text_Colors(&DifficultyBtn, CP_Color_Create(0, 0, 0, 255));
+
+	UpgradesBtn.colors.idle = CP_Color_Create(255, 0, 0, 255);
+}
+
+void Asteroids_Menu_Display_UpgradesMenu(void)
+{
+	status = false;
+	overlay_type = UPGRADES_MENU;
+	Asteroids_Upgrades_Menu_Init();
 }
 
 void Asteroids_Menu_Display_SkinMenu(void)
@@ -325,5 +341,8 @@ void Asteroids_MainMenu_CheckInput(void)
 			break;
 		case SKIN_MENU:
 			Asteroids_Skin_Menu_Update();
+			break;
+		case UPGRADES_MENU:
+			Asteroids_Upgrades_Menu_Update();
 	}
 }

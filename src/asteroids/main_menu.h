@@ -38,3 +38,6 @@ void Asteroids_Menu_Display_DifficultyMenu(void);
 
 //SKIN MENU
 void Asteroids_Menu_Display_SkinMenu(void);
+
+//UPGRADES MENU
+void Asteroids_Menu_Display_UpgradesMenu(void);
