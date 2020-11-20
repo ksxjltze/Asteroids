@@ -99,6 +99,9 @@
     <ClInclude Include="src\asteroids\skin_menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\asteroids\upgrades_menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\asteroids\bullet.c">
@@ -183,6 +186,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\asteroids\sprite.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\asteroids\upgrades_menu.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

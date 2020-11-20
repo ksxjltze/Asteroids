@@ -109,21 +109,22 @@ void Asteroids_Player_Calculate_Fuel(Player* player)
 void Asteroids_Player_Simple_Movement(Player* player)
 {
 	CP_Vector oldPos = player->pos;
+	float dt = CP_System_GetDt();
 	if (CP_Input_KeyDown(KEY_W))
 	{
-		player->pos.y -= ASTEROIDS_PLAYER_SIMPLE_SPEED;
+		player->pos.y -= dt * ASTEROIDS_PLAYER_SIMPLE_SPEED;
 	}
 	else if (CP_Input_KeyDown(KEY_S))
 	{
-		player->pos.y += ASTEROIDS_PLAYER_SIMPLE_SPEED;
+		player->pos.y += dt * ASTEROIDS_PLAYER_SIMPLE_SPEED;
 	}
 	if (CP_Input_KeyDown(KEY_A))
 	{
-		player->pos.x -= ASTEROIDS_PLAYER_SIMPLE_SPEED;
+		player->pos.x -= dt * ASTEROIDS_PLAYER_SIMPLE_SPEED;
 	}
 	else if (CP_Input_KeyDown(KEY_D))
 	{
-		player->pos.x += ASTEROIDS_PLAYER_SIMPLE_SPEED;
+		player->pos.x += dt * ASTEROIDS_PLAYER_SIMPLE_SPEED;
 	}
 
 	if (!Asteroids_Utility_isInWindow(player->pos))

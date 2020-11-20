@@ -7,7 +7,7 @@
 #include <time.h> //Used to seed rand() function for random number generation.
 
 typedef int DIFFICULTY;
-enum DIFFICULTY_TYPE {EASY = 1, NORMAL, HARD, INSANE, IMPOSSIBLE};
+enum DIFFICULTY_TYPE {EASY = 1, NORMAL, HARD, INSANE, IMPOSSIBLE, PEPEGA, BRUH};
 
 extern DIFFICULTY ASTEROIDS_GAME_DIFFICULTY;
 extern DIFFICULTY DIFFICULTY_OPTION;

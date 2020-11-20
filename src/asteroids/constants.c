@@ -2,8 +2,9 @@
 const float SPLASH_DURATION = 3.0f;
 
 const float MAX_VELOCITY = 10.0f; //pixels per second
-const float SPEED = 200.0f;
+const float SPEED = 300.0f;
 const float ASTEROIDS_PLAYER_SLOWED_SPEED = 20.0f;
+const int ASTEROIDS_PLAYER_SIMPLE_SPEED = 400;
 
 const int BULLET_SPEED = 1000;
 const float FIRE_RATE = 600.0f; //bullets per minute
@@ -12,7 +13,6 @@ const float BULLET_DAMAGE = 1;
 
 const float ASTEROID_MIN_SPEED = 50.0f;
 const float ASTEROID_MAX_SPEED = 200.0f; //pixels per second
-const int ASTEROIDS_PLAYER_SIMPLE_SPEED = 10;
 
 const float ASTEROIDS_ENEMY_SIZE_MIN = 1.0f;
 const float ASTEROIDS_ENEMY_SIZE_MAX = 6.0f;
