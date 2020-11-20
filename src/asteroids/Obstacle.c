@@ -1,4 +1,5 @@
 #include "Obstacle.h"
+
 Obstacle Blackhole;
 Obstacle GammaRay;
 CP_Image Warning;
@@ -6,7 +7,7 @@ CP_Image Warning;
 float current_lifespan = 1.0f;
 static float warning_lifespan = 1.0f;
 static float obstacle_interval;
-CP_Vector location;
+static float warning_interval;
 
 void Asteroids_Obstacles_Init(void)
 {
@@ -18,8 +19,8 @@ void Asteroids_Obstacles_Init(void)
 	GammaRay.active = false;
 
 	obstacle_interval = ASTEROIDS_OBSTACLE_SPAWN_INTERVAL;
+	warning_interval = ASTEROIDS_OBSTACLE_WARNING_INTERVAL;
 
-	location = CP_Vector_Zero();
 }
 void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_count)
 {
@@ -30,24 +31,8 @@ void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_co
 	{
 		Blackhole.pos = CP_Vector_Add(Blackhole.pos, CP_Vector_Scale(Blackhole.velocity, dt));
 		Asteroids_Draw_Obstacle(&Blackhole);
-		Asteroids_Obstacle_Check_Collision(enemy_pool, player, &Blackhole, enemy_count);
+		Asteroids_Check_Collision_Blackhole_Enemy_Player(enemy_pool, player, &Blackhole, enemy_count);
 		Asteroids_Obstacle_Check_LifeSpan(&Blackhole);
-	}
-	if (CP_Input_KeyDown(KEY_O))
-	{
-		Asteroids_Environment_Warning();
-	}
-	// GammaRay testing
-
-	// Deactivate GammaRay
-	if (CP_Input_KeyTriggered(KEY_H))
-	{
-		GammaRay.active = false;
-	}
-	// Spawn GammaRay
-	if (CP_Input_KeyTriggered(KEY_G))
-	{
-		Asteroids_Spawn_GammaRay();
 	}
 
 	if (GammaRay.active)
@@ -55,6 +40,8 @@ void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_co
 		GammaRay.pos = CP_Vector_Add(GammaRay.pos, CP_Vector_Scale(GammaRay.velocity, dt));
 		Asteroids_Draw_Obstacle(&GammaRay);
 		Asteroids_Obstacle_Check_LifeSpan(&GammaRay);
+		Asteroids_Check_Collision_Gammaray_Player(player, &GammaRay);
+
 
 		for (int j = 0; j < 100; j++)
 		{
@@ -62,22 +49,38 @@ void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_co
 				Asteroids_Enemy_Death(&enemy_pool[j]);
 		}
 	}
-	// Blackhole testing
+	//if (CP_Input_KeyDown(KEY_O))
+	//{
+	//	Asteroids_Environment_Draw_Warning();
+	//}
+	//// GammaRay testing
 
-	// Spawn Blackhole
-	if (CP_Input_KeyTriggered(KEY_B))
-	{
-		Asteroids_Spawn_Blackhole();
-	}
+	//// Deactivate GammaRay
+	//if (CP_Input_KeyTriggered(KEY_H))
+	//{
+	//	GammaRay.active = false;
+	//}
+	//// Spawn GammaRay
+	//if (CP_Input_KeyTriggered(KEY_G))
+	//{
+	//	Asteroids_Obstacle_Spawn_GammaRay();
+	//}
+	////// Blackhole testing
 
-	// Deactivate Blackhole
-	if (CP_Input_KeyTriggered(KEY_N))
-	{
-		Blackhole.active = false;
-	}
+	//// Spawn Blackhole
+	//if (CP_Input_KeyTriggered(KEY_B))
+	//{
+	//	Asteroids_Obstacle_Spawn_Blackhole();
+	//}
+
+	//// Deactivate Blackhole
+	//if (CP_Input_KeyTriggered(KEY_N))
+	//{
+	//	Blackhole.active = false;
+	//}
 }
 
-void Asteroids_Spawn_Blackhole(void)
+void Asteroids_Obstacle_Spawn_Blackhole(void)
 {
 	Blackhole.width = 100;
 	Blackhole.height = 100;
@@ -93,29 +96,24 @@ void Asteroids_Spawn_Blackhole(void)
 }
 
 
-void Asteroids_Spawn_GammaRay(void)
+void Asteroids_Obstacle_Spawn_GammaRay(void)
 {
-	float posY = CP_Random_RangeFloat(50, (float)WIN_HEIGHT - 50);
-
-	GammaRay.width = (float)WIN_WIDTH / 2;
-	GammaRay.height = 20;
+	GammaRay.width = (float)WIN_WIDTH / 4;
+	GammaRay.height = 10;
 	
-	GammaRay.Collider.width = GammaRay.width; // AABB Collider 
+	// AABB Collider 
+	GammaRay.Collider.width = GammaRay.width; 
 	GammaRay.Collider.height = GammaRay.height;
 	
-	GammaRay.pos.x = 0 + GammaRay.width / 2;
-	GammaRay.pos.y = posY;
-	location.y = GammaRay.pos.y;
-	
+	GammaRay.pos.x = 0 - GammaRay.width / 2;
+
 	GammaRay.speed = ASTEROIDS_OBSTACLE_GAMMARAY_SPEED;
-	
-	GammaRay.lifespan = ASTEROIDS_OBSTACLE_LIFESPAN;
-	
 	GammaRay.active = true;
+	GammaRay.lifespan = ASTEROIDS_OBSTACLE_LIFESPAN;
 
 	CP_Vector direction = CP_Vector_Zero();
 	direction.x = (float)WIN_WIDTH;
-	direction.y = posY;
+	direction.y = GammaRay.pos.y;
 	GammaRay.velocity = CP_Vector_Subtract(direction, GammaRay.pos);
 	GammaRay.velocity = CP_Vector_Normalize(GammaRay.velocity);
 	GammaRay.velocity = CP_Vector_Scale(GammaRay.velocity, GammaRay.speed);
@@ -125,9 +123,15 @@ void Asteroids_Draw_Obstacle(Obstacle* obstacle)
 {
 	CP_Image_DrawAdvanced(obstacle->Sprite, obstacle->pos.x, obstacle->pos.y, 
 		obstacle->width, obstacle->height, 225, 0);
+
+	if (obstacle->pos.x > WIN_WIDTH + obstacle->width || obstacle->pos.x + obstacle->width < 0  ||
+		obstacle->pos.y > WIN_HEIGHT +obstacle->height|| obstacle->pos.y +obstacle->height < 0)
+	{
+		obstacle->active = false;
+	}
 }
 
-void Asteroids_Obstacle_Check_Collision(Enemy enemy_pool[], Player* player, Obstacle* obstacle, int enemy_count)
+void Asteroids_Check_Collision_Blackhole_Enemy_Player(Enemy enemy_pool[], Player* player, Obstacle* obstacle, int enemy_count)
 {
 	if (Asteroids_Collision_CheckCollision_Circle_Test(obstacle->Collider2, obstacle->pos, player->collider, player->pos))
 	{
@@ -152,33 +156,57 @@ void Asteroids_Obstacle_Check_LifeSpan(Obstacle* obstacle)
 		obstacle->active = false;
 }
 
-// Tracks when and where to draw warning sign
-void Asteroids_Environment_Warning(void)
+void Asteroids_Environment_Draw_Warning(void)
 {
 	float dt = CP_System_GetDt();
 	current_lifespan -= dt;
-	CP_Image_Draw(Warning, (float)WIN_WIDTH / 2, location.y, (float)WIN_WIDTH, 50.0f, (int)(fabsf(current_lifespan) / warning_lifespan * 255)); //(int)(current_lifespan/warning_lifespan) * 
+
+	CP_Image_Draw(Warning, (float)WIN_WIDTH / 2, GammaRay.pos.y, (float)WIN_WIDTH, 50.0f, (int)(fabsf(current_lifespan) / warning_lifespan * 255)); //(int)(current_lifespan/warning_lifespan) * 
 	if (current_lifespan < -warning_lifespan)
 	{
 		current_lifespan = warning_lifespan;
 	}
 }
-//
+
+void Asteroids_Obstacle_Spawn_Warning(void)
+{
+	float posY = CP_Random_RangeFloat(50, (float)WIN_HEIGHT - 50);
+	GammaRay.pos.y = posY;
+}
 void Asteroids_Obstacle_TimeInterval(void)
 {
 	float dt = CP_System_GetDt();
 	obstacle_interval -= dt;
+	warning_interval -= dt;
 
-	int rng = CP_Random_RangeInt(1, 2);
+	int rng = CP_Random_RangeInt(1, 2); //change
 
-	if (obstacle_interval < 2)
-		Asteroids_Environment_Warning();
+	if (warning_interval < 0)
+	{
+		Asteroids_Obstacle_Spawn_Warning();
+		warning_interval = ASTEROIDS_OBSTACLE_WARNING_INTERVAL;
+	}
+
+	if (obstacle_interval < 3)
+	{
+		Asteroids_Environment_Draw_Warning();
+	}
+
 	if (obstacle_interval < 0)
 	{
 		if (rng == 1)
-			Asteroids_Spawn_Blackhole();
+			Asteroids_Obstacle_Spawn_Blackhole();
 		else
-			Asteroids_Spawn_GammaRay();
+			Asteroids_Obstacle_Spawn_GammaRay();
 		obstacle_interval = ASTEROIDS_OBSTACLE_SPAWN_INTERVAL;
+		warning_interval = ASTEROIDS_OBSTACLE_WARNING_INTERVAL;
+	}
+}
+void Asteroids_Check_Collision_Gammaray_Player(Player* player, Obstacle* obstacle)
+{
+	if (Asteroids_Collision_CheckCollision_AABB_Circle(obstacle->Collider, obstacle->pos, player->collider, player->pos))
+	{
+		obstacle->active = false;
+		player->hp.current -= ASTEROIDS_OBSTACLE_GAMMARAY_DAMAGE;
 	}
 }

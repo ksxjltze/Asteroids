@@ -36,6 +36,7 @@ void Asteroids_Boss_Init(CP_Image EnemySprite[], CP_Image EnemyHurtSprite[], flo
 void Asteroids_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_count, Bullet bullet_pool[])
 {
 	float dt = CP_System_GetDt();
+	Asteroids_Enemy_Boss_Spawn_Interval();
 	//Asteroids_Enemy_Boss_Spawn_Interval();
 	if (Boss.active)
 	{	
