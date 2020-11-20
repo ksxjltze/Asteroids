@@ -203,5 +203,11 @@
     <ClCompile Include="src\asteroids\currency.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\asteroids\upgrades.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\asteroids\upgrades.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -82,6 +82,8 @@
     <ClCompile Include="src\asteroids\skin_menu.c" />
     <ClCompile Include="src\asteroids\splash.c" />
     <ClCompile Include="src\asteroids\sprite.c" />
+    <ClCompile Include="src\asteroids\upgrades.c" />
+    <ClCompile Include="src\asteroids\upgrades.h" />
     <ClCompile Include="src\asteroids\upgrades_menu.c" />
     <ClCompile Include="src\asteroids\user_interface.c" />
     <ClCompile Include="src\asteroids\utility.c" />
