@@ -30,11 +30,12 @@ void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_co
 // SPAWNING FUNCTIONS
 void Asteroids_Spawn_Blackhole(void);
 void Asteroids_Spawn_GammaRay(void);
+void Asteroids_Spawn_Warning(void);
 void Asteroids_Obstacle_TimeInterval(void);
 
 // DRAWING
 void Asteroids_Draw_Obstacle(Obstacle* obstacle);
-void Asteroids_Environment_Warning(void);
+void Asteroids_Environment_Draw_Warning(void);
 
 // Collision
 void Asteroids_Obstacle_Check_Collision(Enemy enemy_pool[], Player* player, Obstacle* obstacle, int enemy_count);

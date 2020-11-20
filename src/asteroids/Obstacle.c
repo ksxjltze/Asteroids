@@ -1,4 +1,5 @@
 #include "Obstacle.h"
+
 Obstacle Blackhole;
 Obstacle GammaRay;
 CP_Image Warning;
@@ -6,7 +7,7 @@ CP_Image Warning;
 float current_lifespan = 1.0f;
 static float warning_lifespan = 1.0f;
 static float obstacle_interval;
-CP_Vector location;
+static float warning_interval;
 
 void Asteroids_Obstacles_Init(void)
 {
@@ -18,8 +19,8 @@ void Asteroids_Obstacles_Init(void)
 	GammaRay.active = false;
 
 	obstacle_interval = ASTEROIDS_OBSTACLE_SPAWN_INTERVAL;
+	warning_interval = ASTEROIDS_OBSTACLE_WARNING_INTERVAL;
 
-	location = CP_Vector_Zero();
 }
 void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_count)
 {
@@ -35,7 +36,7 @@ void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_co
 	}
 	if (CP_Input_KeyDown(KEY_O))
 	{
-		Asteroids_Environment_Warning();
+		Asteroids_Environment_Draw_Warning();
 	}
 	// GammaRay testing
 
@@ -95,8 +96,8 @@ void Asteroids_Spawn_Blackhole(void)
 
 void Asteroids_Spawn_GammaRay(void)
 {
-	float posY = CP_Random_RangeFloat(50, (float)WIN_HEIGHT - 50);
 
+	
 	GammaRay.width = (float)WIN_WIDTH / 2;
 	GammaRay.height = 20;
 	
@@ -104,18 +105,14 @@ void Asteroids_Spawn_GammaRay(void)
 	GammaRay.Collider.height = GammaRay.height;
 	
 	GammaRay.pos.x = 0 + GammaRay.width / 2;
-	GammaRay.pos.y = posY;
-	location.y = GammaRay.pos.y;
-	
+
 	GammaRay.speed = ASTEROIDS_OBSTACLE_GAMMARAY_SPEED;
-	
-	GammaRay.lifespan = ASTEROIDS_OBSTACLE_LIFESPAN;
-	
 	GammaRay.active = true;
+	GammaRay.lifespan = ASTEROIDS_OBSTACLE_LIFESPAN;
 
 	CP_Vector direction = CP_Vector_Zero();
 	direction.x = (float)WIN_WIDTH;
-	direction.y = posY;
+	direction.y = GammaRay.pos.y;
 	GammaRay.velocity = CP_Vector_Subtract(direction, GammaRay.pos);
 	GammaRay.velocity = CP_Vector_Normalize(GammaRay.velocity);
 	GammaRay.velocity = CP_Vector_Scale(GammaRay.velocity, GammaRay.speed);
@@ -123,8 +120,15 @@ void Asteroids_Spawn_GammaRay(void)
 
 void Asteroids_Draw_Obstacle(Obstacle* obstacle)
 {
+	printf("%d\n", obstacle->active);
 	CP_Image_DrawAdvanced(obstacle->Sprite, obstacle->pos.x, obstacle->pos.y, 
 		obstacle->width, obstacle->height, 225, 0);
+
+	if (obstacle->pos.x > WIN_WIDTH || obstacle->pos.x < 0 ||
+		obstacle->pos.y > WIN_HEIGHT || obstacle->pos.y < 0)
+	{
+		obstacle->active = false;
+	}
 }
 
 void Asteroids_Obstacle_Check_Collision(Enemy enemy_pool[], Player* player, Obstacle* obstacle, int enemy_count)
@@ -152,27 +156,43 @@ void Asteroids_Obstacle_Check_LifeSpan(Obstacle* obstacle)
 		obstacle->active = false;
 }
 
-// Tracks when and where to draw warning sign
-void Asteroids_Environment_Warning(void)
+void Asteroids_Environment_Draw_Warning(void)
 {
 	float dt = CP_System_GetDt();
 	current_lifespan -= dt;
-	CP_Image_Draw(Warning, (float)WIN_WIDTH / 2, location.y, (float)WIN_WIDTH, 50.0f, (int)(fabsf(current_lifespan) / warning_lifespan * 255)); //(int)(current_lifespan/warning_lifespan) * 
+
+	CP_Image_Draw(Warning, (float)WIN_WIDTH / 2, GammaRay.pos.y, (float)WIN_WIDTH, 50.0f, (int)(fabsf(current_lifespan) / warning_lifespan * 255)); //(int)(current_lifespan/warning_lifespan) * 
 	if (current_lifespan < -warning_lifespan)
 	{
 		current_lifespan = warning_lifespan;
 	}
 }
-//
+
+void Asteroids_Spawn_Warning(void)
+{
+	//printf("Test spawn_warning\n");
+	float posY = CP_Random_RangeFloat(50, (float)WIN_HEIGHT - 50);
+	GammaRay.pos.y = posY;
+}
 void Asteroids_Obstacle_TimeInterval(void)
 {
 	float dt = CP_System_GetDt();
 	obstacle_interval -= dt;
+	warning_interval -= dt;
 
-	int rng = CP_Random_RangeInt(1, 2);
+	int rng = CP_Random_RangeInt(2, 2); //change
 
-	if (obstacle_interval < 2)
-		Asteroids_Environment_Warning();
+	if (warning_interval < 0)
+	{
+		Asteroids_Spawn_Warning();
+		warning_interval = ASTEROIDS_OBSTACLE_WARNING_INTERVAL;
+	}
+
+	if (obstacle_interval < 3)
+	{
+		Asteroids_Environment_Draw_Warning();
+	}
+
 	if (obstacle_interval < 0)
 	{
 		if (rng == 1)
@@ -180,5 +200,6 @@ void Asteroids_Obstacle_TimeInterval(void)
 		else
 			Asteroids_Spawn_GammaRay();
 		obstacle_interval = ASTEROIDS_OBSTACLE_SPAWN_INTERVAL;
+		warning_interval = ASTEROIDS_OBSTACLE_WARNING_INTERVAL;
 	}
 }
