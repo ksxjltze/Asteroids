@@ -67,6 +67,7 @@ void Asteroids_Upgrade_Add_Level(unsigned int id)
 		if (upgrades[i].id == id)
 		{
 			upgrades[i].level++;
+			printf("%s is now level %u\n", upgrades[i].name, upgrades[i].level);
 			return;
 		}
 	}

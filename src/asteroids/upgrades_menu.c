@@ -36,5 +36,5 @@ void Asteroids_Upgrades_Menu_Draw(void)
 
 void Asteroids_Upgrades_Menu_Upgrade_FuelCapacity(void)
 {
-	
+	Asteroids_Upgrade_Add_Level(FUEL_CAPACITY);
 }

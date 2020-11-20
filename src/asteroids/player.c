@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "utility.h"
 #include "game.h"
+#include "upgrades.h"
 
 struct Player Asteroids_Player_Init(float player_width, float player_height)
 {
@@ -21,9 +22,11 @@ struct Player Asteroids_Player_Init(float player_width, float player_height)
 	player.hp.max = PLAYER_MAX_HP;
 	player.hp.current = player.hp.max;
 
-	player.engine.fuel.current = PLAYER_MAX_FUEL;
-	player.engine.fuel.max = player.engine.fuel.current;
+	Upgrade fuelCapacity = Asteroids_Upgrades_Get_Upgrade(FUEL_CAPACITY);
+	player.engine.fuel.max = PLAYER_MAX_FUEL + ASTEROIDS_UPGRADES_FUEL_UPGRADE_AMOUNT * fuelCapacity.level;
+	player.engine.fuel.current = player.engine.fuel.max;
 	player.engine.drain_rate = DRAIN_RATE;
+	printf("Player starting fuel is %f\n", player.engine.fuel.max);
 
 	player.status.hit = 0;
 	player.status.hit_cooldown = 0;

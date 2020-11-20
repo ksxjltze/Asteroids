@@ -62,6 +62,7 @@ extern const float PLAYER_MAX_FUEL;
 extern const float DRAIN_RATE;
 extern const float ASTEROIDS_PLAYER_FUEL_REFUEL_AMOUNT;
 extern const float ASTEROIDS_PLAYER_FUEL_DRAIN_THRESHOLD;
+extern const float ASTEROIDS_UPGRADES_FUEL_UPGRADE_AMOUNT;
 
 extern const CP_KEY ASTEROIDS_PAUSE_KEY;
 

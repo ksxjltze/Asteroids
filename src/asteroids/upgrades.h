@@ -12,3 +12,4 @@ typedef struct Upgrades
 void Asteroids_Upgrades_Init(void);
 void Asteroids_Upgrades_Add_Upgrade(Upgrade upgrade);
 Upgrade Asteroids_Upgrades_Get_Upgrade(unsigned int id);
+void Asteroids_Upgrade_Add_Level(unsigned int id);
