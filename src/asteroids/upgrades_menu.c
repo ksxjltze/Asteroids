@@ -4,10 +4,6 @@
 #include "constants.h"
 #include "currency.h"
 
-#define BALANCE_BUFFER_SIZE 100
-#define COST_BUFFER_SIZE 20
-#define LEVEL_BUFFER_SIZE 10
-
 UpgradeMenuItem menuItem_FuelCapacity;
 
 void Asteroids_Upgrades_Menu_Init(void)
@@ -27,7 +23,7 @@ void Asteroids_Upgrades_Menu_Display_Balance(void)
 void Asteroids_Upgrades_Menu_Update(void)
 {
 	Asteroids_Upgrades_Menu_Draw();
-	Asteroids_Upgrades_Menu_Display_Upgrade_Info(menuItem_FuelCapacity);
+	Asteroids_Upgrades_Menu_Display_Upgrade_Info(&menuItem_FuelCapacity);
 }
 
 void Asteroids_Upgrades_Menu_Draw(void)
@@ -42,13 +38,13 @@ UpgradeMenuItem Asteroids_Upgrades_Menu_Init_Upgrade_Info(Upgrade upgrade, CP_Ve
 	menuItem.upgrade = upgrade;
 	menuItem.pos = pos;
 
-	static char costText[COST_BUFFER_SIZE];
+	char costText[COST_BUFFER_SIZE];
 	sprintf_s(costText, COST_BUFFER_SIZE, "Cost: %d\n", upgrade.cost);
-	menuItem.costText = costText;
+	strcpy_s(menuItem.costText, strlen(costText) + 1, costText);
 
-	static char levelText[LEVEL_BUFFER_SIZE];
+	char levelText[LEVEL_BUFFER_SIZE];
 	sprintf_s(levelText, LEVEL_BUFFER_SIZE, "Level: %d\n", upgrade.level);
-	menuItem.levelText = levelText;
+	strcpy_s(menuItem.levelText, strlen(levelText) + 1, levelText);
 
 	menuItem.btnBuy = Asteroids_Button_Add_New_Button(120, 30);
 	CP_Vector btnPos = pos;
@@ -61,22 +57,23 @@ UpgradeMenuItem Asteroids_Upgrades_Menu_Init_Upgrade_Info(Upgrade upgrade, CP_Ve
 	return menuItem;
 }
 
-void Asteroids_Upgrades_Menu_Display_Upgrade_Info(UpgradeMenuItem menuItem)
+void Asteroids_Upgrades_Menu_Display_Upgrade_Info(UpgradeMenuItem* menuItem)
 {
 	CP_Settings_TextSize(30.0f);
-	CP_Font_DrawText(menuItem.upgrade.name, menuItem.pos.x, menuItem.pos.y - 150);
+	CP_Font_DrawText(menuItem->upgrade.name, menuItem->pos.x, menuItem->pos.y - 150);
 
-	Asteroids_Button_Update_Advanced(&menuItem.btnBuy, &menuItem);
-	CP_Font_DrawText(menuItem.costText, menuItem.pos.x, menuItem.pos.y - 100);
-	CP_Font_DrawText(menuItem.levelText, menuItem.pos.x, menuItem.pos.y - 50);
+	Asteroids_Button_Update_Advanced(&menuItem->btnBuy, menuItem);
+	CP_Font_DrawText(menuItem->costText, menuItem->pos.x, menuItem->pos.y - 100);
+	CP_Font_DrawText(menuItem->levelText, menuItem->pos.x, menuItem->pos.y - 50);
 
 }
 
-void Asteroids_Upgrades_Menu_Update_Upgrade_Info(UpgradeMenuItem* menuItem, unsigned int level)
+void Asteroids_Upgrades_Menu_Update_Upgrade_Info(UpgradeMenuItem* menuItem)
 {
-	static char levelText[LEVEL_BUFFER_SIZE];
+	menuItem->upgrade = Asteroids_Upgrades_Get_Upgrade(menuItem->upgrade.id);
+	char levelText[LEVEL_BUFFER_SIZE];
 	sprintf_s(levelText, LEVEL_BUFFER_SIZE, "Level: %d\n", menuItem->upgrade.level);
-	menuItem->levelText = levelText;
+	strcpy_s(menuItem->levelText, strlen(levelText) + 1, levelText);
 }
 
 void Asteroids_Upgrades_Menu_Upgrade_Add_Level(void* upgradePtr)
@@ -85,6 +82,6 @@ void Asteroids_Upgrades_Menu_Upgrade_Add_Level(void* upgradePtr)
 	if (Asteroids_Currency_Deduct_Balance(ASTEROIDS_UPGRADES_FUEL_UPGRADE_COST))
 	{
 		Asteroids_Upgrade_Add_Level(menuItem->upgrade.id);
-		Asteroids_Upgrades_Menu_Update_Upgrade_Info(menuItem, menuItem->upgrade.level);
+		Asteroids_Upgrades_Menu_Update_Upgrade_Info(menuItem);
 	}
 }
