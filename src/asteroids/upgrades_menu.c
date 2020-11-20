@@ -1,10 +1,12 @@
 #include "upgrades_menu.h"
+#include <stdio.h>
 #include "button.h"
 #include "utility.h"
 #include "constants.h"
-#include <stdio.h>
+#include "currency.h"
 #include "upgrades.h"
 
+#define BUFFER_SIZE 100
 Button upgradeBtn_FuelCapacity;
 
 void Asteroids_Upgrades_Menu_Init(void)
@@ -21,6 +23,15 @@ void Asteroids_Upgrades_Menu_Init(void)
 
 }
 
+void Asteroids_Upgrades_Menu_Display_Balance(void)
+{
+	CP_Settings_TextSize(30);
+	int balance = Asteroids_Currency_Get_Balance();
+	char balanceText[BUFFER_SIZE];
+	sprintf_s(balanceText, BUFFER_SIZE, "Balance: %d\n", balance);
+	CP_Font_DrawText(balanceText, 100, 30);
+}
+
 void Asteroids_Upgrades_Menu_Update(void)
 {
 	Asteroids_Upgrades_Menu_Draw();
@@ -32,6 +43,7 @@ void Asteroids_Upgrades_Menu_Draw(void)
 	CP_Vector pos = Asteroids_Utility_GetWindowMiddle();
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
 	CP_Font_DrawText("Fuel Capacity", pos.x, pos.y);
+	Asteroids_Upgrades_Menu_Display_Balance();
 }
 
 void Asteroids_Upgrades_Menu_Upgrade_FuelCapacity(void)

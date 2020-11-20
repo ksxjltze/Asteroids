@@ -16,6 +16,11 @@ void Asteroids_Currency_Add(int amount)
 	currentCredits += amount;
 }
 
+int Asteroids_Currency_Get_Balance()
+{
+	return currentCredits;
+}
+
 void Asteroids_Currency_Get_From_File()
 {
 	FILE* creditsFile = Asteroids_Open_File("./Assets/credits.data", "r");
