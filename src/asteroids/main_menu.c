@@ -2,6 +2,7 @@
 #include "difficulty_menu.h"
 #include "skin_menu.h"
 #include "upgrades_menu.h"
+#include "currency.h"
 
 #define BUTTON_WIDTH 200.0f
 #define BUTTON_HEIGHT 50.0f
@@ -57,6 +58,8 @@ void Asteroids_MainMenu_Init(void)
 	backgroundColor = CP_Color_Create(0, 0, 0, 255);
 	textColor = CP_Color_Create(255, 255, 255, 255);
 	menuTextSize = 100.0f;
+
+	Asteroids_Currency_Init();
 }
 
 void Asteroids_MainMenu_Update(void)

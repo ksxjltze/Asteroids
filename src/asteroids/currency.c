@@ -7,11 +7,13 @@ static int currentCredits;
 void Asteroids_Currency_Init(void)
 {
 	currentCredits = 0;
+	Asteroids_Currency_Get_From_File();
+	printf("Credits: %d\n", currentCredits);
 }
 
 void Asteroids_Currency_Add(int amount)
 {
-
+	currentCredits += amount;
 }
 
 void Asteroids_Currency_Get_From_File()
