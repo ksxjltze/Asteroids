@@ -6,6 +6,7 @@ CP_Image Warning;
 float current_lifespan = 1.0f;
 static float warning_lifespan = 1.0f;
 static float obstacle_interval;
+CP_Vector location;
 
 void Asteroids_Obstacles_Init(void)
 {
@@ -18,6 +19,7 @@ void Asteroids_Obstacles_Init(void)
 
 	obstacle_interval = ASTEROIDS_OBSTACLE_SPAWN_INTERVAL;
 
+	location = CP_Vector_Zero();
 }
 void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_count)
 {
@@ -94,17 +96,27 @@ void Asteroids_Spawn_Blackhole(void)
 void Asteroids_Spawn_GammaRay(void)
 {
 	float posY = CP_Random_RangeFloat(50, (float)WIN_HEIGHT - 50);
+
 	GammaRay.width = (float)WIN_WIDTH / 2;
-	GammaRay.height = 50;
+	GammaRay.height = 20;
+	
 	GammaRay.Collider.width = GammaRay.width; // AABB Collider 
-	GammaRay.Collider.height = 20;
+	GammaRay.Collider.height = GammaRay.height;
+	
 	GammaRay.pos.x = 0 + GammaRay.width / 2;
 	GammaRay.pos.y = posY;
-	GammaRay.lifespan = ASTEROIDS_OBSTACLE_LIFESPAN;
+	location.y = GammaRay.pos.y;
+	
 	GammaRay.speed = ASTEROIDS_OBSTACLE_GAMMARAY_SPEED;
+	
+	GammaRay.lifespan = ASTEROIDS_OBSTACLE_LIFESPAN;
+	
 	GammaRay.active = true;
 
-	GammaRay.velocity = CP_Vector_Subtract(Asteroids_Utility_GetWindowMiddle(), GammaRay.pos);
+	CP_Vector direction = CP_Vector_Zero();
+	direction.x = (float)WIN_WIDTH;
+	direction.y = posY;
+	GammaRay.velocity = CP_Vector_Subtract(direction, GammaRay.pos);
 	GammaRay.velocity = CP_Vector_Normalize(GammaRay.velocity);
 	GammaRay.velocity = CP_Vector_Scale(GammaRay.velocity, GammaRay.speed);
 }
@@ -140,17 +152,18 @@ void Asteroids_Obstacle_Check_LifeSpan(Obstacle* obstacle)
 		obstacle->active = false;
 }
 
+// Tracks when and where to draw warning sign
 void Asteroids_Environment_Warning(void)
 {
 	float dt = CP_System_GetDt();
 	current_lifespan -= dt;
-	CP_Image_Draw(Warning, (float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2, (float)WIN_WIDTH, 50.0f, (int)(fabsf(current_lifespan) / warning_lifespan * 255)); //(int)(current_lifespan/warning_lifespan) * 
+	CP_Image_Draw(Warning, (float)WIN_WIDTH / 2, location.y, (float)WIN_WIDTH, 50.0f, (int)(fabsf(current_lifespan) / warning_lifespan * 255)); //(int)(current_lifespan/warning_lifespan) * 
 	if (current_lifespan < -warning_lifespan)
 	{
 		current_lifespan = warning_lifespan;
 	}
 }
-
+//
 void Asteroids_Obstacle_TimeInterval(void)
 {
 	float dt = CP_System_GetDt();
