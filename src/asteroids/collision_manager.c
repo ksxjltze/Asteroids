@@ -50,6 +50,9 @@ void Asteroids_Collision_CheckCollision_Enemy_Player(Enemy enemy_pool[], int ene
 
 void Asteroids_Collision_CheckCollision_Enemy_Enemy(Enemy enemy_pool[], int enemy_count, Enemy* enemy, Player player)
 {
+	if (DIFFICULTY_OPTION >= IMPOSSIBLE)
+		return;
+
 	for (int i = 0; i < enemy_count; i++)
 	{
 		if (enemy_pool[i].active)

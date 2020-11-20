@@ -227,21 +227,10 @@ void Asteroids_Check_Input()
 	if (CP_Input_KeyTriggered(KEY_F1))
 		debug_mode = !debug_mode;
 
-	switch (DIFFICULTY_OPTION)
-	{
-	case EASY:
+	if (DIFFICULTY_OPTION < HARD)
 		Asteroids_Player_Simple_Movement(&player);
-		break;
-	case NORMAL:
-		Asteroids_Player_Simple_Movement(&player);
-		break;
-	case HARD:
+	else
 		Asteroids_Player_Check_Input(&player, dt, shoot_direction);
-		break;
-	case INSANE:
-		Asteroids_Player_Check_Input(&player, dt, shoot_direction);
-		break;
-	}	
 
 	if (CP_Input_MouseDown(MOUSE_BUTTON_1))
 	{
