@@ -48,5 +48,6 @@ void Asteroids_Upgrades_Menu_Draw(void)
 
 void Asteroids_Upgrades_Menu_Upgrade_FuelCapacity(void)
 {
-	Asteroids_Upgrade_Add_Level(FUEL_CAPACITY);
+	if(Asteroids_Currency_Deduct_Balance(ASTEROIDS_UPGRADES_FUEL_UPGRADE_COST))
+		Asteroids_Upgrade_Add_Level(FUEL_CAPACITY);
 }

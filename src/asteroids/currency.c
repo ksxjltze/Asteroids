@@ -21,6 +21,18 @@ int Asteroids_Currency_Get_Balance()
 	return currentCredits;
 }
 
+bool Asteroids_Currency_Deduct_Balance(int amount)
+{
+	if (currentCredits - amount < 0)
+	{
+		printf("Not enough money.\n");
+		return false;
+	}
+
+	currentCredits -= amount;
+	return true;
+}
+
 void Asteroids_Currency_Get_From_File()
 {
 	FILE* creditsFile = Asteroids_Open_File("./Assets/credits.data", "r");
