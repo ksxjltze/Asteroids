@@ -96,15 +96,11 @@ void Asteroids_Player_Calculate_Fuel(Player* player)
 	{
 		player->engine.fuel.current = 0.0f;
 		player->speed = ASTEROIDS_PLAYER_SLOWED_SPEED;
-		//if(player->active)
-		//	player->active = 0;
 
 		return;
 	}
 
 }
-
-
 
 void Asteroids_Player_Simple_Movement(Player* player)
 {
@@ -204,7 +200,7 @@ void Asteroids_Player_Decelerate(Player* player, float dt)
 {
 	CP_Vector deceleration = CP_Vector_Scale(player->velocity, -dt);
 	player->velocity = CP_Vector_Add(player->velocity, deceleration);
-	if (CP_Vector_Length(player->velocity) >= 2.0f)
+	if (CP_Vector_Length(player->velocity) >= ASTEROIDS_PLAYER_FUEL_DRAIN_THRESHOLD && DIFFICULTY_OPTION >= IMPOSSIBLE)
 		Asteroids_Player_Drain_Fuel(player);
 }
 
