@@ -2,6 +2,7 @@
 #include "button.h"
 #include "utility.h"
 #include "constants.h"
+#include "file_manager.h"
 
 static Button difficultyButton;
 static CP_Vector middle;
@@ -15,6 +16,7 @@ void Asteroids_Difficulty_Menu_Init(void)
 	pos.y = WIN_HEIGHT * 0.5f;
 
 	Asteroids_Button_Set_Position(&difficultyButton, pos);
+	Asteroids_Difficulty_Get_From_File();
 	Asteroids_Difficulty_Menu_Update_ButtonText(&difficultyButton);
 	Asteroids_Button_Set_Callback_Button(&Asteroids_Difficulty_Set_NextDifficulty, &difficultyButton);
 
@@ -97,7 +99,28 @@ void Asteroids_Difficulty_Set_NextDifficulty(Button* button)
 	if (DIFFICULTY_OPTION > IMPOSSIBLE)
 		DIFFICULTY_OPTION = EASY;
 
+	Asteroids_Difficulty_Save_To_File();
 	Asteroids_Difficulty_Menu_Update_ButtonText(button);
 
 }
 
+void Asteroids_Difficulty_Save_To_File(void)
+{
+	FILE* settingsFile = Asteroids_Open_File("./Assets/settings.data", "w");
+	if (settingsFile)
+	{
+		fprintf(settingsFile, "%d", DIFFICULTY_OPTION);
+		Asteroids_Close_File(settingsFile);
+	}
+}
+
+void Asteroids_Difficulty_Get_From_File(void)
+{
+	FILE* settingsFile = Asteroids_Open_File("./Assets/settings.data", "r");
+	if (settingsFile)
+	{
+		int read = fscanf_s(settingsFile, "%d", &DIFFICULTY_OPTION);
+		printf("Read %d values from file.\n", read);
+		Asteroids_Close_File(settingsFile);
+	}
+}
