@@ -107,10 +107,10 @@ void Asteroids_Draw_MainMenu(void)
 	CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
 	CP_Settings_Fill(textColor);
 	CP_Settings_TextSize(menuTextSize);
-	CP_Font_DrawTextBox(menuText, 0, 50.0f + menuTextSize / 2, (float)WIN_WIDTH);
 
 	if (status)
 	{
+		CP_Font_DrawTextBox(menuText, 0, 50.0f + menuTextSize / 2, (float)WIN_WIDTH);
 		Asteroids_Button_Update(&Play);
 		Asteroids_Button_Update(&Controls);
 		Asteroids_Button_Update(&Credits);
