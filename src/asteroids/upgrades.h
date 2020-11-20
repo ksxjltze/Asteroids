@@ -15,3 +15,5 @@ Upgrade Asteroids_Upgrades_Create_Upgrade(unsigned int id, int cost, const char*
 void Asteroids_Upgrades_Add_Upgrade(Upgrade upgrade);
 Upgrade Asteroids_Upgrades_Get_Upgrade(unsigned int id);
 void Asteroids_Upgrade_Add_Level(unsigned int id);
+void Asteroids_Upgrades_Save_To_File(Upgrade upgrade);
+Upgrade Asteroids_Upgrades_Read_From_File(void);
