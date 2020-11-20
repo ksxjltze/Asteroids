@@ -61,19 +61,23 @@ void Asteroids_Difficulty_Menu_Display_Info(void)
 	{
 	case EASY:
 		CP_Font_DrawText("Movement: Simple", middle.x - 200, middle.y - 200);
+		CP_Font_DrawText("Perk: Split Bullets", middle.x - 200, middle.y - 150);
 		break;
 	case NORMAL:
 		CP_Font_DrawText("Movement: Simple", middle.x - 200, middle.y - 200);
 		break;
 	case HARD:
 		CP_Font_DrawText("Movement: Acceleration", middle.x - 200, middle.y - 200);
+		CP_Font_DrawText("Automatic Deceleration", middle.x - 200, middle.y - 150);
 		break;
 	case INSANE:
 		CP_Font_DrawText("Movement: Acceleration", middle.x - 200, middle.y - 200);
+		CP_Font_DrawText("Manual Deceleration", middle.x - 200, middle.y - 150);
 		break;
 	case IMPOSSIBLE:
 		CP_Font_DrawText("Movement: Acceleration", middle.x - 200, middle.y - 200);
-		CP_Font_DrawText("Asteroid Collision: Disabled", middle.x - 200, middle.y - 150);
+		CP_Font_DrawText("Manual Deceleration", middle.x - 200, middle.y - 150);
+		CP_Font_DrawText("Asteroid Collision: Disabled", middle.x - 200, middle.y - 100);
 		break;
 	}
 }
