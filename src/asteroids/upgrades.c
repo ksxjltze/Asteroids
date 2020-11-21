@@ -124,7 +124,7 @@ void Asteroids_Upgrades_Save_All_To_File(void)
 			{
 				fseek(upgradesFile, -(ftell(upgradesFile) - filePos), SEEK_CUR);
 			}
-			fprintf_s(upgradesFile, "%u,%d,%u\n", upgrade.id, upgrade.cost, upgrade.level);
+			fprintf_s(upgradesFile, "%u,%d,%0.3u\n", upgrade.id, upgrade.cost, upgrade.level);
 			fflush(upgradesFile);
 		}
 		Asteroids_Close_File(upgradesFile);
