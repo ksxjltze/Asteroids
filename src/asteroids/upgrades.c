@@ -113,16 +113,21 @@ void Asteroids_Upgrades_Save_All_To_File(void)
 			upgrade.level = 0;
 			upgrade.name = "NONE";
 
-			int read = fscanf_s(upgradesFile, "%u,%d,%u", &upgrade.id, &upgrade.cost, &upgrade.level);
 			int filePos = ftell(upgradesFile);
+			int read = fscanf_s(upgradesFile, "%u,%d,%u", &upgrade.id, &upgrade.cost, &upgrade.level);
+			upgrade = Asteroids_Upgrades_Get_Upgrade(i + 1);
 
-			upgrade = Asteroids_Upgrades_Get_Upgrade(upgrade.id);
 			if (upgrade.id == NONE)
 				continue;
 
-			printf("Read %d values from file %s.", read, "./Assets/upgrades.data");
-			fseek(upgradesFile, -(ftell(upgradesFile) - filePos), SEEK_CUR);
-			fprintf_s(upgradesFile, "\n%u,%d,%u", upgrade.id, upgrade.cost, upgrade.level);
+			printf("Read %d values from file %s.\n", read, "./Assets/upgrades.data");
+			if (read == 3)
+			{
+				fseek(upgradesFile, -(ftell(upgradesFile) - filePos), SEEK_CUR);
+			}
+			fprintf_s(upgradesFile, "%u,%d,%u", upgrade.id, upgrade.cost, upgrade.level);
+
+			break;
 		}
 		Asteroids_Close_File(upgradesFile);
 	}
