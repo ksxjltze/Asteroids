@@ -30,6 +30,7 @@ bool Asteroids_Currency_Deduct_Balance(int amount)
 	}
 
 	currentCredits -= amount;
+	Asteroids_Currency_Write_To_File();
 	return true;
 }
 
