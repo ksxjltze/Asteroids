@@ -10,10 +10,14 @@ float boss_width;
 float boss_height;
 
 float boss_interval;
+float death_ring_dia;
+static float expansion_rate;
 
 CP_Vector pos;
+CP_Vector DeathPos;
 
 bool collide;
+bool boss_killed;
 
 #define ASTEROIDS_POOLSIZE_BULLETS 999
 #define ASTEROIDS_POOLSIZE_ENEMIES 100
@@ -29,15 +33,19 @@ void Asteroids_Boss_Init(CP_Image EnemySprite[], CP_Image EnemyHurtSprite[], flo
 
 	boss_height = enemy_height;
 	boss_width = enemy_width;
+	death_ring_dia = 1;
 
 	boss_interval = ASTEROIDS_ENEMY_BOSS_SPAWN_INTERVAL;
+	
+	DeathPos = CP_Vector_Zero();
+	boss_killed = false;
+	expansion_rate = 0;
 }
 
 void Asteroids_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_count, Bullet bullet_pool[])
 {
 	float dt = CP_System_GetDt();
 	Asteroids_Enemy_Boss_Spawn_Interval();
-	//Asteroids_Enemy_Boss_Spawn_Interval();
 	if (Boss.active)
 	{	
 		Boss.pos = CP_Vector_Add(Boss.pos, CP_Vector_Scale(Boss.velocity, dt));
@@ -61,6 +69,10 @@ void Asteroids_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_count, 
 	if (CP_Input_KeyTriggered(KEY_9))
 	{
 		Asteroids_Enemy_Boss_Spawn();
+	}
+	if (boss_killed)
+	{
+		Asteroids_Enemy_Boss_Death_Circle(&Boss, *player, enemy_pool, Boss.split_count);
 	}
 }
 
@@ -156,15 +168,12 @@ CP_Vector Asteroids_Boss_Random_Spawn_Location(void)
 }
 void Asteroids_Enemy_Check_Boss_Hp(Enemy* boss, Player player, Enemy enemy_pool[], int split)
 {
+
 	if (boss->hp.current <= 0)
 	{
+		boss_killed = true;
+		DeathPos = Boss.pos;
 		boss->active = 0;
-		for (int i = 0; i < ASTEROIDS_POOLSIZE_ENEMIES; i++)
-		{
-			Asteroids_Enemy_Death(enemy_pool +i);
-		}
-		Asteroids_Enemy_Split(boss, player, enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, split);
-		Asteroids_Enemy_Death(boss);
 	}
 }
 
@@ -176,5 +185,27 @@ void Asteroids_Enemy_Boss_Spawn_Interval(void)
 	{
 		Asteroids_Enemy_Boss_Spawn();
 		boss_interval = ASTEROIDS_ENEMY_BOSS_SPAWN_INTERVAL;
+	}
+}
+
+void Asteroids_Enemy_Boss_Death_Circle(Enemy* boss, Player player, Enemy enemy_pool[], int split)
+{
+	float dt = CP_System_GetDt();
+	expansion_rate += dt;
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 10));
+	CP_Graphics_DrawCircle(DeathPos.x, DeathPos.y, death_ring_dia * (expansion_rate * 1250));
+
+	if((death_ring_dia * expansion_rate * 1250 / 2) > WIN_WIDTH)
+	{
+		for (int i = 0; i < ASTEROIDS_POOLSIZE_ENEMIES; i++)
+		{
+			Asteroids_Enemy_Death(enemy_pool +i);
+		}
+		Asteroids_Enemy_Split(boss, player, enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, split);
+		Asteroids_Enemy_Death(boss);
+		
+		expansion_rate = 0;
+		death_ring_dia = 1;
+		boss_killed = false;
 	}
 }
