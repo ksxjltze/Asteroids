@@ -19,11 +19,12 @@ void Asteroids_Upgrades_Init(void)
 		upgrades[i].name = "NONE";
 	}
 
+	Asteroids_Upgrades_Read_From_File();
+
 	Upgrade upgrade_FuelCapacity = Asteroids_Upgrades_Get_Upgrade(FUEL_CAPACITY);
 	if (upgrade_FuelCapacity.id == NONE)
 	{
 		upgrade_FuelCapacity = Asteroids_Upgrades_Create_Upgrade(FUEL_CAPACITY, ASTEROIDS_UPGRADES_FUEL_UPGRADE_COST, "Fuel Capacity");
-		//upgrade_FuelCapacity = Asteroids_Upgrades_Read_From_File();
 		Asteroids_Upgrades_Add_Upgrade(upgrade_FuelCapacity);
 	}
 
@@ -109,21 +110,42 @@ void Asteroids_Upgrades_Save_To_File(Upgrade upgrade)
 	}
 }
 
-Upgrade Asteroids_Upgrades_Read_From_File(void)
+void Asteroids_Upgrades_Read_From_File(void)
 {
-	Upgrade upgrade;
-	upgrade.id = NONE;
-	upgrade.cost = 0;
-	upgrade.level = 0;
-	upgrade.name = "NONE";
-
 	FILE* upgradesFile = Asteroids_Open_File("./Assets/upgrades.data", "r");
 	if (upgradesFile)
 	{
-		int read = fscanf_s(upgradesFile, "%u,%u", &upgrade.id, &upgrade.level);
-		printf("Read %d values from file %s.", read, "./Assets/upgrades.data");
+		for (int i = 0; i < NUM_UPGRADES; i++)
+		{
+			Upgrade upgrade;
+			upgrade.id = NONE;
+			upgrade.cost = 0;
+			upgrade.level = 0;
+			upgrade.name = "NONE";
+
+			int read = fscanf_s(upgradesFile, "%u,%d,%u", &upgrade.id, &upgrade.cost, &upgrade.level);
+			if (read <= 0)
+				continue;
+			printf("Read %d values from file %s.", read, "./Assets/upgrades.data");
+
+			Asteroids_Upgrades_Set_Upgrade_Name(&upgrade);
+			Asteroids_Upgrades_Add_Upgrade(upgrade);
+		}
 		Asteroids_Close_File(upgradesFile);
 	}
+}
 
-	return upgrade;
+void Asteroids_Upgrades_Set_Upgrade_Name(Upgrade* upgrade)
+{
+	switch (upgrade->id)
+	{
+	case FUEL_CAPACITY:
+		upgrade->name = "Fuel Capacity";
+		break;
+	case MAX_HEALTH:
+		upgrade->name = "Max Health";
+		break;
+	default:
+		break;
+	}
 }

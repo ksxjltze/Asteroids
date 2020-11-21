@@ -101,7 +101,7 @@ void Asteroids_Player_Apply_Upgrades(Player* player)
 		if (fuelCapacity.level > 0)
 		{
 			printf("Upgrade: Fuel Capacity increased by %f.\n", upgrade);
-			printf("Fuel Capacity: %f\n", player->hp.max);
+			printf("Fuel Capacity: %f\n", player->engine.fuel.max);
 		}
 	}
 
