@@ -6,10 +6,15 @@
 #include "file_manager.h"
 
 UpgradeMenuItem menuItem_FuelCapacity;
+UpgradeMenuItem menuItem_MaxHealth;
 
 void Asteroids_Upgrades_Menu_Init(void)
 {
-	menuItem_FuelCapacity = Asteroids_Upgrades_Menu_Init_Upgrade_Info(Asteroids_Upgrades_Get_Upgrade(FUEL_CAPACITY), Asteroids_Utility_GetWindowMiddle(), &Asteroids_Upgrades_Menu_Upgrade_Add_Level);
+	CP_Vector pos1 = CP_Vector_Set(WIN_WIDTH * 0.1f, WIN_HEIGHT * 0.25f);
+	CP_Vector pos2 = CP_Vector_Set(WIN_WIDTH * 0.25f, WIN_HEIGHT * 0.25f);
+
+	menuItem_FuelCapacity = Asteroids_Upgrades_Menu_Init_Upgrade_Info(Asteroids_Upgrades_Get_Upgrade(FUEL_CAPACITY), pos1, &Asteroids_Upgrades_Menu_Upgrade_Add_Level);
+	menuItem_MaxHealth = Asteroids_Upgrades_Menu_Init_Upgrade_Info(Asteroids_Upgrades_Get_Upgrade(MAX_HEALTH), pos2, &Asteroids_Upgrades_Menu_Upgrade_Add_Level);
 }
 
 void Asteroids_Upgrades_Menu_Display_Balance(void)
@@ -25,6 +30,7 @@ void Asteroids_Upgrades_Menu_Update(void)
 {
 	Asteroids_Upgrades_Menu_Draw();
 	Asteroids_Upgrades_Menu_Display_Upgrade_Info(&menuItem_FuelCapacity);
+	Asteroids_Upgrades_Menu_Display_Upgrade_Info(&menuItem_MaxHealth);
 }
 
 void Asteroids_Upgrades_Menu_Draw(void)
@@ -61,11 +67,11 @@ UpgradeMenuItem Asteroids_Upgrades_Menu_Init_Upgrade_Info(Upgrade upgrade, CP_Ve
 void Asteroids_Upgrades_Menu_Display_Upgrade_Info(UpgradeMenuItem* menuItem)
 {
 	CP_Settings_TextSize(30.0f);
-	CP_Font_DrawText(menuItem->upgrade.name, menuItem->pos.x, menuItem->pos.y - 150);
+	CP_Font_DrawText(menuItem->upgrade.name, menuItem->pos.x, menuItem->pos.y - 80);
 
 	Asteroids_Button_Update_Advanced(&menuItem->btnBuy, menuItem);
-	CP_Font_DrawText(menuItem->costText, menuItem->pos.x, menuItem->pos.y - 100);
-	CP_Font_DrawText(menuItem->levelText, menuItem->pos.x, menuItem->pos.y - 50);
+	CP_Font_DrawText(menuItem->costText, menuItem->pos.x, menuItem->pos.y - 50);
+	CP_Font_DrawText(menuItem->levelText, menuItem->pos.x, menuItem->pos.y - 20);
 
 }
 

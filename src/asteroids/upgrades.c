@@ -10,16 +10,29 @@ void Asteroids_Upgrades_Init(void)
 {
 	for (int i = 0; i < NUM_UPGRADES; i++)
 	{
+		if (upgrades[i].id > 0)
+			continue;
+
 		upgrades[i].id = NONE;
 		upgrades[i].cost = 0;
 		upgrades[i].level = 0;
 		upgrades[i].name = "NONE";
 	}
 
-	Upgrade upgrade_FuelCapacity = Asteroids_Upgrades_Create_Upgrade(FUEL_CAPACITY, ASTEROIDS_UPGRADES_FUEL_UPGRADE_COST, "Fuel Capacity");
-	upgrade_FuelCapacity = Asteroids_Upgrades_Read_From_File();
-	Asteroids_Upgrades_Add_Upgrade(upgrade_FuelCapacity);
+	Upgrade upgrade_FuelCapacity = Asteroids_Upgrades_Get_Upgrade(FUEL_CAPACITY);
+	if (upgrade_FuelCapacity.id == NONE)
+	{
+		upgrade_FuelCapacity = Asteroids_Upgrades_Create_Upgrade(FUEL_CAPACITY, ASTEROIDS_UPGRADES_FUEL_UPGRADE_COST, "Fuel Capacity");
+		//upgrade_FuelCapacity = Asteroids_Upgrades_Read_From_File();
+		Asteroids_Upgrades_Add_Upgrade(upgrade_FuelCapacity);
+	}
 
+	Upgrade upgrade_MaxHealth = Asteroids_Upgrades_Get_Upgrade(MAX_HEALTH);
+	if (upgrade_MaxHealth.id == NONE)
+	{
+		upgrade_MaxHealth = Asteroids_Upgrades_Create_Upgrade(MAX_HEALTH, ASTEROIDS_UPGRADES_FUEL_UPGRADE_COST, "Max Health");
+		Asteroids_Upgrades_Add_Upgrade(upgrade_MaxHealth);
+	}
 }
 
 Upgrade Asteroids_Upgrades_Create_Upgrade(unsigned int id, int cost, const char* name)

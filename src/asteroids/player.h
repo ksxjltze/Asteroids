@@ -29,6 +29,7 @@ void Asteroids_Player_Draw(CP_Image player_sprite, CP_Vector pos, float player_w
 void Asteroids_Player_Calculate_Fuel(Player* player);
 void Asteroids_Player_Drain_Fuel(Player* player);
 void Asteroids_Player_Refuel(float amount, Player* player);
+void Asteroids_Player_Apply_Upgrades(Player* player);
 
 void Asteroids_Player_Debug(Player player);
 

@@ -22,14 +22,14 @@ struct Player Asteroids_Player_Init(float player_width, float player_height)
 	player.hp.max = PLAYER_MAX_HP;
 	player.hp.current = player.hp.max;
 
-	Upgrade fuelCapacity = Asteroids_Upgrades_Get_Upgrade(FUEL_CAPACITY);
-	player.engine.fuel.max = PLAYER_MAX_FUEL + ASTEROIDS_UPGRADES_FUEL_UPGRADE_AMOUNT * fuelCapacity.level;
+	player.engine.fuel.max = PLAYER_MAX_FUEL;
 	player.engine.fuel.current = player.engine.fuel.max;
 	player.engine.drain_rate = DRAIN_RATE;
-	printf("Player starting fuel is %f\n", player.engine.fuel.max);
 
 	player.status.hit = 0;
 	player.status.hit_cooldown = 0;
+
+	Asteroids_Player_Apply_Upgrades(&player);
 
 	return player;
 }
@@ -85,6 +85,38 @@ void Asteroids_Player_Refuel(float amount, Player* player)
 	if (player->engine.fuel.current > max)
 		player->engine.fuel.current = max;
 
+}
+
+void Asteroids_Player_Apply_Upgrades(Player* player)
+{
+	Upgrade fuelCapacity = Asteroids_Upgrades_Get_Upgrade(FUEL_CAPACITY);
+	Upgrade maxHealth = Asteroids_Upgrades_Get_Upgrade(MAX_HEALTH);
+	
+	if (fuelCapacity.id != NONE)
+	{
+		float upgrade = ASTEROIDS_UPGRADES_FUEL_UPGRADE_AMOUNT * fuelCapacity.level;
+		player->engine.fuel.max += upgrade;
+		player->engine.fuel.current = player->engine.fuel.max;
+
+		if (fuelCapacity.level > 0)
+		{
+			printf("Upgrade: Fuel Capacity increased by %f.\n", upgrade);
+			printf("Fuel Capacity: %f\n", player->hp.max);
+		}
+	}
+
+	if (maxHealth.id != NONE)
+	{
+		float upgrade = ASTEROIDS_UPGRADES_MAX_HEALTH_UPGRADE_AMOUNT * maxHealth.level;
+		player->hp.max += upgrade;
+		player->hp.current = player->hp.max;
+
+		if (maxHealth.level > 0)
+		{
+			printf("Upgrade: Max Health increased by %f.\n", upgrade);
+			printf("Max Health: %f\n", player->hp.max);
+		}
+	}
 }
 
 void Asteroids_Player_Drain_Fuel(Player* player)

@@ -1,6 +1,6 @@
 #pragma once
 
-enum UpgradeType {NONE, FUEL_CAPACITY};
+enum UpgradeType {NONE, FUEL_CAPACITY, MAX_HEALTH};
 
 typedef struct Upgrades
 {
