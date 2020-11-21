@@ -26,9 +26,11 @@
     <ClInclude Include="src\asteroids\collider_circle.h" />
     <ClInclude Include="src\asteroids\collision_manager.h" />
     <ClInclude Include="src\asteroids\constants.h" />
+    <ClInclude Include="src\asteroids\currency.h" />
     <ClInclude Include="src\asteroids\difficulty_menu.h" />
     <ClInclude Include="src\asteroids\enemy.h" />
     <ClInclude Include="src\asteroids\engine.h" />
+    <ClInclude Include="src\asteroids\file_manager.h" />
     <ClInclude Include="src\asteroids\fuel.h" />
     <ClInclude Include="src\asteroids\game.h" />
     <ClInclude Include="src\asteroids\gameover.h" />
@@ -59,8 +61,10 @@
     <ClCompile Include="src\asteroids\collider_circle.c" />
     <ClCompile Include="src\asteroids\collision_manager.c" />
     <ClCompile Include="src\asteroids\constants.c" />
+    <ClCompile Include="src\asteroids\currency.c" />
     <ClCompile Include="src\asteroids\difficulty_menu.c" />
     <ClCompile Include="src\asteroids\enemy.c" />
+    <ClCompile Include="src\asteroids\file_manager.c" />
     <ClCompile Include="src\asteroids\game.c" />
     <ClCompile Include="src\asteroids\gameover.c" />
     <ClCompile Include="src\asteroids\health.c" />
@@ -78,6 +82,8 @@
     <ClCompile Include="src\asteroids\skin_menu.c" />
     <ClCompile Include="src\asteroids\splash.c" />
     <ClCompile Include="src\asteroids\sprite.c" />
+    <ClCompile Include="src\asteroids\upgrades.c" />
+    <ClCompile Include="src\asteroids\upgrades.h" />
     <ClCompile Include="src\asteroids\upgrades_menu.c" />
     <ClCompile Include="src\asteroids\user_interface.c" />
     <ClCompile Include="src\asteroids\utility.c" />

@@ -38,6 +38,11 @@ void Asteroids_Button_Set_Callback_Button(void(*callback)(Button* button), Butto
 	button->callback.button_callback = callback;
 }
 
+void Asteroids_Button_Set_Callback_Pointer(void(*callback)(void* ptr), Button* button)
+{
+	button->callback.pointer_callback = callback;
+}
+
 void Asteroids_Button_Set_Colors(Button* button, CP_Color idle, CP_Color hover, CP_Color clicked)
 {
 	button->colors.idle = idle;
@@ -98,6 +103,40 @@ void Asteroids_Button_Update(Button* button)
 	if (button->hidden == false)
 		Asteroids_Button_Draw(*button);
 
+}
+
+void Asteroids_Button_Update_Advanced(Button* button, void* ptr)
+{
+	float mouseX, mouseY;
+	mouseX = CP_Input_GetMouseX();
+	mouseY = CP_Input_GetMouseY();
+
+	if (button->enabled == true)
+	{
+		if (isMouseOver_Rect(button->position, button->width, button->height, mouseX, mouseY))
+		{
+			button->status = HOVER;
+			if (CP_Input_MouseDown(MOUSE_BUTTON_1))
+				button->status = CLICKED;
+			if (CP_Input_MouseReleased(MOUSE_BUTTON_1))
+			{
+				Asteroids_Button_Execute_Callback(button);
+				if (button->callback.pointer_callback)
+				{
+					button->callback.pointer_callback(ptr);
+				}
+			}
+		}
+		else
+		{
+			button->status = IDLE;
+		}
+	}
+	else
+		button->status = DISABLED;
+
+	if (button->hidden == false)
+		Asteroids_Button_Draw(*button);
 }
 
 void Asteroids_Button_Execute_Callback(Button* button)

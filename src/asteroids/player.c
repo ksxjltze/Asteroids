@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "utility.h"
 #include "game.h"
+#include "upgrades.h"
 
 struct Player Asteroids_Player_Init(float player_width, float player_height)
 {
@@ -21,9 +22,11 @@ struct Player Asteroids_Player_Init(float player_width, float player_height)
 	player.hp.max = PLAYER_MAX_HP;
 	player.hp.current = player.hp.max;
 
-	player.engine.fuel.current = PLAYER_MAX_FUEL;
-	player.engine.fuel.max = player.engine.fuel.current;
+	Upgrade fuelCapacity = Asteroids_Upgrades_Get_Upgrade(FUEL_CAPACITY);
+	player.engine.fuel.max = PLAYER_MAX_FUEL + ASTEROIDS_UPGRADES_FUEL_UPGRADE_AMOUNT * fuelCapacity.level;
+	player.engine.fuel.current = player.engine.fuel.max;
 	player.engine.drain_rate = DRAIN_RATE;
+	printf("Player starting fuel is %f\n", player.engine.fuel.max);
 
 	player.status.hit = 0;
 	player.status.hit_cooldown = 0;
@@ -96,36 +99,45 @@ void Asteroids_Player_Calculate_Fuel(Player* player)
 	{
 		player->engine.fuel.current = 0.0f;
 		player->speed = ASTEROIDS_PLAYER_SLOWED_SPEED;
-		//if(player->active)
-		//	player->active = 0;
 
 		return;
 	}
 
 }
 
-
-
 void Asteroids_Player_Simple_Movement(Player* player)
 {
 	CP_Vector oldPos = player->pos;
+	bool isMoving = false;
+	float speed = (float)ASTEROIDS_PLAYER_SIMPLE_SPEED;
 	float dt = CP_System_GetDt();
+
+	if (player->engine.fuel.current <= 0)
+		speed = ASTEROIDS_PLAYER_SLOWED_SPEED;
+
 	if (CP_Input_KeyDown(KEY_W))
 	{
-		player->pos.y -= dt * ASTEROIDS_PLAYER_SIMPLE_SPEED;
+		player->pos.y -= dt * speed;
+		isMoving = true;
 	}
 	else if (CP_Input_KeyDown(KEY_S))
 	{
-		player->pos.y += dt * ASTEROIDS_PLAYER_SIMPLE_SPEED;
+		player->pos.y += dt * speed;
+		isMoving = true;
 	}
 	if (CP_Input_KeyDown(KEY_A))
 	{
-		player->pos.x -= dt * ASTEROIDS_PLAYER_SIMPLE_SPEED;
+		player->pos.x -= dt * speed;
+		isMoving = true;
 	}
 	else if (CP_Input_KeyDown(KEY_D))
 	{
-		player->pos.x += dt * ASTEROIDS_PLAYER_SIMPLE_SPEED;
+		player->pos.x += dt * speed;
+		isMoving = true;
 	}
+
+	if (player->engine.fuel.current > 0 && isMoving)
+		player->engine.fuel.current -= player->engine.drain_rate * dt;
 
 	if (!Asteroids_Utility_isInWindow(player->pos))
 	{
@@ -191,7 +203,7 @@ void Asteroids_Player_Decelerate(Player* player, float dt)
 {
 	CP_Vector deceleration = CP_Vector_Scale(player->velocity, -dt);
 	player->velocity = CP_Vector_Add(player->velocity, deceleration);
-	if (CP_Vector_Length(player->velocity) >= 2.0f)
+	if (CP_Vector_Length(player->velocity) >= ASTEROIDS_PLAYER_FUEL_DRAIN_THRESHOLD && DIFFICULTY_OPTION >= INSANE)
 		Asteroids_Player_Drain_Fuel(player);
 }
 
