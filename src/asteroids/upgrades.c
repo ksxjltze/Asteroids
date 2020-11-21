@@ -100,12 +100,30 @@ void Asteroids_Upgrade_Add_Level(unsigned int id)
 	}
 }
 
-void Asteroids_Upgrades_Save_To_File(Upgrade upgrade)
+void Asteroids_Upgrades_Save_All_To_File(void)
 {
-	FILE* upgradesFile = Asteroids_Open_File("./Assets/upgrades.data", "w");
+	FILE* upgradesFile = Asteroids_Open_File("./Assets/upgrades.data", "r+");
 	if (upgradesFile)
 	{
-		fprintf_s(upgradesFile, "%u,%u", upgrade.id, upgrade.level);
+		for (int i = 0; i < NUM_UPGRADES; i++)
+		{
+			Upgrade upgrade;
+			upgrade.id = NONE;
+			upgrade.cost = 0;
+			upgrade.level = 0;
+			upgrade.name = "NONE";
+
+			int read = fscanf_s(upgradesFile, "%u,%d,%u", &upgrade.id, &upgrade.cost, &upgrade.level);
+			int filePos = ftell(upgradesFile);
+
+			upgrade = Asteroids_Upgrades_Get_Upgrade(upgrade.id);
+			if (upgrade.id == NONE)
+				continue;
+
+			printf("Read %d values from file %s.", read, "./Assets/upgrades.data");
+			fseek(upgradesFile, -(ftell(upgradesFile) - filePos), SEEK_CUR);
+			fprintf_s(upgradesFile, "\n%u,%d,%u", upgrade.id, upgrade.cost, upgrade.level);
+		}
 		Asteroids_Close_File(upgradesFile);
 	}
 }
@@ -124,7 +142,7 @@ void Asteroids_Upgrades_Read_From_File(void)
 			upgrade.name = "NONE";
 
 			int read = fscanf_s(upgradesFile, "%u,%d,%u", &upgrade.id, &upgrade.cost, &upgrade.level);
-			if (read <= 0)
+			if (read != 3)
 				continue;
 			printf("Read %d values from file %s.", read, "./Assets/upgrades.data");
 

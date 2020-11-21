@@ -90,6 +90,6 @@ void Asteroids_Upgrades_Menu_Upgrade_Add_Level(void* upgradePtr)
 	{
 		Asteroids_Upgrade_Add_Level(menuItem->upgrade.id);
 		Asteroids_Upgrades_Menu_Update_Upgrade_Info(menuItem);
-		Asteroids_Upgrades_Save_To_File(menuItem->upgrade);
+		Asteroids_Upgrades_Save_All_To_File();
 	}
 }
