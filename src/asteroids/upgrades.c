@@ -20,23 +20,22 @@ void Asteroids_Upgrades_Init(void)
 	}
 
 	Asteroids_Upgrades_Read_From_File();
+	Asteroids_Upgrades_Create_Upgrade(FUEL_CAPACITY, ASTEROIDS_UPGRADES_FUEL_UPGRADE_COST, "Fuel Capacity");
+	Asteroids_Upgrades_Create_Upgrade(MAX_HEALTH, ASTEROIDS_UPGRADES_MAX_HEALTH_UPGRADE_COST, "Max Health");
+	Asteroids_Upgrades_Create_Upgrade(BULLET_DMG, ASTEROIDS_UPGRADES_BULLET_DAMAGE_UPGRADE_COST, "Bullet Damage");
+}
 
-	Upgrade upgrade_FuelCapacity = Asteroids_Upgrades_Get_Upgrade(FUEL_CAPACITY);
-	if (upgrade_FuelCapacity.id == NONE)
+void Asteroids_Upgrades_Create_Upgrade(unsigned int id, int cost, const char* name)
+{
+	Upgrade upgrade = Asteroids_Upgrades_Get_Upgrade(id);
+	if (upgrade.id == NONE)
 	{
-		upgrade_FuelCapacity = Asteroids_Upgrades_Create_Upgrade(FUEL_CAPACITY, ASTEROIDS_UPGRADES_FUEL_UPGRADE_COST, "Fuel Capacity");
-		Asteroids_Upgrades_Add_Upgrade(upgrade_FuelCapacity);
-	}
-
-	Upgrade upgrade_MaxHealth = Asteroids_Upgrades_Get_Upgrade(MAX_HEALTH);
-	if (upgrade_MaxHealth.id == NONE)
-	{
-		upgrade_MaxHealth = Asteroids_Upgrades_Create_Upgrade(MAX_HEALTH, ASTEROIDS_UPGRADES_FUEL_UPGRADE_COST, "Max Health");
-		Asteroids_Upgrades_Add_Upgrade(upgrade_MaxHealth);
+		upgrade = Asteroids_Upgrades_Initialize_Upgrade(id, cost, name);
+		Asteroids_Upgrades_Add_Upgrade(upgrade);
 	}
 }
 
-Upgrade Asteroids_Upgrades_Create_Upgrade(unsigned int id, int cost, const char* name)
+Upgrade Asteroids_Upgrades_Initialize_Upgrade(unsigned int id, int cost, const char* name)
 {
 	Upgrade upgrade;
 	upgrade.id = id;
