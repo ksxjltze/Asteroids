@@ -26,6 +26,10 @@ struct Player Asteroids_Player_Init(float player_width, float player_height)
 	player.engine.fuel.current = player.engine.fuel.max;
 	player.engine.drain_rate = DRAIN_RATE;
 
+	player.weapon.id = 0;
+	player.weapon.damage = 0;
+	player.weapon.fire_rate = 0;
+
 	player.status.hit = 0;
 	player.status.hit_cooldown = 0;
 
@@ -91,6 +95,7 @@ void Asteroids_Player_Apply_Upgrades(Player* player)
 {
 	Upgrade fuelCapacity = Asteroids_Upgrades_Get_Upgrade(FUEL_CAPACITY);
 	Upgrade maxHealth = Asteroids_Upgrades_Get_Upgrade(MAX_HEALTH);
+	Upgrade bulletDmg = Asteroids_Upgrades_Get_Upgrade(BULLET_DMG);
 	
 	if (fuelCapacity.id != NONE)
 	{
@@ -115,6 +120,18 @@ void Asteroids_Player_Apply_Upgrades(Player* player)
 		{
 			printf("Upgrade: Max Health increased by %f.\n", upgrade);
 			printf("Max Health: %f\n", player->hp.max);
+		}
+	}
+
+	if (bulletDmg.id != NONE)
+	{
+		float upgrade = ASTEROIDS_UPGRADES_BULLET_DAMAGE_UPGRADE_AMOUNT * bulletDmg.level;
+		player->weapon.damage += upgrade;
+
+		if (bulletDmg.level > 0)
+		{
+			printf("Upgrade: Bullet Damage increased by %f.\n", upgrade);
+			printf("Bullet Damage: %f\n", player->weapon.damage);
 		}
 	}
 }
