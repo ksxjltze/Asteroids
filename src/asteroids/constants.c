@@ -14,6 +14,8 @@ const float BULLET_DAMAGE = 1;
 const float ASTEROID_MIN_SPEED = 50.0f;
 const float ASTEROID_MAX_SPEED = 200.0f; //pixels per second
 
+const int ASTEROIDS_ENEMY_CURRENCY_DROP_AMOUNT = 2;
+
 const float ASTEROIDS_ENEMY_SIZE_MIN = 1.0f;
 const float ASTEROIDS_ENEMY_SIZE_MAX = 6.0f;
 const int ASTEROIDS_ENEMY_BASE_DIAMETER = 32;

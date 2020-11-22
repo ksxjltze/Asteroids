@@ -17,6 +17,9 @@ extern const float ASTEROIDS_ENEMY_BASE_MAX_HP;
 
 extern const float ASTEROID_MAX_SPEED; //pixels per second
 extern const float ASTEROID_MIN_SPEED; //pixels per second
+
+extern const int ASTEROIDS_ENEMY_CURRENCY_DROP_AMOUNT;
+
 extern const int ASTEROIDS_PLAYER_SIMPLE_SPEED;
 
 extern const float ASTEROIDS_ENEMY_SIZE_MIN;

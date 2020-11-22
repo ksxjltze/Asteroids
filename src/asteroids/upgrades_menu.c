@@ -5,19 +5,31 @@
 #include "currency.h"
 #include "file_manager.h"
 
-UpgradeMenuItem menuItem_FuelCapacity;
-UpgradeMenuItem menuItem_MaxHealth;
-UpgradeMenuItem menuItem_BulletDamage;
+UpgradeMenuItem menuItems[NUM_UPGRADES];
 
 void Asteroids_Upgrades_Menu_Init(void)
 {
+	Asteroids_Upgrades_Menu_Init_MenuItems();
+
 	CP_Vector pos1 = CP_Vector_Set(WIN_WIDTH * 0.1f, WIN_HEIGHT * 0.25f);
 	CP_Vector pos2 = CP_Vector_Set(WIN_WIDTH * 0.25f, WIN_HEIGHT * 0.25f);
 	CP_Vector pos3 = CP_Vector_Set(WIN_WIDTH * 0.40f, WIN_HEIGHT * 0.25f);
 
-	menuItem_FuelCapacity = Asteroids_Upgrades_Menu_Init_Upgrade_Info(Asteroids_Upgrades_Get_Upgrade(FUEL_CAPACITY), pos1, &Asteroids_Upgrades_Menu_Upgrade_Add_Level);
-	menuItem_MaxHealth = Asteroids_Upgrades_Menu_Init_Upgrade_Info(Asteroids_Upgrades_Get_Upgrade(MAX_HEALTH), pos2, &Asteroids_Upgrades_Menu_Upgrade_Add_Level);
-	menuItem_BulletDamage = Asteroids_Upgrades_Menu_Init_Upgrade_Info(Asteroids_Upgrades_Get_Upgrade(BULLET_DMG), pos3, &Asteroids_Upgrades_Menu_Upgrade_Add_Level);
+	Asteroids_Upgrades_Menu_Create_MenuItem(FUEL_CAPACITY, pos1, &Asteroids_Upgrades_Menu_Upgrade_Add_Level);
+	Asteroids_Upgrades_Menu_Create_MenuItem(MAX_HEALTH, pos2, &Asteroids_Upgrades_Menu_Upgrade_Add_Level);
+	Asteroids_Upgrades_Menu_Create_MenuItem(BULLET_DMG, pos3, &Asteroids_Upgrades_Menu_Upgrade_Add_Level);
+}
+
+void Asteroids_Upgrades_Menu_Update(void)
+{
+	Asteroids_Upgrades_Menu_Draw();
+	Asteroids_Upgrades_Menu_Display_Items();
+}
+
+void Asteroids_Upgrades_Menu_Draw(void)
+{
+	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
+	Asteroids_Upgrades_Menu_Display_Balance();
 }
 
 void Asteroids_Upgrades_Menu_Display_Balance(void)
@@ -29,18 +41,42 @@ void Asteroids_Upgrades_Menu_Display_Balance(void)
 	CP_Font_DrawText(balanceText, 100, 30);
 }
 
-void Asteroids_Upgrades_Menu_Update(void)
+void Asteroids_Upgrades_Menu_Init_MenuItems()
 {
-	Asteroids_Upgrades_Menu_Draw();
-	Asteroids_Upgrades_Menu_Display_Upgrade_Info(&menuItem_FuelCapacity);
-	Asteroids_Upgrades_Menu_Display_Upgrade_Info(&menuItem_MaxHealth);
-	Asteroids_Upgrades_Menu_Display_Upgrade_Info(&menuItem_BulletDamage);
+	for (int i = 0; i < NUM_UPGRADES; i++)
+	{
+		Upgrade upgrade = Asteroids_Upgrades_Initialize_Upgrade(NONE, 0, "NONE");
+		menuItems[i].upgrade = upgrade;
+	}
 }
 
-void Asteroids_Upgrades_Menu_Draw(void)
+void Asteroids_Upgrades_Menu_Create_MenuItem(unsigned int id, CP_Vector pos, void(*callback)(void* ptr))
 {
-	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
-	Asteroids_Upgrades_Menu_Display_Balance();
+	UpgradeMenuItem item = Asteroids_Upgrades_Menu_Init_Upgrade_Info(Asteroids_Upgrades_Get_Upgrade(id), pos, callback);
+	Asteroids_Upgrades_Menu_Add_MenuItem(item);
+}
+
+void Asteroids_Upgrades_Menu_Add_MenuItem(UpgradeMenuItem item)
+{
+	for (int i = 0; i < NUM_UPGRADES; i++)
+	{
+		if (menuItems[i].upgrade.id == NONE)
+		{
+			menuItems[i] = item;
+			break;
+		}
+	}
+}
+
+void Asteroids_Upgrades_Menu_Display_Items()
+{
+	for (int i = 0; i < NUM_UPGRADES; i++)
+	{
+		if (menuItems[i].upgrade.id != NONE)
+		{
+			Asteroids_Upgrades_Menu_Display_Upgrade_Info(menuItems + i);
+		}
+	}
 }
 
 UpgradeMenuItem Asteroids_Upgrades_Menu_Init_Upgrade_Info(Upgrade upgrade, CP_Vector pos, void(*callback)(void* ptr))

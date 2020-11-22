@@ -1,5 +1,6 @@
 #pragma once
 
+#define NUM_UPGRADES 10
 enum UpgradeType {NONE, FUEL_CAPACITY, MAX_HEALTH, BULLET_DMG};
 
 typedef struct Upgrade

@@ -3,7 +3,6 @@
 #include "constants.h"
 #include "file_manager.h"
 
-#define NUM_UPGRADES 10
 Upgrade upgrades[NUM_UPGRADES];
 
 void Asteroids_Upgrades_Init(void)
@@ -166,6 +165,8 @@ void Asteroids_Upgrades_Set_Upgrade_Name(Upgrade* upgrade)
 	case MAX_HEALTH:
 		upgrade->name = "Max Health";
 		break;
+	case BULLET_DMG:
+		upgrade->name = "Bullet Damage";
 	default:
 		break;
 	}
