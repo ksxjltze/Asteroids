@@ -4,7 +4,7 @@
 
 extern bool invulnerable;
 
-Bullet Asteroids_Collision_CheckCollision_Enemy_Bullet(Enemy enemy_pool[], int enemy_count, Bullet bullet)
+Bullet Asteroids_Collision_CheckCollision_Enemy_Bullet(Enemy enemy_pool[], int enemy_count, Bullet bullet, Player player)
 {
 	for (int j = 0; j < enemy_count; j++)
 	{
@@ -18,7 +18,7 @@ Bullet Asteroids_Collision_CheckCollision_Enemy_Bullet(Enemy enemy_pool[], int e
 			bullet.pos = CP_Vector_Set(-1, -1);
 			bullet.velocity = CP_Vector_Set(0, 0);
 
-			Asteroids_Enemy_Hit(enemy, BULLET_DAMAGE);
+			Asteroids_Enemy_Hit(enemy, player.weapon.damage);
 
 			return bullet;
 		}

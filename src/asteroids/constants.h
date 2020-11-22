@@ -10,9 +10,9 @@ extern const float SPEED;
 extern const float ASTEROIDS_PLAYER_SLOWED_SPEED;
 
 extern const int BULLET_SPEED;
-extern const float FIRE_RATE; //bullets per minute
+extern const float ASTEROIDS_WEAPON_RAILGUN_FIRE_RATE; //bullets per minute
 extern const float HURT_WINDOW; //seconds
-extern const float BULLET_DAMAGE;
+extern const float ASTEROIDS_WEAPON_RAILGUN_DAMAGE;
 extern const float ASTEROIDS_ENEMY_BASE_MAX_HP;
 
 extern const float ASTEROID_MAX_SPEED; //pixels per second

@@ -26,9 +26,9 @@ struct Player Asteroids_Player_Init(float player_width, float player_height)
 	player.engine.fuel.current = player.engine.fuel.max;
 	player.engine.drain_rate = DRAIN_RATE;
 
-	player.weapon.id = 0;
-	player.weapon.damage = 0;
-	player.weapon.fire_rate = 0;
+	player.weapon.id = RAILGUN;
+	player.weapon.damage = ASTEROIDS_WEAPON_RAILGUN_DAMAGE;
+	player.weapon.fire_rate = ASTEROIDS_WEAPON_RAILGUN_FIRE_RATE;
 
 	player.status.hit = 0;
 	player.status.hit_cooldown = 0;

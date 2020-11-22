@@ -1,5 +1,7 @@
 #pragma once
 
+enum WeaponType {RAILGUN};
+
 typedef struct Weapons
 {
 	int id;

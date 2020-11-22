@@ -27,7 +27,7 @@ void Asteroids_Bullet_Init(Bullet bullets[], int count, float bullet_width, floa
 	}
 }
 
-void Asteroids_Bullet_Update(Bullet arr_bullet[], int bullet_count, Enemy enemy_pool[], int enemy_count)
+void Asteroids_Bullet_Update(Bullet arr_bullet[], int bullet_count, Enemy enemy_pool[], int enemy_count, Player player)
 {
 	//bullet
 	for (int i = 0; i < bullet_count; i++)
@@ -46,7 +46,7 @@ void Asteroids_Bullet_Update(Bullet arr_bullet[], int bullet_count, Enemy enemy_
 				continue;
 			}
 
-			bullet = Asteroids_Collision_CheckCollision_Enemy_Bullet(enemy_pool, enemy_count, bullet);
+			bullet = Asteroids_Collision_CheckCollision_Enemy_Bullet(enemy_pool, enemy_count, bullet, player);
 
 			bullet.pos = CP_Vector_Add(bullet.pos, CP_Vector_Scale(bullet.velocity, CP_System_GetDt()));
 			arr_bullet[i] = bullet;
