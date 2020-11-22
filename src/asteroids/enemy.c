@@ -381,8 +381,8 @@ void Asteroids_Enemy_Spawn_Child(Enemy enemy_pool[], int pool_count, Enemy paren
 			enemy.parent_id = parent.id;
 			enemy.pos = parent.pos;
 			enemy.speed = parent.speed * count;
-			enemy.size = parent.size / count;
-			enemy.collider.diameter = parent.collider.diameter / count;
+			enemy.size = parent.size / (count / ASTEROIDS_ENEMY_SPLIT_SIZE_SCALE_FACTOR);
+			enemy.collider.diameter = parent.collider.diameter / (count / ASTEROIDS_ENEMY_SPLIT_SIZE_SCALE_FACTOR);
 			enemy.rotate_rate = Asteroids_Enemy_Random_Rotation();
 			enemy.velocity = CP_Vector_Add(parent.velocity, CP_Vector_Set(CP_Random_RangeFloat(-100, 100), CP_Random_RangeFloat(-100, 100)));
 			enemy.hp.max = enemy.size * ASTEROIDS_ENEMY_BASE_MAX_HP;
