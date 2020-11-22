@@ -2,12 +2,14 @@
 #include <stdio.h>
 #include "file_manager.h"
 
-static int currentCredits;
+static int currentCredits = 0;
 
 void Asteroids_Currency_Init(void)
 {
-	if (!Asteroids_Currency_Get_From_File())
-		currentCredits = 0;
+	if (currentCredits == 0)
+		Asteroids_Currency_Get_From_File();
+	else
+		Asteroids_Currency_Write_To_File();
 	printf("Credits: %d\n", currentCredits);
 }
 

@@ -126,7 +126,7 @@ void Asteroids_Upgrades_Menu_Update_Upgrade_Info(UpgradeMenuItem* menuItem)
 void Asteroids_Upgrades_Menu_Upgrade_Add_Level(void* upgradePtr)
 {
 	UpgradeMenuItem* menuItem = (UpgradeMenuItem*)upgradePtr;
-	if (Asteroids_Currency_Deduct_Balance(ASTEROIDS_UPGRADES_FUEL_UPGRADE_COST))
+	if (Asteroids_Currency_Deduct_Balance(menuItem->upgrade.cost))
 	{
 		Asteroids_Upgrade_Add_Level(menuItem->upgrade.id);
 		Asteroids_Upgrades_Menu_Update_Upgrade_Info(menuItem);
