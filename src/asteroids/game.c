@@ -17,6 +17,7 @@
 #include "Obstacle.h"
 #include "Boss.h"
 #include "skin_menu.h"
+#include "final_boss.h"
 
 float shoot_cooldown = 0.0f;
 
@@ -64,6 +65,7 @@ void Asteroids_Init(void)
 	Asteroids_Powerup_Player_Interaction_Init();
 	Asteroids_Obstacles_Init();
 	Asteroids_Boss_Init(enemy_sprites, enemy_hurt_sprites, enemy_width, enemy_height, &player);
+	Asteroids_Final_Boss_Init();
 
 }
 
@@ -99,6 +101,7 @@ void Asteroids_Update(void)
 		}
 
 		Asteroids_Obstacles_Update(enemy_pool, &player, enemy_count);
+		Asteroids_Final_Boss_Update(&player, enemy_pool, enemy_count, bullet_pool);
 		Asteroids_Draw();
 		Asteroids_Boss_Update(&player, enemy_pool, enemy_count, bullet_pool);
 		Asteroids_Update_Powerups(&player);
@@ -167,6 +170,7 @@ void Asteroids_Sprites_Load()
 
 	enemy_sprites[0] = CP_Image_Load("./Assets/asteroids_cropped.png");
 	enemy_sprites[1] = CP_Image_Load("./Assets/asteroids_small.png");
+	enemy_sprites[2] = CP_Image_Load("./Assets/Largeasteroids.png");
 
 	for (int i = 0; i < ASTEROIDS_ENEMY_SPRITE_COUNT; i++)
 	{

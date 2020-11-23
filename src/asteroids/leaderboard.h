@@ -5,21 +5,30 @@
 #include <stdbool.h>
 #include "player.h"
 #include "main_menu.h"
+#include "constants.h"
 #include "button.h"
+#include "file_manager.h"
+#include "score.h"
 
-struct LeaderBoard
+#define MAX_LEADER 5
+#define MAX_INPUT_LEN 20
+
+struct Leaderboards
 {
 	CP_Color text_color;
+	CP_Vector pos;
+	float textsize;
 	const char* text;
-	float x, y;
-}Leaderboard_Variables;
+	float player_score;
+	char player_name[MAX_INPUT_LEN + 1];
 
+}Leaderboard;
 
-typedef struct Leaders
+typedef struct Leader
 {
-	char name[21];
-	int score;
-} Leader;
+	char name[MAX_INPUT_LEN + 1];
+	float score;
+}Leaders;
 
 struct Counters
 {
@@ -27,18 +36,30 @@ struct Counters
 	int name_length;
 }counter;
 
-void Init_LeaderBoard(void);
-void Update_LeaderBoard(void);
-void Exit_LeaderBoard(void);
+//struct LeaderBoard
+//{
+//	CP_Color text_color;
+//	const char* text;
+//	float x, y;
+//}Leaderboard_Variables;
 
-void Read_Leaderboard_Data(void);
-void Write_Leaderboard_Data(void);
-void Check_If_Leader(void);
-void LeaderBoard_ReadInput();
-void Draw_LeaderBoard(void);
-void Load_Main_Menu(void);
-void Draw_LeaderBoard(void);
+//
+//typedef struct Leaders
+//{
+//	char name[21];
+//	int score;
+//} Leader;
+//
 
-void LeaderBoard_Display_PlayerName();
-void Sort_Data(int LeaderBoard_Scores[], int n);
-void Player_Is_Leader(void);
+void Asteroids_Init_LeaderBoard(void);
+void Asteroids_Update_LeaderBoard(void);
+void Asteroids_Read_LeaderBoard_Data(void);
+
+bool Asteroids_Check_If_Leader(void);
+void Asteroids_Write_LeaderBoard_Data(void);
+int Asteroids_Compare_LeaderScore(const void* first, const void* second);
+void Asteroids_LeaderBoard_ReadInput(void);
+
+void Asteroids_LeaderBoard_Draw(void);
+
+void Asteroids_LeaderBoard_Display_PlayerName(void);
