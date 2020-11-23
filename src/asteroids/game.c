@@ -60,7 +60,7 @@ void Asteroids_Init(void)
 
 	particle_init();
 	explosion_init();
-	//smoke_init();
+	smoke_init();
 
 	Asteroids_Init_Powerups();
 	Asteroids_Init_Score();

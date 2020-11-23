@@ -82,7 +82,7 @@ void smoke_init()
 		smoke.dimensions[i].y = (float)CP_Image_GetHeight(smoke.image[i]);
 	}
 
-	smoke.delay = 0.5f;
+	smoke.delay = 0.1f;
 	smoke.smoke_sprite = Asteroids_Sprite_Create(smoke.image, smoke.dimensions, smoke.image_count, smoke.delay * smoke.image_count, 0);
 }
 
@@ -102,7 +102,7 @@ void draw_particle()
 }
 
 //Generate particle velocity and set lifetime.
-void Spawn_Particle(CP_Vector position, int particles, float min_velocity, float max_velocity, float size, Sprite sprite)
+void Spawn_Particle(CP_Vector position, int particles, float min_velocity, float max_velocity, float size, Sprite sprite, bool loop)
 {
 	CP_Vector velocity;
 	for (int i = 0; i < sizeof(particle) / sizeof(particle[0]); i++)
@@ -122,6 +122,7 @@ void Spawn_Particle(CP_Vector position, int particles, float min_velocity, float
 			particle[i].life = particle[i].sprite.duration;
 			particle[i].lifetime = particle[i].life;
 			particle[i].size = size;
+			particle[i].loop = loop;
 			--particles;
 		}
 	}
@@ -132,15 +133,15 @@ void spawn_explosion_anim(CP_Vector position, float size)
 	int particles = 1;
 	float min_velocity = 0;
 	float max_velocity = 0;
-	Spawn_Particle(position, particles, min_velocity, max_velocity, size, explosion.explosion_sprite);
+	Spawn_Particle(position, particles, min_velocity, max_velocity, size, explosion.explosion_sprite, false);
 }
 
-void spawn_smoke_trail_anim(CP_Vector position, float size) //
+void spawn_smoke_trail_anim(CP_Vector position, float size)
 {
 	int particles = 1;
 	float min_velocity = 0;
 	float max_velocity = 0;
-	Spawn_Particle(position, particles, min_velocity, max_velocity, size, explosion.explosion_sprite);
+	Spawn_Particle(position, particles, min_velocity, max_velocity, size, smoke.smoke_sprite, true);
 }
 
 void particle_update()

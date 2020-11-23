@@ -4,10 +4,10 @@
 #include "utility.h"
 #include "game.h"
 #include "upgrades.h"
+#include "particle.h"
 
 struct Player Asteroids_Player_Init(float player_width, float player_height)
 {
-	
 	struct Player player;
 	strcpy_s(player.name, 10, "Asteroids");
 
@@ -50,7 +50,7 @@ void Asteroids_Player_Update(Player* player)
 			player->status.hit_cooldown = HURT_WINDOW;
 		}
 	}
-
+	spawn_smoke_trail_anim(player->pos, 0.3f);
 	Asteroids_Player_Update_Movement(player, CP_System_GetDt());
 
 	if (player->hp.current <= 0)
@@ -257,6 +257,7 @@ void Asteroids_Player_Update_Movement(Player* player, float dt)
 {
 	CP_Vector movement = CP_Vector_Scale(player->velocity, dt);
 	player->pos = CP_Vector_Add(player->pos, movement);
+	
 
 	if (!Asteroids_Utility_isInWindow(player->pos))
 	{
