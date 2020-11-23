@@ -34,8 +34,9 @@ void Asteroids_Enemy_Death(Enemy* enemy);
 void Asteroids_Enemy_Debug(Enemy enemy_pool[], int count);
 
 void Asteroids_Enemy_Init_Spawn(Enemy enemy_pool[], int count, Player player);
+void Asteroids_Enemy_Spawn(Enemy enemy_pool[], int count, CP_Vector pos);
 void Asteroids_Enemy_Spawn_Static(Enemy enemy_pool[], int count, Player player);
-void Asteroids_Enemy_Spawn(Enemy enemy_pool[], int count);
+void Asteroids_Enemy_Spawn_Random(Enemy enemy_pool[], int count);
 void Asteroids_Enemy_Spawn_Timer(Enemy enemy_pool[], int count);
 void Asteroids_Enemy_Spawn_Set_Interval(float interval);
 void Asteroids_Enemy_Spawn_Decrease_Interval(float amount);

@@ -299,7 +299,7 @@ void Asteroids_Debug_Check_Input()
 {
 	if (CP_Input_KeyTriggered(KEY_SPACE))
 	{
-		Asteroids_Enemy_Spawn(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES);
+		Asteroids_Enemy_Spawn_Random(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES);
 	}
 
 	if (CP_Input_KeyTriggered(KEY_MINUS))
