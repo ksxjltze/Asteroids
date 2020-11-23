@@ -6,7 +6,7 @@ extern int WIN_HEIGHT;
 extern const float SPLASH_DURATION;
 
 extern const float MAX_VELOCITY; //pixels per second
-extern const float SPEED;
+extern const float ASTEROIDS_PLAYER_BASE_MOVE_SPEED;
 extern const float ASTEROIDS_PLAYER_SLOWED_SPEED;
 
 extern const int BULLET_SPEED;
@@ -76,6 +76,8 @@ extern const float ASTEROIDS_UPGRADES_MAX_HEALTH_UPGRADE_AMOUNT;
 extern const int ASTEROIDS_UPGRADES_MAX_HEALTH_UPGRADE_COST;
 extern const float ASTEROIDS_UPGRADES_BULLET_DAMAGE_UPGRADE_AMOUNT;
 extern const int ASTEROIDS_UPGRADES_BULLET_DAMAGE_UPGRADE_COST;
+extern const float ASTEROIDS_UPGRADES_MOVEMENT_SPEED_UPGRADE_AMOUNT;
+extern const int ASTEROIDS_UPGRADES_MOVEMENT_SPEED_UPGRADE_COST;
 
 extern const CP_KEY ASTEROIDS_PAUSE_KEY;
 

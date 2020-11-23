@@ -15,7 +15,7 @@ struct Player Asteroids_Player_Init(float player_width, float player_height)
 
 	player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
 	player.velocity = CP_Vector_Zero();
-	player.speed = (float) SPEED;
+	player.speed = (float) ASTEROIDS_PLAYER_BASE_MOVE_SPEED;
 
 	player.collider.diameter = (player_width + player_height) / 2;
 
@@ -96,6 +96,7 @@ void Asteroids_Player_Apply_Upgrades(Player* player)
 	Upgrade fuelCapacity = Asteroids_Upgrades_Get_Upgrade(FUEL_CAPACITY);
 	Upgrade maxHealth = Asteroids_Upgrades_Get_Upgrade(MAX_HEALTH);
 	Upgrade bulletDmg = Asteroids_Upgrades_Get_Upgrade(BULLET_DMG);
+	Upgrade moveSpeed = Asteroids_Upgrades_Get_Upgrade(MOVE_SPEED);
 	
 	if (fuelCapacity.id != NONE)
 	{
@@ -134,6 +135,19 @@ void Asteroids_Player_Apply_Upgrades(Player* player)
 			printf("Bullet Damage: %f\n", player->weapon.damage);
 		}
 	}
+
+	if (moveSpeed.id != NONE)
+	{
+		float upgrade = ASTEROIDS_UPGRADES_MOVEMENT_SPEED_UPGRADE_AMOUNT * moveSpeed.level;
+		player->speed += upgrade;
+
+		if (moveSpeed.level > 0)
+		{
+			printf("Upgrade: Speed increased by %f.\n", upgrade);
+			printf("Speed: %f\n", player->speed);
+		}
+	}
+
 }
 
 void Asteroids_Player_Drain_Fuel(Player* player)
@@ -158,7 +172,7 @@ void Asteroids_Player_Simple_Movement(Player* player)
 {
 	CP_Vector oldPos = player->pos;
 	bool isMoving = false;
-	float speed = (float)ASTEROIDS_PLAYER_SIMPLE_SPEED;
+	float speed = player->speed;
 	float dt = CP_System_GetDt();
 
 	if (player->engine.fuel.current <= 0)
