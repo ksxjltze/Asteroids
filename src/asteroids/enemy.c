@@ -10,8 +10,6 @@
 #include "collision_manager.h"
 #include "currency.h"
 
-#define SPRITE_COUNT 2
-
 static float spawn_timer;
 static float spawn_interval;
 void Asteroids_Enemy_Init(Enemy enemy_pool[], int count, float enemy_width, float enemy_height, Player player)
@@ -200,7 +198,7 @@ void Asteroids_Enemy_Spawn_Static(Enemy enemy_pool[], int count, Player player)
 			enemy.collider.diameter = ASTEROIDS_ENEMY_BASE_DIAMETER * enemy.size;
 			enemy.velocity = CP_Vector_Zero();
 
-			enemy.sprite_type = CP_Random_RangeInt(0, SPRITE_COUNT - 1);
+			enemy.sprite_type = CP_Random_RangeInt(0, ASTEROIDS_ENEMY_SPRITE_COUNT - 1);
 
 			for (int j = 0; j < i; j++)
 			{
@@ -242,7 +240,7 @@ void Asteroids_Enemy_Spawn(Enemy enemy_pool[], int count, CP_Vector pos)
 			enemy.collider.enabled = false;
 			enemy.hp.max = enemy.size * ASTEROIDS_ENEMY_BASE_MAX_HP;
 			enemy.hp.current = enemy.hp.max;
-			enemy.sprite_type = CP_Random_RangeInt(0, SPRITE_COUNT - 1);
+			enemy.sprite_type = CP_Random_RangeInt(0, ASTEROIDS_ENEMY_SPRITE_COUNT - 1);
 
 			enemy_pool[i] = enemy;
 			return;
@@ -266,7 +264,7 @@ void Asteroids_Enemy_Spawn_Random(Enemy enemy_pool[], int count)
 			enemy.collider.diameter = ASTEROIDS_ENEMY_BASE_DIAMETER * enemy.size;
 			enemy.hp.max = enemy.size * ASTEROIDS_ENEMY_BASE_MAX_HP;
 			enemy.hp.current = enemy.hp.max;
-			enemy.sprite_type = CP_Random_RangeInt(0, SPRITE_COUNT - 1);
+			enemy.sprite_type = CP_Random_RangeInt(0, ASTEROIDS_ENEMY_SPRITE_COUNT - 1);
 
 			enemy_pool[i] = enemy;
 			return;

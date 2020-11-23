@@ -18,9 +18,6 @@
 #include "Boss.h"
 #include "skin_menu.h"
 
-#define ASTEROIDS_POOLSIZE_BULLETS 999
-#define ASTEROIDS_POOLSIZE_ENEMIES 200
-
 float shoot_cooldown = 0.0f;
 
 CP_Image player_sprite;
