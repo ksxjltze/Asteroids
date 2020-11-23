@@ -20,7 +20,7 @@ bool collide;
 bool boss_killed;
 
 #define ASTEROIDS_POOLSIZE_BULLETS 999
-#define ASTEROIDS_POOLSIZE_ENEMIES 100
+#define ASTEROIDS_POOLSIZE_ENEMIES 200
 #define Boss_Scale_Factor 18
 
 void Asteroids_Boss_Init(CP_Image EnemySprite[], CP_Image EnemyHurtSprite[], float enemy_width, float enemy_height, Player* player)
