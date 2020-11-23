@@ -223,32 +223,7 @@ void Asteroids_Enemy_Spawn_Static(Enemy enemy_pool[], int count, Player player)
 	}
 }
 
-void Asteroids_Enemy_Spawn(Enemy enemy_pool[], int count, CP_Vector pos)
-{
-	for (int i = 0; i < count; i++)
-	{
-		Enemy enemy = enemy_pool[i];
-		if (!enemy.active)
-		{
-			enemy.active = 1;
-			enemy.pos = CP_Vector_Zero();
-			enemy.speed = 0;
-			enemy.velocity = CP_Vector_Zero();
-			enemy.rotate_rate = 0.0f;
-			enemy.size = CP_Random_RangeFloat(ASTEROIDS_ENEMY_SIZE_MIN, ASTEROIDS_ENEMY_SIZE_MAX);
-			enemy.collider.diameter = ASTEROIDS_ENEMY_BASE_DIAMETER * enemy.size;
-			enemy.collider.enabled = false;
-			enemy.hp.max = enemy.size * ASTEROIDS_ENEMY_BASE_MAX_HP;
-			enemy.hp.current = enemy.hp.max;
-			enemy.sprite_type = CP_Random_RangeInt(0, 1);
-
-			enemy_pool[i] = enemy;
-			return;
-		}
-	}
-}
-
-void Asteroids_Enemy_Spawn_Random(Enemy enemy_pool[], int count)
+void Asteroids_Enemy_Spawn(Enemy enemy_pool[], int count)
 {
 	for (int i = 0; i < count; i++)
 	{
@@ -300,7 +275,7 @@ void Asteroids_Enemy_Spawn_Timer(Enemy enemy_pool[], int count)
 	if (spawn_timer <= 0)
 	{
 		spawn_timer = spawn_interval;
-		Asteroids_Enemy_Spawn_Random(enemy_pool, count);
+		Asteroids_Enemy_Spawn(enemy_pool, count);
 	}
 
 }
