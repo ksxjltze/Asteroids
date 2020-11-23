@@ -12,8 +12,10 @@
 
 static float spawn_timer;
 static float spawn_interval;
+static bool enemy_spawn;
 void Asteroids_Enemy_Init(Enemy enemy_pool[], int count, float enemy_width, float enemy_height, Player player)
 {
+	enemy_spawn = true;
 	for (int i = 0; i < count; i++)
 	{
 		Enemy enemy = enemy_pool[i];
@@ -223,7 +225,7 @@ void Asteroids_Enemy_Spawn_Static(Enemy enemy_pool[], int count, Player player)
 	}
 }
 
-void Asteroids_Enemy_Spawn(Enemy enemy_pool[], int count, CP_Vector pos)
+Enemy* Asteroids_Enemy_Spawn(Enemy enemy_pool[], int count, CP_Vector pos)
 {
 	for (int i = 0; i < count; i++)
 	{
@@ -231,11 +233,11 @@ void Asteroids_Enemy_Spawn(Enemy enemy_pool[], int count, CP_Vector pos)
 		if (!enemy.active)
 		{
 			enemy.active = 1;
-			enemy.pos = CP_Vector_Zero();
+			enemy.pos = pos;
 			enemy.speed = 0;
 			enemy.velocity = CP_Vector_Zero();
 			enemy.rotate_rate = 0.0f;
-			enemy.size = CP_Random_RangeFloat(ASTEROIDS_ENEMY_SIZE_MIN, ASTEROIDS_ENEMY_SIZE_MAX);
+			enemy.size = 2;
 			enemy.collider.diameter = ASTEROIDS_ENEMY_BASE_DIAMETER * enemy.size;
 			enemy.collider.enabled = false;
 			enemy.hp.max = enemy.size * ASTEROIDS_ENEMY_BASE_MAX_HP;
@@ -243,9 +245,10 @@ void Asteroids_Enemy_Spawn(Enemy enemy_pool[], int count, CP_Vector pos)
 			enemy.sprite_type = CP_Random_RangeInt(0, 1);
 
 			enemy_pool[i] = enemy;
-			return;
+			return &enemy_pool[i];
 		}
 	}
+	return NULL;
 }
 
 void Asteroids_Enemy_Spawn_Random(Enemy enemy_pool[], int count)
@@ -294,6 +297,9 @@ void Asteroids_Enemy_Spawn_Scale_Interval(DIFFICULTY difficulty)
 
 void Asteroids_Enemy_Spawn_Timer(Enemy enemy_pool[], int count)
 {
+	if (!enemy_spawn)
+		return;
+
 	float dt = CP_System_GetDt();
 	spawn_timer -= dt;
 
@@ -423,4 +429,9 @@ void Asteroids_Enemy_Spawn_Child(Enemy enemy_pool[], int pool_count, Enemy paren
 float Asteroids_Enemy_Random_Rotation()
 {
 	return CP_Random_RangeFloat(ASTEROIDS_ENEMY_IDLE_ROTATE_RATE_MIN, ASTEROIDS_ENEMY_IDLE_ROTATE_RATE_MAX);
+}
+
+void Asteroids_Enemy_Disable_Spawn(void)
+{
+	enemy_spawn = false;
 }

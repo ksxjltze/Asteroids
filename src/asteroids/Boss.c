@@ -6,18 +6,18 @@ Enemy Boss;
 
 CP_Image Boss_Sprite[2];
 CP_Image Boss_HurtSprite[2];
-float boss_width;
-float boss_height;
+static float boss_width;
+static float boss_height;
 
-float boss_interval;
-float death_ring_dia;
+static float boss_interval;
+static float death_ring_dia;
 static float expansion_rate;
 
 CP_Vector pos;
 CP_Vector DeathPos;
 
-bool collide;
-bool boss_killed;
+static bool collide;
+static bool boss_killed;
 
 #define ASTEROIDS_POOLSIZE_BULLETS 999
 #define ASTEROIDS_POOLSIZE_ENEMIES 100
