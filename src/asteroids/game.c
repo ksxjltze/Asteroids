@@ -17,6 +17,7 @@
 #include "Obstacle.h"
 #include "Boss.h"
 #include "skin_menu.h"
+#include "final_boss.h"
 
 #define ASTEROIDS_POOLSIZE_BULLETS 999
 #define ASTEROIDS_POOLSIZE_ENEMIES 200
@@ -67,6 +68,7 @@ void Asteroids_Init(void)
 	Asteroids_Powerup_Player_Interaction_Init();
 	Asteroids_Obstacles_Init();
 	Asteroids_Boss_Init(enemy_sprites, enemy_hurt_sprites, enemy_width, enemy_height, &player);
+	Asteroids_Final_Boss_Init();
 
 }
 
@@ -101,6 +103,7 @@ void Asteroids_Update(void)
 		}
 
 		Asteroids_Obstacles_Update(enemy_pool, &player, enemy_count);
+		Asteroids_Final_Boss_Update(&player, enemy_pool, enemy_count, bullet_pool);
 		Asteroids_Draw();
 		Asteroids_Boss_Update(&player, enemy_pool, enemy_count, bullet_pool);
 		Asteroids_Update_Powerups(&player);

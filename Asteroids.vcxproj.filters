@@ -111,6 +111,9 @@
     <ClInclude Include="src\asteroids\weapon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\asteroids\final_boss.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\asteroids\bullet.c">
@@ -210,6 +213,9 @@
       <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="src\asteroids\upgrades.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\asteroids\final_boss.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

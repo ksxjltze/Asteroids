@@ -31,6 +31,7 @@
     <ClInclude Include="src\asteroids\enemy.h" />
     <ClInclude Include="src\asteroids\engine.h" />
     <ClInclude Include="src\asteroids\file_manager.h" />
+    <ClInclude Include="src\asteroids\final_boss.h" />
     <ClInclude Include="src\asteroids\fuel.h" />
     <ClInclude Include="src\asteroids\game.h" />
     <ClInclude Include="src\asteroids\gameover.h" />
@@ -66,6 +67,7 @@
     <ClCompile Include="src\asteroids\difficulty_menu.c" />
     <ClCompile Include="src\asteroids\enemy.c" />
     <ClCompile Include="src\asteroids\file_manager.c" />
+    <ClCompile Include="src\asteroids\final_boss.c" />
     <ClCompile Include="src\asteroids\game.c" />
     <ClCompile Include="src\asteroids\gameover.c" />
     <ClCompile Include="src\asteroids\health.c" />
