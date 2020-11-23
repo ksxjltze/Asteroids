@@ -58,6 +58,7 @@ void Asteroids_Init(void)
 	Asteroids_Pause_Init();
 
 	explosion_init();
+	smoke_init();
 	Asteroids_Init_Powerups();
 	Asteroids_Init_Score();
 	Asteroids_Powerup_Player_Interaction_Init();
@@ -87,6 +88,7 @@ void Asteroids_Update(void)
 
 		Asteroids_Collision_CheckCollision_Enemy_Player(enemy_pool, enemy_count, &player);
 
+		smoke_update();
 		particle_update();
 
 		//Gameover

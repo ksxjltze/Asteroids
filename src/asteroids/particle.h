@@ -26,6 +26,12 @@ void spawn_explosion_anim(CP_Vector position, float size);
 
 void particle_update(void);
 
-void particle_velocity(CP_Vector position, int particles, float min_velocity, float max_velocity, float size);
+void smoke_update(void);
+
+void explosion_velocity(CP_Vector position, int particles, float min_velocity, float max_velocity, float size);
 
 void particle_despawning(Particle* particle);
+
+void smoke_init();
+
+void spawn_smoke_trail_anim(CP_Vector position, float size);
