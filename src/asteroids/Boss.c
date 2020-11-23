@@ -19,8 +19,6 @@ CP_Vector DeathPos;
 static bool collide;
 static bool boss_killed;
 
-#define ASTEROIDS_POOLSIZE_BULLETS 999
-#define ASTEROIDS_POOLSIZE_ENEMIES 100
 #define Boss_Scale_Factor 18
 
 void Asteroids_Boss_Init(CP_Image EnemySprite[], CP_Image EnemyHurtSprite[], float enemy_width, float enemy_height, Player* player)
@@ -199,7 +197,8 @@ void Asteroids_Enemy_Boss_Death_Circle(Enemy* boss, Player player, Enemy enemy_p
 	{
 		for (int i = 0; i < ASTEROIDS_POOLSIZE_ENEMIES; i++)
 		{
-			Asteroids_Enemy_Death(enemy_pool +i);
+			if(enemy_pool[i].active)
+				Asteroids_Enemy_Death(enemy_pool +i);
 		}
 		Asteroids_Enemy_Split(boss, player, enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, split);
 		Asteroids_Enemy_Death(boss);

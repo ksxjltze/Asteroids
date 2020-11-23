@@ -133,7 +133,7 @@ void Asteroids_Enemy_Death(Enemy* enemy)
 	{
 		Asteroids_Generate_Powerup_On_Enemy_Death(enemy->pos);
 	}
-	spawn_particles(enemy->pos, 8, 0, 0, enemy->size);
+	spawn_explosion_anim(enemy->pos, enemy->size); //
 	Asteroids_Enemy_Reset(enemy);
 }
 
@@ -200,7 +200,7 @@ void Asteroids_Enemy_Spawn_Static(Enemy enemy_pool[], int count, Player player)
 			enemy.collider.diameter = ASTEROIDS_ENEMY_BASE_DIAMETER * enemy.size;
 			enemy.velocity = CP_Vector_Zero();
 
-			enemy.sprite_type = CP_Random_RangeInt(0, 1);
+			enemy.sprite_type = CP_Random_RangeInt(0, ASTEROIDS_ENEMY_SPRITE_COUNT - 1);
 
 			for (int j = 0; j < i; j++)
 			{
@@ -242,7 +242,7 @@ Enemy* Asteroids_Enemy_Spawn(Enemy enemy_pool[], int count, CP_Vector pos)
 			enemy.collider.enabled = false;
 			enemy.hp.max = enemy.size * ASTEROIDS_ENEMY_BASE_MAX_HP;
 			enemy.hp.current = enemy.hp.max;
-			enemy.sprite_type = CP_Random_RangeInt(0, 1);
+			enemy.sprite_type = CP_Random_RangeInt(0, ASTEROIDS_ENEMY_SPRITE_COUNT - 1);
 
 			enemy_pool[i] = enemy;
 			return &enemy_pool[i];
@@ -267,7 +267,7 @@ void Asteroids_Enemy_Spawn_Random(Enemy enemy_pool[], int count)
 			enemy.collider.diameter = ASTEROIDS_ENEMY_BASE_DIAMETER * enemy.size;
 			enemy.hp.max = enemy.size * ASTEROIDS_ENEMY_BASE_MAX_HP;
 			enemy.hp.current = enemy.hp.max;
-			enemy.sprite_type = CP_Random_RangeInt(0, 1);
+			enemy.sprite_type = CP_Random_RangeInt(0, ASTEROIDS_ENEMY_SPRITE_COUNT - 1);
 
 			enemy_pool[i] = enemy;
 			return;
