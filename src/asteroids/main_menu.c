@@ -28,6 +28,7 @@ Button Credits, Play, Quit, Leaderboard, Controls, Exit, DifficultyBtn, SkinsBtn
 CP_Image Control_screen;
 CP_Image Control_screen2;
 CP_Image Credits_screen;
+CP_Image Chosenship;
 
 CP_Image backgroundImage;
 
@@ -62,6 +63,7 @@ void Asteroids_MainMenu_Init(void)
 
 	Asteroids_Currency_Init();
 	Asteroids_Upgrades_Init();
+	Asteroids_Skin_Menu_Init();
 }
 
 void Asteroids_MainMenu_Update(void)
@@ -114,6 +116,7 @@ void Asteroids_Draw_MainMenu(void)
 	CP_Settings_Fill(textColor);
 	CP_Settings_TextSize(menuTextSize);
 
+
 	if (status)
 	{
 		CP_Font_DrawTextBox(menuText, 0, 50.0f + menuTextSize / 2, (float)WIN_WIDTH);
@@ -125,6 +128,7 @@ void Asteroids_Draw_MainMenu(void)
 		Asteroids_Button_Update(&DifficultyBtn);
 		Asteroids_Button_Update(&SkinsBtn);
 		Asteroids_Button_Update(&UpgradesBtn);
+		CP_Image_Draw(current_skin.sprite, (float)WIN_WIDTH / 2.0f , (float)WIN_HEIGHT / 2.0f, 200.0f, 200.0f, 255);
 	}
 	else if (!status)
 	{
@@ -227,7 +231,7 @@ void Asteroids_Menu_Display_SkinMenu(void)
 {
 	status = false;
 	overlay_type = SKIN_MENU;
-	Asteroids_Skin_Menu_Init();
+
 }
 
 void Asteroids_Menu_Display_DifficultyMenu(void)
