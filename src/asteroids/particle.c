@@ -22,7 +22,7 @@ Sprite explosion_sprite;
 /// Initialize Particles
 /// </summary>
 /// <param name="void"></param>
-void particle_init(void)
+void explosion_init(void)
 {
 	explosion.image[0] = CP_Image_Load("./Assets/Explosion/Image001.png");
 	explosion.image[1] = CP_Image_Load("./Assets/Explosion/Image002.png");
@@ -60,7 +60,7 @@ void particle_init(void)
 
 }
 
-void draw_particle()
+void draw_explosion()
 {
 
 	for (int i = 0; i < sizeof(particle) / sizeof(particle[0]); i++)
@@ -102,8 +102,11 @@ void particle_velocity(CP_Vector position, int particles, float min_velocity, fl
 	}
 }
 
-void spawn_particles(CP_Vector position, int particles, float min_velocity, float max_velocity, float size)
+void spawn_explosion_anim(CP_Vector position, float size)
 {
+	int particles = 1;
+	float min_velocity = 0;
+	float max_velocity = 0;
 	particle_velocity(position, particles, min_velocity, max_velocity, size);
 }
 
@@ -149,7 +152,7 @@ void particle_update()
 		//CP_Vector_Add(particle, velocity);
 
 	}
-	draw_particle();
+	draw_explosion();
 }
 
 void particle_despawning(Particle* p)

@@ -131,7 +131,7 @@ void Asteroids_Enemy_Death(Enemy* enemy)
 	{
 		Asteroids_Generate_Powerup_On_Enemy_Death(enemy->pos);
 	}
-	spawn_particles(enemy->pos, 8, 0, 0, enemy->size);
+	spawn_explosion_anim(enemy->pos, enemy->size); //
 	Asteroids_Enemy_Reset(enemy);
 }
 
