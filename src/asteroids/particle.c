@@ -1,10 +1,12 @@
 #include "particle.h"
 #include "game.h"
 #include "constants.h"
+#include "player.h"
 
 CP_Vector pos;
 //Particle pool
 Particle particle[10000];
+Particle smoke_particle[1];
 
 //Struct to hold data for Explosion particles
 struct Explosion
@@ -21,7 +23,7 @@ struct Smoke
 {
 	Sprite smoke_sprite;
 	CP_Image image[3];
-	CP_Vector dimensions[8];
+	CP_Vector dimensions[3];
 	int image_count;
 	float delay;
 }smoke;
@@ -98,8 +100,6 @@ void draw_particle()
 
 		}
 
-	}
-}
 
 //Generate particle velocity and set lifetime.
 void Spawn_Particle(CP_Vector position, int particles, float min_velocity, float max_velocity, float size, Sprite sprite, bool loop)
@@ -123,6 +123,30 @@ void Spawn_Particle(CP_Vector position, int particles, float min_velocity, float
 			particle[i].lifetime = particle[i].life;
 			particle[i].size = size;
 			particle[i].loop = loop;
+			--particles;
+		}
+	}
+}
+
+void smoke_velocity(CP_Vector position, int particles, float min_velocity, float max_velocity, float size)
+{
+	CP_Vector velocity;
+	for (int i = 0; i < sizeof(smoke_particle) / sizeof(smoke_particle[0]); i++)
+	{
+		if (particles <= 0)
+			return;
+
+		if (smoke_particle[i].enabled == 0)
+		{
+			velocity.x = CP_Random_RangeFloat(min_velocity, max_velocity);
+			velocity.y = CP_Random_RangeFloat(min_velocity, max_velocity);
+			smoke_particle[i].enabled = 1;
+			smoke_particle[i].posX = position.x;
+			smoke_particle[i].posY = position.y;
+			smoke_particle[i].velocity = velocity;
+			smoke_particle[i].life = smoke_particle[i].sprite.duration;
+			smoke_particle[i].lifetime = smoke_particle[i].life;
+			smoke_particle[i].size = size;
 			--particles;
 		}
 	}
@@ -186,6 +210,51 @@ void particle_update()
 
 	}
 	draw_particle();
+}
+
+void smoke_update()
+{
+	float dt = CP_System_GetDt();
+	for (int i = 0; i < sizeof(smoke_particle) / sizeof(smoke_particle[0]); i++)
+	{
+		if (smoke_particle[i].enabled)
+		{
+			smoke_particle[i].posX += smoke_particle[i].velocity.x * dt;
+			smoke_particle[i].posY += smoke_particle[i].velocity.y * dt;
+			smoke_particle[i].lifetime -= dt;
+			smoke_particle[i].sprite.time -= dt;
+
+			if (smoke_particle[i].sprite.time <= 0)
+			{
+				smoke_particle[i].sprite.time = smoke_particle[i].sprite.duration / smoke_particle[i].sprite.frame_count;
+				if (smoke_particle[i].sprite.keyframe >= (smoke.image_count - 1))
+				{
+					if (smoke_particle[i].loop)
+						smoke_particle[i].sprite.keyframe = 0;
+				}
+				else
+					smoke_particle[i].sprite.keyframe++;
+			}
+
+			if (smoke_particle[i].lifetime <= 0)
+			{
+				smoke_particle[i].posX = 0;
+				smoke_particle[i].posY = 0;
+				smoke_particle[i].velocity.x = 0;
+				smoke_particle[i].velocity.y = 0;
+				smoke_particle[i].enabled = 0;
+				smoke_particle[i].lifetime = 0;
+				smoke_particle[i].sprite.time = 0;
+				smoke_particle[i].sprite.keyframe = 0;
+				//particle_despawning(&smoke_particle[i]);
+			}
+		}
+
+
+		//CP_Vector_Add(particle, velocity);
+
+	}
+	draw_smoke();
 }
 
 void particle_despawning(Particle* p)
