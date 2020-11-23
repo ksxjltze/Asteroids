@@ -8,6 +8,6 @@ Sprite Asteroids_Sprite_Create(CP_Image images[], CP_Vector dimensions[], int fr
 	sprite.frame_count = frame_count;
 	sprite.duration = duration;
 	sprite.keyframe = start_frame;
-	sprite.time = 0;
+	sprite.time = duration / frame_count;
 	return sprite;
 }

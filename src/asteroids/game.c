@@ -58,7 +58,10 @@ void Asteroids_Init(void)
 	Asteroids_Entities_Init();
 	Asteroids_Pause_Init();
 
+	particle_init();
 	explosion_init();
+	//smoke_init();
+
 	Asteroids_Init_Powerups();
 	Asteroids_Init_Score();
 	Asteroids_Powerup_Player_Interaction_Init();
