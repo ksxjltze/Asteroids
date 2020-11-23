@@ -99,6 +99,8 @@ void draw_particle()
 			CP_Image_Draw(particle[i].sprite.images[keyframe], particle[i].posX, particle[i].posY, particle[i].size * dimensions.x, particle[i].size * dimensions.y, (int)(particle[i].lifetime / particle[i].life * 255.0f));
 
 		}
+	}
+}
 
 
 //Generate particle velocity and set lifetime.
@@ -205,56 +207,8 @@ void particle_update()
 			}
 		}
 
-
-		//CP_Vector_Add(particle, velocity);
-
 	}
 	draw_particle();
-}
-
-void smoke_update()
-{
-	float dt = CP_System_GetDt();
-	for (int i = 0; i < sizeof(smoke_particle) / sizeof(smoke_particle[0]); i++)
-	{
-		if (smoke_particle[i].enabled)
-		{
-			smoke_particle[i].posX += smoke_particle[i].velocity.x * dt;
-			smoke_particle[i].posY += smoke_particle[i].velocity.y * dt;
-			smoke_particle[i].lifetime -= dt;
-			smoke_particle[i].sprite.time -= dt;
-
-			if (smoke_particle[i].sprite.time <= 0)
-			{
-				smoke_particle[i].sprite.time = smoke_particle[i].sprite.duration / smoke_particle[i].sprite.frame_count;
-				if (smoke_particle[i].sprite.keyframe >= (smoke.image_count - 1))
-				{
-					if (smoke_particle[i].loop)
-						smoke_particle[i].sprite.keyframe = 0;
-				}
-				else
-					smoke_particle[i].sprite.keyframe++;
-			}
-
-			if (smoke_particle[i].lifetime <= 0)
-			{
-				smoke_particle[i].posX = 0;
-				smoke_particle[i].posY = 0;
-				smoke_particle[i].velocity.x = 0;
-				smoke_particle[i].velocity.y = 0;
-				smoke_particle[i].enabled = 0;
-				smoke_particle[i].lifetime = 0;
-				smoke_particle[i].sprite.time = 0;
-				smoke_particle[i].sprite.keyframe = 0;
-				//particle_despawning(&smoke_particle[i]);
-			}
-		}
-
-
-		//CP_Vector_Add(particle, velocity);
-
-	}
-	draw_smoke();
 }
 
 void particle_despawning(Particle* p)

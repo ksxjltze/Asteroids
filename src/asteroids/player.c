@@ -50,7 +50,6 @@ void Asteroids_Player_Update(Player* player)
 			player->status.hit_cooldown = HURT_WINDOW;
 		}
 	}
-	spawn_smoke_trail_anim(player->pos, 0.3f);
 	Asteroids_Player_Update_Movement(player, CP_System_GetDt());
 
 	if (player->hp.current <= 0)
