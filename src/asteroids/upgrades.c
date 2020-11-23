@@ -3,7 +3,7 @@
 #include "constants.h"
 #include "file_manager.h"
 
-Upgrade upgrades[NUM_UPGRADES];
+static Upgrade upgrades[NUM_UPGRADES];
 
 void Asteroids_Upgrades_Init(void)
 {
