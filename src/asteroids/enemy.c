@@ -231,7 +231,7 @@ void Asteroids_Enemy_Spawn(Enemy enemy_pool[], int count, CP_Vector pos)
 		if (!enemy.active)
 		{
 			enemy.active = 1;
-			enemy.pos = CP_Vector_Zero();
+			enemy.pos = pos;
 			enemy.speed = 0;
 			enemy.velocity = CP_Vector_Zero();
 			enemy.rotate_rate = 0.0f;
