@@ -61,7 +61,7 @@ void Asteroids_Init(void)
 	Asteroids_Entities_Init();
 	Asteroids_Pause_Init();
 
-	particle_init();
+	explosion_init();
 	Asteroids_Init_Powerups();
 	Asteroids_Init_Score();
 	Asteroids_Powerup_Player_Interaction_Init();
@@ -237,7 +237,7 @@ void Asteroids_Check_Input()
 		if (shoot_cooldown > 0)
 			return;
 
-		shoot_cooldown = 60 / ASTEROIDS_WEAPON_RAILGUN_FIRE_RATE; //seconds per bullet
+		shoot_cooldown = 60 / (ASTEROIDS_WEAPON_RAILGUN_FIRE_RATE + player.weapon.fire_rate); //seconds per bullet
 		Asteroids_Bullet_Spawn(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, player, shoot_direction);
 		Asteroids_Bullet_Powerup_Split(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, player, shoot_direction);
 
@@ -299,7 +299,7 @@ void Asteroids_Debug_Check_Input()
 {
 	if (CP_Input_KeyTriggered(KEY_SPACE))
 	{
-		Asteroids_Enemy_Spawn(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES);
+		Asteroids_Enemy_Spawn_Random(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES);
 	}
 
 	if (CP_Input_KeyTriggered(KEY_MINUS))
