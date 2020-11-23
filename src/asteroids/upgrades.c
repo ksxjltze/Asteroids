@@ -22,6 +22,8 @@ void Asteroids_Upgrades_Init(void)
 	Asteroids_Upgrades_Create_Upgrade(FUEL_CAPACITY, ASTEROIDS_UPGRADES_FUEL_UPGRADE_COST, "Fuel Capacity");
 	Asteroids_Upgrades_Create_Upgrade(MAX_HEALTH, ASTEROIDS_UPGRADES_MAX_HEALTH_UPGRADE_COST, "Max Health");
 	Asteroids_Upgrades_Create_Upgrade(BULLET_DMG, ASTEROIDS_UPGRADES_BULLET_DAMAGE_UPGRADE_COST, "Bullet Damage");
+	Asteroids_Upgrades_Create_Upgrade(MOVE_SPEED, ASTEROIDS_UPGRADES_MOVEMENT_SPEED_UPGRADE_COST, "Movement Speed");
+	Asteroids_Upgrades_Create_Upgrade(FIRE_RATE, ASTEROIDS_UPGRADES_FIRE_RATE_UPGRADE_COST, "Fire Rate");
 }
 
 void Asteroids_Upgrades_Create_Upgrade(unsigned int id, int cost, const char* name)
@@ -85,6 +87,24 @@ Upgrade Asteroids_Upgrades_Get_Upgrade(unsigned int id)
 	return upgrade;
 }
 
+Upgrade* Asteroids_Upgrades_Get_All_Upgrades()
+{
+	return upgrades;
+}
+
+int Asteroids_Upgrades_Get_Upgrade_Count()
+{
+	int counter = 0;
+	for (int i = 0; i < NUM_UPGRADES; i++)
+	{
+		if (upgrades[i].id != NONE)
+		{
+			counter++;
+		}
+	}
+	return counter;
+}
+
 void Asteroids_Upgrade_Add_Level(unsigned int id)
 {
 	for (int i = 0; i < NUM_UPGRADES; i++)
@@ -95,6 +115,16 @@ void Asteroids_Upgrade_Add_Level(unsigned int id)
 			printf("%s is now level %u\n", upgrades[i].name, upgrades[i].level);
 			return;
 		}
+	}
+}
+
+void Asteroids_Upgrades_Create_File(void)
+{
+	FILE* upgradesFile = Asteroids_Open_File("./Assets/upgrades.data", "w");
+	if (upgradesFile)
+	{
+		Asteroids_Close_File(upgradesFile);
+		Asteroids_Upgrades_Save_All_To_File();
 	}
 }
 
@@ -153,6 +183,10 @@ void Asteroids_Upgrades_Read_From_File(void)
 		}
 		Asteroids_Close_File(upgradesFile);
 	}
+	else
+	{
+		Asteroids_Upgrades_Create_File();
+	}
 }
 
 void Asteroids_Upgrades_Set_Upgrade_Name(Upgrade* upgrade)
@@ -167,6 +201,12 @@ void Asteroids_Upgrades_Set_Upgrade_Name(Upgrade* upgrade)
 		break;
 	case BULLET_DMG:
 		upgrade->name = "Bullet Damage";
+		break;
+	case MOVE_SPEED:
+		upgrade->name = "Speed";
+		break;
+	case FIRE_RATE:
+		upgrade->name = "Fire Rate";
 	default:
 		break;
 	}
