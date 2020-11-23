@@ -52,6 +52,7 @@
     <ClInclude Include="src\asteroids\upgrades_menu.h" />
     <ClInclude Include="src\asteroids\user_interface.h" />
     <ClInclude Include="src\asteroids\utility.h" />
+    <ClInclude Include="src\asteroids\weapon.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\asteroids\Boss.c" />

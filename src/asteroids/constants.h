@@ -10,13 +10,16 @@ extern const float SPEED;
 extern const float ASTEROIDS_PLAYER_SLOWED_SPEED;
 
 extern const int BULLET_SPEED;
-extern const float FIRE_RATE; //bullets per minute
+extern const float ASTEROIDS_WEAPON_RAILGUN_FIRE_RATE; //bullets per minute
 extern const float HURT_WINDOW; //seconds
-extern const float BULLET_DAMAGE;
+extern const float ASTEROIDS_WEAPON_RAILGUN_DAMAGE;
 extern const float ASTEROIDS_ENEMY_BASE_MAX_HP;
 
 extern const float ASTEROID_MAX_SPEED; //pixels per second
 extern const float ASTEROID_MIN_SPEED; //pixels per second
+
+extern const int ASTEROIDS_ENEMY_CURRENCY_DROP_AMOUNT;
+
 extern const int ASTEROIDS_PLAYER_SIMPLE_SPEED;
 
 extern const float ASTEROIDS_ENEMY_SIZE_MIN;
@@ -24,6 +27,8 @@ extern const float ASTEROIDS_ENEMY_SIZE_MAX;
 extern const int ASTEROIDS_ENEMY_SPLIT_MAX_COUNT;
 extern const int ASTEROIDS_ENEMY_SPLIT_MIN_NUMBER;
 extern const int ASTEROIDS_ENEMY_SPLIT_MAX_NUMBER;
+extern const float ASTEROIDS_ENEMY_SPLIT_SIZE_SCALE_FACTOR;
+
 extern const int ASTEROIDS_ENEMY_BASE_DIAMETER;
 extern const float ASTEROIDS_ENEMY_BASE_SPAWN_INTERVAL;
 
@@ -69,6 +74,8 @@ extern const float ASTEROIDS_UPGRADES_FUEL_UPGRADE_AMOUNT;
 extern const int ASTEROIDS_UPGRADES_FUEL_UPGRADE_COST;
 extern const float ASTEROIDS_UPGRADES_MAX_HEALTH_UPGRADE_AMOUNT;
 extern const int ASTEROIDS_UPGRADES_MAX_HEALTH_UPGRADE_COST;
+extern const float ASTEROIDS_UPGRADES_BULLET_DAMAGE_UPGRADE_AMOUNT;
+extern const int ASTEROIDS_UPGRADES_BULLET_DAMAGE_UPGRADE_COST;
 
 extern const CP_KEY ASTEROIDS_PAUSE_KEY;
 

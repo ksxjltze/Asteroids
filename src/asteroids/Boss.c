@@ -113,7 +113,7 @@ Bullet Asteroids_Collision_CheckCollision_EnemyBoss_Bullet(Enemy* boss, Bullet b
 		bullet.active = 0;
 		bullet.pos = CP_Vector_Set(-1, -1);
 		bullet.velocity = CP_Vector_Set(0, 0);
-		Asteroids_Enemy_Hit(boss, BULLET_DAMAGE);
+		Asteroids_Enemy_Hit(boss, ASTEROIDS_WEAPON_RAILGUN_DAMAGE);
 
 		return bullet;
 	}

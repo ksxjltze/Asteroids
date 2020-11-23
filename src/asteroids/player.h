@@ -5,15 +5,17 @@
 #include "status.h"
 #include "engine.h"
 #include <string.h>
- 
+#include "weapon.h" 
+
 typedef struct Player {
+	struct Engine engine;
+	Weapon weapon;
+	struct Status status;
+	struct Health hp;
+	struct Collider_Circle collider;
 	CP_Vector pos;
 	CP_Vector velocity;
 	float speed;
-	struct Health hp;
-	struct Collider_Circle collider;
-	struct Engine engine;
-	struct Status status;
 	int active;
 	char name[10];
 	int score;

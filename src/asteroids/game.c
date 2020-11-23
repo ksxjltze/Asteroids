@@ -86,7 +86,7 @@ void Asteroids_Update(void)
 		Asteroids_Enemy_Spawn_Timer(enemy_pool, enemy_count);
 
 		Asteroids_Enemy_Update(enemy_pool, enemy_count, player);
-		Asteroids_Bullet_Update(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, enemy_pool, enemy_count);
+		Asteroids_Bullet_Update(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, enemy_pool, enemy_count, player);
 		Asteroids_Player_Update(&player);
 
 		Asteroids_Collision_CheckCollision_Enemy_Player(enemy_pool, enemy_count, &player);
@@ -237,7 +237,7 @@ void Asteroids_Check_Input()
 		if (shoot_cooldown > 0)
 			return;
 
-		shoot_cooldown = 60 / FIRE_RATE; //seconds per bullet
+		shoot_cooldown = 60 / ASTEROIDS_WEAPON_RAILGUN_FIRE_RATE; //seconds per bullet
 		Asteroids_Bullet_Spawn(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, player, shoot_direction);
 		Asteroids_Bullet_Powerup_Split(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, player, shoot_direction);
 
