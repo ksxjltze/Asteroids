@@ -237,7 +237,7 @@ void Asteroids_Check_Input()
 		if (shoot_cooldown > 0)
 			return;
 
-		shoot_cooldown = 60 / ASTEROIDS_WEAPON_RAILGUN_FIRE_RATE; //seconds per bullet
+		shoot_cooldown = 60 / (ASTEROIDS_WEAPON_RAILGUN_FIRE_RATE + player.weapon.fire_rate); //seconds per bullet
 		Asteroids_Bullet_Spawn(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, player, shoot_direction);
 		Asteroids_Bullet_Powerup_Split(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, player, shoot_direction);
 

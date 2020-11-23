@@ -97,6 +97,7 @@ void Asteroids_Player_Apply_Upgrades(Player* player)
 	Upgrade maxHealth = Asteroids_Upgrades_Get_Upgrade(MAX_HEALTH);
 	Upgrade bulletDmg = Asteroids_Upgrades_Get_Upgrade(BULLET_DMG);
 	Upgrade moveSpeed = Asteroids_Upgrades_Get_Upgrade(MOVE_SPEED);
+	Upgrade fireRate = Asteroids_Upgrades_Get_Upgrade(FIRE_RATE);
 	
 	if (fuelCapacity.id != NONE)
 	{
@@ -145,6 +146,18 @@ void Asteroids_Player_Apply_Upgrades(Player* player)
 		{
 			printf("Upgrade: Speed increased by %f.\n", upgrade);
 			printf("Speed: %f\n", player->speed);
+		}
+	}
+
+	if (fireRate.id != NONE)
+	{
+		float upgrade = ASTEROIDS_UPGRADES_FIRE_RATE_UPGRADE_AMOUNT * fireRate.level;
+		player->weapon.fire_rate += upgrade;
+
+		if (moveSpeed.level > 0)
+		{
+			printf("Upgrade: Fire Rate increased by %f.\n", upgrade);
+			printf("Speed: %f\n", player->weapon.fire_rate);
 		}
 	}
 

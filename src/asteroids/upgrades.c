@@ -22,7 +22,8 @@ void Asteroids_Upgrades_Init(void)
 	Asteroids_Upgrades_Create_Upgrade(FUEL_CAPACITY, ASTEROIDS_UPGRADES_FUEL_UPGRADE_COST, "Fuel Capacity");
 	Asteroids_Upgrades_Create_Upgrade(MAX_HEALTH, ASTEROIDS_UPGRADES_MAX_HEALTH_UPGRADE_COST, "Max Health");
 	Asteroids_Upgrades_Create_Upgrade(BULLET_DMG, ASTEROIDS_UPGRADES_BULLET_DAMAGE_UPGRADE_COST, "Bullet Damage");
-	Asteroids_Upgrades_Create_Upgrade(MOVE_SPEED, ASTEROIDS_UPGRADES_BULLET_DAMAGE_UPGRADE_COST, "Movement Speed");
+	Asteroids_Upgrades_Create_Upgrade(MOVE_SPEED, ASTEROIDS_UPGRADES_MOVEMENT_SPEED_UPGRADE_COST, "Movement Speed");
+	Asteroids_Upgrades_Create_Upgrade(FIRE_RATE, ASTEROIDS_UPGRADES_FIRE_RATE_UPGRADE_COST, "Fire Rate");
 }
 
 void Asteroids_Upgrades_Create_Upgrade(unsigned int id, int cost, const char* name)
@@ -204,6 +205,8 @@ void Asteroids_Upgrades_Set_Upgrade_Name(Upgrade* upgrade)
 	case MOVE_SPEED:
 		upgrade->name = "Speed";
 		break;
+	case FIRE_RATE:
+		upgrade->name = "Fire Rate";
 	default:
 		break;
 	}
