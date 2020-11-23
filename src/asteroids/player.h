@@ -17,7 +17,7 @@ typedef struct Player {
 	CP_Vector velocity;
 	float speed;
 	int active;
-	char name[10];
+	char name[20];
 	int score;
 	float bullet_diameter;
 } Player;

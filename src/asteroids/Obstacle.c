@@ -40,7 +40,8 @@ void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_co
 		GammaRay.pos = CP_Vector_Add(GammaRay.pos, CP_Vector_Scale(GammaRay.velocity, dt));
 		Asteroids_Draw_Obstacle(&GammaRay);
 		Asteroids_Obstacle_Check_LifeSpan(&GammaRay);
-		Asteroids_Check_Collision_Gammaray_Player(player, &GammaRay);
+		Asteroids_Check_Collision_Gammaray_Enemy_Player(enemy_pool, player, &GammaRay, enemy_count);
+		//Asteroids_Check_Collision_Gammaray_Player(player, &GammaRay);
 
 
 		for (int j = 0; j < 100; j++)
@@ -60,7 +61,7 @@ void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_co
 	//{
 	//	GammaRay.active = false;
 	//}
-	//// Spawn GammaRay
+	// Spawn GammaRay
 	//if (CP_Input_KeyTriggered(KEY_G))
 	//{
 	//	Asteroids_Obstacle_Spawn_GammaRay();
@@ -99,7 +100,7 @@ void Asteroids_Obstacle_Spawn_Blackhole(void)
 void Asteroids_Obstacle_Spawn_GammaRay(void)
 {
 	GammaRay.width = (float)WIN_WIDTH / 4;
-	GammaRay.height = 10;
+	GammaRay.height = 20;
 	
 	// AABB Collider 
 	GammaRay.Collider.width = GammaRay.width; 
@@ -108,7 +109,6 @@ void Asteroids_Obstacle_Spawn_GammaRay(void)
 	GammaRay.pos.x = 0 - GammaRay.width / 2;
 
 	GammaRay.speed = ASTEROIDS_OBSTACLE_GAMMARAY_SPEED;
-	GammaRay.active = true;
 	GammaRay.lifespan = ASTEROIDS_OBSTACLE_LIFESPAN;
 
 	CP_Vector direction = CP_Vector_Zero();
@@ -117,6 +117,8 @@ void Asteroids_Obstacle_Spawn_GammaRay(void)
 	GammaRay.velocity = CP_Vector_Subtract(direction, GammaRay.pos);
 	GammaRay.velocity = CP_Vector_Normalize(GammaRay.velocity);
 	GammaRay.velocity = CP_Vector_Scale(GammaRay.velocity, GammaRay.speed);
+	
+	GammaRay.active = true;
 }
 
 void Asteroids_Draw_Obstacle(Obstacle* obstacle)
@@ -161,7 +163,7 @@ void Asteroids_Environment_Draw_Warning(void)
 	float dt = CP_System_GetDt();
 	current_lifespan -= dt;
 
-	CP_Image_Draw(Warning, (float)WIN_WIDTH / 2, GammaRay.pos.y, (float)WIN_WIDTH, 50.0f, (int)(fabsf(current_lifespan) / warning_lifespan * 255)); //(int)(current_lifespan/warning_lifespan) * 
+	CP_Image_Draw(Warning, (float)WIN_WIDTH / 2, GammaRay.pos.y, (float)WIN_WIDTH, 80.0f, (int)(fabsf(current_lifespan) / warning_lifespan * 255)); //(int)(current_lifespan/warning_lifespan) * 
 	if (current_lifespan < -warning_lifespan)
 	{
 		current_lifespan = warning_lifespan;
@@ -179,7 +181,7 @@ void Asteroids_Obstacle_TimeInterval(void)
 	obstacle_interval -= dt;
 	warning_interval -= dt;
 
-	int rng = CP_Random_RangeInt(1, 2); //change
+	int rng = CP_Random_RangeInt(1, 2);
 
 	if (warning_interval < 0)
 	{
@@ -202,11 +204,20 @@ void Asteroids_Obstacle_TimeInterval(void)
 		warning_interval = ASTEROIDS_OBSTACLE_WARNING_INTERVAL;
 	}
 }
-void Asteroids_Check_Collision_Gammaray_Player(Player* player, Obstacle* obstacle)
+
+void Asteroids_Check_Collision_Gammaray_Enemy_Player(Enemy enemy_pool[], Player* player, Obstacle* obstacle, int enemy_count)
 {
 	if (Asteroids_Collision_CheckCollision_AABB_Circle(obstacle->Collider, obstacle->pos, player->collider, player->pos))
 	{
 		obstacle->active = false;
 		player->hp.current -= ASTEROIDS_OBSTACLE_GAMMARAY_DAMAGE;
+	}
+	for (int i = 0; i < enemy_count; i++)
+	{
+		if (Asteroids_Collision_CheckCollision_AABB_Circle(obstacle->Collider, obstacle->pos, enemy_pool[i].collider, enemy_pool[i].pos))
+		{
+			enemy_pool[i].active = false;
+			Asteroids_Enemy_Death(&enemy_pool[i]);
+		}
 	}
 }
