@@ -18,15 +18,12 @@
 #include "Boss.h"
 #include "skin_menu.h"
 
-#define ASTEROIDS_POOLSIZE_BULLETS 999
-#define ASTEROIDS_POOLSIZE_ENEMIES 200
-
 float shoot_cooldown = 0.0f;
 
 CP_Image player_sprite;
 CP_Image bullet_sprite;
-CP_Image enemy_sprites[2];
-CP_Image enemy_hurt_sprites[2];
+CP_Image enemy_sprites[ASTEROIDS_ENEMY_SPRITE_COUNT];
+CP_Image enemy_hurt_sprites[ASTEROIDS_ENEMY_SPRITE_COUNT];
 CP_Image health_bar_sprite;
 CP_Image player_health_sprite;
 
@@ -46,7 +43,6 @@ static float difficulty_timer;
 
 Bullet bullet_pool[ASTEROIDS_POOLSIZE_BULLETS];
 Enemy enemy_pool[ASTEROIDS_POOLSIZE_ENEMIES];
-Enemy arr_enemysplit[100];
 Enemy Boss;
 Player player;
 
@@ -61,7 +57,7 @@ void Asteroids_Init(void)
 	Asteroids_Entities_Init();
 	Asteroids_Pause_Init();
 
-	particle_init();
+	explosion_init();
 	Asteroids_Init_Powerups();
 	Asteroids_Init_Score();
 	Asteroids_Powerup_Player_Interaction_Init();
@@ -170,8 +166,10 @@ void Asteroids_Sprites_Load()
 	enemy_sprites[0] = CP_Image_Load("./Assets/asteroids_cropped.png");
 	enemy_sprites[1] = CP_Image_Load("./Assets/asteroids_small.png");
 
-	Asteroids_Utility_Generate_Hurt_Sprite(enemy_sprites[0], &enemy_hurt_sprites[0]);
-	Asteroids_Utility_Generate_Hurt_Sprite(enemy_sprites[1], &enemy_hurt_sprites[1]);
+	for (int i = 0; i < ASTEROIDS_ENEMY_SPRITE_COUNT; i++)
+	{
+		Asteroids_Utility_Generate_Hurt_Sprite(enemy_sprites[i], &enemy_hurt_sprites[i]);
+	}
 
 	player_health_sprite = CP_Image_Load("./Assets/heart.png");
 
@@ -237,7 +235,7 @@ void Asteroids_Check_Input()
 		if (shoot_cooldown > 0)
 			return;
 
-		shoot_cooldown = 60 / ASTEROIDS_WEAPON_RAILGUN_FIRE_RATE; //seconds per bullet
+		shoot_cooldown = 60 / (ASTEROIDS_WEAPON_RAILGUN_FIRE_RATE + player.weapon.fire_rate); //seconds per bullet
 		Asteroids_Bullet_Spawn(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, player, shoot_direction);
 		Asteroids_Bullet_Powerup_Split(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, player, shoot_direction);
 
@@ -299,7 +297,7 @@ void Asteroids_Debug_Check_Input()
 {
 	if (CP_Input_KeyTriggered(KEY_SPACE))
 	{
-		Asteroids_Enemy_Spawn(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES);
+		Asteroids_Enemy_Spawn_Random(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES);
 	}
 
 	if (CP_Input_KeyTriggered(KEY_MINUS))

@@ -18,11 +18,11 @@ typedef struct Particles
 
 }Particle;
 
-void particle_init(void);
+void explosion_init(void);
 
-void draw_particle(void);
+void draw_explosion(void);
 
-void spawn_particles(CP_Vector position, int particles, float min_velocity, float max_velocity, float size);
+void spawn_explosion_anim(CP_Vector position, float size);
 
 void particle_update(void);
 

@@ -1,5 +1,13 @@
 #include "collider_circle.h"
 
+struct Collider_Circle Asteroids_Collision_Circle_Init_Collider(float diameter)
+{
+	struct Collider_Circle collider;
+	collider.diameter = diameter;
+	collider.enabled = true;
+	return collider;
+}
+
 int Asteroids_Collision_CheckCollision_Circle(struct Collider_Circle collider1, CP_Vector pos1, struct Collider_Circle collider2, CP_Vector pos2)
 {
 	float distance = CP_Vector_Distance(pos1, pos2);
