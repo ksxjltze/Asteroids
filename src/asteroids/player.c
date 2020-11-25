@@ -5,6 +5,7 @@
 #include "game.h"
 #include "upgrades.h"
 #include "particle.h"
+#include <math.h>
 
 struct Player Asteroids_Player_Init(float player_width, float player_height)
 {
@@ -77,10 +78,30 @@ void Asteroids_Player_Hit(Player* player, float damage)
 void Asteroids_Player_Draw(CP_Image player_sprite, CP_Vector pos, float player_width, float player_height, float player_rotation)
 {
 	CP_Image_DrawAdvanced(player_sprite, pos.x, pos.y, player_width, player_height, 255, player_rotation);
+	
+	float y = (float)sin(player_rotation);
+	float x = (float)cos(player_rotation);
 
-	pos.y += player_rotation;
-	pos.x -= player_rotation;
-	spawn_smoke_trail_anim(pos, 0.3f);
+	if (player_rotation >= 0 && player_rotation <= 90)
+	{
+		pos.x -= y;
+	}
+	else if (player_rotation > 90 && player_rotation <= 180)
+	{	
+		pos.y -= player_height * x;
+	}
+	else if (player_rotation == -90)
+	{
+		pos.x += player_width;
+	}
+	else if (player_rotation == -180)
+	{
+		pos.y += player_width;
+	}
+
+	//printf("%f\n", player_rotation);
+
+	
 
 }
 
