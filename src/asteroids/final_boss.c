@@ -15,16 +15,16 @@ typedef struct Context
 	Bullet* bullet_pool;
 } Context;
 
-enum BossState {IDLE, ATTACK};
+enum BossState {NONE, IDLE, ATTACK, DEATH};
 
 #define ENEMY_POOL_SIZE 200
 #define ASTEROIDS_POOLSIZE_BULLETS 999
 
 static float boss_width, boss_height;
 static float fire_rate;
+static int battleStarted;
 
 void Asteroids_Final_Boss_Init(void)
-
 {
 	final_boss_sprite[0] = CP_Image_Load("./Assets/final_boss.png");
 	final_boss_sprite[1] = CP_Image_Load("./Assets/final_boss1.png");
@@ -42,17 +42,23 @@ void Asteroids_Final_Boss_Init(void)
 	bossState.id = ATTACK;
 	bossState.name = "Attack";
 	bossState.action = &Asteroids_Final_Boss_State_Attack;
+
+	battleStarted = 0;
 }
 
 void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_count, Bullet bullet_pool[])
 {
-	Asteroids_Final_Boss_Summon_Criteria_Check();
+	if (!battleStarted)
+		Asteroids_Final_Boss_Summon_Criteria_Check();
 
 	if (final_boss.active)
 	{
+		for (int i = 0; i < ASTEROIDS_POOLSIZE_BULLETS; i++)
+		{
+			bullet_pool[i] = Asteroids_Collision_CheckCollision_EnemyBoss_Bullet(&final_boss, bullet_pool[i], player);
+		}
 		Asteroid_Enemy_Check_Status(&final_boss);
 		Asteroids_Final_Boss_State_Update(player, enemy_pool, enemy_count, bullet_pool);
-		Asteroids_Enemy_Check_Boss_Hp(&final_boss, *player, enemy_pool, final_boss.split_count);
 		Asteroids_Final_Boss_Draw();
 	}
 	if (CP_Input_KeyTriggered(KEY_B))
@@ -80,6 +86,7 @@ void Asteroids_Enemy_Final_Boss_Spawn(void)
 	final_boss.collider.diameter = final_boss.size * boss_width;
 
 	final_boss.sprite_type = CP_Random_RangeInt(0, 1);
+	battleStarted = 1;
 
 	Asteroids_Enemy_Disable_Spawn(); // stop spawning of random asteroids
 }
@@ -122,17 +129,27 @@ void Asteroids_Final_Boss_Summon_Criteria_Check(void)
 
 void Asteroids_Final_Boss_State_Update(Player* player, Enemy enemy_pool[], int enemy_count, Bullet bullet_pool[])
 {
-	Asteroids_Final_Boss_State_CheckConditions();
 	Context context;
 	context.player = player;
 	context.enemy_pool = enemy_pool;
 	context.enemy_poolSize = enemy_count;
 	context.bullet_pool = bullet_pool;
-	bossState.action(&context);
+
+	Asteroids_Final_Boss_State_CheckConditions();
+	if (bossState.action)
+		bossState.action(&context);
 }
 
 void Asteroids_Final_Boss_State_CheckConditions()
 {
+	printf("Boss HP: %f\n", final_boss.hp.current);
+	if (final_boss.hp.current <= 0)
+	{
+		bossState.action = &Asteroids_Final_Boss_State_Death;
+		bossState.name = "Death";
+		bossState.id = DEATH;
+
+	}
 	return;
 }
 
@@ -142,13 +159,30 @@ void Asteroids_Final_Boss_State_Idle(const void* context)
 	
 }
 
+void Asteroids_Final_Boss_State_Death(const void* context)
+{
+	Asteroid_Final_Boss_Reset();
+}
+
+void Asteroid_Final_Boss_Reset()
+{
+	final_boss.active = 0;
+	final_boss.hp.max = 0;
+	final_boss.hp.current = 0;
+	final_boss.speed = 0;
+	final_boss.pos = CP_Vector_Zero();
+	final_boss.size = 0;
+	final_boss.split_count = 0;
+	final_boss.collider.diameter = 0;
+	final_boss.sprite_type = 0;
+	bossState.id = NONE;
+	bossState.name = "NONE";
+	bossState.action = NULL;
+}
+
 void Asteroids_Final_Boss_State_Attack(const void* context)
 {
 	Context parameters = *(Context*)context;		
 	Asteroids_Final_Boss_Shoot(final_boss, parameters.enemy_pool, parameters.player);
-	for (int i = 0; i < ASTEROIDS_POOLSIZE_BULLETS; i++)
-	{
-		parameters.bullet_pool[i] = Asteroids_Collision_CheckCollision_EnemyBoss_Bullet(&final_boss, parameters.bullet_pool[i]);
-	}
 }
 

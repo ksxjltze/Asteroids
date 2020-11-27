@@ -56,7 +56,7 @@ void Asteroids_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_count, 
 
 		for (int i = 0; i < ASTEROIDS_POOLSIZE_BULLETS; i++)
 		{
-			bullet_pool[i] = Asteroids_Collision_CheckCollision_EnemyBoss_Bullet(&Boss, bullet_pool[i]);
+			bullet_pool[i] = Asteroids_Collision_CheckCollision_EnemyBoss_Bullet(&Boss, bullet_pool[i], player);
 		}
 
 		if (collide)
@@ -104,14 +104,14 @@ void Asteroids_Enemy_Boss_Spawn(void)
 
 	Boss.split_count = 10;
 }
-Bullet Asteroids_Collision_CheckCollision_EnemyBoss_Bullet(Enemy* boss, Bullet bullet)
+Bullet Asteroids_Collision_CheckCollision_EnemyBoss_Bullet(Enemy* boss, Bullet bullet, Player* player)
 {
 	if (Asteroids_Collision_CheckCollision_Circle(bullet.collider, bullet.pos, boss->collider, boss->pos))
 	{
 		bullet.active = 0;
 		bullet.pos = CP_Vector_Set(-1, -1);
 		bullet.velocity = CP_Vector_Set(0, 0);
-		Asteroids_Enemy_Hit(boss, ASTEROIDS_WEAPON_RAILGUN_DAMAGE);
+		Asteroids_Enemy_Hit(boss, player->weapon.damage);
 
 		return bullet;
 	}
