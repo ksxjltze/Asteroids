@@ -124,8 +124,7 @@ void Spawn_Particle(CP_Vector position, int particles, float min_velocity,
 			particle[i].posY = position.y;
 			particle[i].velocity = velocity;
 			particle[i].life = particle[i].sprite.duration;
-			//particle[i].lifetime = particle[i].life;
-			particle[i].lifetime = 999;
+			particle[i].lifetime = particle[i].life;
 			particle[i].size = size;
 			particle[i].loop = loop;
 			--particles;
@@ -151,7 +150,7 @@ void smoke_velocity(CP_Vector position, int particles, float min_velocity,
 			smoke_particle[i].posY = position.y;
 			smoke_particle[i].velocity = velocity;
 			smoke_particle[i].life = smoke_particle[i].sprite.duration;
-			//smoke_particle[i].lifetime = smoke_particle[i].life;
+			smoke_particle[i].lifetime = smoke_particle[i].life;
 			smoke_particle[i].lifetime = 999;
 			smoke_particle[i].size = size;
 			--particles;
@@ -175,7 +174,7 @@ void spawn_smoke_trail_anim(CP_Vector position, float size, CP_Vector rotation)
 	
 	rotation = CP_Vector_Scale(rotation, 40);
 	position = CP_Vector_Subtract(position, rotation);
-	Spawn_Particle(position, particles, min_velocity, max_velocity, size, smoke.smoke_sprite, true);
+	Spawn_Particle(position, particles, min_velocity, max_velocity, size, smoke.smoke_sprite, false);
 }
 
 void particle_update()
