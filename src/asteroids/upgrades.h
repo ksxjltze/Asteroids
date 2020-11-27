@@ -10,7 +10,7 @@ typedef struct Upgrades
 	unsigned int id;
 	unsigned int level;
 	bool hasLevel;
-	bool active;
+	bool activated;
 }Upgrade;
 
 

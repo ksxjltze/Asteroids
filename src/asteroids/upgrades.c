@@ -59,7 +59,7 @@ Upgrade Asteroids_Upgrades_Initialize_Upgrade(unsigned int id, int cost, const c
 	upgrade.name = name;
 	upgrade.level = 0;
 	upgrade.hasLevel = true;
-	upgrade.active = false;
+	upgrade.activated = false;
 	return upgrade;
 }
 
@@ -129,8 +129,6 @@ void Asteroids_Upgrade_Add_Level(unsigned int id)
 				printf("Upgrade %s has no levels.\n", upgrades[i].name);
 				return;
 			}
-			else if (upgrades[i].active == false)
-				upgrades[i].active = true;
 
 			upgrades[i].level++;
 			printf("%s is now level %u\n", upgrades[i].name, upgrades[i].level);
@@ -145,8 +143,8 @@ void Asteroids_Upgrades_Upgrade_Enable(unsigned int id)
 	{
 		if (upgrades[i].id == id)
 		{
-			if (upgrades[i].active == false)
-				upgrades[i].active = true;
+			if (upgrades[i].activated == false)
+				upgrades[i].activated = true;
 
 			printf("%s has been enabled\n", upgrades[i].name);
 			return;
@@ -172,7 +170,7 @@ Upgrade Asteroids_Upgrades_Get_Upgrade_Empty()
 	upgrade.level = 0;
 	upgrade.name = "NONE";
 	upgrade.hasLevel = true;
-	upgrade.active = false;
+	upgrade.activated = false;
 	return upgrade;
 }
 
@@ -256,7 +254,7 @@ void Asteroids_Upgrades_Set_Upgrade_Name(Upgrade* upgrade)
 		upgrade->name = "Projectile Speed";
 		break;
 	case PIERCING:
-		upgrade->name = "Piercing";
+		upgrade->name = "Piercing Projectiles";
 		break;
 	default:
 		break;

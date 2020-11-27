@@ -93,9 +93,19 @@ UpgradeMenuItem Asteroids_Upgrades_Menu_Init_Upgrade_Info(Upgrade upgrade, CP_Ve
 	sprintf_s(costText, COST_BUFFER_SIZE, "Cost: %d\n", upgrade.cost);
 	strcpy_s(menuItem.costText, strlen(costText) + 1, costText);
 
-	char levelText[LEVEL_BUFFER_SIZE];
-	sprintf_s(levelText, LEVEL_BUFFER_SIZE, "Level: %d\n", upgrade.level);
-	strcpy_s(menuItem.levelText, strlen(levelText) + 1, levelText);
+	if (menuItem.upgrade.hasLevel)
+	{
+		char levelText[LEVEL_BUFFER_SIZE];
+		sprintf_s(levelText, LEVEL_BUFFER_SIZE, "Level: %d\n", upgrade.level);
+		strcpy_s(menuItem.levelText, strlen(levelText) + 1, levelText);
+	}
+	else
+	{
+		if (menuItem.upgrade.activated)
+			strcpy_s(menuItem.levelText, COST_BUFFER_SIZE, "Purchased.");
+		else
+			strcpy_s(menuItem.levelText, COST_BUFFER_SIZE, "Not Purchased.");
+	}
 
 	menuItem.btnBuy = Asteroids_Button_Add_New_Button(120, 30);
 	CP_Vector btnPos = pos;
@@ -132,10 +142,29 @@ void Asteroids_Upgrades_Menu_Update_Upgrade_Info(UpgradeMenuItem* menuItem)
 void Asteroids_Upgrades_Menu_Upgrade_Add_Level(void* upgradePtr)
 {
 	UpgradeMenuItem* menuItem = (UpgradeMenuItem*)upgradePtr;
-	if (Asteroids_Currency_Deduct_Balance(menuItem->upgrade.cost))
+	if (menuItem->upgrade.hasLevel)
 	{
-		Asteroids_Upgrade_Add_Level(menuItem->upgrade.id);
-		Asteroids_Upgrades_Menu_Update_Upgrade_Info(menuItem);
-		Asteroids_Upgrades_Save_All_To_File();
+		if (Asteroids_Currency_Deduct_Balance(menuItem->upgrade.cost))
+		{
+			Asteroids_Upgrades_Upgrade_Enable(menuItem->upgrade.id);
+			Asteroids_Upgrades_Menu_Update_Upgrade_Info(menuItem);
+			Asteroids_Upgrades_Save_All_To_File();
+		}
+
+	}
+	else
+	{
+		if (!menuItem->upgrade.activated)
+		{
+			if (Asteroids_Currency_Deduct_Balance(menuItem->upgrade.cost))
+			{
+				Asteroids_Upgrade_Add_Level(menuItem->upgrade.id);
+				Asteroids_Upgrades_Menu_Update_Upgrade_Info(menuItem);
+				Asteroids_Upgrades_Save_All_To_File();
+			}
+		}
+		else
+			printf("Upgrade %s is already activated.\n", menuItem->upgrade.name);
+
 	}
 }
