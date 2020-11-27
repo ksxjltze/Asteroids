@@ -102,7 +102,8 @@ void Asteroids_Update(void)
 		}
 
 		Asteroids_Obstacles_Update(enemy_pool, &player, enemy_count);
-		Asteroids_Final_Boss_Update(&player, enemy_pool, enemy_count, bullet_pool);
+		//Asteroids_Final_Boss_Update(&player, enemy_pool, enemy_count, bullet_pool);
+		Asteroids_Final_Boss_State_Update(&player, enemy_pool, enemy_count, bullet_pool);
 		Asteroids_Draw();
 		Asteroids_Boss_Update(&player, enemy_pool, enemy_count, bullet_pool);
 		Asteroids_Update_Powerups(&player);

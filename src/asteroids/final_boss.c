@@ -1,9 +1,21 @@
 #include "final_boss.h"
 #include "constants.h"
+#include "state.h"
 
 Enemy final_boss;
+State bossState;
 CP_Image final_boss_sprite[2];
 CP_Image final_boss_sprite_hurt[2];
+
+typedef struct Context
+{
+	Player* player;
+	Enemy* enemy_pool;
+	int enemy_poolSize;
+	Bullet* bullet_pool;
+} Context;
+
+enum BossState {IDLE, ATTACK};
 
 #define ENEMY_POOL_SIZE 200
 #define ASTEROIDS_POOLSIZE_BULLETS 999
@@ -26,6 +38,10 @@ void Asteroids_Final_Boss_Init(void)
 	final_boss.active = 0;
 	final_boss.id = ENEMY_POOL_SIZE + 1;
 	fire_rate = ASTEROIDS_FINAL_BOSS_FIRE_RATE;
+
+	bossState.id = ATTACK;
+	bossState.name = "Attack";
+	bossState.action = &Asteroids_Final_Boss_State_Attack;
 }
 
 void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_count, Bullet bullet_pool[])
@@ -107,3 +123,32 @@ void Asteroids_Final_Boss_Summon_Criteria_Check(void)
 	if (Score.enemy_kill_score >= ASTEROIDS_FINAL_BOSS_SUMMON_CRITERIA)
 		Asteroids_Enemy_Final_Boss_Spawn();
 }
+
+void Asteroids_Final_Boss_State_Update(Player* player, Enemy enemy_pool[], int enemy_count, Bullet bullet_pool[])
+{
+	Asteroids_Final_Boss_State_CheckConditions();
+	Context context;
+	context.player = player;
+	context.enemy_pool = enemy_pool;
+	context.enemy_poolSize = enemy_count;
+	context.bullet_pool = bullet_pool;
+	bossState.action(&context);
+}
+
+void Asteroids_Final_Boss_State_CheckConditions()
+{
+	return;
+}
+
+void Asteroids_Final_Boss_State_Idle(const void* context)
+{
+
+	
+}
+
+void Asteroids_Final_Boss_State_Attack(const void* context)
+{
+	Context parameters = *(Context*)context;
+	Asteroids_Final_Boss_Update(parameters.player, parameters.enemy_pool, parameters.enemy_poolSize, parameters.bullet_pool);
+}
+
