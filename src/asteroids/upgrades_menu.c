@@ -12,7 +12,7 @@ void Asteroids_Upgrades_Menu_Init(void)
 	Asteroids_Upgrades_Menu_Init_MenuItems();
 	for (int i = 0; i < Asteroids_Upgrades_Get_Upgrade_Count(); i++)
 	{
-		CP_Vector pos = CP_Vector_Set(WIN_WIDTH * (0.1f + i * 0.15f), WIN_HEIGHT * 0.25f);
+		CP_Vector pos = CP_Vector_Set(WIN_WIDTH * (0.1f + i * ASTEROIDS_UPGRADES_MENU_ITEM_HORIZONTAL_MARGIN), WIN_HEIGHT * ASTEROIDS_UPGRADES_MENU_ITEM_VERTICAL_MARGIN);
 		Asteroids_Upgrades_Menu_Create_MenuItem(i + 1, pos, &Asteroids_Upgrades_Menu_Upgrade_Add_Level);
 	}
 }
