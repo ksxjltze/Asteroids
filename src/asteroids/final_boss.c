@@ -142,7 +142,6 @@ void Asteroids_Final_Boss_State_Update(Player* player, Enemy enemy_pool[], int e
 
 void Asteroids_Final_Boss_State_CheckConditions()
 {
-	printf("Boss HP: %f\n", final_boss.hp.current);
 	if (final_boss.hp.current <= 0)
 	{
 		bossState.action = &Asteroids_Final_Boss_State_Death;
