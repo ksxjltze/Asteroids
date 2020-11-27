@@ -87,7 +87,7 @@ void Asteroids_UI_Display_Current_Difficulty(void)
 		CP_Font_DrawText("HARD", difficultyPos.x, difficultyPos.y);
 		break;
 	case INSANE:
-		CP_Font_DrawText("INSANE", difficultyPos.x, difficultyPos.y);
+		CP_Font_DrawText("INANE", difficultyPos.x, difficultyPos.y);
 		break;
 	case IMPOSSIBLE:
 		CP_Font_DrawText("IMPOSSIBLE", difficultyPos.x, difficultyPos.y);
