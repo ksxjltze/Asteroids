@@ -1,8 +1,24 @@
 #include "collision_manager.h"
 #include "powerups.h"
 #include "powerup_interaction.h"
+#include <stdio.h>
 
 extern bool invulnerable;
+
+typedef struct Collision
+{
+	int colliderA_id;
+	int colliderB_id;
+} Collision;
+
+Collision* collisions;
+static unsigned int collision_counter;
+
+void Asteroids_Collision_Init()
+{
+	collisions = NULL;
+	collision_counter = 0;
+}
 
 Bullet Asteroids_Collision_CheckCollision_Enemy_Bullet(Enemy enemy_pool[], int enemy_count, Bullet bullet, Player player)
 {
@@ -14,18 +30,81 @@ Bullet Asteroids_Collision_CheckCollision_Enemy_Bullet(Enemy enemy_pool[], int e
 		Enemy* enemy = &enemy_pool[j];
 		if (Asteroids_Collision_CheckCollision_Circle(bullet.collider, bullet.pos, enemy->collider, enemy->pos))
 		{
-			if (!player.weapon.isPiercing)
+			for (unsigned int i = 0; i < collision_counter; i++)
 			{
-				bullet.active = 0;
-				bullet.pos = CP_Vector_Set(-1, -1);
-				bullet.velocity = CP_Vector_Set(0, 0);
+				if (collisions[i].colliderA_id == bullet.id && collisions[i].colliderB_id == enemy->id)
+				{
+					return bullet;
+				}
 			}
-			Asteroids_Enemy_Hit(enemy, player.weapon.damage);
-
+			bullet = Asteroids_Collision_EnterCollision_Enemy_Bullet(bullet, enemy, player);
 			return bullet;
+		}
+		else
+		{
+			for (unsigned int i = 0; i < collision_counter; i++)
+			{
+				if (collisions[i].colliderA_id == bullet.id && collisions[i].colliderB_id == enemy->id)
+				{
+					Asteroids_Collision_ExitCollision_Enemy_Bullet(bullet, enemy, player);
+					return bullet;
+				}
+			}
+
 		}
 	}
 	return bullet;
+}
+
+Bullet Asteroids_Collision_EnterCollision_Enemy_Bullet(Bullet bullet, Enemy* enemy, Player player)
+{
+	Collision* temp = realloc(collisions, ++collision_counter * sizeof(Collision));
+	if (temp != NULL)
+	{
+		collisions = temp;
+		collisions[collision_counter - 1].colliderA_id = bullet.id;
+		collisions[collision_counter - 1].colliderB_id = enemy->id;
+
+		if (!player.weapon.isPiercing)
+		{
+			bullet.active = 0;
+			bullet.pos = CP_Vector_Set(-1, -1);
+			bullet.velocity = CP_Vector_Set(0, 0);
+		}
+		Asteroids_Enemy_Hit(enemy, player.weapon.damage);
+		return bullet;
+	}
+	printf("ERROR: Failed to allocate memory for new collision.\n");
+	return bullet;
+
+}
+
+Bullet Asteroids_Collision_ExitCollision_Enemy_Bullet(Bullet bullet, Enemy* enemy, Player player)
+{
+	if (collision_counter > 0)
+	{
+		for (unsigned int i = 0; i < collision_counter; i++)
+		{
+			if (collisions[i].colliderA_id == bullet.id && collisions[i].colliderB_id == enemy->id)
+			{
+				collisions[i] = collisions[i + 1];
+			}
+		}
+
+	}
+	Collision* temp = realloc(collisions, sizeof(Collision) * --collision_counter);
+	collisions = temp;
+	return bullet;
+}
+
+void Asteroids_Collision_Exit()
+{
+	if (collisions)
+	{
+		free(collisions);
+		collisions = NULL;
+		collision_counter = 0;
+	}
 }
 
 void Asteroids_Collision_CheckCollision_Enemy_Player(Enemy enemy_pool[], int enemy_count, Player* player)
