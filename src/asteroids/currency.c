@@ -1,6 +1,7 @@
 #include "currency.h"
 #include <stdio.h>
 #include "file_manager.h"
+#include "constants.h"
 
 static int currentCredits = 0;
 
@@ -47,6 +48,7 @@ bool Asteroids_Currency_Get_From_File()
 	}
 	else
 	{
+		currentCredits = ASTEROIDS_CURRENCY_STARTING_BALANCE;
 		Asteroids_Currency_Write_To_File();
 	}
 	return false;

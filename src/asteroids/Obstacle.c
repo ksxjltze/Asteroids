@@ -87,13 +87,17 @@ void Asteroids_Obstacle_Spawn_Blackhole(void)
 	Blackhole.height = 100;
 	Blackhole.speed = ASTEROIDS_OBSTACLE_BLACKHOLE_SPEED; //speed
 	Blackhole.Collider2.diameter = Blackhole.width; //Circle collider
-	Blackhole.pos = Asteroids_Utility_Generate_Random_Pos();
+	Blackhole.pos.x = 0 - Blackhole.width / 2;
 	Blackhole.lifespan = ASTEROIDS_OBSTACLE_LIFESPAN;
-	Blackhole.active = true;
 
-	Blackhole.velocity = CP_Vector_Subtract(Asteroids_Utility_GetWindowMiddle(), Blackhole.pos);
+	CP_Vector direction = CP_Vector_Zero();
+	direction.x = (float)WIN_WIDTH;
+	direction.y = Blackhole.pos.y;
+	Blackhole.velocity = CP_Vector_Subtract(direction, Blackhole.pos);
 	Blackhole.velocity = CP_Vector_Normalize(Blackhole.velocity);
 	Blackhole.velocity = CP_Vector_Scale(Blackhole.velocity, Blackhole.speed);
+	
+	Blackhole.active = true;
 }
 
 
@@ -174,6 +178,7 @@ void Asteroids_Obstacle_Spawn_Warning(void)
 {
 	float posY = CP_Random_RangeFloat(50, (float)WIN_HEIGHT - 50);
 	GammaRay.pos.y = posY;
+	Blackhole.pos.y = posY;
 }
 void Asteroids_Obstacle_TimeInterval(void)
 {

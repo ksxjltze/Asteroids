@@ -104,11 +104,7 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 		CP_Matrix AngularDisplacement;
 		for (int i = 0; i < ASTEROIDS_FINAL_BOSS_PROJECT_NUM; i++)
 		{
-			//(-ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE * ASTEROIDS_FINAL_BOSS_PROJECT_NUM / 2) + ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE * i)
 			AngularDisplacement = CP_Matrix_Rotate(-ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE * (ASTEROIDS_FINAL_BOSS_PROJECT_NUM / 2) + ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE * i);
-			//printf("Formula is %.2f\n", -ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE * (ASTEROIDS_FINAL_BOSS_PROJECT_NUM / 2) + ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE * i);
-			//printf("Formula is %.2f\n", (-(ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE * ASTEROIDS_FINAL_BOSS_PROJECT_NUM / 2) + ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE * i));
-			//printf("Hardcode is %.2f\n", -30 +  15.0f *i);
 			Enemy* Boss_Projectile = Asteroids_Enemy_Spawn(enemy_pool, ENEMY_POOL_SIZE, Final_Boss.pos);
 			Boss_Projectile->parent_id = final_boss.id;
 			Boss_Projectile->id = i;
