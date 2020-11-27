@@ -67,7 +67,7 @@ void Asteroids_Skin_Menu_Next_Skin(void)
 		Asteroids_Skin_Menu_Load_Skin("./Assets/spaceship4.png", "skin3", 0);
 		break;
 	case skin4:
-		Asteroids_Skin_Menu_Load_Skin("./Assets/spaceship5.png", "skin4", 0);
+		Asteroids_Skin_Menu_Load_Skin("./Assets/spaceship4.png", "skin4", 0);
 		break;
 
 	}
