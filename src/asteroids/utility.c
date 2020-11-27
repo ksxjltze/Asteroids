@@ -1,4 +1,5 @@
 #include "utility.h"
+#include <stdio.h>
 
 /*
 @brief Generates a random position on the screen (window).
@@ -16,7 +17,6 @@ void Asteroids_Utility_Generate_Hurt_Sprite(CP_Image sprite, CP_Image* out)
 {
 	unsigned char* pixels = malloc(CP_Image_GetPixelBufferSize(sprite));
 	CP_Image_GetPixelData(sprite, pixels);
-
 	//Create Enemy Hurt Sprite from modified enemy_sprite pixel data.
 	if (pixels)
 	{

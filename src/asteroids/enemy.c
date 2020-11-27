@@ -398,6 +398,7 @@ void Asteroids_Enemy_Hit(Enemy* enemy, float damage)
 		enemy->status.hit = 1;
 		enemy->hp.current -= damage;
 	}
+	printf("%.2f\n", enemy->hp.current);
 }
 
 //LIU KE
