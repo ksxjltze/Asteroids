@@ -100,10 +100,10 @@ void Asteroids_Bullet_Spawn(Bullet bullets[], int count, Player player, CP_Vecto
 
 			if (BPM) // if powerup bpm
 			{
-				bullet.velocity = CP_Vector_Set(shoot_direction.x * BULLET_SPEED * ASTEROIDS_POWERUP_INCREASE_FIRERATE_VALUE, shoot_direction.y * BULLET_SPEED * 2);
+				bullet.velocity = CP_Vector_Set(shoot_direction.x * player.weapon.projectile_speed * ASTEROIDS_POWERUP_INCREASE_FIRERATE_VALUE, shoot_direction.y * player.weapon.projectile_speed * 2);
 			}
 			else
-				bullet.velocity = CP_Vector_Set(shoot_direction.x * BULLET_SPEED, shoot_direction.y * BULLET_SPEED);
+				bullet.velocity = CP_Vector_Set(shoot_direction.x * player.weapon.projectile_speed, shoot_direction.y * player.weapon.projectile_speed);
 			bullet.active = 1;
 
 			bullets[i] = bullet;

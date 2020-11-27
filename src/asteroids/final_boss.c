@@ -53,8 +53,8 @@ void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_c
 
 	if (final_boss.active)
 	{
-		Asteroid_Enemy_Check_Status(&final_boss);
 		Asteroids_Final_Boss_State_Update(player, enemy_pool, enemy_count, bullet_pool);
+		Asteroid_Enemy_Check_Status(&final_boss);
 		for (int i = 0; i < ASTEROIDS_POOLSIZE_BULLETS; i++)
 		{
 			bullet_pool[i] = Asteroids_Collision_CheckCollision_EnemyBoss_Bullet(&final_boss, bullet_pool[i], player);
@@ -150,8 +150,7 @@ void Asteroids_Final_Boss_State_CheckConditions()
 
 void Asteroids_Final_Boss_State_Idle(const void* context)
 {
-
-	
+	return;
 }
 
 void Asteroids_Final_Boss_State_Death(const void* context)

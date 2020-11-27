@@ -9,7 +9,7 @@ extern const float MAX_VELOCITY; //pixels per second
 extern const float ASTEROIDS_PLAYER_BASE_MOVE_SPEED;
 extern const float ASTEROIDS_PLAYER_SLOWED_SPEED;
 
-extern const int BULLET_SPEED;
+extern const float ASTEROIDS_WEAPON_RAILGUN_PROJECTILE_SPEED;
 extern const float ASTEROIDS_WEAPON_RAILGUN_FIRE_RATE; //bullets per minute
 extern const float HURT_WINDOW; //seconds
 extern const float ASTEROIDS_WEAPON_RAILGUN_DAMAGE;
@@ -84,6 +84,11 @@ extern const int ASTEROIDS_UPGRADES_MOVEMENT_SPEED_UPGRADE_COST;
 
 extern const float ASTEROIDS_UPGRADES_FIRE_RATE_UPGRADE_AMOUNT;
 extern const int ASTEROIDS_UPGRADES_FIRE_RATE_UPGRADE_COST;
+
+extern const float ASTEROIDS_UPGRADES_PROJECTILE_SPEED_UPGRADE_AMOUNT;
+extern const int ASTEROIDS_UPGRADES_PROJECTILE_SPEED_UPGRADE_COST;
+
+extern const int ASTEROIDS_CURRENCY_STARTING_BALANCE;
 
 extern const CP_KEY ASTEROIDS_PAUSE_KEY;
 

@@ -1,7 +1,7 @@
 #pragma once
 #define NUM_UPGRADES 10
 
-enum UpgradeType {NONE, FUEL_CAPACITY, MAX_HEALTH, BULLET_DMG, MOVE_SPEED, FIRE_RATE};
+enum UpgradeType { NONE, FUEL_CAPACITY, MAX_HEALTH, BULLET_DMG, MOVE_SPEED, FIRE_RATE, PROJECTILE_SPEED };
 typedef struct Upgrades
 {
 	const char* name;

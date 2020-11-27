@@ -30,6 +30,7 @@ struct Player Asteroids_Player_Init(float player_width, float player_height)
 	player.weapon.id = RAILGUN;
 	player.weapon.damage = ASTEROIDS_WEAPON_RAILGUN_DAMAGE;
 	player.weapon.fire_rate = ASTEROIDS_WEAPON_RAILGUN_FIRE_RATE;
+	player.weapon.projectile_speed = ASTEROIDS_WEAPON_RAILGUN_PROJECTILE_SPEED;
 
 	player.status.hit = 0;
 	player.status.hit_cooldown = 0;
@@ -122,6 +123,7 @@ void Asteroids_Player_Apply_Upgrades(Player* player)
 	Upgrade bulletDmg = Asteroids_Upgrades_Get_Upgrade(BULLET_DMG);
 	Upgrade moveSpeed = Asteroids_Upgrades_Get_Upgrade(MOVE_SPEED);
 	Upgrade fireRate = Asteroids_Upgrades_Get_Upgrade(FIRE_RATE);
+	Upgrade projectileSpeed = Asteroids_Upgrades_Get_Upgrade(PROJECTILE_SPEED);
 	
 	if (fuelCapacity.id != NONE)
 	{
@@ -182,6 +184,18 @@ void Asteroids_Player_Apply_Upgrades(Player* player)
 		{
 			printf("Upgrade: Fire Rate increased by %f.\n", upgrade);
 			printf("Speed: %f\n", player->weapon.fire_rate);
+		}
+	}
+
+	if (projectileSpeed.id != NONE)
+	{
+		float upgrade = ASTEROIDS_UPGRADES_PROJECTILE_SPEED_UPGRADE_AMOUNT * projectileSpeed.level;
+		player->weapon.projectile_speed += upgrade;
+
+		if (projectileSpeed.level > 0)
+		{
+			printf("Upgrade: Projectile Speed increased by %f.\n", upgrade);
+			printf("Speed: %f\n", player->weapon.projectile_speed);
 		}
 	}
 
