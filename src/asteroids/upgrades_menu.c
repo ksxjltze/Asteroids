@@ -83,6 +83,24 @@ void Asteroids_Upgrades_Menu_Display_Items()
 	}
 }
 
+UpgradeMenuItem Asteroids_Upgrades_Menu_Update_Upgrade_Info_Text(UpgradeMenuItem menuItem)
+{
+	if (menuItem.upgrade.hasLevel)
+	{
+		char levelText[LEVEL_BUFFER_SIZE];
+		sprintf_s(levelText, LEVEL_BUFFER_SIZE, "Level: %d\n", menuItem.upgrade.level);
+		strcpy_s(menuItem.levelText, strlen(levelText) + 1, levelText);
+	}
+	else
+	{
+		if (menuItem.upgrade.activated)
+			strcpy_s(menuItem.levelText, COST_BUFFER_SIZE, "Purchased.");
+		else
+			strcpy_s(menuItem.levelText, COST_BUFFER_SIZE, "Not Purchased.");
+	}
+	return menuItem;
+}
+
 UpgradeMenuItem Asteroids_Upgrades_Menu_Init_Upgrade_Info(Upgrade upgrade, CP_Vector pos, void(*callback)(void* ptr))
 {
 	UpgradeMenuItem menuItem;
@@ -93,19 +111,7 @@ UpgradeMenuItem Asteroids_Upgrades_Menu_Init_Upgrade_Info(Upgrade upgrade, CP_Ve
 	sprintf_s(costText, COST_BUFFER_SIZE, "Cost: %d\n", upgrade.cost);
 	strcpy_s(menuItem.costText, strlen(costText) + 1, costText);
 
-	if (menuItem.upgrade.hasLevel)
-	{
-		char levelText[LEVEL_BUFFER_SIZE];
-		sprintf_s(levelText, LEVEL_BUFFER_SIZE, "Level: %d\n", upgrade.level);
-		strcpy_s(menuItem.levelText, strlen(levelText) + 1, levelText);
-	}
-	else
-	{
-		if (menuItem.upgrade.activated)
-			strcpy_s(menuItem.levelText, COST_BUFFER_SIZE, "Purchased.");
-		else
-			strcpy_s(menuItem.levelText, COST_BUFFER_SIZE, "Not Purchased.");
-	}
+	menuItem = Asteroids_Upgrades_Menu_Update_Upgrade_Info_Text(menuItem);
 
 	menuItem.btnBuy = Asteroids_Button_Add_New_Button(120, 30);
 	CP_Vector btnPos = pos;
@@ -134,9 +140,7 @@ void Asteroids_Upgrades_Menu_Display_Upgrade_Info(UpgradeMenuItem* menuItem)
 void Asteroids_Upgrades_Menu_Update_Upgrade_Info(UpgradeMenuItem* menuItem)
 {
 	menuItem->upgrade = Asteroids_Upgrades_Get_Upgrade(menuItem->upgrade.id);
-	char levelText[LEVEL_BUFFER_SIZE];
-	sprintf_s(levelText, LEVEL_BUFFER_SIZE, "Level: %d\n", menuItem->upgrade.level);
-	strcpy_s(menuItem->levelText, strlen(levelText) + 1, levelText);
+	*menuItem = Asteroids_Upgrades_Menu_Update_Upgrade_Info_Text(*menuItem);
 }
 
 void Asteroids_Upgrades_Menu_Upgrade_Add_Level(void* upgradePtr)
