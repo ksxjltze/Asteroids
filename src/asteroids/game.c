@@ -218,6 +218,7 @@ void Asteroids_Check_Input()
 	float mouseY = CP_Input_GetMouseY();
 	CP_Vector mousePos = CP_Vector_Set(mouseX, mouseY);
 	CP_Vector shoot_direction = CP_Vector_Normalize(CP_Vector_Subtract(mousePos, player.pos));
+	spawn_smoke_trail_anim(player.pos, 0.3f, shoot_direction);
 
 	float dt = CP_System_GetDt();
 

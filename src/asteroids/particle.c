@@ -2,6 +2,7 @@
 #include "game.h"
 #include "constants.h"
 #include "player.h"
+#include <math.h>
 
 CP_Vector pos;
 //Particle pool
@@ -104,7 +105,8 @@ void draw_particle()
 
 
 //Generate particle velocity and set lifetime.
-void Spawn_Particle(CP_Vector position, int particles, float min_velocity, float max_velocity, float size, Sprite sprite, bool loop)
+void Spawn_Particle(CP_Vector position, int particles, float min_velocity,
+	float max_velocity, float size, Sprite sprite, bool loop)
 {
 	CP_Vector velocity;
 	for (int i = 0; i < sizeof(particle) / sizeof(particle[0]); i++)
@@ -122,7 +124,8 @@ void Spawn_Particle(CP_Vector position, int particles, float min_velocity, float
 			particle[i].posY = position.y;
 			particle[i].velocity = velocity;
 			particle[i].life = particle[i].sprite.duration;
-			particle[i].lifetime = particle[i].life;
+			//particle[i].lifetime = particle[i].life;
+			particle[i].lifetime = 999;
 			particle[i].size = size;
 			particle[i].loop = loop;
 			--particles;
@@ -130,7 +133,8 @@ void Spawn_Particle(CP_Vector position, int particles, float min_velocity, float
 	}
 }
 
-void smoke_velocity(CP_Vector position, int particles, float min_velocity, float max_velocity, float size)
+void smoke_velocity(CP_Vector position, int particles, float min_velocity, 
+	float max_velocity, float size)
 {
 	CP_Vector velocity;
 	for (int i = 0; i < sizeof(smoke_particle) / sizeof(smoke_particle[0]); i++)
@@ -147,7 +151,8 @@ void smoke_velocity(CP_Vector position, int particles, float min_velocity, float
 			smoke_particle[i].posY = position.y;
 			smoke_particle[i].velocity = velocity;
 			smoke_particle[i].life = smoke_particle[i].sprite.duration;
-			smoke_particle[i].lifetime = smoke_particle[i].life;
+			//smoke_particle[i].lifetime = smoke_particle[i].life;
+			smoke_particle[i].lifetime = 999;
 			smoke_particle[i].size = size;
 			--particles;
 		}
@@ -162,11 +167,14 @@ void spawn_explosion_anim(CP_Vector position, float size)
 	Spawn_Particle(position, particles, min_velocity, max_velocity, size, explosion.explosion_sprite, false);
 }
 
-void spawn_smoke_trail_anim(CP_Vector position, float size)
+void spawn_smoke_trail_anim(CP_Vector position, float size, CP_Vector rotation)
 {
 	int particles = 1;
 	float min_velocity = 0;
 	float max_velocity = 0;
+	
+	rotation = CP_Vector_Scale(rotation, 40);
+	position = CP_Vector_Subtract(position, rotation);
 	Spawn_Particle(position, particles, min_velocity, max_velocity, size, smoke.smoke_sprite, true);
 }
 
