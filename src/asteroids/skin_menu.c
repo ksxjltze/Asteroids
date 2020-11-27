@@ -3,7 +3,7 @@
 #include "button.h"
 #include "constants.h"
 
-enum PLAYER_SKINS { DEFAULT, LEGACY, PROTOTYPE, skin2, skin3, skin 4};
+enum PLAYER_SKINS { DEFAULT, LEGACY, PROTOTYPE, skin2, skin3, skin4};
 static int current_skinID;
 
 Skin current_skin;
@@ -66,11 +66,13 @@ void Asteroids_Skin_Menu_Next_Skin(void)
 	case skin3:
 		Asteroids_Skin_Menu_Load_Skin("./Assets/spaceship4.png", "skin3", 0);
 		break;
-
+	case skin4:
+		Asteroids_Skin_Menu_Load_Skin("./Assets/spaceship4.png", "skin4", 0);
+		break;
 
 	}
 
-	if (current_skinID >= skin3)
+	if (current_skinID >= skin4)
 	{
 		current_skinID = -1;
 	}
