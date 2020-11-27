@@ -47,6 +47,10 @@ void Asteroids_Upgrades_Upgrade_Disable_Levels(unsigned int id)
 		if (upgrades[i].id == id)
 		{
 			upgrades[i].hasLevel = false;
+			if (upgrades[i].level > 0)
+				upgrades[i].activated = true;
+			else
+				upgrades[i].activated = false;
 		}
 	}
 }
@@ -144,7 +148,10 @@ void Asteroids_Upgrades_Upgrade_Enable(unsigned int id)
 		if (upgrades[i].id == id)
 		{
 			if (upgrades[i].activated == false)
+			{
 				upgrades[i].activated = true;
+				upgrades[i].level = 1;
+			}
 
 			printf("%s has been enabled\n", upgrades[i].name);
 			return;

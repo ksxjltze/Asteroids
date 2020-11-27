@@ -146,7 +146,7 @@ void Asteroids_Upgrades_Menu_Upgrade_Add_Level(void* upgradePtr)
 	{
 		if (Asteroids_Currency_Deduct_Balance(menuItem->upgrade.cost))
 		{
-			Asteroids_Upgrades_Upgrade_Enable(menuItem->upgrade.id);
+			Asteroids_Upgrade_Add_Level(menuItem->upgrade.id);
 			Asteroids_Upgrades_Menu_Update_Upgrade_Info(menuItem);
 			Asteroids_Upgrades_Save_All_To_File();
 		}
@@ -158,7 +158,7 @@ void Asteroids_Upgrades_Menu_Upgrade_Add_Level(void* upgradePtr)
 		{
 			if (Asteroids_Currency_Deduct_Balance(menuItem->upgrade.cost))
 			{
-				Asteroids_Upgrade_Add_Level(menuItem->upgrade.id);
+				Asteroids_Upgrades_Upgrade_Enable(menuItem->upgrade.id);
 				Asteroids_Upgrades_Menu_Update_Upgrade_Info(menuItem);
 				Asteroids_Upgrades_Save_All_To_File();
 			}
