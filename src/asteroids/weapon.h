@@ -7,4 +7,5 @@ typedef struct Weapons
 	int id;
 	float damage;
 	float fire_rate;
+	float projectile_speed;
 } Weapon;
