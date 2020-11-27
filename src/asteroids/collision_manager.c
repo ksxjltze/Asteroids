@@ -14,10 +14,12 @@ Bullet Asteroids_Collision_CheckCollision_Enemy_Bullet(Enemy enemy_pool[], int e
 		Enemy* enemy = &enemy_pool[j];
 		if (Asteroids_Collision_CheckCollision_Circle(bullet.collider, bullet.pos, enemy->collider, enemy->pos))
 		{
-			bullet.active = 0;
-			bullet.pos = CP_Vector_Set(-1, -1);
-			bullet.velocity = CP_Vector_Set(0, 0);
-
+			if (!player.weapon.isPiercing)
+			{
+				bullet.active = 0;
+				bullet.pos = CP_Vector_Set(-1, -1);
+				bullet.velocity = CP_Vector_Set(0, 0);
+			}
 			Asteroids_Enemy_Hit(enemy, player.weapon.damage);
 
 			return bullet;
