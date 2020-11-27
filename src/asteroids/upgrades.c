@@ -1,6 +1,5 @@
-#include "upgrades.h"
-#include <stdio.h>
 #include "constants.h"
+#include "upgrades.h"
 #include "file_manager.h"
 
 static Upgrade upgrades[NUM_UPGRADES];

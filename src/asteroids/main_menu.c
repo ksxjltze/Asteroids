@@ -3,7 +3,6 @@
 #include "skin_menu.h"
 #include "upgrades_menu.h"
 #include "currency.h"
-#include "upgrades.h"
 
 #define BUTTON_WIDTH 500.0f
 #define BUTTON_HEIGHT 100.0f

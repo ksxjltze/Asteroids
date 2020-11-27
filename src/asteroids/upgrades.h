@@ -1,6 +1,7 @@
 #pragma once
 #define NUM_UPGRADES 10
 
+enum UpgradeType {NONE, FUEL_CAPACITY, MAX_HEALTH, BULLET_DMG, MOVE_SPEED, FIRE_RATE};
 typedef struct Upgrades
 {
 	const char* name;
@@ -9,7 +10,6 @@ typedef struct Upgrades
 	unsigned int level;
 }Upgrade;
 
-enum UpgradeType {NONE, FUEL_CAPACITY, MAX_HEALTH, BULLET_DMG, MOVE_SPEED, FIRE_RATE};
 
 void Asteroids_Upgrades_Init(void);
 Upgrade Asteroids_Upgrades_Initialize_Upgrade(unsigned int id, int cost, const char* name);

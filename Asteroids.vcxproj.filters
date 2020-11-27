@@ -117,6 +117,9 @@
     <ClInclude Include="src\asteroids\state.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\asteroids\upgrades.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\asteroids\bullet.c">
@@ -211,9 +214,6 @@
     </ClCompile>
     <ClCompile Include="src\asteroids\currency.c">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\asteroids\upgrades.h">
-      <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="src\asteroids\upgrades.c">
       <Filter>Source Files</Filter>
