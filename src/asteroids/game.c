@@ -106,6 +106,7 @@ void Asteroids_Update(void)
 		Asteroids_Draw();
 		Asteroids_Boss_Update(&player, enemy_pool, enemy_count, bullet_pool);
 		Asteroids_Update_Powerups(&player);
+		Asteroids_Particle_Draw_Dot();
 
 		Asteroids_Debug();
 		Asteroids_UI_Update(player);

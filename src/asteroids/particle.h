@@ -3,6 +3,7 @@
 #include "collider_circle.h"
 #include <stdbool.h>
 #include "sprite.h"
+#include "enemy.h"
 
 typedef struct Particles
 {
@@ -22,6 +23,10 @@ typedef struct Particles
 void particle_init();
 void explosion_init(void);
 void smoke_init(void);
+
+void Asteroids_Particle_Dot_Init(void);
+void Asteroids_Particle_Dot_Spawn(CP_Vector pos);
+void Asteroids_Particle_Draw_Dot(void);
 
 void spawn_explosion_anim(CP_Vector position, float size);
 void spawn_smoke_trail_anim(CP_Vector position, float size, CP_Vector rotation);

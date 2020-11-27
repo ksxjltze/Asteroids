@@ -2,6 +2,7 @@
 #include "game.h"
 #include "constants.h"
 #include "player.h"
+#include "utility.h"
 #include <math.h>
 
 CP_Vector pos;
@@ -9,7 +10,7 @@ CP_Vector pos;
 Particle particle[10000];
 Particle smoke_particle[1];
 
-enum ParticleType {NONE, EXPLOSION, SMOKE};
+enum ParticleType {NONE, EXPLOSION, SMOKE,};
 
 //Struct to hold data for Explosion particles
 struct Explosion
@@ -30,6 +31,18 @@ struct Smoke
 	int image_count;
 	float delay;
 }smoke;
+
+typedef struct Dot
+{
+	float lifespan;
+	CP_Image image;
+	CP_Vector dimensions;
+	CP_Vector pos;
+	CP_Vector velocity;
+	bool enabled;
+} dot;
+
+dot dot_pool[10];
 
 /// <summary>
 /// Initialize Particles
@@ -61,6 +74,7 @@ void explosion_init(void)
 
 void particle_init()
 {
+	Asteroids_Particle_Dot_Init();
 	for (int i = 0; i < sizeof(particle) / sizeof(particle[0]); i++)
 	{
 		particle[i].posX = 0;
@@ -105,8 +119,6 @@ void draw_particle()
 		}
 	}
 }
-
-
 //Generate particle velocity and set lifetime.
 void Spawn_Particle(CP_Vector position, int particles, float min_velocity,
 	float max_velocity, float size, Sprite sprite, int type, bool loop)
@@ -154,7 +166,6 @@ void smoke_velocity(CP_Vector position, int particles, float min_velocity,
 			smoke_particle[i].velocity = velocity;
 			smoke_particle[i].life = smoke_particle[i].sprite.duration;
 			smoke_particle[i].lifetime = smoke_particle[i].life;
-			smoke_particle[i].lifetime = 999;
 			smoke_particle[i].size = size;
 			--particles;
 		}
@@ -177,6 +188,7 @@ void spawn_smoke_trail_anim(CP_Vector position, float size, CP_Vector rotation)
 	
 	rotation = CP_Vector_Scale(rotation, 40);
 	position = CP_Vector_Subtract(position, rotation);
+
 	Spawn_Particle(position, particles, min_velocity, max_velocity, size, smoke.smoke_sprite, SMOKE, false);
 }
 
@@ -233,3 +245,42 @@ void particle_despawning(Particle* p)
 	p->sprite.keyframe = 0;
 }
 
+void Asteroids_Particle_Dot_Init(void)
+{
+	CP_Image Dot_sprite = CP_Image_Load("./Assets/Dot.png");
+	for (int i = 0; i < 10; i++)
+	{
+		dot_pool[i].image = Dot_sprite;
+		dot_pool[i].dimensions.x = 50.0f;
+		dot_pool[i].dimensions.y = 50.0f;
+		dot_pool[i].lifespan = 1.0f;
+		dot_pool[i].enabled = false;
+	};
+}
+void Asteroids_Particle_Dot_Spawn(CP_Vector position)
+{
+	for (int i = 0; i < 10; i++)
+	{
+		dot_pool[i].pos = position;
+		dot_pool[i].velocity.x = CP_Random_RangeFloat(-100, 100);
+		dot_pool[i].velocity.y = CP_Random_RangeFloat(-100, 100);
+		dot_pool[i].enabled = true;
+	}
+}
+void Asteroids_Particle_Draw_Dot(void)
+{
+	float dt = CP_System_GetDt();
+	
+	for (int i = 0; i < 10; i++)
+	{
+		if (!dot_pool[i].enabled)
+			continue;
+
+		dot_pool[i].lifespan -= dt;
+		if (dot_pool[i].lifespan < 0)
+			dot_pool[i].enabled = false;
+
+		dot_pool[i].pos = CP_Vector_Add(dot_pool[i].pos, dot_pool[i].velocity);
+		CP_Image_Draw(dot_pool[i].image, dot_pool[i].pos.x, dot_pool[i].pos.y += dt, dot_pool[i].dimensions.x, dot_pool[i].dimensions.y, 255);
+	}
+}

@@ -148,6 +148,7 @@ void Asteroids_Check_Collision_Blackhole_Enemy_Player(Enemy enemy_pool[], Player
 	{
 		if (Asteroids_Collision_CheckCollision_Circle_Test(obstacle->Collider2, obstacle->pos, enemy_pool[i].collider, enemy_pool[i].pos))
 		{
+			Asteroids_Particle_Dot_Spawn(enemy_pool[i].pos);
 			enemy_pool[i].active = false;
 		}
 	}
@@ -186,7 +187,7 @@ void Asteroids_Obstacle_TimeInterval(void)
 	obstacle_interval -= dt;
 	warning_interval -= dt;
 
-	int rng = CP_Random_RangeInt(1, 2);
+	int rng = CP_Random_RangeInt(1, 1);
 
 	if (warning_interval < 0)
 	{
