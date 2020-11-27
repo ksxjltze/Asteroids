@@ -50,15 +50,10 @@ void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_c
 
 	if (final_boss.active)
 	{
-		Asteroids_Final_Boss_Draw();
 		Asteroid_Enemy_Check_Status(&final_boss);
+		Asteroids_Final_Boss_State_Update(player, enemy_pool, enemy_count, bullet_pool);
 		Asteroids_Enemy_Check_Boss_Hp(&final_boss, *player, enemy_pool, final_boss.split_count);
-		Asteroids_Final_Boss_Shoot(final_boss, enemy_pool, player);
-		for (int i = 0; i < ASTEROIDS_POOLSIZE_BULLETS; i++)
-		{
-			bullet_pool[i] = Asteroids_Collision_CheckCollision_EnemyBoss_Bullet(&final_boss, bullet_pool[i]);
-		}
-
+		Asteroids_Final_Boss_Draw();
 	}
 	if (CP_Input_KeyTriggered(KEY_B))
 	{
@@ -70,6 +65,7 @@ void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_c
 		}
 	}
 }
+
 void Asteroids_Enemy_Final_Boss_Spawn(void)
 {
 	final_boss.hp.max = ASTEROIDS_FINAL_BOSS_MAX_HP;
@@ -148,7 +144,11 @@ void Asteroids_Final_Boss_State_Idle(const void* context)
 
 void Asteroids_Final_Boss_State_Attack(const void* context)
 {
-	Context parameters = *(Context*)context;
-	Asteroids_Final_Boss_Update(parameters.player, parameters.enemy_pool, parameters.enemy_poolSize, parameters.bullet_pool);
+	Context parameters = *(Context*)context;		
+	Asteroids_Final_Boss_Shoot(final_boss, parameters.enemy_pool, parameters.player);
+	for (int i = 0; i < ASTEROIDS_POOLSIZE_BULLETS; i++)
+	{
+		parameters.bullet_pool[i] = Asteroids_Collision_CheckCollision_EnemyBoss_Bullet(&final_boss, parameters.bullet_pool[i]);
+	}
 }
 

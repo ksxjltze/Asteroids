@@ -16,7 +16,6 @@ void Asteroids_Currency_Init(void)
 void Asteroids_Currency_Add(int amount)
 {
 	currentCredits += amount;
-	printf("Credits: %d\n", currentCredits);
 }
 
 int Asteroids_Currency_Get_Balance()
