@@ -46,7 +46,7 @@ Bullet Asteroids_Collision_CheckCollision_Enemy_Bullet(Enemy enemy_pool[], int e
 			{
 				if (collisions[i].colliderA_id == bullet.id && collisions[i].colliderB_id == enemy->id)
 				{
-					Asteroids_Collision_ExitCollision_Enemy_Bullet(bullet, enemy, player);
+					Asteroids_Collision_ExitCollision_Enemy_Bullet(bullet, enemy, player, i);
 					return bullet;
 				}
 			}
@@ -79,19 +79,13 @@ Bullet Asteroids_Collision_EnterCollision_Enemy_Bullet(Bullet bullet, Enemy* ene
 
 }
 
-Bullet Asteroids_Collision_ExitCollision_Enemy_Bullet(Bullet bullet, Enemy* enemy, Player player)
+Bullet Asteroids_Collision_ExitCollision_Enemy_Bullet(Bullet bullet, Enemy* enemy, Player player, int collisionID)
 {
-	if (collision_counter > 0)
+	for (unsigned int i = collisionID; i < collision_counter; i++)
 	{
-		for (unsigned int i = 0; i < collision_counter; i++)
-		{
-			if (collisions[i].colliderA_id == bullet.id && collisions[i].colliderB_id == enemy->id)
-			{
-				collisions[i] = collisions[i + 1];
-			}
-		}
-
+		collisions[i] = collisions[i + 1];
 	}
+
 	Collision* temp = realloc(collisions, sizeof(Collision) * --collision_counter);
 	collisions = temp;
 	return bullet;
