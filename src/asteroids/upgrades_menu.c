@@ -10,9 +10,16 @@ UpgradeMenuItem menuItems[NUM_UPGRADES];
 void Asteroids_Upgrades_Menu_Init(void)
 {
 	Asteroids_Upgrades_Menu_Init_MenuItems();
+
+	int row = 1;
 	for (int i = 0; i < Asteroids_Upgrades_Get_Upgrade_Count(); i++)
 	{
-		CP_Vector pos = CP_Vector_Set(WIN_WIDTH * (0.1f + i * ASTEROIDS_UPGRADES_MENU_ITEM_HORIZONTAL_MARGIN), WIN_HEIGHT * ASTEROIDS_UPGRADES_MENU_ITEM_VERTICAL_MARGIN);
+		CP_Vector pos = CP_Vector_Set(WIN_WIDTH * (0.1f + i * ASTEROIDS_UPGRADES_MENU_ITEM_HORIZONTAL_MARGIN) - WIN_WIDTH * (row - 1), WIN_HEIGHT * ASTEROIDS_UPGRADES_MENU_ITEM_VERTICAL_MARGIN * row);
+		if (pos.x > WIN_WIDTH)
+		{
+			row++;
+			pos = CP_Vector_Set(WIN_WIDTH * (0.1f + i * ASTEROIDS_UPGRADES_MENU_ITEM_HORIZONTAL_MARGIN) - WIN_WIDTH * (row - 1), WIN_HEIGHT * ASTEROIDS_UPGRADES_MENU_ITEM_VERTICAL_MARGIN * row);
+		}
 		Asteroids_Upgrades_Menu_Create_MenuItem(i + 1, pos, &Asteroids_Upgrades_Menu_Upgrade_Add_Level);
 	}
 }
