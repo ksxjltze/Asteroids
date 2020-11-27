@@ -1,5 +1,6 @@
 #pragma once
 #include <stdbool.h>
+#include "player.h"
 #define NUM_UPGRADES 10
 
 enum UpgradeType { NONE, FUEL_CAPACITY, MAX_HEALTH, BULLET_DMG, MOVE_SPEED, FIRE_RATE, PROJECTILE_SPEED, PIERCING};
@@ -29,3 +30,4 @@ void Asteroids_Upgrades_Create_File(void);
 void Asteroids_Upgrades_Save_All_To_File(void);
 void Asteroids_Upgrades_Read_From_File(void);
 void Asteroids_Upgrades_Set_Upgrade_Name(Upgrade* upgrade);
+void Asteroids_Upgrades_Apply_Upgrades(Player* player);

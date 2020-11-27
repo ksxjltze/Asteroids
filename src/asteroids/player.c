@@ -34,13 +34,14 @@ struct Player Asteroids_Player_Init(float player_width, float player_height)
 	Railgun_Base.damage = ASTEROIDS_WEAPON_RAILGUN_DAMAGE;
 	Railgun_Base.fire_rate = ASTEROIDS_WEAPON_RAILGUN_FIRE_RATE;
 	Railgun_Base.projectile_speed = ASTEROIDS_WEAPON_RAILGUN_PROJECTILE_SPEED;	
+	Railgun_Base.isPiercing = false;
 
 	player.weapon = Railgun_Base;
 
 	player.status.hit = 0;
 	player.status.hit_cooldown = 0;
 
-	Asteroids_Player_Apply_Upgrades(&player);
+	Asteroids_Upgrades_Apply_Upgrades(&player);
 
 	return player;
 }
@@ -118,91 +119,6 @@ void Asteroids_Player_Refuel(float amount, Player* player)
 
 	if (player->engine.fuel.current > max)
 		player->engine.fuel.current = max;
-
-}
-
-void Asteroids_Player_Apply_Upgrades(Player* player)
-{
-	Upgrade fuelCapacity = Asteroids_Upgrades_Get_Upgrade(FUEL_CAPACITY);
-	Upgrade maxHealth = Asteroids_Upgrades_Get_Upgrade(MAX_HEALTH);
-	Upgrade bulletDmg = Asteroids_Upgrades_Get_Upgrade(BULLET_DMG);
-	Upgrade moveSpeed = Asteroids_Upgrades_Get_Upgrade(MOVE_SPEED);
-	Upgrade fireRate = Asteroids_Upgrades_Get_Upgrade(FIRE_RATE);
-	Upgrade projectileSpeed = Asteroids_Upgrades_Get_Upgrade(PROJECTILE_SPEED);
-	
-	if (fuelCapacity.id != NONE)
-	{
-		float upgrade = ASTEROIDS_UPGRADES_FUEL_UPGRADE_AMOUNT * fuelCapacity.level;
-		player->engine.fuel.max += upgrade;
-		player->engine.fuel.current = player->engine.fuel.max;
-
-		if (fuelCapacity.level > 0)
-		{
-			printf("Upgrade: Fuel Capacity increased by %f.\n", upgrade);
-			printf("Fuel Capacity: %f\n", player->engine.fuel.max);
-		}
-	}
-
-	if (maxHealth.id != NONE)
-	{
-		float upgrade = ASTEROIDS_UPGRADES_MAX_HEALTH_UPGRADE_AMOUNT * maxHealth.level;
-		player->hp.max += upgrade;
-		player->hp.current = player->hp.max;
-
-		if (maxHealth.level > 0)
-		{
-			printf("Upgrade: Max Health increased by %f.\n", upgrade);
-			printf("Max Health: %f\n", player->hp.max);
-		}
-	}
-
-	if (bulletDmg.id != NONE)
-	{
-		float upgrade = ASTEROIDS_UPGRADES_BULLET_DAMAGE_UPGRADE_AMOUNT * bulletDmg.level;
-		player->weapon.damage += upgrade;
-
-		if (bulletDmg.level > 0)
-		{
-			printf("Upgrade: Bullet Damage increased by %f.\n", upgrade);
-			printf("Bullet Damage: %f\n", player->weapon.damage);
-		}
-	}
-
-	if (moveSpeed.id != NONE)
-	{
-		float upgrade = ASTEROIDS_UPGRADES_MOVEMENT_SPEED_UPGRADE_AMOUNT * moveSpeed.level;
-		player->speed += upgrade;
-
-		if (moveSpeed.level > 0)
-		{
-			printf("Upgrade: Speed increased by %f.\n", upgrade);
-			printf("Speed: %f\n", player->speed);
-		}
-	}
-
-	if (fireRate.id != NONE)
-	{
-		float upgrade = ASTEROIDS_UPGRADES_FIRE_RATE_UPGRADE_AMOUNT * fireRate.level;
-		player->weapon.fire_rate += upgrade;
-
-		if (moveSpeed.level > 0)
-		{
-			printf("Upgrade: Fire Rate increased by %f.\n", upgrade);
-			printf("Speed: %f\n", player->weapon.fire_rate);
-		}
-	}
-
-	if (projectileSpeed.id != NONE)
-	{
-		float upgrade = ASTEROIDS_UPGRADES_PROJECTILE_SPEED_UPGRADE_AMOUNT * projectileSpeed.level;
-		player->weapon.projectile_speed += upgrade;
-
-		if (projectileSpeed.level > 0)
-		{
-			printf("Upgrade: Projectile Speed increased by %f.\n", upgrade);
-			printf("Speed: %f\n", player->weapon.projectile_speed);
-		}
-	}
 
 }
 
