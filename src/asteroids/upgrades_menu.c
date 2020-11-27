@@ -107,6 +107,8 @@ void Asteroids_Upgrades_Menu_Display_Upgrade_Info(UpgradeMenuItem* menuItem)
 	CP_Font_DrawText(menuItem->upgrade.name, menuItem->pos.x, menuItem->pos.y - 80);
 
 	Asteroids_Button_Update_Advanced(&menuItem->btnBuy, menuItem);
+
+	CP_Settings_TextSize(30);
 	CP_Font_DrawText(menuItem->costText, menuItem->pos.x, menuItem->pos.y - 50);
 	CP_Font_DrawText(menuItem->levelText, menuItem->pos.x, menuItem->pos.y - 20);
 

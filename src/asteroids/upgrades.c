@@ -15,6 +15,7 @@ void Asteroids_Upgrades_Init(void)
 		upgrades[i].cost = 0;
 		upgrades[i].level = 0;
 		upgrades[i].name = "NONE";
+		upgrades[i].hasLevel = false;
 	}
 
 	Asteroids_Upgrades_Read_From_File();
@@ -24,6 +25,9 @@ void Asteroids_Upgrades_Init(void)
 	Asteroids_Upgrades_Create_Upgrade(MOVE_SPEED, ASTEROIDS_UPGRADES_MOVEMENT_SPEED_UPGRADE_COST, "Movement Speed");
 	Asteroids_Upgrades_Create_Upgrade(FIRE_RATE, ASTEROIDS_UPGRADES_FIRE_RATE_UPGRADE_COST, "Fire Rate");
 	Asteroids_Upgrades_Create_Upgrade(PROJECTILE_SPEED, ASTEROIDS_UPGRADES_PROJECTILE_SPEED_UPGRADE_COST, "Projectile Speed");
+
+	Asteroids_Upgrades_Create_Upgrade(PIERCING, ASTEROIDS_UPGRADES_PIERCING_PROJECTILES_UPGRADE_COST, "Piercing Projectiles");
+	Asteroids_Upgrades_Upgrade_Disable_Levels(PIERCING);
 }
 
 void Asteroids_Upgrades_Create_Upgrade(unsigned int id, int cost, const char* name)
@@ -36,6 +40,17 @@ void Asteroids_Upgrades_Create_Upgrade(unsigned int id, int cost, const char* na
 	}
 }
 
+void Asteroids_Upgrades_Upgrade_Disable_Levels(unsigned int id)
+{
+	for (int i = 0; i < NUM_UPGRADES; i++)
+	{
+		if (upgrades[i].id == id)
+		{
+			upgrades[i].hasLevel = false;
+		}
+	}
+}
+
 Upgrade Asteroids_Upgrades_Initialize_Upgrade(unsigned int id, int cost, const char* name)
 {
 	Upgrade upgrade;
@@ -43,6 +58,8 @@ Upgrade Asteroids_Upgrades_Initialize_Upgrade(unsigned int id, int cost, const c
 	upgrade.cost = cost;
 	upgrade.name = name;
 	upgrade.level = 0;
+	upgrade.hasLevel = true;
+	upgrade.active = false;
 	return upgrade;
 }
 
@@ -71,11 +88,7 @@ void Asteroids_Upgrades_Add_Upgrade(Upgrade upgrade)
 
 Upgrade Asteroids_Upgrades_Get_Upgrade(unsigned int id)
 {
-	Upgrade upgrade;
-	upgrade.id = NONE;
-	upgrade.cost = 0;
-	upgrade.level = 0;
-	upgrade.name = "NONE";
+	Upgrade upgrade = Asteroids_Upgrades_Get_Upgrade_Empty();
 
 	for (int i = 0; i < NUM_UPGRADES; i++)
 	{
@@ -111,8 +124,31 @@ void Asteroids_Upgrade_Add_Level(unsigned int id)
 	{
 		if (upgrades[i].id == id)
 		{
+			if (!upgrades[i].hasLevel)
+			{
+				printf("Upgrade %s has no levels.\n", upgrades[i].name);
+				return;
+			}
+			else if (upgrades[i].active == false)
+				upgrades[i].active = true;
+
 			upgrades[i].level++;
 			printf("%s is now level %u\n", upgrades[i].name, upgrades[i].level);
+			return;
+		}
+	}
+}
+
+void Asteroids_Upgrades_Upgrade_Enable(unsigned int id)
+{
+	for (int i = 0; i < NUM_UPGRADES; i++)
+	{
+		if (upgrades[i].id == id)
+		{
+			if (upgrades[i].active == false)
+				upgrades[i].active = true;
+
+			printf("%s has been enabled\n", upgrades[i].name);
 			return;
 		}
 	}
@@ -128,6 +164,18 @@ void Asteroids_Upgrades_Create_File(void)
 	}
 }
 
+Upgrade Asteroids_Upgrades_Get_Upgrade_Empty()
+{
+	Upgrade upgrade;
+	upgrade.id = NONE;
+	upgrade.cost = 0;
+	upgrade.level = 0;
+	upgrade.name = "NONE";
+	upgrade.hasLevel = true;
+	upgrade.active = false;
+	return upgrade;
+}
+
 void Asteroids_Upgrades_Save_All_To_File(void)
 {
 	FILE* upgradesFile = Asteroids_Open_File("./Assets/upgrades.data", "r+");
@@ -135,11 +183,7 @@ void Asteroids_Upgrades_Save_All_To_File(void)
 	{
 		for (int i = 0; i < NUM_UPGRADES; i++)
 		{
-			Upgrade upgrade;
-			upgrade.id = NONE;
-			upgrade.cost = 0;
-			upgrade.level = 0;
-			upgrade.name = "NONE";
+			Upgrade upgrade = Asteroids_Upgrades_Get_Upgrade_Empty();
 
 			int filePos = ftell(upgradesFile);
 			int read = fscanf_s(upgradesFile, "%u,%d,%u", &upgrade.id, &upgrade.cost, &upgrade.level);
@@ -210,6 +254,9 @@ void Asteroids_Upgrades_Set_Upgrade_Name(Upgrade* upgrade)
 		break;
 	case PROJECTILE_SPEED:
 		upgrade->name = "Projectile Speed";
+		break;
+	case PIERCING:
+		upgrade->name = "Piercing";
 		break;
 	default:
 		break;

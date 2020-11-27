@@ -7,6 +7,9 @@
 #include "particle.h"
 #include <math.h>
 
+static Weapon Railgun_Base;
+static Weapon Laser_Base;
+
 struct Player Asteroids_Player_Init(float player_width, float player_height)
 {
 	struct Player player;
@@ -27,10 +30,12 @@ struct Player Asteroids_Player_Init(float player_width, float player_height)
 	player.engine.fuel.current = player.engine.fuel.max;
 	player.engine.drain_rate = DRAIN_RATE;
 
-	player.weapon.id = RAILGUN;
-	player.weapon.damage = ASTEROIDS_WEAPON_RAILGUN_DAMAGE;
-	player.weapon.fire_rate = ASTEROIDS_WEAPON_RAILGUN_FIRE_RATE;
-	player.weapon.projectile_speed = ASTEROIDS_WEAPON_RAILGUN_PROJECTILE_SPEED;
+	Railgun_Base.id = RAILGUN;
+	Railgun_Base.damage = ASTEROIDS_WEAPON_RAILGUN_DAMAGE;
+	Railgun_Base.fire_rate = ASTEROIDS_WEAPON_RAILGUN_FIRE_RATE;
+	Railgun_Base.projectile_speed = ASTEROIDS_WEAPON_RAILGUN_PROJECTILE_SPEED;	
+
+	player.weapon = Railgun_Base;
 
 	player.status.hit = 0;
 	player.status.hit_cooldown = 0;
