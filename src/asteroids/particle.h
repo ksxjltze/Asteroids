@@ -14,6 +14,7 @@ typedef struct Particles
 	float lifetime;
 	float life;
 	float size;
+	int id;
 	bool loop;
 
 }Particle;
@@ -28,7 +29,7 @@ void spawn_smoke_trail_anim(CP_Vector position, float size, CP_Vector rotation);
 void particle_update(void);
 void draw_particle();
 
-void Spawn_Particle(CP_Vector position, int particles, float min_velocity, float max_velocity, float size, Sprite sprite, bool loop);
+void Spawn_Particle(CP_Vector position, int particles, float min_velocity, float max_velocity, float size, Sprite sprite, int type, bool loop);
 
 void smoke_velocity(CP_Vector position, int particles, float min_velocity, float max_velocity, float size);
 

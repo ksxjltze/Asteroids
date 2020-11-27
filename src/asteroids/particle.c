@@ -9,6 +9,8 @@ CP_Vector pos;
 Particle particle[10000];
 Particle smoke_particle[1];
 
+enum ParticleType {NONE, EXPLOSION, SMOKE};
+
 //Struct to hold data for Explosion particles
 struct Explosion
 {
@@ -68,6 +70,7 @@ void particle_init()
 		particle[i].enabled = 0;
 		particle[i].lifetime = 0;
 		particle[i].life = 0;
+		particle[i].id = 0;
 		particle[i].loop = false;
 	}
 }
@@ -106,7 +109,7 @@ void draw_particle()
 
 //Generate particle velocity and set lifetime.
 void Spawn_Particle(CP_Vector position, int particles, float min_velocity,
-	float max_velocity, float size, Sprite sprite, bool loop)
+	float max_velocity, float size, Sprite sprite, int type, bool loop)
 {
 	CP_Vector velocity;
 	for (int i = 0; i < sizeof(particle) / sizeof(particle[0]); i++)
@@ -163,7 +166,7 @@ void spawn_explosion_anim(CP_Vector position, float size)
 	int particles = 1;
 	float min_velocity = 0;
 	float max_velocity = 0;
-	Spawn_Particle(position, particles, min_velocity, max_velocity, size, explosion.explosion_sprite, false);
+	Spawn_Particle(position, particles, min_velocity, max_velocity, size, explosion.explosion_sprite, EXPLOSION,false);
 }
 
 void spawn_smoke_trail_anim(CP_Vector position, float size, CP_Vector rotation)
@@ -174,7 +177,7 @@ void spawn_smoke_trail_anim(CP_Vector position, float size, CP_Vector rotation)
 	
 	rotation = CP_Vector_Scale(rotation, 40);
 	position = CP_Vector_Subtract(position, rotation);
-	Spawn_Particle(position, particles, min_velocity, max_velocity, size, smoke.smoke_sprite, false);
+	Spawn_Particle(position, particles, min_velocity, max_velocity, size, smoke.smoke_sprite, SMOKE, false);
 }
 
 void particle_update()
