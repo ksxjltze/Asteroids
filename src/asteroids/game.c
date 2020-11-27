@@ -56,12 +56,13 @@ void Asteroids_Init(void)
 	Asteroids_Sprites_Load();
 	Asteroids_UI_Init();
 	Asteroids_Collision_Init();
-	Asteroids_Entities_Init();
-	Asteroids_Pause_Init();
 
 	particle_init();
 	explosion_init();
 	smoke_init();
+
+	Asteroids_Entities_Init();
+	Asteroids_Pause_Init();
 
 	Asteroids_Init_Powerups();
 	Asteroids_Init_Score();
@@ -219,7 +220,8 @@ void Asteroids_Check_Input()
 	float mouseY = CP_Input_GetMouseY();
 	CP_Vector mousePos = CP_Vector_Set(mouseX, mouseY);
 	CP_Vector shoot_direction = CP_Vector_Normalize(CP_Vector_Subtract(mousePos, player.pos));
-	spawn_smoke_trail_anim(player.pos, 0.3f, shoot_direction);
+	smoke_update(shoot_direction, player.pos);
+	
 
 	float dt = CP_System_GetDt();
 
