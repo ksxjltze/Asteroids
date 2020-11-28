@@ -20,13 +20,26 @@ typedef struct Particles
 
 }Particle;
 
+typedef struct Dot
+{
+	float lifespan;
+	CP_Image image[10];
+	CP_Vector dimensions;
+	CP_Vector pos;
+	CP_Vector velocity;
+	bool enabled;
+} dot;
+
 void particle_init();
 void explosion_init(void);
 void smoke_init(void);
 
+#define MaxDotParticleArrSize 100
+#define DotsPerArr 10
 void Asteroids_Particle_Dot_Init(void);
 void Asteroids_Particle_Dot_Spawn(CP_Vector pos);
 void Asteroids_Particle_Draw_Dot(void);
+void Asteroids_Particle_Dot_Despawn(dot* dot_particle);
 
 void spawn_explosion_anim(CP_Vector position, float size);
 void spawn_smoke_trail_anim(CP_Vector position, float size);

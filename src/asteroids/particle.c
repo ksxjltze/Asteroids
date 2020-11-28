@@ -34,17 +34,9 @@ struct Smoke
 	float delay;
 }smoke;
 
-typedef struct Dot
-{
-	float lifespan;
-	CP_Image image;
-	CP_Vector dimensions;
-	CP_Vector pos;
-	CP_Vector velocity;
-	bool enabled;
-} dot;
 
-dot dot_pool[10];
+
+dot dot_pool[MaxDotParticleArrSize];
 
 /// <summary>
 /// Initialize Particles
@@ -233,7 +225,8 @@ void particle_update()
 		}
 
 	}
-	draw_particle();
+	draw_particle(); 
+
 }
 
 void smoke_update(CP_Vector rotation, CP_Vector playerPos)
@@ -260,39 +253,59 @@ void particle_despawning(Particle* p)
 void Asteroids_Particle_Dot_Init(void)
 {
 	CP_Image Dot_sprite = CP_Image_Load("./Assets/Dot.png");
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < DotsPerArr; i++)
 	{
-		dot_pool[i].image = Dot_sprite;
-		dot_pool[i].dimensions.x = 50.0f;
-		dot_pool[i].dimensions.y = 50.0f;
-		dot_pool[i].lifespan = 1.0f;
+		dot_pool->image[i] = Dot_sprite;
+	}
+	for (int i = 0; i < MaxDotParticleArrSize; i++)
+	{
+		dot_pool[i].dimensions.x = 20.0f;
+		dot_pool[i].dimensions.y = 20.0f;
+		dot_pool[i].lifespan = 5.0f;
 		dot_pool[i].enabled = false;
-	};
+	}
 }
 void Asteroids_Particle_Dot_Spawn(CP_Vector position)
 {
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < MaxDotParticleArrSize; i++)
 	{
-		dot_pool[i].pos = position;
-		dot_pool[i].velocity.x = CP_Random_RangeFloat(-100, 100);
-		dot_pool[i].velocity.y = CP_Random_RangeFloat(-100, 100);
-		dot_pool[i].enabled = true;
+		if (!dot_pool[i].enabled) // find an inactive array and populate it.
+		{
+			dot_pool[i].pos = position;
+			dot_pool[i].velocity.x = CP_Random_RangeFloat(-100, 100);
+			dot_pool[i].velocity.y = CP_Random_RangeFloat(-100, 100);
+			dot_pool[i].enabled = true;
+			return;
+		}
 	}
 }
 void Asteroids_Particle_Draw_Dot(void)
 {
 	float dt = CP_System_GetDt();
 	
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < MaxDotParticleArrSize; i++) 
 	{
-		if (!dot_pool[i].enabled)
+		if (!dot_pool[i].enabled) // if the array isnt active, don't draw
 			continue;
 
 		dot_pool[i].lifespan -= dt;
-		if (dot_pool[i].lifespan < 0)
-			dot_pool[i].enabled = false;
+		dot_pool[i].velocity = CP_Vector_Normalize(dot_pool[i].velocity);
+		dot_pool[i].velocity = CP_Vector_Scale(dot_pool[i].velocity, 50);
+		dot_pool[i].pos = CP_Vector_Add(dot_pool[i].pos, CP_Vector_Scale(dot_pool[i].velocity, dt));
 
-		dot_pool[i].pos = CP_Vector_Add(dot_pool[i].pos, dot_pool[i].velocity);
-		CP_Image_Draw(dot_pool[i].image, dot_pool[i].pos.x, dot_pool[i].pos.y += dt, dot_pool[i].dimensions.x, dot_pool[i].dimensions.y, 255);
+		for (int j = 0; j < DotsPerArr; j++)
+		{
+			CP_Image_DrawAdvanced(dot_pool->image[j], dot_pool[i].pos.x, dot_pool[i].pos.y += dt, dot_pool[i].dimensions.x, dot_pool[i].dimensions.y, (int)(255-(50*dt)), 255* dt);
+		}
+		if (dot_pool[i].lifespan < 0)
+		{
+			Asteroids_Particle_Dot_Despawn(&dot_pool[i]);
+
+		}
 	}
+}
+void Asteroids_Particle_Dot_Despawn(dot* dot_particle)
+{
+	dot_particle->enabled = false;
+	dot_particle->lifespan = 5.0f;
 }

@@ -69,10 +69,10 @@ void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_co
 	////// Blackhole testing
 
 	//// Spawn Blackhole
-	//if (CP_Input_KeyTriggered(KEY_B))
-	//{
-	//	Asteroids_Obstacle_Spawn_Blackhole();
-	//}
+	if (CP_Input_KeyTriggered(KEY_T))
+	{
+		Asteroids_Obstacle_Spawn_Blackhole();
+	}
 
 	//// Deactivate Blackhole
 	//if (CP_Input_KeyTriggered(KEY_N))
@@ -148,8 +148,8 @@ void Asteroids_Check_Collision_Blackhole_Enemy_Player(Enemy enemy_pool[], Player
 	{
 		if (Asteroids_Collision_CheckCollision_Circle_Test(obstacle->Collider2, obstacle->pos, enemy_pool[i].collider, enemy_pool[i].pos))
 		{
-			Asteroids_Particle_Dot_Spawn(enemy_pool[i].pos);
 			enemy_pool[i].active = false;
+			Asteroids_Particle_Dot_Spawn(enemy_pool[i].pos);
 		}
 	}
 }
