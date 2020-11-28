@@ -36,7 +36,7 @@ struct Player Asteroids_Player_Init(float player_width, float player_height)
 	player.status.hit_cooldown = 0;
 
 	Asteroids_Player_Apply_Upgrades(&player);
-
+	spawn_smoke_trail_anim(player.pos, 0.3f);
 	return player;
 }
 
@@ -58,7 +58,6 @@ void Asteroids_Player_Update(Player* player)
 	{
 		Asteroids_Player_Death(player);
 	}
-
 }
 
 void Asteroids_Player_Death(Player* player)

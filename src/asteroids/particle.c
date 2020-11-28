@@ -9,6 +9,8 @@ CP_Vector pos;
 //Particle pool
 Particle particle[10000];
 Particle smoke_particle[1];
+static float smoke_spawn_interval;
+static Particle* smoke_ptr;
 
 enum ParticleType {NONE, EXPLOSION, SMOKE,};
 
@@ -103,6 +105,7 @@ void smoke_init()
 	}
 
 	smoke.delay = 0.1f;
+	//int timer = 1.0f;
 	smoke.smoke_sprite = Asteroids_Sprite_Create(smoke.image, smoke.dimensions, smoke.image_count, smoke.delay * smoke.image_count, 0);
 }
 
@@ -120,15 +123,12 @@ void draw_particle()
 	}
 }
 //Generate particle velocity and set lifetime.
-void Spawn_Particle(CP_Vector position, int particles, float min_velocity,
+Particle* Spawn_Particle(CP_Vector position, int particles, float min_velocity,
 	float max_velocity, float size, Sprite sprite, int type, bool loop)
 {
 	CP_Vector velocity;
 	for (int i = 0; i < sizeof(particle) / sizeof(particle[0]); i++)
 	{
-		if (particles <= 0)
-			return;
-
 		if (particle[i].enabled == 0)
 		{
 			velocity.x = CP_Random_RangeFloat(min_velocity, max_velocity);
@@ -142,9 +142,11 @@ void Spawn_Particle(CP_Vector position, int particles, float min_velocity,
 			particle[i].lifetime = particle[i].life;
 			particle[i].size = size;
 			particle[i].loop = loop;
-			--particles;
+			particle[i].id = type;
+			return &particle[i];
 		}
 	}
+	return NULL;
 }
 
 void smoke_velocity(CP_Vector position, int particles, float min_velocity, 
@@ -166,6 +168,7 @@ void smoke_velocity(CP_Vector position, int particles, float min_velocity,
 			smoke_particle[i].velocity = velocity;
 			smoke_particle[i].life = smoke_particle[i].sprite.duration;
 			smoke_particle[i].lifetime = smoke_particle[i].life;
+			//smoke_particle[i].lifetime = 999;
 			smoke_particle[i].size = size;
 			--particles;
 		}
@@ -177,19 +180,16 @@ void spawn_explosion_anim(CP_Vector position, float size)
 	int particles = 1;
 	float min_velocity = 0;
 	float max_velocity = 0;
-	Spawn_Particle(position, particles, min_velocity, max_velocity, size, explosion.explosion_sprite, EXPLOSION,false);
+	Spawn_Particle(position, particles, min_velocity, max_velocity, size, explosion.explosion_sprite, EXPLOSION, false);
 }
 
-void spawn_smoke_trail_anim(CP_Vector position, float size, CP_Vector rotation)
+void spawn_smoke_trail_anim(CP_Vector position, float size)
 {
 	int particles = 1;
 	float min_velocity = 0;
 	float max_velocity = 0;
-	
-	rotation = CP_Vector_Scale(rotation, 40);
-	position = CP_Vector_Subtract(position, rotation);
 
-	Spawn_Particle(position, particles, min_velocity, max_velocity, size, smoke.smoke_sprite, SMOKE, false);
+	smoke_ptr = Spawn_Particle(position, particles, min_velocity, max_velocity, size, smoke.smoke_sprite, SMOKE, true);
 }
 
 void particle_update()
@@ -201,7 +201,10 @@ void particle_update()
 		{
 			particle[i].posX += particle[i].velocity.x * dt;
 			particle[i].posY += particle[i].velocity.y * dt;
-			particle[i].lifetime -= dt;
+			if (particle[i].loop == false)
+			{
+				particle[i].lifetime -= dt;
+			}
 			particle[i].sprite.time -= dt;
 
 			if (particle[i].sprite.time <= 0)
@@ -231,6 +234,15 @@ void particle_update()
 
 	}
 	draw_particle();
+}
+
+void smoke_update(CP_Vector rotation, CP_Vector playerPos)
+{
+	rotation = CP_Vector_Scale(rotation, 40);
+	//CP_Vector position = CP_Vector_Set(smoke_ptr->posX, smoke_ptr->posY);
+	playerPos = CP_Vector_Subtract(playerPos, rotation);
+	smoke_ptr->posX = playerPos.x;
+	smoke_ptr->posY = playerPos.y;
 }
 
 void particle_despawning(Particle* p)

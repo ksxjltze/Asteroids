@@ -29,13 +29,15 @@ void Asteroids_Particle_Dot_Spawn(CP_Vector pos);
 void Asteroids_Particle_Draw_Dot(void);
 
 void spawn_explosion_anim(CP_Vector position, float size);
-void spawn_smoke_trail_anim(CP_Vector position, float size, CP_Vector rotation);
+void spawn_smoke_trail_anim(CP_Vector position, float size);
 
 void particle_update(void);
 void draw_particle();
 
-void Spawn_Particle(CP_Vector position, int particles, float min_velocity, float max_velocity, float size, Sprite sprite, int type, bool loop);
+Particle* Spawn_Particle(CP_Vector position, int particles, float min_velocity, float max_velocity, float size, Sprite sprite, int type, bool loop);
 
 void smoke_velocity(CP_Vector position, int particles, float min_velocity, float max_velocity, float size);
 
 void particle_despawning(Particle* particle);
+
+void smoke_update(CP_Vector rotation, CP_Vector playerPos);
