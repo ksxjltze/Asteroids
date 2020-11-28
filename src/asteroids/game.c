@@ -55,6 +55,7 @@ void Asteroids_Init(void)
 	Asteroids_Set_Difficulty(DIFFICULTY_OPTION);
 	Asteroids_Sprites_Load();
 	Asteroids_UI_Init();
+	Asteroids_Collision_Init();
 
 	particle_init();
 	explosion_init();
@@ -315,6 +316,11 @@ void Asteroids_Debug_Check_Input()
 	{
 		Asteroids_Player_Death(&player);
 	}
+
+	if (CP_Input_KeyTriggered(KEY_F2))
+	{
+		Asteroids_Enemy_Disable_Spawn();
+	}
 }
 
 // use CP_Engine_SetNextGameState to specify this function as the exit function
@@ -322,5 +328,5 @@ void Asteroids_Debug_Check_Input()
 void Asteroids_Exit(void)
 {
 	// shut down the gamestate and cleanup any dynamic memory
-	
+	Asteroids_Collision_Exit();
 }

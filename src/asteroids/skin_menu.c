@@ -3,7 +3,7 @@
 #include "button.h"
 #include "constants.h"
 
-enum PLAYER_SKINS { DEFAULT, LEGACY, PROTOTYPE, skin2, skin3};
+enum PLAYER_SKINS { DEFAULT, LEGACY, PROTOTYPE, skin2, skin3, skin4};
 static int current_skinID;
 
 Skin current_skin;
