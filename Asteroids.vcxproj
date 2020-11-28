@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\asteroids\Boss.h" />
+    <ClInclude Include="src\asteroids\bigboy.h" />
     <ClInclude Include="src\asteroids\bullet.h" />
     <ClInclude Include="src\asteroids\button.h" />
     <ClInclude Include="src\asteroids\collider_aabb.h" />
@@ -57,7 +57,7 @@
     <ClInclude Include="src\asteroids\weapon.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\asteroids\Boss.c" />
+    <ClCompile Include="src\asteroids\bigboy.c" />
     <ClCompile Include="src\asteroids\bullet.c" />
     <ClCompile Include="src\asteroids\button.c" />
     <ClCompile Include="src\asteroids\collider_aabb.c" />

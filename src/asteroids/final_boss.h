@@ -4,7 +4,7 @@
 #include "utility.h"
 #include "player.h"
 #include "bullet.h"
-#include "Boss.h"
+#include "bigboy.h"
 #include "score.h"
 
 void Asteroids_Final_Boss_Init(void);

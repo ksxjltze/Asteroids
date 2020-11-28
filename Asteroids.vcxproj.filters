@@ -93,9 +93,6 @@
     <ClInclude Include="src\asteroids\difficulty_menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\asteroids\Boss.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\asteroids\skin_menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -118,6 +115,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\asteroids\upgrades.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\asteroids\bigboy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -197,9 +197,6 @@
     <ClCompile Include="src\asteroids\difficulty_menu.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\asteroids\Boss.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\asteroids\skin_menu.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -219,6 +216,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\asteroids\final_boss.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\asteroids\bigboy.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
