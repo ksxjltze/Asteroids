@@ -255,7 +255,10 @@ void Asteroids_Particle_Dot_Init(void)
 	CP_Image Dot_sprite = CP_Image_Load("./Assets/Dot.png");
 	for (int i = 0; i < DotsPerArr; i++)
 	{
-		dot_pool->image[i] = Dot_sprite;
+		for (int j = 0; j < DotsPerArr; j++)
+		{
+			dot_pool[i].image[j] = Dot_sprite;
+		}
 	}
 	for (int i = 0; i < MaxDotParticleArrSize; i++)
 	{

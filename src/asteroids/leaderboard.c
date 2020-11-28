@@ -1,10 +1,8 @@
-﻿//#include "leaderboard.h"
-//
-
-void abc23(void)
+﻿void abd(void)
 {
 
 }
+//#include "leaderboard.h"
 //
 //Leaders L [MAX_LEADER];
 //
@@ -20,7 +18,7 @@ void abc23(void)
 //	Leaderboard.textsize = 50.0f;
 //	Leaderboard.text = "LEADERBOARD: ";
 //	Leaderboard.player_score = Score.enemy_kill_score + Score.time_score;
-//	Leaderboard.player_name[0] = NULL;
+//	Leaderboard.player_name[0] = '\0';
 //
 //	CP_Vector pos6 = CP_Vector_Set((float)((WIN_WIDTH / 2 - BUTTON_WIDTH / 2)), (float)(WIN_HEIGHT - BUTTON_HEIGHT));
 //	ExitBtn = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -47,7 +45,9 @@ void abc23(void)
 //	{
 //		for (int i = 0; i < MAX_LEADER; i++)
 //		{
-//			fscanf_s(LeaderboardFile, "%s %f", L[i].name, L[i].score);
+//			int b = fscanf_s(LeaderboardFile, "%s %f", &L[i].name, 20, (float)L[i].score);
+//			(void)b;
+//			
 //		}
 //		Asteroids_Close_File(LeaderboardFile);
 //	}
@@ -56,9 +56,10 @@ void abc23(void)
 //
 //int Asteroids_Compare_LeaderScore(const void* first, const void* second)
 //{
-//	if (*(float*)first < *(float*)second) return -1;
-//	if (*(float*)first == *(float*)second) return 0;
 //	if (*(float*)first > *(float*)second) return 1;
+//	if (*(float*)first == *(float*)second) return 0;
+//
+//	return -1;
 //}
 //
 //bool Asteroids_Check_If_Leader(void)
@@ -103,7 +104,7 @@ void abc23(void)
 //{
 //	if (CP_Input_KeyTriggered(KEY_ENTER))
 //	{
-//		Asteroids_Write_Leaderboard_Data();
+//		Asteroids_Write_LeaderBoard_Data();
 //		return;
 //	}
 //
@@ -150,9 +151,10 @@ void abc23(void)
 //	for (int i = 0; i < MAX_LEADER; i++)
 //	{
 //		char L_score[16];
-//		sprintf_s(L_score, 16, "%d", L[i].score);//debug prints
+//		int whatever = sprintf_s(L_score, 16, "%.2lf", L[i].score);//debug prints
+//		(void)whatever;
 //
-//		CP_Font_DrawText(L->name, Leaderboard.pos.x, Leaderboard.pos.y);
+//		CP_Font_DrawText(L[i].name, Leaderboard.pos.x, Leaderboard.pos.y);
 //		CP_Font_DrawText(L_score, Leaderboard.pos.x, Leaderboard.pos.y);
 //	}
 //}
