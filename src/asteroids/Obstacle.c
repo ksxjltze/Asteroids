@@ -1,4 +1,5 @@
 #include "Obstacle.h"
+#include "utility.h"
 
 Obstacle Blackhole;
 Obstacle GammaRay;
@@ -226,4 +227,12 @@ void Asteroids_Check_Collision_Gammaray_Enemy_Player(Enemy enemy_pool[], Player*
 			Asteroids_Enemy_Death(&enemy_pool[i]);
 		}
 	}
+}
+
+void Asteroids_Obstacles_Debug_BlackHole_To_Mouse()
+{
+	if (!Blackhole.active)
+		Asteroids_Obstacle_Spawn_Blackhole();
+		
+	Asteroids_Utility_Move_Object_To_Mouse_Stationary(&Blackhole.pos, &Blackhole.velocity);
 }

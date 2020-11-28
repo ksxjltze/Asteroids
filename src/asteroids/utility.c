@@ -80,3 +80,14 @@ bool Asteroids_Utility_isInWindow(CP_Vector position)
 
 	return left && right && top && bottom;
 }
+
+void Asteroids_Utility_Move_Object_To_Mouse(CP_Vector* position)
+{
+	*position = CP_Vector_Set(CP_Input_GetMouseX(), CP_Input_GetMouseY());
+}
+
+void Asteroids_Utility_Move_Object_To_Mouse_Stationary(CP_Vector* position, CP_Vector* velocity)
+{
+	*position = CP_Vector_Set(CP_Input_GetMouseX(), CP_Input_GetMouseY());
+	*velocity = CP_Vector_Zero();
+}

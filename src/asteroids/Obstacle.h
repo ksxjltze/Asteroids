@@ -41,3 +41,6 @@ void Asteroids_Environment_Draw_Warning(void);
 // Collision
 void Asteroids_Check_Collision_Blackhole_Enemy_Player(Enemy enemy_pool[], Player* player, Obstacle* obstacle, int enemy_count);
 void Asteroids_Check_Collision_Gammaray_Enemy_Player(Enemy enemy_pool[], Player* player, Obstacle* obstacle, int enemy_count);
+
+// DEBUG
+void Asteroids_Obstacles_Debug_BlackHole_To_Mouse();
