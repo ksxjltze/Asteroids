@@ -267,6 +267,7 @@ void Asteroids_Particle_Dot_Init(void)
 }
 void Asteroids_Particle_Dot_Spawn(CP_Vector position)
 {
+	printf("SPAWN DOT");
 	for (int i = 0; i < MaxDotParticleArrSize; i++)
 	{
 		if (!dot_pool[i].enabled) // find an inactive array and populate it.

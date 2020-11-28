@@ -352,24 +352,11 @@ void Asteroids_Upgrades_Apply_Upgrades(Player* player)
 		}
 	}
 
-	if (projectileSpeed.id != NONE)
-	{
-		float upgrade = ASTEROIDS_UPGRADES_PROJECTILE_SPEED_UPGRADE_AMOUNT * projectileSpeed.level;
-		player->weapon.projectile_speed += upgrade;
-
-		if (projectileSpeed.level > 0)
-		{
-			printf("Upgrade: Projectile Speed increased by %f.\n", upgrade);
-			printf("Speed: %f\n", player->weapon.projectile_speed);
-		}
-	}
-
 	if (piercing.id != NONE)
 	{
-		player->weapon.isPiercing = true;
-
-		if (projectileSpeed.level > 0)
+		if (piercing.activated)
 		{
+			player->weapon.isPiercing = true;
 			printf("Upgrade: Piercing Projectiles enabled.\n");
 		}
 	}
