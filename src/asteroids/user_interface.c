@@ -10,6 +10,7 @@ static CP_Vector fuelPos;
 static CP_Vector difficultyPos;
 static float timePassed;
 static CP_Color meterFill;
+static CP_Color nextFill;
 
 void Asteroids_UI_Init()
 {
@@ -17,6 +18,7 @@ void Asteroids_UI_Init()
 	difficultyPos = CP_Vector_Set((float)WIN_WIDTH - 120, 40);
 	timePassed = 0;
 	meterFill = CP_Color_Create(0, 255, 0, 255);
+	nextFill = meterFill;
 }
 
 void Asteroids_UI_Update(Player player)
@@ -115,16 +117,17 @@ void Asteroids_UI_Display_Current_Difficulty(void)
 
 void Asteroids_UI_Display_Difficulty_Meter()
 {
+	meterFill = CP_Color_Lerp(meterFill, nextFill, CP_System_GetDt());
 	if (timePassed >= ASTEROIDS_DIFFICULTY_INTERVAL && ASTEROIDS_GAME_DIFFICULTY < BRUH)
 	{
 		timePassed = 0;
 
-		if (meterFill.r < 255)
+		if (nextFill.r < 255)
 		{
-			int scale = 35;
-			meterFill.r += scale * 3;
-			meterFill.g -= scale * 2;
-			meterFill.b += scale;
+			int scale = 40;
+			nextFill.r += scale * 3;
+			nextFill.g -= scale * 2;
+			nextFill.b += scale;
 		}
 	}
 
