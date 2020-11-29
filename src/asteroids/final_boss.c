@@ -9,6 +9,7 @@ CP_Image final_boss_sprite_hurt[2];
 
 static bool lap;
 static bool dodge;
+static bool bullet_hell;
 
 typedef struct Context
 {
@@ -18,7 +19,7 @@ typedef struct Context
 	Bullet* bullet_pool;
 } Context;
 
-enum BossState {NONE, IDLE, ATTACK, DEATH, DODGE};
+enum BossState {NONE, IDLE, ATTACK, DEATH, DODGE, BULLET_HELL};
 
 #define ENEMY_POOL_SIZE 200
 #define ASTEROIDS_POOLSIZE_BULLETS 999
@@ -48,7 +49,6 @@ void Asteroids_Final_Boss_Init(void)
 
 	battleStarted = 0;
 	lap = false;
-	dodge = false;
 }
 
 void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_count, Bullet bullet_pool[])
@@ -107,7 +107,7 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 	float dt = CP_System_GetDt();
 
 	fire_rate -= dt;
-	printf("firerate: %.2f\n", fire_rate);
+	//printf("firerate: %.2f\n", fire_rate);
 	if (fire_rate <= 0)
 	{
 		CP_Matrix AngularDisplacement;
@@ -123,9 +123,7 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 			Boss_Projectile->velocity = CP_Vector_Scale(Boss_Projectile->velocity, ASTEROIDS_FINAL_BOSS_PROJECTILE_SPEED);
 			Boss_Projectile->velocity = CP_Vector_MatrixMultiply(AngularDisplacement, Boss_Projectile->velocity);
 		}
-		fire_rate = ASTEROIDS_FINAL_BOSS_FIRE_RATE;
-		if (dodge)
-			fire_rate = ASTEROIDS_FINAL_BOSS_DODGE_FIRE_RATE;
+		fire_rate = Asteroids_Final_Boss_FireRate();
 	}
 }
 void Asteroids_Final_Boss_Summon_Criteria_Check(void)
@@ -161,8 +159,13 @@ void Asteroids_Final_Boss_State_CheckConditions()
 		bossState.action = &Asteroids_Final_Boss_State_Dodge;
 		bossState.name = "Dodge";
 		bossState.id = DODGE;
-		dodge = true;
-		fire_rate = ASTEROIDS_FINAL_BOSS_DODGE_FIRE_RATE;
+	}
+	if (CP_Input_KeyDown(KEY_B))
+	{
+		bossState.action = &Asteroids_Final_Boss_State_BulletHell;
+		bossState.name = "BulletHell";
+		bossState.id = BULLET_HELL;
+		printf("hmm\n");
 	}
 }
 
@@ -228,4 +231,23 @@ void Asteroids_Final_Boss_Dodge(Enemy* Final_boss, Player* player)
 
 	if (!lap)
 		Final_boss->pos = CP_Vector_Add(Final_boss->pos, Final_boss->velocity);
+}
+void Asteroids_Final_Boss_State_BulletHell(const void* context)
+{
+	Context parameters = *(Context*)context;
+	Asteroids_Final_Boss_Shoot(final_boss, parameters.enemy_pool, parameters.player);
+}
+float Asteroids_Final_Boss_FireRate(void)
+{
+	switch (bossState.id)
+	{
+	case ATTACK:
+		return ASTEROIDS_FINAL_BOSS_FIRE_RATE;
+	case DODGE:
+		return ASTEROIDS_FINAL_BOSS_DODGE_STATE_FIRE_RATE;
+	case BULLET_HELL:
+		return ASTEROIDS_FINAL_BOSS_BULLETHELL_STATE_FIRE_RATE;
+	default:
+		return 0;
+	}
 }

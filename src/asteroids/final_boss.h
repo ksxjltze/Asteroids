@@ -23,7 +23,9 @@ void Asteroids_Final_Boss_State_Attack(void* context);
 void Asteroids_Final_Boss_State_Idle(void* context);
 
 void Asteroids_Final_Boss_State_Dodge(void* context);
+void Asteroids_Final_Boss_State_BulletHell(void* context);
 void Asteroids_Final_Boss_Dodge(Enemy* Final_boss, Player* player);
+float Asteroids_Final_Boss_FireRate(void);
 
 void Asteroids_Final_Boss_State_Death(const void* context);
 void Asteroid_Final_Boss_Reset();
