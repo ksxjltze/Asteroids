@@ -160,12 +160,11 @@ void Asteroids_Final_Boss_State_CheckConditions()
 		bossState.name = "Dodge";
 		bossState.id = DODGE;
 	}
-	if (CP_Input_KeyDown(KEY_B))
+	if (CP_Input_KeyDown(KEY_N))
 	{
 		bossState.action = &Asteroids_Final_Boss_State_BulletHell;
 		bossState.name = "BulletHell";
 		bossState.id = BULLET_HELL;
-		printf("hmm\n");
 	}
 }
 
