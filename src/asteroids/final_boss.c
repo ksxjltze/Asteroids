@@ -337,12 +337,12 @@ void Asteroids_Final_Boss_State_Change_Manager(void)
 void Asteroids_Final_Boss_Hp_Draw(Enemy Final_Boss)
 {
 	CP_Vector mid = Asteroids_Utility_GetWindowMiddle();
-	mid.x *= 0.5;
+	mid.x *= (float)0.33;
 	mid.y *= 2;
-	mid.y -= 50.0f;
-	float scale = (float)(WIN_WIDTH / 2);
+	float scale = (float)(WIN_WIDTH * 2/3);
 	float width = (Final_Boss.hp.current / Final_Boss.hp.max) * scale;
-	float height = 25.0f;
+	float height = 30.0f;
+	mid.y -= height;
 
 	char boss_hp_buffer[16];
 	sprintf_s(boss_hp_buffer, 16, ":%.0f/%.0f", Final_Boss.hp.current, Final_Boss.hp.max);
