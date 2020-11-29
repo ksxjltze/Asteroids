@@ -89,7 +89,7 @@ void Asteroids_Enemy_Final_Boss_Spawn(void)
 	final_boss.split_count = 0; // no split, game ends when boss DIES
 	final_boss.collider.diameter = final_boss.size * boss_width;
 
-	final_boss.sprite_type = CP_Random_RangeInt(0, 1);
+	final_boss.sprite_type = CP_Random_RangeInt(1, 1); //lmao
 	battleStarted = 1;
 
 	Asteroids_Enemy_Disable_Spawn(); // stop spawning of random asteroids
@@ -101,8 +101,13 @@ void Asteroids_Final_Boss_Draw(void)
 
 void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* player)
 {
+	
 	float dt = CP_System_GetDt();
+	if (bossState.id == DODGE && bossState.id == ATTACK)
+		fire_rate = ASTEROIDS_FINAL_BOSS_DODGE_FIRE_RATE;
+
 	fire_rate -= dt;
+	printf("firerate: %.2f\n", fire_rate);
 	if (fire_rate <= 0)
 	{
 		CP_Matrix AngularDisplacement;
@@ -119,6 +124,8 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 			Boss_Projectile->velocity = CP_Vector_MatrixMultiply(AngularDisplacement, Boss_Projectile->velocity);
 		}
 		fire_rate = ASTEROIDS_FINAL_BOSS_FIRE_RATE;
+		if (bossState.id == DODGE)
+			fire_rate = ASTEROIDS_FINAL_BOSS_DODGE_FIRE_RATE;
 	}
 }
 void Asteroids_Final_Boss_Summon_Criteria_Check(void)
@@ -193,31 +200,31 @@ void Asteroids_Final_Boss_State_Dodge(void*context)
 {
 	Context parameters = *(Context*)context;
 	Asteroids_Final_Boss_Dodge(&final_boss, parameters.player);
+	Asteroids_Final_Boss_Shoot(final_boss, parameters.enemy_pool, parameters.player);
 
 }
 void Asteroids_Final_Boss_Dodge(Enemy* Final_boss, Player* player)
 {
-	if (bossState.id == DODGE)
-	{
-		float dt = CP_System_GetDt();
-		Final_boss->speed = 1000.0f;
-		CP_Vector movement_range = CP_Vector_Zero();
-		movement_range.y = (float)WIN_HEIGHT;
-		Final_boss->velocity = CP_Vector_Subtract(movement_range, Final_boss->pos);
-		Final_boss->velocity = CP_Vector_Normalize(Final_boss->velocity);
-		Final_boss->velocity = CP_Vector_Scale(Final_boss->velocity, Final_boss->speed * dt);
-		Final_boss->velocity.x = 0;
+	float dt = CP_System_GetDt();
+	Final_boss->speed = 1500.0f;
+	CP_Vector max = CP_Vector_Zero();
+	CP_Vector min = CP_Vector_Zero();
+	max.y = (float)WIN_HEIGHT;
+		
+	Final_boss->velocity = CP_Vector_Subtract(max, min);
+	Final_boss->velocity = CP_Vector_Normalize(Final_boss->velocity);
+	Final_boss->velocity = CP_Vector_Scale(Final_boss->velocity, Final_boss->speed * dt);
+	Final_boss->velocity.x = 0;
 
-		if (Final_boss->pos.y + Final_boss->collider.diameter / 2 >= (float)WIN_HEIGHT)
-			lap = true;
-		if (Final_boss->pos.y - Final_boss->collider.diameter / 2 <= 0)
-			lap = false;
+	if (Final_boss->pos.y + Final_boss->collider.diameter / 2 >= (float)WIN_HEIGHT)
+		lap = true;
+	if (Final_boss->pos.y - Final_boss->collider.diameter / 2 <= 0)
+		lap = false;
 
-		if (lap)
-			Final_boss->pos = CP_Vector_Subtract(Final_boss->pos, Final_boss->velocity);
+	if (lap)
+		Final_boss->pos = CP_Vector_Subtract(Final_boss->pos, Final_boss->velocity);
 
-		if (!lap)
-			Final_boss->pos = CP_Vector_Add(Final_boss->pos, Final_boss->velocity);
-	}
+	if (!lap)
+		Final_boss->pos = CP_Vector_Add(Final_boss->pos, Final_boss->velocity);
 }
 
