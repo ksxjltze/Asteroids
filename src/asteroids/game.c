@@ -254,6 +254,9 @@ void Asteroids_Check_Input()
 		if (DIFFICULTY_OPTION == EASY)
 			Asteroids_Bullet_Split(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, 4, 15.0f, player, shoot_direction);
 
+		Asteroids_Audio_Bullets_Play();
+
+
 	}
 }
 
