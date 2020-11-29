@@ -11,3 +11,4 @@ bool isMouseOver_Rect(CP_Vector position, float width, float height, float mouse
 bool Asteroids_Utility_isInWindow(CP_Vector position);
 void Asteroids_Utility_Move_Object_To_Mouse(CP_Vector* position);
 void Asteroids_Utility_Move_Object_To_Mouse_Stationary(CP_Vector* position, CP_Vector* velocity);
+float Asteroids_Utility_Get_Rotation_Angle_To_Mouse(CP_Vector position);
