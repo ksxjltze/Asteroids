@@ -3,7 +3,6 @@
 
 CP_Sound sound_ButtonHover;
 CP_Sound bgm_MainMenu;
-
 void Asteroids_Audio_Manager_Init(void)
 {
 	sound_ButtonHover = CP_Sound_Load("./Assets/HiHat.wav");
@@ -18,8 +17,9 @@ void Asteroids_Audio_Button_Hover_Play(void)
 
 void Asteroids_Audio_MainMenu_BGM_Play(void)
 {
-	if(bgm_MainMenu)
-		CP_Sound_PlayMusic(bgm_MainMenu);
+	if (bgm_MainMenu)
+		CP_Sound_PlayAdvanced(bgm_MainMenu, 0.1f, 1.0f, 1, 0);
+
 }
 
 void Asteroids_Audio_Manager_Exit(void)
