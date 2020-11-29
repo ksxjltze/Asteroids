@@ -42,6 +42,7 @@ void Asteroids_Skin_Menu_Update(void)
 void Asteroids_Skin_Menu_Draw(void)
 {
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
+	CP_Font_DrawText(current_skin.name, 0.5f * WIN_WIDTH, 0.25f * WIN_HEIGHT);
 	CP_Image_Draw(current_skin.sprite, skinDisplayPos.x, skinDisplayPos.y, ASTEROIDS_PLAYER_SPRITE_WIDTH * displayScaleFactor, ASTEROIDS_PLAYER_SPRITE_HEIGHT * displayScaleFactor, 255);
 
 }
