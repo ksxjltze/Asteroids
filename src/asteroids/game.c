@@ -19,6 +19,7 @@
 #include "skin_menu.h"
 #include "final_boss.h"
 #include "leaderboard.h"
+#include "audio_manager.h"
 
 float shoot_cooldown = 0.0f;
 
@@ -71,6 +72,7 @@ void Asteroids_Init(void)
 	Asteroids_Obstacles_Init();
 	Asteroids_Boss_Init(enemy_sprites, enemy_hurt_sprites, enemy_width, enemy_height, &player);
 	Asteroids_Final_Boss_Init();
+	Asteroids_Audio_Manager_Init();
 	//Asteroids_Init_LeaderBoard();
 
 }
@@ -335,4 +337,5 @@ void Asteroids_Exit(void)
 {
 	// shut down the gamestate and cleanup any dynamic memory
 	Asteroids_Collision_Exit();
+	Asteroids_Audio_Manager_Exit();
 }

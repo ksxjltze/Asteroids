@@ -2,6 +2,7 @@
 #include "button.h"
 #include "game.h"
 #include "score.h"
+#include "audio_manager.h"
 
 Button btnRestart;
 Button btnQuit; //return to main menu
@@ -27,6 +28,8 @@ void Asteroids_GameOver_Init(void)
 	Asteroids_Button_Set_Position(&btnQuit, btnExitPos);
 	Asteroids_Button_Set_Text(&btnQuit, textSize, "Quit");
 	Asteroids_Button_Set_Callback_Void(&Asteroids_GameOver_Quit, &btnQuit);
+
+	Asteroids_Audio_Manager_Init();
 }
 
 void Asteroids_GameOver_Restart()
@@ -65,5 +68,5 @@ void Asteroids_GameOver_Display_Score(void)
 
 void Asteroids_GameOver_Exit(void)
 {
-
+	Asteroids_Audio_Manager_Exit();
 }

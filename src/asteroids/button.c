@@ -1,6 +1,7 @@
 #include "button.h"
 #include <stdio.h>
 #include "game.h"
+#include "audio_manager.h"
 
 Button Asteroids_Button_Add_New_Button(float width, float height)
 {
@@ -141,8 +142,7 @@ void Asteroids_Button_Is_MouseOver_Button(Button* button)
 	if (button->status != HOVER && button->status != CLICKED)
 	{
 		button->status = HOVER;
-		CP_Sound hoverSound = CP_Sound_Load("./Assets/HiHat.wav");
-		CP_Sound_Play(hoverSound);
+		Asteroids_Audio_Button_Hover_Play();
 	}
 	else if (CP_Input_MouseDown(MOUSE_BUTTON_1))
 		button->status = CLICKED;
