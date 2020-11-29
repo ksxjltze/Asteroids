@@ -3,6 +3,7 @@
 #include "skin_menu.h"
 #include "upgrades_menu.h"
 #include "currency.h"
+#include "audio_manager.h"
 
 #define BUTTON_WIDTH 500.0f
 #define BUTTON_HEIGHT 100.0f
@@ -35,6 +36,8 @@ CP_Vector backgroundPos;
 CP_Vector backgroundPos2;
 CP_Vector backgroundPos3;
 
+static CP_Sound bgm;
+
 void Asteroids_MainMenu_Init(void)
 {
 	status = true;
@@ -63,6 +66,8 @@ void Asteroids_MainMenu_Init(void)
 	Asteroids_Currency_Init();
 	Asteroids_Upgrades_Init();
 	Asteroids_Skin_Menu_Init();
+	Asteroids_Audio_Manager_Init();
+	Asteroids_Audio_MainMenu_BGM_Play();
 }
 
 void Asteroids_MainMenu_Update(void)
@@ -74,7 +79,7 @@ void Asteroids_MainMenu_Update(void)
 
 void Asteroids_MainMenu_Exit(void)
 {
-
+	Asteroids_Audio_Manager_Exit();
 }
 
 void Asteroids_MainMenu_Update_Background(void)
