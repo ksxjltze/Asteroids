@@ -92,9 +92,11 @@ void Asteroids_Update(void)
 
 		Asteroids_Enemy_Update(enemy_pool, enemy_count, player);
 		Asteroids_Bullet_Update(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, enemy_pool, enemy_count, player);
+
 		Asteroids_Player_Update(&player);
 
-		Asteroids_Collision_CheckCollision_Enemy_Player(enemy_pool, enemy_count, &player);
+		if (!debug_mode)
+			Asteroids_Collision_CheckCollision_Enemy_Player(enemy_pool, enemy_count, &player);
 
 		particle_update();
 
@@ -229,7 +231,9 @@ void Asteroids_Check_Input()
 	}
 
 	if (CP_Input_KeyTriggered(KEY_F1))
+	{
 		debug_mode = !debug_mode;
+	}
 
 	if (DIFFICULTY_OPTION < HARD)
 		Asteroids_Player_Simple_Movement(&player);

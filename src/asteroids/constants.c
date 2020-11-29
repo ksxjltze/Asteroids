@@ -1,5 +1,6 @@
 #include "constants.h"
 const float SPLASH_DURATION = 3.0f;
+const float ASTEROIDS_DIFFICULTY_INTERVAL = 60.0f;
 
 const float MAX_VELOCITY = 10.0f; //pixels per second
 const float ASTEROIDS_PLAYER_BASE_MOVE_SPEED = 300.0f;
@@ -92,7 +93,6 @@ const float ASTEROIDS_PLAYER_SPRITE_HEIGHT = 54.0f;
 
 const char* ASTEROIDS_HEART_SPRITE_PATH = "./Assets/heart.png";
 const char* ASTEROIDS_ERROR_STR_MISSING_SPRITE = "ERROR - Missing Sprite";
-const float ASTEROIDS_DIFFICULTY_INTERVAL = 42.0f;
 
 const float ASTEROIDS_POWERUP_LIFESPAN_DURATION = 10.0f;
 const float ASTEROIDS_POWERUP_HP_RECOVERY_VALUE = 5.0f;

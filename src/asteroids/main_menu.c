@@ -35,6 +35,8 @@ CP_Vector backgroundPos;
 CP_Vector backgroundPos2;
 CP_Vector backgroundPos3;
 
+static CP_Sound bgm;
+
 void Asteroids_MainMenu_Init(void)
 {
 	status = true;
@@ -63,6 +65,8 @@ void Asteroids_MainMenu_Init(void)
 	Asteroids_Currency_Init();
 	Asteroids_Upgrades_Init();
 	Asteroids_Skin_Menu_Init();
+	bgm = CP_Sound_LoadMusic("./Assets/menu_bgm.wav");
+	CP_Sound_PlayMusic(bgm);
 }
 
 void Asteroids_MainMenu_Update(void)
@@ -74,7 +78,7 @@ void Asteroids_MainMenu_Update(void)
 
 void Asteroids_MainMenu_Exit(void)
 {
-
+	CP_Sound_Free(bgm);
 }
 
 void Asteroids_MainMenu_Update_Background(void)
