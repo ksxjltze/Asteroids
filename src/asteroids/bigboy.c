@@ -36,7 +36,7 @@ void Asteroids_Boss_Init(CP_Image EnemySprite[], CP_Image EnemyHurtSprite[], flo
 	boss_interval = ASTEROIDS_ENEMY_BIGBOY_SPAWN_INTERVAL;
 	
 	DeathPos = CP_Vector_Zero();
-	boss_killed = false;
+	Boss.killed = false;
 	expansion_rate = 0;
 }
 
@@ -70,7 +70,7 @@ void Asteroids_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_count, 
 	{
 		Asteroids_Enemy_Boss_Spawn();
 	}*/
-	if (boss_killed)
+	if (Boss.killed)
 	{
 		Asteroids_Enemy_Boss_Death_Circle(&Boss, *player, enemy_pool, Boss.split_count);
 	}
@@ -104,6 +104,7 @@ void Asteroids_Enemy_Boss_Spawn(void)
 
 	Boss.id = 101;
 	Boss.parent_id = 0;
+	Boss.killed = false;
 
 	Boss.split_count = 10;
 }
@@ -172,7 +173,12 @@ void Asteroids_Enemy_Check_Boss_Hp(Enemy* boss, Player player, Enemy enemy_pool[
 
 	if (boss->hp.current <= 0)
 	{
-		boss_killed = true;
+		boss->killed = true;
+		boss->active = false;
+		if (split == 0)
+		{
+			return;
+		}
 		DeathPos = Boss.pos;
 		boss->active = 0;
 	}
@@ -208,6 +214,6 @@ void Asteroids_Enemy_Boss_Death_Circle(Enemy* boss, Player player, Enemy enemy_p
 		
 		expansion_rate = 0;
 		death_ring_dia = 1;
-		boss_killed = false;
+		Boss.killed = false;
 	}
 }

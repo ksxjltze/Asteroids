@@ -22,6 +22,7 @@ typedef struct Enemies {
 	int parent_id;
 
 	int sprite_type;
+	bool killed;
 } Enemy;
 
 void Asteroids_Enemy_Init(Enemy enemy_pool[], int count, float enemy_width, float enemy_height, Player player);

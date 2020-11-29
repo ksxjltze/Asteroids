@@ -1,6 +1,8 @@
 #include "final_boss.h"
 #include "constants.h"
 #include "state.h"
+#include "button.h"
+#include "gameover.h"
 
 Enemy final_boss;
 State bossState;
@@ -20,7 +22,7 @@ typedef struct Context
 	Bullet* bullet_pool;
 } Context;
 
-enum BossState {NONE, DEATH, IDLE, ATTACK, DODGE, BULLET_HELL};
+enum BossState {NONE, DEATH, LEPAK, ATTACK, DODGE, BULLET_HELL};
 
 #define ENEMY_POOL_SIZE 200
 #define ASTEROIDS_POOLSIZE_BULLETS 999
@@ -28,6 +30,8 @@ enum BossState {NONE, DEATH, IDLE, ATTACK, DODGE, BULLET_HELL};
 static float boss_width, boss_height;
 static float fire_rate;
 static int battleStarted;
+
+Button YesBtn, NoBtn;
 
 void Asteroids_Final_Boss_Init(void)
 {
@@ -53,6 +57,13 @@ void Asteroids_Final_Boss_Init(void)
 	state_change = false;
 	id = bossState.id;
 	state_change_rate = ASTEROIDS_FINAL_BOSS_STATE_CHANGE_RATE;
+
+	YesBtn = Asteroids_Button_Add_New_Button(100.0f, 50.0f);
+	NoBtn = Asteroids_Button_Add_New_Button(100.0f, 50.0f);
+	Asteroids_Button_Set_Text(&YesBtn, 50.0f, "Yes");
+	Asteroids_Button_Set_Text(&NoBtn, 50.0f, "No");
+	Asteroids_Button_Set_Callback_Void(&Asteroids_Continue_Game, &YesBtn);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_End_Game, &NoBtn);
 }
 
 void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_count, Bullet bullet_pool[])
@@ -67,6 +78,7 @@ void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_c
 		Asteroids_Final_Boss_State_Change_Manager();
 		Asteroids_Final_Boss_State_Manager();
 		Asteroid_Enemy_Check_Status(&final_boss);
+		Asteroids_Enemy_Check_Boss_Hp(&final_boss, *player, enemy_pool, final_boss.split_count);
 		for (int i = 0; i < ASTEROIDS_POOLSIZE_BULLETS; i++)
 		{
 			bullet_pool[i] = Asteroids_Collision_CheckCollision_EnemyBoss_Bullet(&final_boss, bullet_pool[i], player);
@@ -82,6 +94,8 @@ void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_c
 				Asteroids_Enemy_Death(enemy_pool + i);
 		}
 	}
+	if(final_boss.killed)
+		Asteroids_Final_Boss_Death_Screen(final_boss);
 }
 
 void Asteroids_Enemy_Final_Boss_Spawn(void)
@@ -91,7 +105,7 @@ void Asteroids_Enemy_Final_Boss_Spawn(void)
 	final_boss.speed = ASTEROIDS_FINAL_BOSS_MOVEMENT_SPEED;
 
 	final_boss.pos = Asteroids_Utility_Generate_Random_Pos();
-
+	final_boss.killed = false;
 	final_boss.active = 1;
 	final_boss.size = 10;
 	final_boss.speed = 0;
@@ -177,8 +191,8 @@ void Asteroids_Final_Boss_State_CheckConditions()
 	//}
 	/*if (CP_Input_KeyDown(KEY_M))
 	{
-		bossState.id = IDLE;
-		bossState.name = "Idle";
+		bossState.id = LEPAK;
+		bossState.name = "LEPAK";
 		bossState.action = &Asteroids_Final_Boss_State_Idle;
 	}
 	if (CP_Input_KeyDown(KEY_N))
@@ -268,7 +282,7 @@ float Asteroids_Final_Boss_FireRate(void)
 		return ASTEROIDS_FINAL_BOSS_DODGE_STATE_FIRE_RATE;
 	case BULLET_HELL:
 		return ASTEROIDS_FINAL_BOSS_BULLETHELL_STATE_FIRE_RATE;
-	case IDLE:
+	case LEPAK:
 		return ASTEROIDS_FINAL_BOSS_IDLE_STATE_FIRE_RATE;
 	default:
 		return 0;
@@ -289,8 +303,8 @@ void Asteroids_Final_Boss_State_Manager(void)
 	//	bossState.name = "Death";
 	//	bossState.id = DEATH;
 	case 2:
-		bossState.id = IDLE;
-		bossState.name = "Idle";
+		bossState.id = LEPAK;
+		bossState.name = "Lepak";
 		bossState.action = &Asteroids_Final_Boss_State_Idle;
 		break;
 	case 3:
@@ -356,4 +370,42 @@ void Asteroids_Final_Boss_Hp_Draw(Enemy Final_Boss)
 	CP_Graphics_DrawRect(mid.x, mid.y, width, height);
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 150));
 	CP_Font_DrawTextBox(boss_hp_buffer, (float)WIN_WIDTH / 2 - (WIN_WIDTH / 11), mid.y + (height / 2), 200);
+	
+	if (CP_Input_KeyDown(KEY_F2))
+	{
+		Enemy* FB = &final_boss;
+		FB->hp.current = 1;
+	}
+}
+void Asteroids_Final_Boss_Death_Screen(Enemy Final_Boss)
+{
+	float textsize = 50.0f;
+	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
+	CP_Vector vec = Asteroids_Utility_GetWindowMiddle();
+	vec.x = (float)(WIN_WIDTH * 0.33);
+	printf("%.2f\n", vec.x);
+	vec.y -= textsize;
+	CP_Settings_TextSize(textsize);
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	CP_Font_DrawTextBox("Congratulations!", 0, vec.y, (float)WIN_WIDTH);
+	CP_Font_DrawTextBox("You have deafeted the final boss!", 0, vec.y + textsize, (float)WIN_WIDTH);
+	CP_Font_DrawTextBox("Would you like to continue playing?", 0, vec.y + textsize * 2, (float)WIN_WIDTH);
+
+	CP_Vector BtnPos = Asteroids_Utility_GetWindowMiddle();
+	BtnPos.x -= 100.0f;
+	BtnPos.y = BtnPos.y + 2 * textsize;
+	CP_Vector BtnPos2 = BtnPos;
+	BtnPos2.x += 100;
+	Asteroids_Button_Set_Position(&YesBtn, BtnPos);
+	Asteroids_Button_Set_Position(&NoBtn, BtnPos2);
+	Asteroids_Button_Update(&YesBtn);
+	Asteroids_Button_Update(&NoBtn);
+}
+
+void Asteroids_Continue_Game(void)
+{
+	// start spawning everything again
+}void Asteroids_End_Game(void)
+{
+	CP_Engine_SetNextGameState(Asteroids_GameOver_Init, Asteroids_GameOver_Update, Asteroids_GameOver_Exit);
 }
