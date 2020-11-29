@@ -4,6 +4,10 @@
 #include "constants.h"
 
 static int currentCredits = 0;
+static float kills = 0;
+static float time = 0;
+static float currency_factor = 0;
+static int currency = 0;
 
 void Asteroids_Currency_Init(void)
 {
@@ -12,6 +16,9 @@ void Asteroids_Currency_Init(void)
 	else
 		Asteroids_Currency_Write_To_File();
 	printf("Credits: %d\n", currentCredits);
+
+	currency = ASTEROIDS_ENEMY_CURRENCY_DROP_AMOUNT;
+	currency_factor = ASTEROIDS_CURRENCY_EARNING_BALANCE_BASE;
 }
 
 void Asteroids_Currency_Add(int amount)
@@ -59,4 +66,16 @@ void Asteroids_Currency_Write_To_File()
 	FILE* creditsFile = Asteroids_Open_File("./Assets/credits.data", "w");
 	fprintf(creditsFile, "%d", currentCredits);
 	Asteroids_Close_File(creditsFile);
+}
+
+void Asteroids_Currency_Earning_Manager(void)
+{
+	kills += 1;
+	if (kills >= 100 && currency_factor < ASTEROIDS_CURRENCY_EARNING_BALANCE_MAX)
+	{
+		currency_factor += 1;
+		kills = 0;
+	}
+	int earnings = currency * (int)currency_factor;
+	Asteroids_Currency_Add(earnings);
 }

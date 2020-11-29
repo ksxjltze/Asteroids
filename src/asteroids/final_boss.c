@@ -278,7 +278,7 @@ void Asteroids_Final_Boss_State_Manager(void)
 		id = Asteroids_Final_Boss_Random_State(id);
 		state_change = false;
 	}
-	printf("%d\n", id);
+	/*printf("%d\n", id);*/
 	switch (id)
 	{
 	//case 4:

@@ -115,7 +115,6 @@ void Asteroids_Update(void)
 		Asteroids_Debug();
 		Asteroids_UI_Update(player);
 		Asteroids_Draw_Scores();
-
 	}
 
 }
