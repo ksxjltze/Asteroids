@@ -10,9 +10,16 @@ UpgradeMenuItem menuItems[NUM_UPGRADES];
 void Asteroids_Upgrades_Menu_Init(void)
 {
 	Asteroids_Upgrades_Menu_Init_MenuItems();
+
+	int row = 1;
 	for (int i = 0; i < Asteroids_Upgrades_Get_Upgrade_Count(); i++)
 	{
-		CP_Vector pos = CP_Vector_Set(WIN_WIDTH * (0.1f + i * 0.15f), WIN_HEIGHT * 0.25f);
+		CP_Vector pos = CP_Vector_Set(WIN_WIDTH * (0.1f + i * ASTEROIDS_UPGRADES_MENU_ITEM_HORIZONTAL_MARGIN) - WIN_WIDTH * (row - 1), WIN_HEIGHT * ASTEROIDS_UPGRADES_MENU_ITEM_VERTICAL_MARGIN * row);
+		if (pos.x > WIN_WIDTH)
+		{
+			row++;
+			pos = CP_Vector_Set(WIN_WIDTH * (0.1f + i * ASTEROIDS_UPGRADES_MENU_ITEM_HORIZONTAL_MARGIN) - WIN_WIDTH * (row - 1), WIN_HEIGHT * ASTEROIDS_UPGRADES_MENU_ITEM_VERTICAL_MARGIN * row);
+		}
 		Asteroids_Upgrades_Menu_Create_MenuItem(i + 1, pos, &Asteroids_Upgrades_Menu_Upgrade_Add_Level);
 	}
 }
@@ -76,6 +83,24 @@ void Asteroids_Upgrades_Menu_Display_Items()
 	}
 }
 
+UpgradeMenuItem Asteroids_Upgrades_Menu_Update_Upgrade_Info_Text(UpgradeMenuItem menuItem)
+{
+	if (menuItem.upgrade.hasLevel)
+	{
+		char levelText[LEVEL_BUFFER_SIZE];
+		sprintf_s(levelText, LEVEL_BUFFER_SIZE, "Level: %d\n", menuItem.upgrade.level);
+		strcpy_s(menuItem.levelText, strlen(levelText) + 1, levelText);
+	}
+	else
+	{
+		if (menuItem.upgrade.activated)
+			strcpy_s(menuItem.levelText, COST_BUFFER_SIZE, "Purchased.");
+		else
+			strcpy_s(menuItem.levelText, COST_BUFFER_SIZE, "Not Purchased.");
+	}
+	return menuItem;
+}
+
 UpgradeMenuItem Asteroids_Upgrades_Menu_Init_Upgrade_Info(Upgrade upgrade, CP_Vector pos, void(*callback)(void* ptr))
 {
 	UpgradeMenuItem menuItem;
@@ -86,9 +111,7 @@ UpgradeMenuItem Asteroids_Upgrades_Menu_Init_Upgrade_Info(Upgrade upgrade, CP_Ve
 	sprintf_s(costText, COST_BUFFER_SIZE, "Cost: %d\n", upgrade.cost);
 	strcpy_s(menuItem.costText, strlen(costText) + 1, costText);
 
-	char levelText[LEVEL_BUFFER_SIZE];
-	sprintf_s(levelText, LEVEL_BUFFER_SIZE, "Level: %d\n", upgrade.level);
-	strcpy_s(menuItem.levelText, strlen(levelText) + 1, levelText);
+	menuItem = Asteroids_Upgrades_Menu_Update_Upgrade_Info_Text(menuItem);
 
 	menuItem.btnBuy = Asteroids_Button_Add_New_Button(120, 30);
 	CP_Vector btnPos = pos;
@@ -107,6 +130,8 @@ void Asteroids_Upgrades_Menu_Display_Upgrade_Info(UpgradeMenuItem* menuItem)
 	CP_Font_DrawText(menuItem->upgrade.name, menuItem->pos.x, menuItem->pos.y - 80);
 
 	Asteroids_Button_Update_Advanced(&menuItem->btnBuy, menuItem);
+
+	CP_Settings_TextSize(30);
 	CP_Font_DrawText(menuItem->costText, menuItem->pos.x, menuItem->pos.y - 50);
 	CP_Font_DrawText(menuItem->levelText, menuItem->pos.x, menuItem->pos.y - 20);
 
@@ -115,18 +140,35 @@ void Asteroids_Upgrades_Menu_Display_Upgrade_Info(UpgradeMenuItem* menuItem)
 void Asteroids_Upgrades_Menu_Update_Upgrade_Info(UpgradeMenuItem* menuItem)
 {
 	menuItem->upgrade = Asteroids_Upgrades_Get_Upgrade(menuItem->upgrade.id);
-	char levelText[LEVEL_BUFFER_SIZE];
-	sprintf_s(levelText, LEVEL_BUFFER_SIZE, "Level: %d\n", menuItem->upgrade.level);
-	strcpy_s(menuItem->levelText, strlen(levelText) + 1, levelText);
+	*menuItem = Asteroids_Upgrades_Menu_Update_Upgrade_Info_Text(*menuItem);
 }
 
 void Asteroids_Upgrades_Menu_Upgrade_Add_Level(void* upgradePtr)
 {
 	UpgradeMenuItem* menuItem = (UpgradeMenuItem*)upgradePtr;
-	if (Asteroids_Currency_Deduct_Balance(menuItem->upgrade.cost))
+	if (menuItem->upgrade.hasLevel)
 	{
-		Asteroids_Upgrade_Add_Level(menuItem->upgrade.id);
-		Asteroids_Upgrades_Menu_Update_Upgrade_Info(menuItem);
-		Asteroids_Upgrades_Save_All_To_File();
+		if (Asteroids_Currency_Deduct_Balance(menuItem->upgrade.cost))
+		{
+			Asteroids_Upgrade_Add_Level(menuItem->upgrade.id);
+			Asteroids_Upgrades_Menu_Update_Upgrade_Info(menuItem);
+			Asteroids_Upgrades_Save_All_To_File();
+		}
+
+	}
+	else
+	{
+		if (!menuItem->upgrade.activated)
+		{
+			if (Asteroids_Currency_Deduct_Balance(menuItem->upgrade.cost))
+			{
+				Asteroids_Upgrades_Upgrade_Enable(menuItem->upgrade.id);
+				Asteroids_Upgrades_Menu_Update_Upgrade_Info(menuItem);
+				Asteroids_Upgrades_Save_All_To_File();
+			}
+		}
+		else
+			printf("Upgrade %s is already activated.\n", menuItem->upgrade.name);
+
 	}
 }

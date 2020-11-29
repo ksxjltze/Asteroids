@@ -23,6 +23,18 @@ typedef struct Obstacles
 
 }Obstacle;
 
+typedef struct Dot
+{
+	float lifespan;
+	int alpha;
+	CP_Image image[10];
+	CP_Vector dimensions;
+	CP_Vector pos[10];
+	CP_Vector velocity[10];
+	bool enabled;
+} dot;
+
+
 // ENTRY POINT
 void Asteroids_Obstacles_Init(void);
 void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_count);
@@ -41,3 +53,14 @@ void Asteroids_Environment_Draw_Warning(void);
 // Collision
 void Asteroids_Check_Collision_Blackhole_Enemy_Player(Enemy enemy_pool[], Player* player, Obstacle* obstacle, int enemy_count);
 void Asteroids_Check_Collision_Gammaray_Enemy_Player(Enemy enemy_pool[], Player* player, Obstacle* obstacle, int enemy_count);
+
+// DEBUG
+void Asteroids_Obstacles_Debug_BlackHole_To_Mouse();
+
+#define MaxDotParticleArrSize 100
+#define DotsPerArr 10
+void Asteroids_Particle_Dot_Init(void);
+void Asteroids_Particle_Dot_Spawn(CP_Vector pos);
+void Asteroids_Particle_Draw_Dot(void);
+void Asteroids_Particle_Dot_Despawn(dot* dot_particle);
+void Asteroids_particle_dot_debug(void);

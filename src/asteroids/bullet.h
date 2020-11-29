@@ -8,6 +8,7 @@ typedef struct Bullet {
 	CP_Vector velocity;
 	float rotation;
 	int active;
+	int id;
 } Bullet;
 
 void Asteroids_Bullet_Init(Bullet bullets[], int count, float bullet_width, float bullet_height);

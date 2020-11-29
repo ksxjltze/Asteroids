@@ -3,6 +3,7 @@
 #include "collider_circle.h"
 #include <stdbool.h>
 #include "sprite.h"
+#include "enemy.h"
 
 typedef struct Particles
 {

@@ -19,6 +19,7 @@ typedef struct UpgradeMenuItems
 void Asteroids_Upgrades_Menu_Init(void);
 void Asteroids_Upgrades_Menu_Update(void);
 void Asteroids_Upgrades_Menu_Draw(void);
+UpgradeMenuItem Asteroids_Upgrades_Menu_Update_Upgrade_Info_Text(UpgradeMenuItem menuItem);
 UpgradeMenuItem Asteroids_Upgrades_Menu_Init_Upgrade_Info(Upgrade upgrade, CP_Vector pos, void(*callback)(void* ptr));
 void Asteroids_Upgrades_Menu_Display_Upgrade_Info(UpgradeMenuItem* menuItem);
 void Asteroids_Upgrades_Menu_Update_Upgrade_Info(UpgradeMenuItem* menuItem);

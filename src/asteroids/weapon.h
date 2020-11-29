@@ -1,6 +1,7 @@
 #pragma once
+#include <stdbool.h>
 
-enum WeaponType {RAILGUN};
+enum WeaponType {RAILGUN, LASER};
 
 typedef struct Weapons
 {
@@ -8,4 +9,5 @@ typedef struct Weapons
 	float damage;
 	float fire_rate;
 	float projectile_speed;
+	bool isPiercing;
 } Weapon;

@@ -2,6 +2,7 @@
 #include "game.h"
 #include "constants.h"
 #include "player.h"
+#include "utility.h"
 #include <math.h>
 
 CP_Vector pos;
@@ -11,7 +12,7 @@ Particle smoke_particle[1];
 static float smoke_spawn_interval;
 static Particle* smoke_ptr;
 
-enum ParticleType {NONE, EXPLOSION, SMOKE};
+enum ParticleType {NONE, EXPLOSION, SMOKE,};
 
 //Struct to hold data for Explosion particles
 struct Explosion
@@ -108,8 +109,6 @@ void draw_particle()
 		}
 	}
 }
-
-
 //Generate particle velocity and set lifetime.
 Particle* Spawn_Particle(CP_Vector position, int particles, float min_velocity,
 	float max_velocity, float size, Sprite sprite, int type, bool loop)
@@ -221,7 +220,8 @@ void particle_update()
 		}
 
 	}
-	draw_particle();
+	draw_particle(); 
+
 }
 
 void smoke_update(CP_Vector rotation, CP_Vector playerPos)
@@ -244,4 +244,3 @@ void particle_despawning(Particle* p)
 	p->sprite.time = 0;
 	p->sprite.keyframe = 0;
 }
-

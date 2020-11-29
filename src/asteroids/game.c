@@ -14,10 +14,11 @@
 #include "score.h"
 #include "collision_manager.h"
 #include <stdbool.h>
-#include "Obstacle.h"
-#include "Boss.h"
+#include "obstacles.h"
+#include "bigboy.h"
 #include "skin_menu.h"
 #include "final_boss.h"
+#include "leaderboard.h"
 
 float shoot_cooldown = 0.0f;
 
@@ -55,6 +56,7 @@ void Asteroids_Init(void)
 	Asteroids_Set_Difficulty(DIFFICULTY_OPTION);
 	Asteroids_Sprites_Load();
 	Asteroids_UI_Init();
+	Asteroids_Collision_Init();
 
 	particle_init();
 	explosion_init();
@@ -69,6 +71,7 @@ void Asteroids_Init(void)
 	Asteroids_Obstacles_Init();
 	Asteroids_Boss_Init(enemy_sprites, enemy_hurt_sprites, enemy_width, enemy_height, &player);
 	Asteroids_Final_Boss_Init();
+	//Asteroids_Init_LeaderBoard();
 
 }
 
@@ -107,6 +110,7 @@ void Asteroids_Update(void)
 		Asteroids_Draw();
 		Asteroids_Boss_Update(&player, enemy_pool, enemy_count, bullet_pool);
 		Asteroids_Update_Powerups(&player);
+		Asteroids_Particle_Draw_Dot();
 
 		Asteroids_Debug();
 		Asteroids_UI_Update(player);
@@ -314,6 +318,19 @@ void Asteroids_Debug_Check_Input()
 	{
 		Asteroids_Player_Death(&player);
 	}
+
+	if (CP_Input_KeyTriggered(KEY_F2))
+	{
+		Asteroids_Enemy_Disable_Spawn();
+	}
+
+	if (CP_Input_KeyDown(KEY_LEFT_SHIFT) && CP_Input_KeyDown(KEY_Q))
+	{
+		if (CP_Input_MouseClicked())
+		{
+			Asteroids_Obstacles_Debug_BlackHole_To_Mouse();
+		}
+	}
 }
 
 // use CP_Engine_SetNextGameState to specify this function as the exit function
@@ -321,5 +338,5 @@ void Asteroids_Debug_Check_Input()
 void Asteroids_Exit(void)
 {
 	// shut down the gamestate and cleanup any dynamic memory
-	
+	Asteroids_Collision_Exit();
 }
