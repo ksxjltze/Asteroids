@@ -32,7 +32,7 @@ void Asteroids_Audio_Bullets_Play(void)
 }
 void Asteroids_Audio_PickUps_Play(void)
 {
-	sfx_pickups = CP_Sound_Load("./Assets/SFX/pickup.wav");
+	sfx_pickups = CP_Sound_Load("./Assets/SFX/powerup.wav");
 	CP_Sound_Play(sfx_pickups);
 }
 
