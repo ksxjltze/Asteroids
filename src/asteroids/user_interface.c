@@ -8,15 +8,18 @@
 static CP_Image heart_sprite;
 static CP_Vector fuelPos;
 static CP_Vector difficultyPos;
+static float timePassed;
 
 void Asteroids_UI_Init()
 {
 	fuelPos = CP_Vector_Set((float)WIN_WIDTH - 100, (float)WIN_HEIGHT / 2);
-	difficultyPos = CP_Vector_Set((float)WIN_WIDTH - 75, 50);
+	difficultyPos = CP_Vector_Set((float)WIN_WIDTH - 120, 40);
+	timePassed = 0;
 }
 
 void Asteroids_UI_Update(Player player)
 {
+	timePassed += CP_System_GetDt();
 	Asteroids_UI_Draw(player);
 }
 
@@ -67,6 +70,7 @@ void Asteroids_UI_Fuel_Draw(Fuel fuel)
 
 void Asteroids_UI_Display_Current_Difficulty(void)
 {
+	Asteroids_UI_Display_Difficulty_Meter();
 	CP_Settings_TextSize(30);
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 
@@ -96,4 +100,17 @@ void Asteroids_UI_Display_Current_Difficulty(void)
 		CP_Font_DrawText("PEPEGA", difficultyPos.x, difficultyPos.y);
 		break;
 	}
+}
+
+void Asteroids_UI_Display_Difficulty_Meter()
+{
+	CP_Vector meterPos = CP_Vector_Set(difficultyPos.x - 100, difficultyPos.y - 20);
+	float meterWidth = 200, meterHeight = 40;
+
+	CP_Settings_Fill(CP_Color_Create(50, 50, 50, 255));
+	CP_Graphics_DrawRect(meterPos.x, meterPos.y, meterWidth, meterHeight);
+
+	CP_Settings_Fill(CP_Color_Create(0, 0, 255, 255));
+	CP_Graphics_DrawRect(meterPos.x, meterPos.y, (timePassed / ASTEROIDS_DIFFICULTY_INTERVAL) * meterWidth, meterHeight);
+
 }
