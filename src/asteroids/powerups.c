@@ -91,6 +91,11 @@ void Asteroids_Update_Powerups(struct Player* player) // draws and checks every 
 	Asteroids_Powerup_Player_Invulernability(player); //Draw invulnerability circle if invulnerable 
 
 	Asteroids_Floating_Powerup_Lifespan_Manager(); // spawn random powerup every 10s
+	if (CP_Input_KeyTriggered(KEY_F1)) //debug
+	{
+		player->hp.current = player->hp.max;
+		invulnerable = true;
+	}
 }
 
 void Asteroids_Draw_Powerup(int type, CP_Vector* pos, CP_Vector movement_vel, float* rotation)  // Draws specific powerup based on a random count

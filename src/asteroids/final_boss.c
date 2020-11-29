@@ -20,7 +20,7 @@ typedef struct Context
 	Bullet* bullet_pool;
 } Context;
 
-enum BossState {NONE, IDLE, ATTACK, DEATH, DODGE, BULLET_HELL};
+enum BossState {NONE, DEATH, IDLE, ATTACK, DODGE, BULLET_HELL};
 
 #define ENEMY_POOL_SIZE 200
 #define ASTEROIDS_POOLSIZE_BULLETS 999
@@ -42,7 +42,7 @@ void Asteroids_Final_Boss_Init(void)
 
 	final_boss.active = 0;
 	final_boss.id = ENEMY_POOL_SIZE + 1;
-	fire_rate = ASTEROIDS_FINAL_BOSS_FIRE_RATE;
+	//fire_rate = ASTEROIDS_FINAL_BOSS_FIRE_RATE;
 
 	bossState.id = ATTACK;
 	bossState.name = "Attack";
@@ -113,7 +113,6 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 	float dt = CP_System_GetDt();
 
 	fire_rate -= dt;
-	printf("firerate: %.2f\n", fire_rate);
 	if (fire_rate <= 0)
 	{
 		CP_Matrix AngularDisplacement;
@@ -153,30 +152,43 @@ void Asteroids_Final_Boss_State_Update(Player* player, Enemy enemy_pool[], int e
 
 void Asteroids_Final_Boss_State_CheckConditions()
 {
-	if (final_boss.hp.current <= 0)
-	{
-		bossState.action = &Asteroids_Final_Boss_State_Death;
-		bossState.name = "Death";
-		bossState.id = DEATH;
-	}
+	//if (final_boss.hp.current <= 0)
+	//{
+	//	bossState.action = &Asteroids_Final_Boss_State_Death;
+	//	bossState.name = "Death";
+	//	bossState.id = DEATH;
+	//}
 
-	if (CP_Input_KeyDown(KEY_E))
+	//if (CP_Input_KeyDown(KEY_E))
+	//{
+	//	bossState.action = &Asteroids_Final_Boss_State_Dodge;
+	//	bossState.name = "Dodge";
+	//	bossState.id = DODGE;
+	//}
+	//if (CP_Input_KeyDown(KEY_N))
+	//{
+	//	bossState.action = &Asteroids_Final_Boss_State_BulletHell;
+	//	bossState.name = "BulletHell";
+	//	bossState.id = BULLET_HELL;
+	//}
+	/*if (CP_Input_KeyDown(KEY_M))
 	{
-		bossState.action = &Asteroids_Final_Boss_State_Dodge;
-		bossState.name = "Dodge";
-		bossState.id = DODGE;
+		bossState.id = IDLE;
+		bossState.name = "Idle";
+		bossState.action = &Asteroids_Final_Boss_State_Idle;
 	}
 	if (CP_Input_KeyDown(KEY_N))
 	{
-		bossState.action = &Asteroids_Final_Boss_State_BulletHell;
-		bossState.name = "BulletHell";
-		bossState.id = BULLET_HELL;
-	}
+		bossState.id = ATTACK;
+		bossState.name = "Attack";
+		bossState.action = &Asteroids_Final_Boss_State_Attack;
+	}*/
 }
 
 void Asteroids_Final_Boss_State_Idle(const void* context)
 {
-	return;
+	Context parameters = *(Context*)context;
+	Asteroids_Final_Boss_Shoot(final_boss, parameters.enemy_pool, parameters.player);
 }
 
 void Asteroids_Final_Boss_State_Death(const void* context)
@@ -252,6 +264,8 @@ float Asteroids_Final_Boss_FireRate(void)
 		return ASTEROIDS_FINAL_BOSS_DODGE_STATE_FIRE_RATE;
 	case BULLET_HELL:
 		return ASTEROIDS_FINAL_BOSS_BULLETHELL_STATE_FIRE_RATE;
+	case IDLE:
+		return ASTEROIDS_FINAL_BOSS_IDLE_STATE_FIRE_RATE;
 	default:
 		return 0;
 	}
@@ -260,22 +274,25 @@ void Asteroids_Final_Boss_State_Manager(void)
 {
 	if (state_change)
 	{
-		id = Asteroids_Final_Boss_Random_State();
+		id = Asteroids_Final_Boss_Random_State(id);
 		state_change = false;
 	}
+	printf("%d\n", id);
 	switch (id)
 	{
-	//case 1:
-		
+	//case 4:
+	//	bossState.action = &Asteroids_Final_Boss_State_Death;
+	//	bossState.name = "Death";
+	//	bossState.id = DEATH;
 	case 2:
+		bossState.id = IDLE;
+		bossState.name = "Idle";
+		bossState.action = &Asteroids_Final_Boss_State_Idle;
+		break;
+	case 3:
 		bossState.id = ATTACK;
 		bossState.name = "Attack";
 		bossState.action = &Asteroids_Final_Boss_State_Attack;
-		break;
-	case 3:
-		bossState.action = &Asteroids_Final_Boss_State_Death;
-		bossState.name = "Death";
-		bossState.id = DEATH;
 		break;
 	case 4:
 		bossState.action = &Asteroids_Final_Boss_State_Dodge;
@@ -290,9 +307,20 @@ void Asteroids_Final_Boss_State_Manager(void)
 	}
 }
 
-int Asteroids_Final_Boss_Random_State(void)
+void Asteroids_Final_Boss_Idle(Enemy* Final_Boss, Player* player)
 {
-	return CP_Random_RangeInt(2, 5); // to implement idle state
+	Final_Boss->speed = 1;
+}
+
+int Asteroids_Final_Boss_Random_State(int old_id)
+{
+	int new_id = CP_Random_RangeInt(2, 5);
+
+	while (new_id == old_id)
+	{
+		new_id = CP_Random_RangeInt(2, 5);
+	}
+	return new_id;
 }
 void Asteroids_Final_Boss_State_Change_Manager(void)
 {

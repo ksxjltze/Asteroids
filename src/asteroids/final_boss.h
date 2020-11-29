@@ -20,7 +20,7 @@ void Asteroids_Final_Boss_State_Update(Player* player, Enemy enemy_pool[], int e
 void Asteroids_Final_Boss_State_CheckConditions();
 void Asteroids_Final_Boss_State_Manager(void);
 void Asteroids_Final_Boss_State_Change_Manager(void);
-int Asteroids_Final_Boss_Random_State(void);
+int Asteroids_Final_Boss_Random_State(int old_id);
 
 void Asteroids_Final_Boss_State_Attack(void* context);
 void Asteroids_Final_Boss_State_Idle(void* context);
@@ -32,4 +32,4 @@ float Asteroids_Final_Boss_FireRate(void);
 
 void Asteroids_Final_Boss_State_Death(const void* context);
 void Asteroid_Final_Boss_Reset();
-
+void Asteroids_Final_Boss_Idle(Enemy* Final_Boss, Player* player);
