@@ -1,4 +1,5 @@
 #include "powerups.h"
+#include "audio_manager.h"
 
 // Powerup types
 #define BULLET_SPLIT 1 
@@ -225,6 +226,7 @@ void Asteroids_Powerup_Player_Collision(Powerup powerup[], struct Player* player
 				Asteroids_Pickup_Interact_Hp(player);
 				Asteroids_Powerup_Reset(&powerup[i]);
 			}
+			Asteroids_Audio_PickUps_Play();
 		}
 	}
 }
