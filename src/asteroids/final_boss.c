@@ -7,6 +7,8 @@ State bossState;
 CP_Image final_boss_sprite[2];
 CP_Image final_boss_sprite_hurt[2];
 
+static bool lap;
+
 typedef struct Context
 {
 	Player* player;
@@ -15,7 +17,7 @@ typedef struct Context
 	Bullet* bullet_pool;
 } Context;
 
-enum BossState {NONE, IDLE, ATTACK, DEATH};
+enum BossState {NONE, IDLE, ATTACK, DEATH, DODGE};
 
 #define ENEMY_POOL_SIZE 200
 #define ASTEROIDS_POOLSIZE_BULLETS 999
@@ -44,6 +46,7 @@ void Asteroids_Final_Boss_Init(void)
 	bossState.action = &Asteroids_Final_Boss_State_Attack;
 
 	battleStarted = 0;
+	lap = false;
 }
 
 void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_count, Bullet bullet_pool[])
@@ -82,6 +85,7 @@ void Asteroids_Enemy_Final_Boss_Spawn(void)
 
 	final_boss.active = 1;
 	final_boss.size = 10;
+	final_boss.speed = 0;
 	final_boss.split_count = 0; // no split, game ends when boss DIES
 	final_boss.collider.diameter = final_boss.size * boss_width;
 
@@ -143,9 +147,14 @@ void Asteroids_Final_Boss_State_CheckConditions()
 		bossState.action = &Asteroids_Final_Boss_State_Death;
 		bossState.name = "Death";
 		bossState.id = DEATH;
-
 	}
-	return;
+
+	if (CP_Input_KeyDown(KEY_E))
+	{
+		bossState.action = &Asteroids_Final_Boss_State_Dodge;
+		bossState.name = "Dodge";
+		bossState.id = DODGE;
+	}
 }
 
 void Asteroids_Final_Boss_State_Idle(const void* context)
@@ -178,5 +187,37 @@ void Asteroids_Final_Boss_State_Attack(const void* context)
 {
 	Context parameters = *(Context*)context;		
 	Asteroids_Final_Boss_Shoot(final_boss, parameters.enemy_pool, parameters.player);
+}
+
+void Asteroids_Final_Boss_State_Dodge(void*context)
+{
+	Context parameters = *(Context*)context;
+	Asteroids_Final_Boss_Dodge(&final_boss, parameters.player);
+
+}
+void Asteroids_Final_Boss_Dodge(Enemy* Final_boss, Player* player)
+{
+	if (bossState.id == DODGE)
+	{
+		float dt = CP_System_GetDt();
+		Final_boss->speed = 1000.0f;
+		CP_Vector movement_range = CP_Vector_Zero();
+		movement_range.y = (float)WIN_HEIGHT;
+		Final_boss->velocity = CP_Vector_Subtract(movement_range, Final_boss->pos);
+		Final_boss->velocity = CP_Vector_Normalize(Final_boss->velocity);
+		Final_boss->velocity = CP_Vector_Scale(Final_boss->velocity, Final_boss->speed * dt);
+		Final_boss->velocity.x = 0;
+
+		if (Final_boss->pos.y + Final_boss->collider.diameter / 2 >= (float)WIN_HEIGHT)
+			lap = true;
+		if (Final_boss->pos.y - Final_boss->collider.diameter / 2 <= 0)
+			lap = false;
+
+		if (lap)
+			Final_boss->pos = CP_Vector_Subtract(Final_boss->pos, Final_boss->velocity);
+
+		if (!lap)
+			Final_boss->pos = CP_Vector_Add(Final_boss->pos, Final_boss->velocity);
+	}
 }
 
