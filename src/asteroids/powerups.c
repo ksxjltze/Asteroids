@@ -240,7 +240,7 @@ void Asteroids_Checkpowerup_Location(Powerup* powerup)
 
 int Asteroids_Powerup_RNG(void)
 {
-	int rng = CP_Random_RangeInt(1, 5);
+	int rng = CP_Random_RangeInt(1, 20);
 	return rng;
 }
 

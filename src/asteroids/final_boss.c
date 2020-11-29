@@ -8,6 +8,7 @@ CP_Image final_boss_sprite[2];
 CP_Image final_boss_sprite_hurt[2];
 
 static bool lap;
+static bool dodge;
 
 typedef struct Context
 {
@@ -47,6 +48,7 @@ void Asteroids_Final_Boss_Init(void)
 
 	battleStarted = 0;
 	lap = false;
+	dodge = false;
 }
 
 void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_count, Bullet bullet_pool[])
@@ -103,8 +105,6 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 {
 	
 	float dt = CP_System_GetDt();
-	if (bossState.id == DODGE && bossState.id == ATTACK)
-		fire_rate = ASTEROIDS_FINAL_BOSS_DODGE_FIRE_RATE;
 
 	fire_rate -= dt;
 	printf("firerate: %.2f\n", fire_rate);
@@ -124,7 +124,7 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 			Boss_Projectile->velocity = CP_Vector_MatrixMultiply(AngularDisplacement, Boss_Projectile->velocity);
 		}
 		fire_rate = ASTEROIDS_FINAL_BOSS_FIRE_RATE;
-		if (bossState.id == DODGE)
+		if (dodge)
 			fire_rate = ASTEROIDS_FINAL_BOSS_DODGE_FIRE_RATE;
 	}
 }
@@ -161,6 +161,8 @@ void Asteroids_Final_Boss_State_CheckConditions()
 		bossState.action = &Asteroids_Final_Boss_State_Dodge;
 		bossState.name = "Dodge";
 		bossState.id = DODGE;
+		dodge = true;
+		fire_rate = ASTEROIDS_FINAL_BOSS_DODGE_FIRE_RATE;
 	}
 }
 
@@ -199,14 +201,14 @@ void Asteroids_Final_Boss_State_Attack(const void* context)
 void Asteroids_Final_Boss_State_Dodge(void*context)
 {
 	Context parameters = *(Context*)context;
-	Asteroids_Final_Boss_Dodge(&final_boss, parameters.player);
 	Asteroids_Final_Boss_Shoot(final_boss, parameters.enemy_pool, parameters.player);
+	Asteroids_Final_Boss_Dodge(&final_boss, parameters.player);
 
 }
 void Asteroids_Final_Boss_Dodge(Enemy* Final_boss, Player* player)
 {
 	float dt = CP_System_GetDt();
-	Final_boss->speed = 1500.0f;
+	Final_boss->speed = 1000.0f;
 	CP_Vector max = CP_Vector_Zero();
 	CP_Vector min = CP_Vector_Zero();
 	max.y = (float)WIN_HEIGHT;
@@ -227,4 +229,3 @@ void Asteroids_Final_Boss_Dodge(Enemy* Final_boss, Player* player)
 	if (!lap)
 		Final_boss->pos = CP_Vector_Add(Final_boss->pos, Final_boss->velocity);
 }
-
