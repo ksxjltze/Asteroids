@@ -127,13 +127,19 @@ void Asteroids_Draw_MainMenu(void)
 		Asteroids_Button_Update(&DifficultyBtn);
 		Asteroids_Button_Update(&SkinsBtn);
 		Asteroids_Button_Update(&UpgradesBtn);
-		CP_Image_Draw(current_skin.sprite, (float)WIN_WIDTH / 2.0f , (float)WIN_HEIGHT / 2.0f, 200.0f, 200.0f, 255);
+		Asteroids_MainMenu_Draw_Current_Ship();
 	}
 	else if (!status)
 	{
 		Asteroids_MainMenu_CheckInput();
 		Asteroids_Button_Update(&Exit);
 	}
+
+}
+
+void Asteroids_MainMenu_Draw_Current_Ship()
+{
+	CP_Image_Draw(current_skin.sprite, (float)WIN_WIDTH / 2.0f, (float)WIN_HEIGHT / 2.0f, 5 * ASTEROIDS_PLAYER_SPRITE_WIDTH, 5 * ASTEROIDS_PLAYER_SPRITE_HEIGHT, 255);
 
 }
 
