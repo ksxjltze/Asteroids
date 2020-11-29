@@ -66,7 +66,7 @@ void Asteroids_MainMenu_Init(void)
 	Asteroids_Upgrades_Init();
 	Asteroids_Skin_Menu_Init();
 	bgm = CP_Sound_LoadMusic("./Assets/menu_bgm.wav");
-	CP_Sound_PlayMusic(bgm);
+	//CP_Sound_PlayMusic(bgm);
 }
 
 void Asteroids_MainMenu_Update(void)

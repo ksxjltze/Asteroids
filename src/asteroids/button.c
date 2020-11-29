@@ -87,9 +87,7 @@ void Asteroids_Button_Update(Button* button)
 	{
 		if (isMouseOver_Rect(button->position, button->width, button->height, mouseX, mouseY))
 		{
-			button->status = HOVER;
-			if (CP_Input_MouseDown(MOUSE_BUTTON_1))
-				button->status = CLICKED;
+			Asteroids_Button_Is_MouseOver_Button(button);
 			if (CP_Input_MouseReleased(MOUSE_BUTTON_1))
 				Asteroids_Button_Execute_Callback(button);
 		}
@@ -116,9 +114,7 @@ void Asteroids_Button_Update_Advanced(Button* button, void* ptr)
 	{
 		if (isMouseOver_Rect(button->position, button->width, button->height, mouseX, mouseY))
 		{
-			button->status = HOVER;
-			if (CP_Input_MouseDown(MOUSE_BUTTON_1))
-				button->status = CLICKED;
+			Asteroids_Button_Is_MouseOver_Button(button);
 			if (CP_Input_MouseReleased(MOUSE_BUTTON_1))
 			{
 				Asteroids_Button_Execute_Callback(button);
@@ -138,6 +134,18 @@ void Asteroids_Button_Update_Advanced(Button* button, void* ptr)
 
 	if (button->hidden == false)
 		Asteroids_Button_Draw(*button);
+}
+
+void Asteroids_Button_Is_MouseOver_Button(Button* button)
+{
+	if (button->status != HOVER && button->status != CLICKED)
+	{
+		button->status = HOVER;
+		CP_Sound hoverSound = CP_Sound_Load("./Assets/HiHat.wav");
+		CP_Sound_Play(hoverSound);
+	}
+	else if (CP_Input_MouseDown(MOUSE_BUTTON_1))
+		button->status = CLICKED;
 }
 
 void Asteroids_Button_Execute_Callback(Button* button)
