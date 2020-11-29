@@ -18,6 +18,9 @@ void Asteroids_Final_Boss_Summon_Criteria_Check(void);
 
 void Asteroids_Final_Boss_State_Update(Player* player, Enemy enemy_pool[], int enemy_count, Bullet bullet_pool[]);
 void Asteroids_Final_Boss_State_CheckConditions();
+void Asteroids_Final_Boss_State_Manager(void);
+void Asteroids_Final_Boss_State_Change_Manager(void);
+int Asteroids_Final_Boss_Random_State(void);
 
 void Asteroids_Final_Boss_State_Attack(void* context);
 void Asteroids_Final_Boss_State_Idle(void* context);

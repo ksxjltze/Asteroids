@@ -8,8 +8,9 @@ CP_Image final_boss_sprite[2];
 CP_Image final_boss_sprite_hurt[2];
 
 static bool lap;
-static bool dodge;
-static bool bullet_hell;
+static bool state_change;
+static int id;
+static float state_change_rate;
 
 typedef struct Context
 {
@@ -49,6 +50,9 @@ void Asteroids_Final_Boss_Init(void)
 
 	battleStarted = 0;
 	lap = false;
+	state_change = false;
+	id = bossState.id;
+	state_change_rate = ASTEROIDS_FINAL_BOSS_STATE_CHANGE_RATE;
 }
 
 void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_count, Bullet bullet_pool[])
@@ -59,6 +63,8 @@ void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_c
 	if (final_boss.active)
 	{
 		Asteroids_Final_Boss_State_Update(player, enemy_pool, enemy_count, bullet_pool);
+		Asteroids_Final_Boss_State_Change_Manager();
+		Asteroids_Final_Boss_State_Manager();
 		Asteroid_Enemy_Check_Status(&final_boss);
 		for (int i = 0; i < ASTEROIDS_POOLSIZE_BULLETS; i++)
 		{
@@ -107,7 +113,7 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 	float dt = CP_System_GetDt();
 
 	fire_rate -= dt;
-	//printf("firerate: %.2f\n", fire_rate);
+	printf("firerate: %.2f\n", fire_rate);
 	if (fire_rate <= 0)
 	{
 		CP_Matrix AngularDisplacement;
@@ -248,5 +254,53 @@ float Asteroids_Final_Boss_FireRate(void)
 		return ASTEROIDS_FINAL_BOSS_BULLETHELL_STATE_FIRE_RATE;
 	default:
 		return 0;
+	}
+}
+void Asteroids_Final_Boss_State_Manager(void)
+{
+	if (state_change)
+	{
+		id = Asteroids_Final_Boss_Random_State();
+		state_change = false;
+	}
+	switch (id)
+	{
+	//case 1:
+		
+	case 2:
+		bossState.id = ATTACK;
+		bossState.name = "Attack";
+		bossState.action = &Asteroids_Final_Boss_State_Attack;
+		break;
+	case 3:
+		bossState.action = &Asteroids_Final_Boss_State_Death;
+		bossState.name = "Death";
+		bossState.id = DEATH;
+		break;
+	case 4:
+		bossState.action = &Asteroids_Final_Boss_State_Dodge;
+		bossState.name = "Dodge";
+		bossState.id = DODGE;
+		break;
+	case 5:
+		bossState.action = &Asteroids_Final_Boss_State_BulletHell;
+		bossState.name = "BulletHell";
+		bossState.id = BULLET_HELL;
+		break;
+	}
+}
+
+int Asteroids_Final_Boss_Random_State(void)
+{
+	return CP_Random_RangeInt(2, 5); // to implement idle state
+}
+void Asteroids_Final_Boss_State_Change_Manager(void)
+{
+	float dt = CP_System_GetDt();
+	state_change_rate -= dt;
+	if (state_change_rate <= 0)
+	{
+		state_change = true;
+		state_change_rate = ASTEROIDS_FINAL_BOSS_STATE_CHANGE_RATE;
 	}
 }
