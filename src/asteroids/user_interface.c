@@ -9,17 +9,28 @@ static CP_Image heart_sprite;
 static CP_Vector fuelPos;
 static CP_Vector difficultyPos;
 static float timePassed;
+static CP_Color meterFill;
 
 void Asteroids_UI_Init()
 {
 	fuelPos = CP_Vector_Set((float)WIN_WIDTH - 100, (float)WIN_HEIGHT / 2);
 	difficultyPos = CP_Vector_Set((float)WIN_WIDTH - 120, 40);
 	timePassed = 0;
+	meterFill = CP_Color_Create(0, 255, 0, 255);
 }
 
 void Asteroids_UI_Update(Player player)
 {
-	timePassed += CP_System_GetDt();
+	if (ASTEROIDS_GAME_DIFFICULTY < BRUH)
+		timePassed += CP_System_GetDt();
+	else if (timePassed != ASTEROIDS_DIFFICULTY_INTERVAL)
+	{
+		timePassed = ASTEROIDS_DIFFICULTY_INTERVAL;
+		meterFill.r = 255;
+		meterFill.g = 0;
+		meterFill.b = 255;
+	}
+	
 	Asteroids_UI_Draw(player);
 }
 
@@ -70,14 +81,14 @@ void Asteroids_UI_Fuel_Draw(Fuel fuel)
 
 void Asteroids_UI_Display_Current_Difficulty(void)
 {
-	Asteroids_UI_Display_Difficulty_Meter();
 	CP_Settings_TextSize(30);
+	Asteroids_UI_Display_Difficulty_Meter();
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-
 	if (ASTEROIDS_GAME_DIFFICULTY >= BRUH)
 	{
 		CP_Font_DrawText("BRUH", difficultyPos.x, difficultyPos.y);
 	}
+
 
 	switch (ASTEROIDS_GAME_DIFFICULTY)
 	{
@@ -91,7 +102,7 @@ void Asteroids_UI_Display_Current_Difficulty(void)
 		CP_Font_DrawText("HARD", difficultyPos.x, difficultyPos.y);
 		break;
 	case INSANE:
-		CP_Font_DrawText("INANE", difficultyPos.x, difficultyPos.y);
+		CP_Font_DrawText("INSANE", difficultyPos.x, difficultyPos.y);
 		break;
 	case IMPOSSIBLE:
 		CP_Font_DrawText("IMPOSSIBLE", difficultyPos.x, difficultyPos.y);
@@ -104,13 +115,26 @@ void Asteroids_UI_Display_Current_Difficulty(void)
 
 void Asteroids_UI_Display_Difficulty_Meter()
 {
+	if (timePassed >= ASTEROIDS_DIFFICULTY_INTERVAL && ASTEROIDS_GAME_DIFFICULTY < BRUH)
+	{
+		timePassed = 0;
+
+		if (meterFill.r < 255)
+		{
+			int scale = 35;
+			meterFill.r += scale * 3;
+			meterFill.g -= scale * 2;
+			meterFill.b += scale;
+		}
+	}
+
 	CP_Vector meterPos = CP_Vector_Set(difficultyPos.x - 100, difficultyPos.y - 20);
 	float meterWidth = 200, meterHeight = 40;
 
 	CP_Settings_Fill(CP_Color_Create(50, 50, 50, 255));
 	CP_Graphics_DrawRect(meterPos.x, meterPos.y, meterWidth, meterHeight);
 
-	CP_Settings_Fill(CP_Color_Create(0, 0, 255, 255));
+	CP_Settings_Fill(meterFill);
 	CP_Graphics_DrawRect(meterPos.x, meterPos.y, (timePassed / ASTEROIDS_DIFFICULTY_INTERVAL) * meterWidth, meterHeight);
 
 }
