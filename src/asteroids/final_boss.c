@@ -121,13 +121,16 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 		{
 			AngularDisplacement = CP_Matrix_Rotate(-ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE * (ASTEROIDS_FINAL_BOSS_PROJECT_NUM / 2) + ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE * i);
 			Enemy* Boss_Projectile = Asteroids_Enemy_Spawn(enemy_pool, ENEMY_POOL_SIZE, Final_Boss.pos);
-			Boss_Projectile->parent_id = final_boss.id;
-			Boss_Projectile->id = i;
+			if (Boss_Projectile)
+			{
+				Boss_Projectile->parent_id = final_boss.id;
+				Boss_Projectile->id = i;
 
-			Boss_Projectile->velocity = CP_Vector_Subtract (player->pos, Boss_Projectile->pos);
-			Boss_Projectile->velocity = CP_Vector_Normalize(Boss_Projectile->velocity);
-			Boss_Projectile->velocity = CP_Vector_Scale(Boss_Projectile->velocity, ASTEROIDS_FINAL_BOSS_PROJECTILE_SPEED);
-			Boss_Projectile->velocity = CP_Vector_MatrixMultiply(AngularDisplacement, Boss_Projectile->velocity);
+				Boss_Projectile->velocity = CP_Vector_Subtract (player->pos, Boss_Projectile->pos);
+				Boss_Projectile->velocity = CP_Vector_Normalize(Boss_Projectile->velocity);
+				Boss_Projectile->velocity = CP_Vector_Scale(Boss_Projectile->velocity, ASTEROIDS_FINAL_BOSS_PROJECTILE_SPEED);
+				Boss_Projectile->velocity = CP_Vector_MatrixMultiply(AngularDisplacement, Boss_Projectile->velocity);
+			}
 		}
 		fire_rate = Asteroids_Final_Boss_FireRate();
 	}
