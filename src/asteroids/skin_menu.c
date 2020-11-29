@@ -2,6 +2,7 @@
 #include "utility.h"
 #include "button.h"
 #include "constants.h"
+#include "file_manager.h"
 
 enum PLAYER_SKINS { DEFAULT, LEGACY, PROTOTYPE, skin2, skin3, skin4};
 static int current_skinID;
@@ -31,6 +32,8 @@ void Asteroids_Skin_Menu_Init(void)
 	Asteroids_Button_Set_Text(&Btn_NextSkin, 30.0f, "Next Skin");
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Skin_Menu_Next_Skin, &Btn_NextSkin);
 
+	Asteroids_Skin_Menu_Read_Selected_Skin();
+
 }
 
 void Asteroids_Skin_Menu_Update(void)
@@ -50,6 +53,17 @@ void Asteroids_Skin_Menu_Draw(void)
 void Asteroids_Skin_Menu_Next_Skin(void)
 {
 	current_skinID++;
+	Asteroids_Skin_Menu_Load_Selected_Skin();
+	Asteroids_Skin_Menu_Write_Selected_Skin();
+
+	if (current_skinID >= skin4)
+	{
+		current_skinID = -1;
+	}
+}
+
+void Asteroids_Skin_Menu_Load_Selected_Skin()
+{
 	switch (current_skinID)
 	{
 	case DEFAULT:
@@ -72,11 +86,6 @@ void Asteroids_Skin_Menu_Next_Skin(void)
 		break;
 
 	}
-
-	if (current_skinID >= skin4)
-	{
-		current_skinID = -1;
-	}
 }
 
 void Asteroids_Skin_Menu_Load_Skin(const char* path, const char* skin_name, float cost)
@@ -90,4 +99,28 @@ void Asteroids_Skin_Menu_Load_Default(void)
 {
 	current_skinID = DEFAULT;
 	Asteroids_Skin_Menu_Load_Skin(ASTEROIDS_PLAYER_SPRITE_PATH_DEFAULT, "Default", 0);
+}
+
+void Asteroids_Skin_Menu_Read_Selected_Skin()
+{
+	FILE* skinsFile = Asteroids_Open_File("./Assets/skins.data", "r");
+	if (skinsFile)
+	{
+		fscanf_s(skinsFile, "%d", &current_skinID);
+		Asteroids_Skin_Menu_Load_Selected_Skin(current_skinID);
+		Asteroids_Close_File(skinsFile);
+	}
+	return;
+}
+
+void Asteroids_Skin_Menu_Write_Selected_Skin()
+{
+	FILE* skinsFile = Asteroids_Open_File("./Assets/skins.data", "w");
+	if (skinsFile)
+	{
+		fprintf_s(skinsFile, "%d", current_skinID);
+		Asteroids_Close_File(skinsFile);
+	}
+	return;
+
 }
