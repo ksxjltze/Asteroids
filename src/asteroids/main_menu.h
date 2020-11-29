@@ -39,6 +39,7 @@ void Asteroids_Menu_Display_DifficultyMenu(void);
 //SKIN MENU
 void Asteroids_Menu_Display_SkinMenu(void);
 void Asteroids_MainMenu_Draw_Current_Ship();
+float Asteroids_MainMenu_Rotation_Towards_Mouse();
 
 //UPGRADES MENU
 void Asteroids_Menu_Display_UpgradesMenu(void);

@@ -91,3 +91,23 @@ void Asteroids_Utility_Move_Object_To_Mouse_Stationary(CP_Vector* position, CP_V
 	*position = CP_Vector_Set(CP_Input_GetMouseX(), CP_Input_GetMouseY());
 	*velocity = CP_Vector_Zero();
 }
+
+float Asteroids_Utility_Get_Rotation_Angle_To_Mouse(CP_Vector position)
+{
+	CP_Vector mousePos = CP_Vector_Set(CP_Input_GetMouseX(), CP_Input_GetMouseY());
+	CP_Vector direction = CP_Vector_Subtract(mousePos, position);
+
+	CP_Vector vec_up = CP_Vector_Set(0, -1);
+	CP_Vector vec_right = CP_Vector_Set(1, 0);
+
+	float dot = CP_Vector_DotProduct(direction, vec_right);
+
+	float rotation = 0;
+
+	if (dot >= 0)
+		rotation = CP_Vector_Angle(direction, vec_up);
+	else if (dot < 0)
+		rotation = -CP_Vector_Angle(direction, vec_up);
+
+	return rotation;
+}

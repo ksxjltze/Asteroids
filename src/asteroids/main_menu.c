@@ -139,8 +139,14 @@ void Asteroids_Draw_MainMenu(void)
 
 void Asteroids_MainMenu_Draw_Current_Ship()
 {
-	CP_Image_Draw(current_skin.sprite, (float)WIN_WIDTH / 2.0f, (float)WIN_HEIGHT / 2.0f, 5 * ASTEROIDS_PLAYER_SPRITE_WIDTH, 5 * ASTEROIDS_PLAYER_SPRITE_HEIGHT, 255);
 
+	CP_Image_DrawAdvanced(current_skin.sprite, (float)WIN_WIDTH / 2.0f, (float)WIN_HEIGHT / 2.0f, 5 * ASTEROIDS_PLAYER_SPRITE_WIDTH, 5 * ASTEROIDS_PLAYER_SPRITE_HEIGHT, 255, Asteroids_MainMenu_Rotation_Towards_Mouse());
+
+}
+
+float Asteroids_MainMenu_Rotation_Towards_Mouse()
+{
+	return Asteroids_Utility_Get_Rotation_Angle_To_Mouse(Asteroids_Utility_GetWindowMiddle());
 }
 
 void Asteroids_MainMenu_Button_Init(void)
