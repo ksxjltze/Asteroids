@@ -14,7 +14,7 @@
 #include "score.h"
 #include "collision_manager.h"
 #include <stdbool.h>
-#include "Obstacle.h"
+#include "obstacles.h"
 #include "bigboy.h"
 #include "skin_menu.h"
 #include "final_boss.h"

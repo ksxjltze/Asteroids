@@ -33,7 +33,7 @@ void Asteroids_Boss_Init(CP_Image EnemySprite[], CP_Image EnemyHurtSprite[], flo
 	boss_width = enemy_width;
 	death_ring_dia = 1;
 
-	boss_interval = ASTEROIDS_ENEMY_BOSS_SPAWN_INTERVAL;
+	boss_interval = ASTEROIDS_ENEMY_BIGBOY_SPAWN_INTERVAL;
 	
 	DeathPos = CP_Vector_Zero();
 	boss_killed = false;
@@ -85,11 +85,11 @@ void Asteroids_Enemy_Boss_Spawn(void)
 {
 	Boss.active = 1;
 
-	Boss.speed = ASTEROIDS_ENEMY_BOSS_SPEED;
+	Boss.speed = ASTEROIDS_ENEMY_BIGBOY_SPEED;
 	Boss.size = Boss_Scale_Factor;
 	Boss.pos = Asteroids_Boss_Random_Spawn_Location();
 
-	Boss.hp.max = ASTEROIDS_ENEMY_BOSS_BASE_HP;
+	Boss.hp.max = ASTEROIDS_ENEMY_BIGBOY_BASE_HP;
 	Boss.hp.current = Boss.hp.max;
 
 	Boss.rotation = 0;
@@ -185,7 +185,7 @@ void Asteroids_Enemy_Boss_Spawn_Interval(void)
 	if(boss_interval <= 0)
 	{
 		Asteroids_Enemy_Boss_Spawn();
-		boss_interval = ASTEROIDS_ENEMY_BOSS_SPAWN_INTERVAL;
+		boss_interval = ASTEROIDS_ENEMY_BIGBOY_SPAWN_INTERVAL;
 	}
 }
 

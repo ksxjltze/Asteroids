@@ -1,14 +1,19 @@
-#include "Obstacle.h"
+#include "obstacles.h"
 #include "utility.h"
 
 Obstacle Blackhole;
 Obstacle GammaRay;
 CP_Image Warning;
 
+dot dot_pool[MaxDotParticleArrSize];
+
 float current_lifespan = 1.0f;
+
 static float warning_lifespan = 1.0f;
 static float obstacle_interval;
 static float warning_interval;
+
+static float dot_particle_lifespan;
 
 void Asteroids_Obstacles_Init(void)
 {
@@ -21,6 +26,9 @@ void Asteroids_Obstacles_Init(void)
 
 	obstacle_interval = ASTEROIDS_OBSTACLE_SPAWN_INTERVAL;
 	warning_interval = ASTEROIDS_OBSTACLE_WARNING_INTERVAL;
+	dot_particle_lifespan = 1.5f;
+
+	Asteroids_Particle_Dot_Init();
 
 }
 void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_count)
@@ -50,16 +58,9 @@ void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_co
 			if (Asteroids_Collision_CheckCollision_AABB_Circle(GammaRay.Collider, GammaRay.pos, enemy_pool[j].collider, enemy_pool[j].pos))
 				Asteroids_Enemy_Death(&enemy_pool[j]);
 		}
+
+		Asteroids_particle_dot_debug();
 	}
-	//if (CP_Input_KeyDown(KEY_O))
-	//{
-	//	Asteroids_Environment_Draw_Warning();
-	//}
-	// Spawn GammaRay
-	//if (CP_Input_KeyTriggered(KEY_G))
-	//{
-	//	Asteroids_Obstacle_Spawn_GammaRay();
-	//}
 	if (CP_Input_KeyTriggered(KEY_T))
 	{
 		Asteroids_Obstacle_Spawn_Blackhole();
@@ -156,7 +157,7 @@ void Asteroids_Environment_Draw_Warning(void)
 	float dt = CP_System_GetDt();
 	current_lifespan -= dt;
 
-	CP_Image_Draw(Warning, (float)WIN_WIDTH / 2, GammaRay.pos.y, (float)WIN_WIDTH, 80.0f, (int)(fabsf(current_lifespan) / warning_lifespan * 255)); //(int)(current_lifespan/warning_lifespan) * 
+	CP_Image_Draw(Warning, (float)WIN_WIDTH / 2, GammaRay.pos.y, (float)WIN_WIDTH, 80.0f, (int)(fabsf(current_lifespan) / warning_lifespan * 255));
 	if (current_lifespan < -warning_lifespan)
 	{
 		current_lifespan = warning_lifespan;
@@ -222,4 +223,83 @@ void Asteroids_Obstacles_Debug_BlackHole_To_Mouse()
 		Asteroids_Obstacle_Spawn_Blackhole();
 		
 	Asteroids_Utility_Move_Object_To_Mouse_Stationary(&Blackhole.pos, &Blackhole.velocity);
+}
+void Asteroids_Particle_Dot_Init(void)
+{
+	CP_Image Dot_sprite = CP_Image_Load("./Assets/Dot.png");
+	for (int i = 0; i < MaxDotParticleArrSize; i++)
+	{
+		for (int j = 0; j < DotsPerArr; j++)
+		{
+			dot_pool[i].image[j] = Dot_sprite;
+			dot_pool[i].velocity[j].x = CP_Random_RangeFloat(-25, 25);
+			dot_pool[i].velocity[j].y = CP_Random_RangeFloat(-25, 25);
+		}
+	}
+	for (int i = 0; i < MaxDotParticleArrSize; i++)
+	{
+		dot_pool[i].dimensions.x = 20.0f;
+		dot_pool[i].dimensions.y = 20.0f;
+		dot_pool[i].lifespan = dot_particle_lifespan;
+		dot_pool[i].enabled = false;
+	}
+}
+void Asteroids_Particle_Dot_Spawn(CP_Vector position)
+{
+	for (int i = 0; i < MaxDotParticleArrSize; i++)
+	{
+		if (!dot_pool[i].enabled) // find an inactive array and populate it.
+		{
+			for (int j = 0; j < DotsPerArr; j++)
+			{
+				dot_pool[i].pos[j] = position;
+			}
+			dot_pool[i].enabled = true;
+			return;
+		}
+	}
+}
+void Asteroids_Particle_Draw_Dot(void)
+{
+	float dt = CP_System_GetDt();
+
+	for (int i = 0; i < MaxDotParticleArrSize; i++)
+	{
+		if (!dot_pool[i].enabled) // if the array isnt active, don't draw
+			continue;
+
+		dot_pool[i].lifespan -= dt;
+		for (int j = 0; j < DotsPerArr; j++)
+		{
+			dot_pool[i].velocity[j] = CP_Vector_Normalize(dot_pool[i].velocity[j]);
+			dot_pool[i].velocity[j] = CP_Vector_Scale(dot_pool[i].velocity[j], 50);
+			dot_pool[i].pos[j] = CP_Vector_Add(dot_pool[i].pos[j], CP_Vector_Scale(dot_pool[i].velocity[j], dt));
+			CP_Image_DrawAdvanced(dot_pool[i].image[j], dot_pool[i].pos[j].x, dot_pool[i].pos[j].y, dot_pool[i].dimensions.x, dot_pool[i].dimensions.y, (int)((dot_pool[i].lifespan / dot_particle_lifespan) * 255), 255);
+		}
+		if (dot_pool[i].lifespan < 0)
+		{
+			Asteroids_Particle_Dot_Despawn(&dot_pool[i]);
+		}
+	}
+}
+void Asteroids_Particle_Dot_Despawn(dot* dot_particle)
+{
+	dot_particle->enabled = false;
+	dot_particle->lifespan = dot_particle_lifespan;
+}
+
+
+void Asteroids_particle_dot_debug(void)
+{
+	CP_Vector posi = Asteroids_Utility_GetWindowMiddle();
+
+	if (CP_Input_KeyDown(KEY_5))
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			CP_Image_DrawAdvanced(dot_pool[0].image[i], posi.x += 20, posi.y, 50, 50, 255, 255);
+			CP_Image_DrawAdvanced(dot_pool[1].image[i], posi.x += 20, posi.y + 50.0f, 50, 50, 255, 255);
+
+		}
+	}
 }

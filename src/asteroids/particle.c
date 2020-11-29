@@ -34,10 +34,6 @@ struct Smoke
 	float delay;
 }smoke;
 
-
-
-dot dot_pool[MaxDotParticleArrSize];
-
 /// <summary>
 /// Initialize Particles
 /// </summary>
@@ -68,7 +64,6 @@ void explosion_init(void)
 
 void particle_init()
 {
-	Asteroids_Particle_Dot_Init();
 	for (int i = 0; i < sizeof(particle) / sizeof(particle[0]); i++)
 	{
 		particle[i].posX = 0;
@@ -248,68 +243,4 @@ void particle_despawning(Particle* p)
 	p->lifetime = 0;
 	p->sprite.time = 0;
 	p->sprite.keyframe = 0;
-}
-
-void Asteroids_Particle_Dot_Init(void)
-{
-	CP_Image Dot_sprite = CP_Image_Load("./Assets/Dot.png");
-	for (int i = 0; i < DotsPerArr; i++)
-	{
-		for (int j = 0; j < DotsPerArr; j++)
-		{
-			dot_pool[i].image[j] = Dot_sprite;
-		}
-	}
-	for (int i = 0; i < MaxDotParticleArrSize; i++)
-	{
-		dot_pool[i].dimensions.x = 20.0f;
-		dot_pool[i].dimensions.y = 20.0f;
-		dot_pool[i].lifespan = 5.0f;
-		dot_pool[i].enabled = false;
-	}
-}
-void Asteroids_Particle_Dot_Spawn(CP_Vector position)
-{
-	printf("SPAWN DOT");
-	for (int i = 0; i < MaxDotParticleArrSize; i++)
-	{
-		if (!dot_pool[i].enabled) // find an inactive array and populate it.
-		{
-			dot_pool[i].pos = position;
-			dot_pool[i].velocity.x = CP_Random_RangeFloat(-100, 100);
-			dot_pool[i].velocity.y = CP_Random_RangeFloat(-100, 100);
-			dot_pool[i].enabled = true;
-			return;
-		}
-	}
-}
-void Asteroids_Particle_Draw_Dot(void)
-{
-	float dt = CP_System_GetDt();
-	
-	for (int i = 0; i < MaxDotParticleArrSize; i++) 
-	{
-		if (!dot_pool[i].enabled) // if the array isnt active, don't draw
-			continue;
-
-		dot_pool[i].lifespan -= dt;
-		dot_pool[i].velocity = CP_Vector_Normalize(dot_pool[i].velocity);
-		dot_pool[i].velocity = CP_Vector_Scale(dot_pool[i].velocity, 50);
-		dot_pool[i].pos = CP_Vector_Add(dot_pool[i].pos, CP_Vector_Scale(dot_pool[i].velocity, dt));
-
-		for (int j = 0; j < DotsPerArr; j++)
-		{
-			CP_Image_DrawAdvanced(dot_pool->image[j], dot_pool[i].pos.x, dot_pool[i].pos.y += dt, dot_pool[i].dimensions.x, dot_pool[i].dimensions.y, (int)(255-(50*dt)), 255* dt);
-		}
-		if (dot_pool[i].lifespan < 0)
-		{
-			Asteroids_Particle_Dot_Despawn(&dot_pool[i]);
-
-		}
-	}
-}
-void Asteroids_Particle_Dot_Despawn(dot* dot_particle)
-{
-	dot_particle->enabled = false;
-	dot_particle->lifespan = 5.0f;
 }
