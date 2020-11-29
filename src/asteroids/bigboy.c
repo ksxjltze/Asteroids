@@ -66,10 +66,10 @@ void Asteroids_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_count, 
 			Asteroids_Player_Death(player);
 		}
 	}
-	if (CP_Input_KeyTriggered(KEY_9))
+	/*if (CP_Input_KeyTriggered(KEY_9))
 	{
 		Asteroids_Enemy_Boss_Spawn();
-	}
+	}*/
 	if (boss_killed)
 	{
 		Asteroids_Enemy_Boss_Death_Circle(&Boss, *player, enemy_pool, Boss.split_count);

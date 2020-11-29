@@ -62,6 +62,7 @@ void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_c
 
 	if (final_boss.active)
 	{
+		Asteroids_Final_Boss_Hp_Draw(final_boss);
 		Asteroids_Final_Boss_State_Update(player, enemy_pool, enemy_count, bullet_pool);
 		Asteroids_Final_Boss_State_Change_Manager();
 		Asteroids_Final_Boss_State_Manager();
@@ -331,4 +332,25 @@ void Asteroids_Final_Boss_State_Change_Manager(void)
 		state_change = true;
 		state_change_rate = ASTEROIDS_FINAL_BOSS_STATE_CHANGE_RATE;
 	}
+}
+
+void Asteroids_Final_Boss_Hp_Draw(Enemy Final_Boss)
+{
+	CP_Vector mid = Asteroids_Utility_GetWindowMiddle();
+	mid.x *= 0.5;
+	mid.y *= 2;
+	mid.y -= 50.0f;
+	float scale = (float)(WIN_WIDTH / 2);
+	float width = (Final_Boss.hp.current / Final_Boss.hp.max) * scale;
+	float height = 25.0f;
+
+	char boss_hp_buffer[16];
+	sprintf_s(boss_hp_buffer, 16, ":%.0f/%.0f", Final_Boss.hp.current, Final_Boss.hp.max);
+	CP_Settings_TextSize(height);
+	CP_Settings_Fill(CP_Color_Create(244, 244, 244, 255));
+	CP_Graphics_DrawRect(mid.x, mid.y, scale, height);
+	CP_Settings_Fill(CP_Color_Create(255, 204, 229, 255));
+	CP_Graphics_DrawRect(mid.x, mid.y, width, height);
+	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 150));
+	CP_Font_DrawTextBox(boss_hp_buffer, (float)WIN_WIDTH / 2 - (WIN_WIDTH / 11), mid.y + (height / 2), 200);
 }
