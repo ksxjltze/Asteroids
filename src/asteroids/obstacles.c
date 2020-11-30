@@ -1,5 +1,6 @@
 #include "obstacles.h"
 #include "utility.h"
+#include "audio_manager.h"
 
 Obstacle Blackhole;
 Obstacle GammaRay;
@@ -176,6 +177,7 @@ void Asteroids_Obstacle_Spawn_Warning(void)
 	float posY = CP_Random_RangeFloat(50, (float)WIN_HEIGHT - 50);
 	GammaRay.pos.y = posY;
 	Blackhole.pos.y = posY;
+	Asteroids_Audio_dangersound_Play();
 }
 void Asteroids_Obstacle_TimeInterval(void)
 {

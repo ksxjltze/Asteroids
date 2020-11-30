@@ -74,7 +74,7 @@ void Asteroids_Init(void)
 	Asteroids_Final_Boss_Init();
 	Asteroids_Audio_Manager_Init();
 	//Asteroids_Init_LeaderBoard();
-
+	Asteroids_Audio_gameplaysound_Play();
 }
 
 // use CP_Engine_SetNextGameState to specify this function as the update function

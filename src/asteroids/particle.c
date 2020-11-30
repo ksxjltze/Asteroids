@@ -92,7 +92,6 @@ void smoke_init()
 	}
 
 	smoke.delay = 0.1f;
-	//int timer = 1.0f;
 	smoke.smoke_sprite = Asteroids_Sprite_Create(smoke.image, smoke.dimensions, smoke.image_count, smoke.delay * smoke.image_count, 0);
 }
 
