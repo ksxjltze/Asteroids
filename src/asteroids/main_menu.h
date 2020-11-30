@@ -6,6 +6,7 @@
 #include "init.h"
 #include "button.h"
 #include <stdbool.h>
+#include "audio_manager.h"
 
 extern DIFFICULTY ASTEROIDS_GAME_DIFFICULTY;
 
@@ -28,6 +29,7 @@ void Asteroids_QuitGame(void);
 void Asteroids_Credits(void);
 void Asteroids_Display_LeaderBoard(void);
 void Asteroids_Exit_Screen(void);
+void Asteroids_VolOnOff(void);
 
 //BACKGROUND
 void Asteroids_MainMenu_Update_Background(void);

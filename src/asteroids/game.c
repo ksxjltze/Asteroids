@@ -74,7 +74,7 @@ void Asteroids_Init(void)
 	Asteroids_Final_Boss_Init();
 	Asteroids_Audio_Manager_Init();
 	//Asteroids_Init_LeaderBoard();
-
+	Asteroids_Audio_gameplaysound_Play();
 }
 
 // use CP_Engine_SetNextGameState to specify this function as the update function
@@ -119,6 +119,11 @@ void Asteroids_Update(void)
 		Asteroids_Debug();
 		Asteroids_UI_Update(player);
 		Asteroids_Draw_Scores();
+
+		if (endgame.end)
+		{
+			Asteroids_Disable_All_Spawn();
+		}
 	}
 
 }
@@ -139,7 +144,12 @@ void Asteroids_Set_Difficulty(DIFFICULTY difficulty)
 
 void Asteroids_Difficulty_Update()
 {
-	difficulty_timer += CP_System_GetDt();
+	if(!endgame.end)
+		difficulty_timer += CP_System_GetDt();
+	else
+	{
+		difficulty_timer += 0;
+	}
 	if (difficulty_timer >= ASTEROIDS_DIFFICULTY_INTERVAL)
 	{
 		Asteroids_Raise_Difficulty();
@@ -278,7 +288,7 @@ void Asteroids_Draw()
 
 	Asteroids_Bullet_Draw(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, bullet_sprite, bullet_width, bullet_height);
 	Asteroids_Enemy_Draw(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, enemy_sprites, enemy_hurt_sprites, enemy_width, enemy_height);
-	Asteroids_Player_Draw(player_sprite, player.pos, player_width, player_height, player_rotation);
+	Asteroids_Player_Draw(player_sprite, player.pos, player_width, player_height, player.alpha, player_rotation);
 }
 
 void Asteroids_Debug_Draw_Text()
@@ -332,6 +342,16 @@ void Asteroids_Debug_Check_Input()
 			Asteroids_Obstacles_Debug_BlackHole_To_Mouse();
 		}
 	}
+}
+void Asteroids_Disable_All_Spawn(void)
+{
+	Asteroids_Pause_Obstacles();
+	//Asteroids_Pause_Powerups();
+}
+void Asteroids_Enable_All_Spawn(void)
+{
+	Asteroids_Enemy_Enable_Spawn();
+	Asteroids_Resume_Obstacles();
 }
 
 // use CP_Engine_SetNextGameState to specify this function as the exit function

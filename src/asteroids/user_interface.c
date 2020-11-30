@@ -4,6 +4,7 @@
 #include "utility.h"
 #include "constants.h"
 #include "game.h"
+#include "final_boss.h"
 
 static CP_Image heart_sprite;
 static CP_Vector fuelPos;
@@ -24,7 +25,12 @@ void Asteroids_UI_Init()
 void Asteroids_UI_Update(Player player)
 {
 	if (ASTEROIDS_GAME_DIFFICULTY < BRUH)
-		timePassed += CP_System_GetDt();
+	{
+		if (!endgame.end)
+			timePassed += CP_System_GetDt();
+		else
+			timePassed += 0;
+	}
 	else if (timePassed != ASTEROIDS_DIFFICULTY_INTERVAL)
 	{
 		timePassed = ASTEROIDS_DIFFICULTY_INTERVAL;

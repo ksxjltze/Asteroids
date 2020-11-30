@@ -15,6 +15,8 @@ struct Player Asteroids_Player_Init(float player_width, float player_height)
 	struct Player player;
 	strcpy_s(player.name, 10, "Asteroids");
 
+	player.alpha = 255;
+
 	player.active = 1;
 
 	player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
@@ -51,12 +53,29 @@ void Asteroids_Player_Update(Player* player)
 	Asteroids_Player_Calculate_Fuel(player);
 	if (player->status.hit)
 	{
+		player->status.blink_cooldown -= CP_System_GetDt();
 		player->status.hit_cooldown -= CP_System_GetDt();
 		if (player->status.hit_cooldown <= 0)
 		{
 			player->status.hit = 0;
-			player->status.hit_cooldown = HURT_WINDOW;
+			player->status.hit_cooldown = PLAYER_HURT_WINDOW;
 		}
+		else if (player->status.blink_cooldown <= 0)
+		{
+			player->status.blink_cooldown = PLAYER_HURT_WINDOW / 6;
+			if (player->alpha == 150)
+			{
+				player->alpha = 255;
+			}
+			else
+			{
+				player->alpha = 150;
+			}
+		}
+	}
+	else
+	{
+		player->alpha = 255;
 	}
 	Asteroids_Player_Update_Movement(player, CP_System_GetDt());
 
@@ -71,19 +90,22 @@ void Asteroids_Player_Death(Player* player)
 	player->active = 0;
 }
 
-void Asteroids_Player_Hit(Player* player, float damage)
+void Asteroids_Player_Hit(Player* player, float damage) //Player hurt
 {
 	if (!player->status.hit)
 	{
 		player->hp.current -= damage;
+		player->alpha = 150;
 		player->status.hit = 1;
-		player->status.hit_cooldown = HURT_WINDOW;
+		//player->status.hit_cooldown = HURT_WINDOW;
+		player->status.hit_cooldown = PLAYER_HURT_WINDOW;
+		player->status.blink_cooldown = PLAYER_HURT_WINDOW/6;
 	}
 }
 
-void Asteroids_Player_Draw(CP_Image player_sprite, CP_Vector pos, float player_width, float player_height, float player_rotation)
+void Asteroids_Player_Draw(CP_Image player_sprite, CP_Vector pos, float player_width, float player_height, int alpha, float player_rotation)
 {
-	CP_Image_DrawAdvanced(player_sprite, pos.x, pos.y, player_width, player_height, 255, player_rotation);
+	CP_Image_DrawAdvanced(player_sprite, pos.x, pos.y, player_width, player_height, alpha, player_rotation);
 	
 	float y = (float)sin(player_rotation);
 	float x = (float)cos(player_rotation);
