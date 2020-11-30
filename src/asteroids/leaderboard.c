@@ -47,11 +47,29 @@ void Asteroids_Leaderboard_Init()
 
 void Asteroids_Leaderboard_Update()
 {
+	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
+	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, CP_TEXT_ALIGN_V_BASELINE);
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	CP_Settings_TextSize(30.0f);
+
+	CP_Font_DrawText("Name", 100, 50);
+	CP_Font_DrawText("Kills", 200, 50);
+	CP_Font_DrawText("Time", 300, 50);
+
 	for (size_t i = 0; i < highscore_count; i++)
 	{
-		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Font_DrawText(highscores[highscore_count].name, (float)i * 100, 100);
+		CP_Vector pos = CP_Vector_Set(103, ((float)i + 1) * 50 + 40);
+		CP_Font_DrawText(highscores[i].name, pos.x, pos.y);
+
+		char killText[100];
+		sprintf_s(killText, 100, "%d", highscores[i].enemy_kill_score);
+		char timeText[100];
+		sprintf_s(timeText, 100, "%f", highscores[i].time_score);
+
+		CP_Font_DrawText(killText, pos.x + 100, pos.y);
+		CP_Font_DrawText(timeText, pos.x + 200, pos.y);
 	}
+	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_BASELINE);
 }
 
 void Asteroids_Leaderboard_Exit()
