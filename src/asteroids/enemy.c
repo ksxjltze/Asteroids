@@ -9,6 +9,7 @@
 #include "score.h"
 #include "collision_manager.h"
 #include "currency.h"
+#include "audio_manager.h"
 
 static float spawn_timer;
 static float spawn_interval;
@@ -136,6 +137,7 @@ void Asteroids_Enemy_Death(Enemy* enemy)
 	}
 	spawn_explosion_anim(enemy->pos, enemy->size); //
 	Asteroids_Enemy_Reset(enemy);
+	void Asteroids_Audio_Explosion_Play(enemy);
 }
 
 void Asteroids_Enemy_Reset(Enemy* enemy)
@@ -386,7 +388,9 @@ void Asteroids_Enemy_Collide(Enemy* enemy1, Enemy* enemy2, Enemy enemy_pool[], i
 			Asteroids_Enemy_Death(enemy1);
 			Asteroids_Enemy_Split(enemy2, player, enemy_pool, enemy_count, 0);
 			Asteroids_Enemy_Death(enemy2);
+
 		}
+
 
 	}
 }
