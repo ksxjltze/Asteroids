@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include "file_manager.h"
 
+const char* filePath = "./Assets/scores.data";
+
 struct Highscore
 {
 	struct Scores score;
@@ -23,26 +25,7 @@ void Asteroids_Leaderboard_Init()
 
 	highscore_count = 0;
 	Asteroids_Leaderboard_ReadScores();
-
-	//if (TOP_HIGHSCORE.isHighscore)
-	//{
-	//	highscores = malloc(sizeof(highscores));
-	//	if (highscores)
-	//	{
-	//		*highscores = TOP_HIGHSCORE.score;
-
-	//	}
-	//}
-	//if (!TOP_HIGHSCORE.isHighscore)
-	//{
-	//	TOP_HIGHSCORE.score.enemy_kill_score = CURRENT_SCORE.enemy_kill_score;
-	//	TOP_HIGHSCORE.score.time_score = CURRENT_SCORE.time_score;
-
-	//	if (TOP_HIGHSCORE.score.enemy_kill_score > 0 && TOP_HIGHSCORE.score.time_score > 0)
-	//	{
-	//		TOP_HIGHSCORE.isHighscore = true;
-	//	}
-	//}
+	Asteroids_Leaderboard_WriteScores();
 }
 
 void Asteroids_Leaderboard_Update()
@@ -82,7 +65,7 @@ void Asteroids_Leaderboard_Exit()
 
 void Asteroids_Leaderboard_ReadScores()
 {
-	FILE* scoresFile = Asteroids_Open_File("./Assets/scores.data", "r");
+	FILE* scoresFile = Asteroids_Open_File(filePath, "r");
 	if (scoresFile)
 	{
 		while (1)
@@ -117,10 +100,20 @@ void Asteroids_Leaderboard_ReadScores()
 		}
 		Asteroids_Close_File(scoresFile);
 	}
+	else
+		Asteroids_Leaderboard_WriteScores();
 
 }
 
 void Asteroids_Leaderboard_WriteScores()
 {
-
+	FILE* scoresFile = Asteroids_Open_File(filePath, "w");
+	if (scoresFile)
+	{
+		for (size_t i = 0; i < highscore_count; i++)
+		{
+			fprintf_s(scoresFile, "%s %d,%f\n", highscores[i].name, highscores[i].enemy_kill_score, highscores[i].time_score);
+		}
+		Asteroids_Close_File(scoresFile);
+	}
 }
