@@ -29,7 +29,7 @@ void Asteroids_Audio_MainMenu_BGM_Play(void)
 
 void Asteroids_Audio_Explosion_Play(void)
 {
-	sfx_explosions = CP_Sound_Load("./Assets/SFX/explosion_sound.wav");
+	sfx_explosions = CP_Sound_Load("./Assets/SFX/explosion_sound.mp3");
 	CP_Sound_Play(sfx_explosions);
 }
 
@@ -46,7 +46,7 @@ void Asteroids_Audio_PickUps_Play(void)
 
 void Asteroids_Audio_dangersound_Play(void)
 {
-	sfx_pickups = CP_Sound_load("./Assets/SFX/dangeralarm.wav");
+	sfx_pickups = CP_Sound_load("./Assets/SFX/dangeralarm.mp3");
 	CP_Sound_Play(sfx_dangersound);
 }
 
