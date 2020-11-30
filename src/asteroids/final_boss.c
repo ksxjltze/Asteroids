@@ -59,6 +59,8 @@ void Asteroids_Final_Boss_Init(void)
 	id = bossState.id;
 	state_change_rate = ASTEROIDS_FINAL_BOSS_STATE_CHANGE_RATE;
 
+	endgame.end = false;
+
 	YesBtn = Asteroids_Button_Add_New_Button(100.0f, 50.0f);
 	NoBtn = Asteroids_Button_Add_New_Button(100.0f, 50.0f);
 	Asteroids_Button_Set_Text(&YesBtn, 50.0f, "Yes");
@@ -95,8 +97,12 @@ void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_c
 				Asteroids_Enemy_Death(enemy_pool + i);
 		}
 	}
-	if(final_boss.killed)
+	if (final_boss.killed)
+	{
 		Asteroids_Final_Boss_Death_Screen(final_boss);
+		Asteroids_Disable_All_Spawn();
+		Asteroids_Pause_Timer();
+	}
 }
 
 void Asteroids_Enemy_Final_Boss_Spawn(void)
@@ -401,13 +407,13 @@ void Asteroids_Final_Boss_Death_Screen(Enemy Final_Boss)
 	Asteroids_Button_Set_Position(&NoBtn, BtnPos2);
 	Asteroids_Button_Update(&YesBtn);
 	Asteroids_Button_Update(&NoBtn);
-	Asteroids_Disable_All_Spawn();
-	Asteroids_Pause_Timer();
 }
 
 void Asteroids_Continue_Game(void)
 {
+	endgame.end = false;
 	Asteroids_Enable_All_Spawn();
+	Asteroid_Final_Boss_Reset();
 }
 
 void Asteroids_End_Game(void)

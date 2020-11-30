@@ -1,5 +1,6 @@
 #include "score.h"
 #include <stdbool.h>
+#include "final_boss.h"
 
 #define y 160.0f
 #define x1 130.0f
@@ -40,8 +41,12 @@ void Asteroids_EnemyKill_Score_Manager(void)
 void Asteroids_Time_Score_Manager(void)
 {
 	time_counter = CP_System_GetDt();
-	if(!timer_pause)
+	if (!endgame.end)
+	{
 		Score.time_score += time_counter;
+	}
+
+	Score.time_score += 0;
 
 	char time_buffer[16];
 	sprintf_s(time_buffer, 16, ":%.2f", Score.time_score);

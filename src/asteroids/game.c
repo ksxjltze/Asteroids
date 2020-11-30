@@ -119,6 +119,11 @@ void Asteroids_Update(void)
 		Asteroids_Debug();
 		Asteroids_UI_Update(player);
 		Asteroids_Draw_Scores();
+
+		if (endgame.end)
+		{
+			Asteroids_Disable_All_Spawn();
+		}
 	}
 
 }
@@ -139,7 +144,12 @@ void Asteroids_Set_Difficulty(DIFFICULTY difficulty)
 
 void Asteroids_Difficulty_Update()
 {
-	difficulty_timer += CP_System_GetDt();
+	if(!endgame.end)
+		difficulty_timer += CP_System_GetDt();
+	else
+	{
+		difficulty_timer += 0;
+	}
 	if (difficulty_timer >= ASTEROIDS_DIFFICULTY_INTERVAL)
 	{
 		Asteroids_Raise_Difficulty();
@@ -336,11 +346,10 @@ void Asteroids_Debug_Check_Input()
 void Asteroids_Disable_All_Spawn(void)
 {
 	Asteroids_Pause_Obstacles();
-	Asteroids_Enemy_Disable_Spawn();
+	//Asteroids_Pause_Powerups();
 }
 void Asteroids_Enable_All_Spawn(void)
 {
-	Asteroids_Resume_Timer();
 	Asteroids_Enemy_Enable_Spawn();
 	Asteroids_Resume_Obstacles();
 }

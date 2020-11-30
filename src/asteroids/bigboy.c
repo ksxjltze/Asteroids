@@ -1,6 +1,7 @@
 #include "bigboy.h"
 #include "collider_circle.h"
 #include "collision_manager.h"
+#include "final_boss.h"
 
 Enemy Boss;
 
@@ -175,6 +176,8 @@ void Asteroids_Enemy_Check_Boss_Hp(Enemy* boss, Player player, Enemy enemy_pool[
 	{
 		boss->killed = true;
 		boss->active = false;
+		endgame.end = true;
+		
 		if (split == 0)
 		{
 			return;
