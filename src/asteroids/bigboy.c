@@ -190,10 +190,11 @@ void Asteroids_Enemy_Check_Boss_Hp(Enemy* boss, Player player, Enemy enemy_pool[
 void Asteroids_Enemy_Boss_Spawn_Interval(void)
 {
 	float dt = CP_System_GetDt();
-	if (endgame.end)
+	if (!endgame.end)
 	{
 		boss_interval -= dt;
 	}
+	printf("%.2f\n", boss_interval);
 	if(boss_interval <= 0)
 	{
 		Asteroids_Enemy_Boss_Spawn();
