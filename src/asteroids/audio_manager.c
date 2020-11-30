@@ -7,6 +7,7 @@ CP_Sound sfx_bullet;
 CP_Sound sfx_pickups;
 CP_Sound sfx_explosions;
 CP_Sound sfx_dangersound;
+CP_Sound sfx_gameplaysound;
 
 void Asteroids_Audio_Manager_Init(void)
 {
@@ -31,6 +32,19 @@ void Asteroids_Audio_Explosion_Play(void)
 {
 	sfx_explosions = CP_Sound_Load("./Assets/SFX/explosion_sound.mp3");
 	CP_Sound_Play(sfx_explosions);
+}
+
+void Asteroids_Audio_gameplaysound_Play(void)
+{
+	sfx_explosions = CP_Sound_Load("./Assets/SFX/gameplaysound.wav");
+	CP_Sound_Play(sfx_explosions);
+}
+
+
+void Asteroids_Audio_Gameplay_Play(void)
+{
+	sfx_gameplaysound = CP_Sound_Load("./Assets/SFX/gameplaysound.wav");
+	CP_Sound_Play(sfx_gameplaysound);
 }
 
 void Asteroids_Audio_Bullets_Play(void)
