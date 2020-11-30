@@ -2,13 +2,18 @@
 #include "cprocessing.h"
 #include <stdio.h>
 
-struct Scores
+#define NAME_MAX_SIZE 30
+
+typedef struct Scores
 {
 	CP_Image Asteroid_Killed_Sprite;
 	CP_Image Time_Score_Sprite;
 	float time_score;
 	int enemy_kill_score;
-}Score;
+	char name[NAME_MAX_SIZE];
+} Score;
+
+Score CURRENT_SCORE;
 
 //INITIALIZE VARIABLES
 void Asteroids_Init_Score(void);

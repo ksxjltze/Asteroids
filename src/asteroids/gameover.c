@@ -55,8 +55,8 @@ void Asteroids_GameOver_Update(void)
 
 void Asteroids_GameOver_Init_Score(void)
 {
-	sprintf_s(str_time_score, 20, "Time: %.2fs", Score.time_score);
-	sprintf_s(str_kill_score, 20, "Destroyed: %d", Score.enemy_kill_score);
+	sprintf_s(str_time_score, 20, "Time: %.2fs", CURRENT_SCORE.time_score);
+	sprintf_s(str_kill_score, 20, "Destroyed: %d", CURRENT_SCORE.enemy_kill_score);
 }
 
 void Asteroids_GameOver_Display_Score(void)

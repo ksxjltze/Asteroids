@@ -38,7 +38,10 @@ void Asteroids_Audio_PickUps_Play(void)
 
 void Asteroids_Audio_Manager_Exit(void)
 {
-	CP_Sound_Free(sfx_ButtonHover);
-	CP_Sound_Free(sfx_bgm_MainMenu);
-	CP_Sound_Free(sfx_bullet);
+	if (sfx_ButtonHover)
+		CP_Sound_Free(sfx_ButtonHover);
+	if (sfx_ButtonHover)
+		CP_Sound_Free(sfx_bgm_MainMenu);
+	if (sfx_ButtonHover)
+		CP_Sound_Free(sfx_bullet);
 }

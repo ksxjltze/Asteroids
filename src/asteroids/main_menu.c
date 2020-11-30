@@ -4,6 +4,7 @@
 #include "upgrades_menu.h"
 #include "currency.h"
 #include "audio_manager.h"
+#include "leaderboard.h"
 
 #define BUTTON_WIDTH 500.0f
 #define BUTTON_HEIGHT 100.0f
@@ -223,7 +224,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Play_Game, &Play);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Controls, &Controls);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Credits, &Credits);
-	Asteroids_Button_Set_Callback_Void(&Asteroids_LeaderBoard, &Leaderboard);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_Display_LeaderBoard, &Leaderboard);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_QuitGame, &Quit);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Exit_Screen, &Exit);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_DifficultyMenu, &DifficultyBtn);
@@ -282,16 +283,11 @@ void Asteroids_Credits(void)
 	Asteroids_Button_Update(&Exit);
 }
 
-void Asteroids_LeaderBoard(void)
+void Asteroids_Display_LeaderBoard(void)
 {
 	overlay_type = LEADERBOARD_SCREEN;
 	status = false;
-
-	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
-	CP_Settings_TextSize(100.0f);
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-
-	CP_Font_DrawTextBox("LeaderBoard (TODO)", 0.0f, (float)(WIN_HEIGHT / 2), (float)WIN_WIDTH);
+	Asteroids_Leaderboard_Init();
 
 }
 void Asteroids_Controls(void)
@@ -343,6 +339,11 @@ void Asteroids_Exit_Screen(void)
 	// Draw main menu screen. 
 	status = true;
 
+	if (overlay_type == LEADERBOARD_SCREEN)
+	{
+		Asteroids_Leaderboard_Exit();
+	}
+
 	//Reset control page display to first page
 	page1 = true;
 	page2 = false;
@@ -356,7 +357,7 @@ void Asteroids_MainMenu_CheckInput(void)
 			Asteroids_Credits();
 			break;
 		case LEADERBOARD_SCREEN:
-			Asteroids_LeaderBoard();
+			Asteroids_Leaderboard_Update();
 			break;
 		case CONTROLS_SCREEN:
 			Asteroids_Controls();

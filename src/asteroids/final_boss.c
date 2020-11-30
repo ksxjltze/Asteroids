@@ -137,7 +137,7 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 }
 void Asteroids_Final_Boss_Summon_Criteria_Check(void)
 {
-	if (Score.enemy_kill_score >= ASTEROIDS_FINAL_BOSS_SUMMON_CRITERIA)
+	if (CURRENT_SCORE.enemy_kill_score >= ASTEROIDS_FINAL_BOSS_SUMMON_CRITERIA)
 		Asteroids_Enemy_Final_Boss_Spawn();
 }
 
