@@ -120,12 +120,7 @@ void Asteroids_Update(void)
 		Asteroids_UI_Update(player);
 		Asteroids_Draw_Scores();
 
-		if (endgame.end)
-		{
-			Asteroids_Disable_All_Spawn();
-		}
 	}
-
 }
 
 void Asteroids_Cooldown_Update()
@@ -342,16 +337,6 @@ void Asteroids_Debug_Check_Input()
 			Asteroids_Obstacles_Debug_BlackHole_To_Mouse();
 		}
 	}
-}
-void Asteroids_Disable_All_Spawn(void)
-{
-	Asteroids_Pause_Obstacles();
-	//Asteroids_Pause_Powerups();
-}
-void Asteroids_Enable_All_Spawn(void)
-{
-	Asteroids_Enemy_Enable_Spawn();
-	Asteroids_Resume_Obstacles();
 }
 
 // use CP_Engine_SetNextGameState to specify this function as the exit function

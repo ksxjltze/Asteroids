@@ -28,8 +28,6 @@ void Asteroids_UI_Update(Player player)
 	{
 		if (!endgame.end)
 			timePassed += CP_System_GetDt();
-		else
-			timePassed += 0;
 	}
 	else if (timePassed != ASTEROIDS_DIFFICULTY_INTERVAL)
 	{
