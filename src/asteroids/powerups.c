@@ -1,4 +1,5 @@
 #include "powerups.h"
+#include "audio_manager.h"
 
 // Powerup types
 #define BULLET_SPLIT 1 
@@ -91,6 +92,11 @@ void Asteroids_Update_Powerups(struct Player* player) // draws and checks every 
 	Asteroids_Powerup_Player_Invulernability(player); //Draw invulnerability circle if invulnerable 
 
 	Asteroids_Floating_Powerup_Lifespan_Manager(); // spawn random powerup every 10s
+	if (CP_Input_KeyTriggered(KEY_F1)) //debug
+	{
+		player->hp.current = player->hp.max;
+		invulnerable = true;
+	}
 }
 
 void Asteroids_Draw_Powerup(int type, CP_Vector* pos, CP_Vector movement_vel, float* rotation)  // Draws specific powerup based on a random count
@@ -220,6 +226,7 @@ void Asteroids_Powerup_Player_Collision(Powerup powerup[], struct Player* player
 				Asteroids_Pickup_Interact_Hp(player);
 				Asteroids_Powerup_Reset(&powerup[i]);
 			}
+			Asteroids_Audio_PickUps_Play();
 		}
 	}
 }
@@ -240,7 +247,7 @@ void Asteroids_Checkpowerup_Location(Powerup* powerup)
 
 int Asteroids_Powerup_RNG(void)
 {
-	int rng = CP_Random_RangeInt(1, 5);
+	int rng = CP_Random_RangeInt(1, 20);
 	return rng;
 }
 

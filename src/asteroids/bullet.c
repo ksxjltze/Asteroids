@@ -17,11 +17,9 @@ void Asteroids_Bullet_Init(Bullet bullets[], int count, float bullet_width, floa
 		bullet.active = 0;
 		bullet.pos = CP_Vector_Set(-1, -1);
 		bullet.velocity = CP_Vector_Set(0, 0);
+		bullet.id = i;
 
 		bullet.collider.diameter = (bullet_width + bullet_height) / 2;
-
-		//bullet.collider.width = bullet_width;
-		//bullet.collider.height = bullet_height;
 
 		bullets[i] = bullet;
 	}

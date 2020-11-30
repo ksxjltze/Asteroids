@@ -60,5 +60,6 @@ void Asteroids_Button_Execute_Callback(Button* button);
 void Asteroids_Button_Init(Button* button_out);
 void Asteroids_Button_Update(Button* button);
 void Asteroids_Button_Update_Advanced(Button* button, void* ptr);
+void Asteroids_Button_Is_MouseOver_Button(Button* button);
 void Asteroids_Button_Draw(Button button);
 void Asteroids_Button_Draw_Text(Button button);

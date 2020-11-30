@@ -1,4 +1,4 @@
-#include "Boss.h"
+#include "bigboy.h"
 #include "collider_circle.h"
 #include "collision_manager.h"
 
@@ -33,7 +33,7 @@ void Asteroids_Boss_Init(CP_Image EnemySprite[], CP_Image EnemyHurtSprite[], flo
 	boss_width = enemy_width;
 	death_ring_dia = 1;
 
-	boss_interval = ASTEROIDS_ENEMY_BOSS_SPAWN_INTERVAL;
+	boss_interval = ASTEROIDS_ENEMY_BIGBOY_SPAWN_INTERVAL;
 	
 	DeathPos = CP_Vector_Zero();
 	boss_killed = false;
@@ -48,6 +48,8 @@ void Asteroids_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_count, 
 	{	
 		Boss.pos = CP_Vector_Add(Boss.pos, CP_Vector_Scale(Boss.velocity, dt));
 		Asteroids_Enemy_Draw_Boss();
+		Asteroids_Enemy_Idle_Rotate(&Boss, Boss.rotate_rate, dt);
+
 
 		collide = Asteroids_Collision_CheckCollision_Circle(player->collider, player->pos, Boss.collider, Boss.pos);
 		Asteroids_Collision_CheckCollision_Enemy_Enemy(enemy_pool, enemy_count, &Boss, *player);
@@ -64,10 +66,10 @@ void Asteroids_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_count, 
 			Asteroids_Player_Death(player);
 		}
 	}
-	if (CP_Input_KeyTriggered(KEY_9))
+	/*if (CP_Input_KeyTriggered(KEY_9))
 	{
 		Asteroids_Enemy_Boss_Spawn();
-	}
+	}*/
 	if (boss_killed)
 	{
 		Asteroids_Enemy_Boss_Death_Circle(&Boss, *player, enemy_pool, Boss.split_count);
@@ -83,14 +85,15 @@ void Asteroids_Enemy_Boss_Spawn(void)
 {
 	Boss.active = 1;
 
-	Boss.speed = ASTEROIDS_ENEMY_BOSS_SPEED;
+	Boss.speed = ASTEROIDS_ENEMY_BIGBOY_SPEED;
 	Boss.size = Boss_Scale_Factor;
 	Boss.pos = Asteroids_Boss_Random_Spawn_Location();
 
-	Boss.hp.max = ASTEROIDS_ENEMY_BOSS_BASE_HP;
+	Boss.hp.max = ASTEROIDS_ENEMY_BIGBOY_BASE_HP;
 	Boss.hp.current = Boss.hp.max;
 
-	Boss.rotate_rate = Asteroids_Enemy_Random_Rotation();
+	Boss.rotation = 0;
+	Boss.rotate_rate = 10.0f;
 	Boss.collider.diameter = ASTEROIDS_ENEMY_BASE_DIAMETER * Boss.size;
 
 	Boss.velocity = CP_Vector_Subtract(Asteroids_Utility_GetWindowMiddle(), Boss.pos);
@@ -182,7 +185,7 @@ void Asteroids_Enemy_Boss_Spawn_Interval(void)
 	if(boss_interval <= 0)
 	{
 		Asteroids_Enemy_Boss_Spawn();
-		boss_interval = ASTEROIDS_ENEMY_BOSS_SPAWN_INTERVAL;
+		boss_interval = ASTEROIDS_ENEMY_BIGBOY_SPAWN_INTERVAL;
 	}
 }
 

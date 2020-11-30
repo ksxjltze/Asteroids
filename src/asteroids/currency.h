@@ -7,3 +7,4 @@ int Asteroids_Currency_Get_Balance();
 bool Asteroids_Currency_Deduct_Balance(int amount);
 bool Asteroids_Currency_Get_From_File();
 void Asteroids_Currency_Write_To_File();
+void Asteroids_Currency_Earning_Manager(void);

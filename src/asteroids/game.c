@@ -14,10 +14,12 @@
 #include "score.h"
 #include "collision_manager.h"
 #include <stdbool.h>
-#include "Obstacle.h"
-#include "Boss.h"
+#include "obstacles.h"
+#include "bigboy.h"
 #include "skin_menu.h"
 #include "final_boss.h"
+#include "leaderboard.h"
+#include "audio_manager.h"
 
 float shoot_cooldown = 0.0f;
 
@@ -55,6 +57,7 @@ void Asteroids_Init(void)
 	Asteroids_Set_Difficulty(DIFFICULTY_OPTION);
 	Asteroids_Sprites_Load();
 	Asteroids_UI_Init();
+	Asteroids_Collision_Init();
 
 	particle_init();
 	explosion_init();
@@ -69,6 +72,8 @@ void Asteroids_Init(void)
 	Asteroids_Obstacles_Init();
 	Asteroids_Boss_Init(enemy_sprites, enemy_hurt_sprites, enemy_width, enemy_height, &player);
 	Asteroids_Final_Boss_Init();
+	Asteroids_Audio_Manager_Init();
+	//Asteroids_Init_LeaderBoard();
 
 }
 
@@ -89,9 +94,11 @@ void Asteroids_Update(void)
 
 		Asteroids_Enemy_Update(enemy_pool, enemy_count, player);
 		Asteroids_Bullet_Update(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, enemy_pool, enemy_count, player);
+
 		Asteroids_Player_Update(&player);
 
-		Asteroids_Collision_CheckCollision_Enemy_Player(enemy_pool, enemy_count, &player);
+		if (!debug_mode)
+			Asteroids_Collision_CheckCollision_Enemy_Player(enemy_pool, enemy_count, &player);
 
 		particle_update();
 
@@ -107,11 +114,11 @@ void Asteroids_Update(void)
 		Asteroids_Draw();
 		Asteroids_Boss_Update(&player, enemy_pool, enemy_count, bullet_pool);
 		Asteroids_Update_Powerups(&player);
+		Asteroids_Particle_Draw_Dot();
 
 		Asteroids_Debug();
 		Asteroids_UI_Update(player);
 		Asteroids_Draw_Scores();
-
 	}
 
 }
@@ -198,14 +205,7 @@ void Asteroids_Sprites_Load()
 
 void Asteroids_Player_Rotate(CP_Vector direction)
 {
-	CP_Vector vec_up = CP_Vector_Set(0, -1);
-	CP_Vector vec_right = CP_Vector_Set(1, 0);
-	float dot = CP_Vector_DotProduct(direction, vec_right);
-
-	if (dot >= 0)
-		player_rotation = CP_Vector_Angle(direction, vec_up);
-	else if (dot < 0)
-		player_rotation = -CP_Vector_Angle(direction, vec_up);
+	player_rotation = Asteroids_Utility_Get_Rotation_Angle_To_Mouse(player.pos);
 }
 
 void Asteroids_Check_Input()
@@ -233,7 +233,9 @@ void Asteroids_Check_Input()
 	}
 
 	if (CP_Input_KeyTriggered(KEY_F1))
+	{
 		debug_mode = !debug_mode;
+	}
 
 	if (DIFFICULTY_OPTION < HARD)
 		Asteroids_Player_Simple_Movement(&player);
@@ -251,6 +253,9 @@ void Asteroids_Check_Input()
 
 		if (DIFFICULTY_OPTION == EASY)
 			Asteroids_Bullet_Split(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, 4, 15.0f, player, shoot_direction);
+
+		Asteroids_Audio_Bullets_Play();
+
 
 	}
 }
@@ -314,6 +319,19 @@ void Asteroids_Debug_Check_Input()
 	{
 		Asteroids_Player_Death(&player);
 	}
+
+	if (CP_Input_KeyTriggered(KEY_F2))
+	{
+		Asteroids_Enemy_Disable_Spawn();
+	}
+
+	if (CP_Input_KeyDown(KEY_LEFT_SHIFT) && CP_Input_KeyDown(KEY_Q))
+	{
+		if (CP_Input_MouseClicked())
+		{
+			Asteroids_Obstacles_Debug_BlackHole_To_Mouse();
+		}
+	}
 }
 
 // use CP_Engine_SetNextGameState to specify this function as the exit function
@@ -321,5 +339,6 @@ void Asteroids_Debug_Check_Input()
 void Asteroids_Exit(void)
 {
 	// shut down the gamestate and cleanup any dynamic memory
-	
+	Asteroids_Collision_Exit();
+	Asteroids_Audio_Manager_Exit();
 }

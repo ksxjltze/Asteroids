@@ -19,7 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\asteroids\Boss.h" />
+    <ClInclude Include="src\asteroids\audio_manager.h" />
+    <ClInclude Include="src\asteroids\bigboy.h" />
     <ClInclude Include="src\asteroids\bullet.h" />
     <ClInclude Include="src\asteroids\button.h" />
     <ClInclude Include="src\asteroids\collider_aabb.h" />
@@ -39,7 +40,7 @@
     <ClInclude Include="src\asteroids\init.h" />
     <ClInclude Include="src\asteroids\leaderboard.h" />
     <ClInclude Include="src\asteroids\main_menu.h" />
-    <ClInclude Include="src\asteroids\Obstacle.h" />
+    <ClInclude Include="src\asteroids\obstacles.h" />
     <ClInclude Include="src\asteroids\particle.h" />
     <ClInclude Include="src\asteroids\pause.h" />
     <ClInclude Include="src\asteroids\player.h" />
@@ -57,7 +58,8 @@
     <ClInclude Include="src\asteroids\weapon.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\asteroids\Boss.c" />
+    <ClCompile Include="src\asteroids\audio_manager.c" />
+    <ClCompile Include="src\asteroids\bigboy.c" />
     <ClCompile Include="src\asteroids\bullet.c" />
     <ClCompile Include="src\asteroids\button.c" />
     <ClCompile Include="src\asteroids\collider_aabb.c" />
@@ -76,7 +78,7 @@
     <ClCompile Include="src\asteroids\leaderboard.c" />
     <ClCompile Include="src\asteroids\main.c" />
     <ClCompile Include="src\asteroids\main_menu.c" />
-    <ClCompile Include="src\asteroids\Obstacle.c" />
+    <ClCompile Include="src\asteroids\obstacles.c" />
     <ClCompile Include="src\asteroids\pause.c" />
     <ClCompile Include="src\asteroids\player.c" />
     <ClCompile Include="src\asteroids\particle.c" />
