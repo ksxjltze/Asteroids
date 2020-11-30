@@ -71,7 +71,7 @@ void Asteroids_Player_Death(Player* player)
 	player->active = 0;
 }
 
-void Asteroids_Player_Hit(Player* player, float damage)
+void Asteroids_Player_Hit(Player* player, float damage) //Player hurt
 {
 	if (!player->status.hit)
 	{
