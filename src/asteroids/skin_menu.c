@@ -4,7 +4,7 @@
 #include "constants.h"
 #include "file_manager.h"
 
-enum PLAYER_SKINS { DEFAULT, LEGACY, PROTOTYPE, skin2, skin3, skin4};
+enum PLAYER_SKINS { DEFAULT, LEGACY, PROTOTYPE, skin2, skin3, skin4, skin5};
 static int current_skinID;
 
 Skin current_skin;
@@ -83,6 +83,9 @@ void Asteroids_Skin_Menu_Load_Selected_Skin()
 		break;
 	case skin4:
 		Asteroids_Skin_Menu_Load_Skin("./Assets/spaceship5.png", "skin4", 0);
+		break;
+	case skin5:
+		Asteroids_Skin_Menu_Load_Skin("./Assets/spaceship6.png", "skin5", 0);
 		break;
 
 	}
