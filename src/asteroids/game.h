@@ -33,8 +33,6 @@ void Asteroids_Entities_Init();
 void Asteroids_Player_Rotate(CP_Vector direction);
 
 void Asteroids_Cooldown_Update();
-void Asteroids_Disable_All_Spawn(void);
-void Asteroids_Enable_All_Spawn(void);
 
 //Difficulty
 void Asteroids_Set_Difficulty(DIFFICULTY difficulty);

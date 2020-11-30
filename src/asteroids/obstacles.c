@@ -1,6 +1,7 @@
 #include "obstacles.h"
 #include "utility.h"
 #include "audio_manager.h"
+#include "final_boss.h"
 
 Obstacle Blackhole;
 Obstacle GammaRay;
@@ -39,39 +40,36 @@ void Asteroids_Obstacles_Init(void)
 void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_count)
 {
 	float dt = CP_System_GetDt();
-	if (!pause_obstacles)
+	Asteroids_Obstacle_TimeInterval();
+
+	if (Blackhole.active == true)
 	{
-		Asteroids_Obstacle_TimeInterval();
-
-		if (Blackhole.active == true)
-		{
-			Blackhole.pos = CP_Vector_Add(Blackhole.pos, CP_Vector_Scale(Blackhole.velocity, dt));
-			Asteroids_Draw_Obstacle(&Blackhole);
-			Asteroids_Check_Collision_Blackhole_Enemy_Player(enemy_pool, player, &Blackhole, enemy_count);
-			Asteroids_Obstacle_Check_LifeSpan(&Blackhole);
-		}
-
-		if (GammaRay.active)
-		{
-			GammaRay.pos = CP_Vector_Add(GammaRay.pos, CP_Vector_Scale(GammaRay.velocity, dt));
-			Asteroids_Draw_Obstacle(&GammaRay);
-			Asteroids_Obstacle_Check_LifeSpan(&GammaRay);
-			Asteroids_Check_Collision_Gammaray_Enemy_Player(enemy_pool, player, &GammaRay, enemy_count);
-			//Asteroids_Check_Collision_Gammaray_Player(player, &GammaRay);
-
-
-			for (int j = 0; j < 100; j++)
-			{
-				if (Asteroids_Collision_CheckCollision_AABB_Circle(GammaRay.Collider, GammaRay.pos, enemy_pool[j].collider, enemy_pool[j].pos))
-					Asteroids_Enemy_Death(&enemy_pool[j]);
-			}
-
-		}
+		Blackhole.pos = CP_Vector_Add(Blackhole.pos, CP_Vector_Scale(Blackhole.velocity, dt));
+		Asteroids_Draw_Obstacle(&Blackhole);
+		Asteroids_Check_Collision_Blackhole_Enemy_Player(enemy_pool, player, &Blackhole, enemy_count);
+		Asteroids_Obstacle_Check_LifeSpan(&Blackhole);
 	}
-		/*if (CP_Input_KeyTriggered(KEY_T))
+
+	if (GammaRay.active)
+	{
+		GammaRay.pos = CP_Vector_Add(GammaRay.pos, CP_Vector_Scale(GammaRay.velocity, dt));
+		Asteroids_Draw_Obstacle(&GammaRay);
+		Asteroids_Obstacle_Check_LifeSpan(&GammaRay);
+		Asteroids_Check_Collision_Gammaray_Enemy_Player(enemy_pool, player, &GammaRay, enemy_count);
+		//Asteroids_Check_Collision_Gammaray_Player(player, &GammaRay);
+
+
+		for (int j = 0; j < 100; j++)
 		{
-			Asteroids_Obstacle_Spawn_Blackhole();
-		}*/
+			if (Asteroids_Collision_CheckCollision_AABB_Circle(GammaRay.Collider, GammaRay.pos, enemy_pool[j].collider, enemy_pool[j].pos))
+				Asteroids_Enemy_Death(&enemy_pool[j]);
+		}
+
+	}
+	/*if (CP_Input_KeyTriggered(KEY_T))
+	{
+		Asteroids_Obstacle_Spawn_Blackhole();
+	}*/
 	Asteroids_particle_dot_debug();
 }
 
@@ -182,8 +180,16 @@ void Asteroids_Obstacle_Spawn_Warning(void)
 void Asteroids_Obstacle_TimeInterval(void)
 {
 	float dt = CP_System_GetDt();
-	obstacle_interval -= dt;
-	warning_interval -= dt;
+	if (endgame.end)
+	{
+		obstacle_interval -= 0;
+		warning_interval -= 0;
+	}
+	else
+	{
+		obstacle_interval -= dt;
+		warning_interval -= dt;
+	}
 
 	int rng = CP_Random_RangeInt(1, 1);
 
@@ -311,13 +317,4 @@ void Asteroids_particle_dot_debug(void)
 
 		}
 	}
-}
-
-void Asteroids_Pause_Obstacles(void)
-{
-	pause_obstacles = true;
-}
-void Asteroids_Resume_Obstacles(void)
-{
-	pause_obstacles = false;
 }

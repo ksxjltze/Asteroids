@@ -1,4 +1,5 @@
 #include "powerups.h"
+#include "final_boss.h"
 #include "audio_manager.h"
 
 // Powerup types
@@ -162,8 +163,9 @@ void Asteroids_Floating_Powerup_Lifespan_Manager(void)	// tracks time life of po
 	float CurrentElaspedTime = CP_System_GetDt();
 
 	static float TotalElaspedTime = 0;
-	TotalElaspedTime += CurrentElaspedTime;
-	
+	if(!endgame.end)
+		TotalElaspedTime += CurrentElaspedTime;
+
 	if (TotalElaspedTime >= 10.0f)
 	{
 		Asteroids_Spawn_Floating_Powerup(); //Spawns powerup every 10s

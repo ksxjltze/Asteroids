@@ -100,8 +100,6 @@ void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_c
 	if (final_boss.killed)
 	{
 		Asteroids_Final_Boss_Death_Screen(final_boss);
-		Asteroids_Disable_All_Spawn();
-		Asteroids_Pause_Timer();
 	}
 }
 
@@ -412,7 +410,6 @@ void Asteroids_Final_Boss_Death_Screen(Enemy Final_Boss)
 void Asteroids_Continue_Game(void)
 {
 	endgame.end = false;
-	Asteroids_Enable_All_Spawn();
 	Asteroid_Final_Boss_Reset();
 }
 
