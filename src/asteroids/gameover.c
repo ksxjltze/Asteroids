@@ -4,6 +4,7 @@
 #include "score.h"
 #include "audio_manager.h"
 #include "final_boss.h"
+#include "leaderboard.h"
 
 Button btnRestart;
 Button btnQuit; //return to main menu
@@ -57,8 +58,9 @@ void Asteroids_GameOver_Update(void)
 
 void Asteroids_GameOver_Init_Score(void)
 {
-	sprintf_s(str_time_score, 20, "Time: %.2fs", Score.time_score);
-	sprintf_s(str_kill_score, 20, "Destroyed: %d", Score.enemy_kill_score);
+	sprintf_s(str_time_score, 20, "Time: %.2fs", CURRENT_SCORE.time_score);
+	sprintf_s(str_kill_score, 20, "Destroyed: %d", CURRENT_SCORE.enemy_kill_score);
+	Asteroids_Leaderboard_Insert_Score(CURRENT_SCORE);
 }
 
 void Asteroids_GameOver_Display_Score(void)

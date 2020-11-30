@@ -127,7 +127,7 @@ void Asteroids_Enemy_Split(Enemy* enemy, Player player, Enemy enemy_pool[], int 
 
 void Asteroids_Enemy_Death(Enemy* enemy)
 {
-	Score.enemy_kill_score += 1;
+	CURRENT_SCORE.enemy_kill_score += 1;
 	Asteroids_Currency_Earning_Manager();
 
 	int random = Asteroids_Powerup_RNG();
