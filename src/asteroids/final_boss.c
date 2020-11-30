@@ -225,6 +225,7 @@ void Asteroid_Final_Boss_Reset()
 	final_boss.split_count = 0;
 	final_boss.collider.diameter = 0;
 	final_boss.sprite_type = 0;
+	final_boss.killed = false;
 	bossState.id = NONE;
 	bossState.name = "NONE";
 	bossState.action = NULL;
@@ -407,5 +408,6 @@ void Asteroids_Continue_Game(void)
 	// start spawning everything again
 }void Asteroids_End_Game(void)
 {
+	Asteroid_Final_Boss_Reset();
 	CP_Engine_SetNextGameState(Asteroids_GameOver_Init, Asteroids_GameOver_Update, Asteroids_GameOver_Exit);
 }

@@ -3,6 +3,7 @@
 #include "game.h"
 #include "score.h"
 #include "audio_manager.h"
+#include "final_boss.h"
 
 Button btnRestart;
 Button btnQuit; //return to main menu
