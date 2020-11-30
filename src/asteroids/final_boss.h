@@ -41,6 +41,9 @@ void Asteroids_Final_Boss_State_Death(const void* context);
 void Asteroid_Final_Boss_Reset();
 void Asteroids_Final_Boss_Idle(Enemy* Final_Boss, Player* player);
 
+void Asteroids_Final_Boss_State_WildBoar(const void* context);
+void Asteroids_Final_Boss_WildBoar(Enemy* Final_Boss, Player* player);
+
 void Asteroids_Final_Boss_Hp_Draw(Enemy Final_Boss);
 void Asteroids_Final_Boss_Death_Screen(Enemy Final_Boss);
 

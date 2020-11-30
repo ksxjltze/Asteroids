@@ -23,7 +23,7 @@ typedef struct Context
 	Bullet* bullet_pool;
 } Context;
 
-enum BossState {NONE, DEATH, LEPAK, ATTACK, DODGE, BULLET_HELL};
+enum BossState {NONE, DEATH, LEPAK, ATTACK, DODGE, BULLET_HELL, WILDBOAR};
 
 #define ENEMY_POOL_SIZE 200
 #define ASTEROIDS_POOLSIZE_BULLETS 999
@@ -199,13 +199,13 @@ void Asteroids_Final_Boss_State_CheckConditions()
 		bossState.id = LEPAK;
 		bossState.name = "LEPAK";
 		bossState.action = &Asteroids_Final_Boss_State_Idle;
-	}
+	}*/
 	if (CP_Input_KeyDown(KEY_N))
 	{
-		bossState.id = ATTACK;
-		bossState.name = "Attack";
-		bossState.action = &Asteroids_Final_Boss_State_Attack;
-	}*/
+		bossState.id = WILDBOAR;
+		bossState.name = "WildBoar";
+		bossState.action = &Asteroids_Final_Boss_State_WildBoar;
+	}
 }
 
 void Asteroids_Final_Boss_State_Idle(const void* context)
@@ -290,6 +290,8 @@ float Asteroids_Final_Boss_FireRate(void)
 		return ASTEROIDS_FINAL_BOSS_BULLETHELL_STATE_FIRE_RATE;
 	case LEPAK:
 		return ASTEROIDS_FINAL_BOSS_IDLE_STATE_FIRE_RATE;
+	case WILDBOAR:
+		return 0;
 	default:
 		return 0;
 	}
@@ -328,6 +330,10 @@ void Asteroids_Final_Boss_State_Manager(void)
 		bossState.name = "BulletHell";
 		bossState.id = BULLET_HELL;
 		break;
+	case 6:
+		bossState.action = &Asteroids_Final_Boss_State_WildBoar;
+		bossState.name = "WildBoar";
+		bossState.id = WILDBOAR;
 	}
 }
 
@@ -335,14 +341,30 @@ void Asteroids_Final_Boss_Idle(Enemy* Final_Boss, Player* player)
 {
 	Final_Boss->speed = 1;
 }
+void Asteroids_Final_Boss_State_WildBoar(const void* context)
+{
+	Context parameters = *(Context*)context;
+	Asteroids_Final_Boss_WildBoar(&final_boss, parameters.player);
+
+}
+void Asteroids_Final_Boss_WildBoar(Enemy* Final_Boss, Player* player)
+{
+	float dt = CP_System_GetDt();
+	CP_Vector direction = CP_Vector_Subtract(player->pos, Final_Boss->pos);
+	direction = CP_Vector_Normalize(direction);
+	float speed = 200.0f;
+	direction = CP_Vector_Scale(direction, speed * dt);
+
+	Final_Boss->pos = CP_Vector_Add(Final_Boss->pos, direction);
+}
 
 int Asteroids_Final_Boss_Random_State(int old_id)
 {
-	int new_id = CP_Random_RangeInt(2, 5);
+	int new_id = CP_Random_RangeInt(2, 6);
 
 	while (new_id == old_id)
 	{
-		new_id = CP_Random_RangeInt(2, 5);
+		new_id = CP_Random_RangeInt(2, 6);
 	}
 	return new_id;
 }
