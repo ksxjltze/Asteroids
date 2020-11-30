@@ -32,7 +32,7 @@ void Asteroids_Upgrades_Menu_Update(void)
 
 void Asteroids_Upgrades_Menu_Draw(void)
 {
-	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
+	CP_Settings_Background(CP_Color_Create(51, 153, 255, 255));
 	Asteroids_Upgrades_Menu_Display_Balance();
 }
 
