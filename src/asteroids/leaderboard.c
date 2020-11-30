@@ -7,22 +7,11 @@
 
 const char* filePath = "./Assets/scores.data";
 
-struct Highscore
-{
-	struct Scores score;
-	bool isHighscore;
-
-}TOP_HIGHSCORE;
-
 Score* highscores;
 static size_t highscore_count;
 
 void Asteroids_Leaderboard_Init()
 {
-	TOP_HIGHSCORE.isHighscore = false;
-	TOP_HIGHSCORE.score.enemy_kill_score = 0;
-	TOP_HIGHSCORE.score.time_score = 0;
-
 	highscore_count = 0;
 	Asteroids_Leaderboard_ReadScores();
 	Asteroids_Leaderboard_WriteScores();
@@ -116,4 +105,24 @@ void Asteroids_Leaderboard_WriteScores()
 		}
 		Asteroids_Close_File(scoresFile);
 	}
+}
+
+void Asteroids_Leaderboard_Insert_Score(Score score)
+{
+	Asteroids_Leaderboard_ReadScores();
+	qsort_s(highscores, highscore_count, sizeof(Score), Asteroids_Leaderboard_Compare_Highscores, &score);
+	FILE* scoresFile = Asteroids_Open_File(filePath, "r+");
+	if (scoresFile)
+	{
+		for (size_t i = 0; i < highscore_count; i++)
+		{
+			
+		}
+		Asteroids_Close_File(scoresFile);
+	}
+}
+
+int Asteroids_Leaderboard_Compare_Highscores(const void* left, const void* right)
+{
+
 }
