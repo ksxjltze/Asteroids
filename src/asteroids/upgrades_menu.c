@@ -32,7 +32,7 @@ void Asteroids_Upgrades_Menu_Update(void)
 
 void Asteroids_Upgrades_Menu_Draw(void)
 {
-	CP_Settings_Background(CP_Color_Create(51, 153, 255, 255));
+	CP_Settings_Background(CP_Color_Create(160, 160, 160, 255));
 	Asteroids_Upgrades_Menu_Display_Balance();
 }
 
@@ -41,6 +41,7 @@ void Asteroids_Upgrades_Menu_Display_Balance(void)
 	CP_Settings_TextSize(30);
 	int balance = Asteroids_Currency_Get_Balance();
 	char balanceText[BALANCE_BUFFER_SIZE];
+	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 	sprintf_s(balanceText, BALANCE_BUFFER_SIZE, "Balance: %d\n", balance);
 	CP_Font_DrawText(balanceText, 100, 30);
 }
@@ -127,11 +128,13 @@ UpgradeMenuItem Asteroids_Upgrades_Menu_Init_Upgrade_Info(Upgrade upgrade, CP_Ve
 void Asteroids_Upgrades_Menu_Display_Upgrade_Info(UpgradeMenuItem* menuItem)
 {
 	CP_Settings_TextSize(30.0f);
+	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 	CP_Font_DrawText(menuItem->upgrade.name, menuItem->pos.x, menuItem->pos.y - 80);
 
 	Asteroids_Button_Update_Advanced(&menuItem->btnBuy, menuItem);
 
 	CP_Settings_TextSize(30);
+	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 	CP_Font_DrawText(menuItem->costText, menuItem->pos.x, menuItem->pos.y - 50);
 	CP_Font_DrawText(menuItem->levelText, menuItem->pos.x, menuItem->pos.y - 20);
 

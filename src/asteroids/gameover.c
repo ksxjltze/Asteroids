@@ -47,6 +47,7 @@ void Asteroids_GameOver_Update(void)
 {
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
 	CP_Settings_TextSize(100.0f);
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Font_DrawText("GAME OVER", (float)WIN_WIDTH / 2, (float)WIN_HEIGHT * 0.1f);
 	Asteroids_GameOver_Display_Score();
 	

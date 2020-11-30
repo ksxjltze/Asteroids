@@ -57,6 +57,7 @@ void Asteroids_Difficulty_Menu_Update_ButtonText(Button* button)
 void Asteroids_Difficulty_Menu_Display_Info(void)
 {
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, CP_TEXT_ALIGN_V_BASELINE);
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	switch (DIFFICULTY_OPTION)
 	{
 	case EASY:
