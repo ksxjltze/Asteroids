@@ -119,7 +119,7 @@ void Asteroids_Enemy_Final_Boss_Spawn(void)
 	final_boss.split_count = 0; // no split, game ends when boss DIES
 	final_boss.collider.diameter = final_boss.size * boss_width;
 
-	final_boss.sprite_type = CP_Random_RangeInt(1, 1); //lmao
+	final_boss.sprite_type = CP_Random_RangeInt(0, 1); //lmao
 	battleStarted = 1;
 
 	Asteroids_Enemy_Disable_Spawn(); // stop spawning of random asteroids
@@ -395,7 +395,7 @@ void Asteroids_Final_Boss_Death_Screen(Enemy Final_Boss)
 	CP_Settings_TextSize(textsize);
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Font_DrawTextBox("Congratulations!", 0, vec.y, (float)WIN_WIDTH);
-	CP_Font_DrawTextBox("You have deafeted the final boss!", 0, vec.y + textsize, (float)WIN_WIDTH);
+	CP_Font_DrawTextBox("You have defeated the final boss!", 0, vec.y + textsize, (float)WIN_WIDTH);
 	CP_Font_DrawTextBox("Would you like to continue playing?", 0, vec.y + textsize * 2, (float)WIN_WIDTH);
 
 	CP_Vector BtnPos = Asteroids_Utility_GetWindowMiddle();
