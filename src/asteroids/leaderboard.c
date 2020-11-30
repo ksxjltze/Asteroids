@@ -1,5 +1,4 @@
 ﻿#include "leaderboard.h"
-#include "score.h"
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -12,9 +11,9 @@ static size_t highscore_count;
 
 void Asteroids_Leaderboard_Init()
 {
+	highscores = NULL;
 	highscore_count = 0;
 	Asteroids_Leaderboard_ReadScores();
-	Asteroids_Leaderboard_WriteScores();
 }
 
 void Asteroids_Leaderboard_Update()
@@ -49,7 +48,32 @@ void Asteroids_Leaderboard_Exit()
 	if (highscores)
 	{
 		free(highscores);
+		highscores = NULL;
+		highscore_count = 0;
 	}
+}
+
+void Asteroids_Leaderboard_Insert_Score(Score score)
+{
+	Asteroids_Leaderboard_GetScores();
+	Score* temp = realloc(highscores, sizeof(Score) * (highscore_count + 1));
+	if (temp)
+	{
+		highscores[highscore_count] = score;
+		highscore_count++;
+
+		qsort_s(highscores, highscore_count, sizeof(Score), &Asteroids_Leaderboard_Compare_Highscores, NULL);
+		Asteroids_Leaderboard_WriteScores();
+	}
+	else
+		printf("Error: Failed to Reallocate memory for inserting new score.");
+}
+
+Score* Asteroids_Leaderboard_GetScores()
+{
+	if (!highscores)
+		Asteroids_Leaderboard_ReadScores();
+	return highscores;
 }
 
 void Asteroids_Leaderboard_ReadScores()
@@ -59,9 +83,6 @@ void Asteroids_Leaderboard_ReadScores()
 	{
 		while (1)
 		{
-			if (feof(scoresFile))
-				break;
-
 			Score* temp = realloc(highscores, sizeof(Score) * (highscore_count + 1));
 			if (temp)
 			{
@@ -75,11 +96,14 @@ void Asteroids_Leaderboard_ReadScores()
 				if (values_read == 3)
 				{
 					highscores[highscore_count] = score;
-					highscore_count++;
+					highscores[highscore_count].id = (int)highscore_count;
 					printf("Highscore added.\n");
+					highscore_count++;
 				}
 				else
 				{
+					if (feof(scoresFile))
+						break;
 					printf("Error: Failed to read highscore.\n");
 				}
 
@@ -107,22 +131,15 @@ void Asteroids_Leaderboard_WriteScores()
 	}
 }
 
-void Asteroids_Leaderboard_Insert_Score(Score score)
+int Asteroids_Leaderboard_Compare_Highscores(void* context, const void* lhs, const void* rhs)
 {
-	Asteroids_Leaderboard_ReadScores();
-	qsort_s(highscores, highscore_count, sizeof(Score), Asteroids_Leaderboard_Compare_Highscores, &score);
-	FILE* scoresFile = Asteroids_Open_File(filePath, "r+");
-	if (scoresFile)
-	{
-		for (size_t i = 0; i < highscore_count; i++)
-		{
-			
-		}
-		Asteroids_Close_File(scoresFile);
-	}
-}
+	Score left = *(Score*)lhs;
+	Score right = *(Score*)rhs;
 
-int Asteroids_Leaderboard_Compare_Highscores(const void* left, const void* right)
-{
+	if (left.enemy_kill_score + left.time_score < right.enemy_kill_score + right.time_score)
+		return 1;
+	else if (left.enemy_kill_score + left.time_score > right.enemy_kill_score + right.time_score)
+		return -1;
 
+	return 0;
 }

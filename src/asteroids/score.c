@@ -16,6 +16,8 @@ void Asteroids_Init_Score(void)
 
 	CURRENT_SCORE.enemy_kill_score = 0;
 	CURRENT_SCORE.time_score = 0;
+	CURRENT_SCORE.id = 0;
+	strcpy_s(CURRENT_SCORE.name, NAME_MAX_SIZE, "Player");
 }
 void Asteroids_Draw_Scores(void)
 {

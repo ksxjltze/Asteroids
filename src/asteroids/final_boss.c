@@ -101,7 +101,7 @@ void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_c
 	{
 		Asteroids_Final_Boss_Death_Screen(final_boss);
 		Asteroids_Disable_All_Spawn();
-		Asteroids_Pause_Timer();
+		//Asteroids_Pause_Timer();
 	}
 }
 

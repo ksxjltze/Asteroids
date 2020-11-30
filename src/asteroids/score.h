@@ -10,6 +10,7 @@ typedef struct Scores
 	CP_Image Time_Score_Sprite;
 	float time_score;
 	int enemy_kill_score;
+	unsigned int id;
 	char name[NAME_MAX_SIZE];
 } Score;
 
@@ -25,5 +26,5 @@ void Asteroids_Draw_Scores(void);
 void Asteroids_EnemyKill_Score_Manager(void);
 void Asteroids_Time_Score_Manager(void);
 
-void Asteroids_Pause_Timer(void);
-void Asteroids_Resume_Timer(void);
+//void Asteroids_Pause_Timer(void);
+//void Asteroids_Resume_Timer(void);
