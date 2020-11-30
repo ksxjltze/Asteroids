@@ -278,7 +278,7 @@ void Asteroids_Draw()
 
 	Asteroids_Bullet_Draw(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, bullet_sprite, bullet_width, bullet_height);
 	Asteroids_Enemy_Draw(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, enemy_sprites, enemy_hurt_sprites, enemy_width, enemy_height);
-	Asteroids_Player_Draw(player_sprite, player.pos, player_width, player_height, player_rotation);
+	Asteroids_Player_Draw(player_sprite, player.pos, player_width, player_height, player.alpha, player_rotation);
 }
 
 void Asteroids_Debug_Draw_Text()

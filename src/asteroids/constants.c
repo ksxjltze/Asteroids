@@ -10,6 +10,7 @@ const int ASTEROIDS_PLAYER_SIMPLE_SPEED = 400;
 const float ASTEROIDS_WEAPON_RAILGUN_PROJECTILE_SPEED = 400;
 const float ASTEROIDS_WEAPON_RAILGUN_FIRE_RATE = 200.0f; //bullets per minute
 const float HURT_WINDOW = 0.01f; //seconds
+const float PLAYER_HURT_WINDOW = 1.5f; //seconds
 const float ASTEROIDS_WEAPON_RAILGUN_DAMAGE = 1;
 
 const float ASTEROID_MIN_SPEED = 50.0f;
