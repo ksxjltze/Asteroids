@@ -70,9 +70,9 @@ void Asteroids_Leaderboard_ReadScores()
 		while (1)
 		{
 			if (feof(scoresFile))
-				return;
+				break;
 
-			Score* temp = realloc(highscores, highscore_count + 1);
+			Score* temp = realloc(highscores, sizeof(Score) * (highscore_count + 1));
 			if (temp)
 			{
 				highscores = temp;
@@ -81,12 +81,11 @@ void Asteroids_Leaderboard_ReadScores()
 				score.enemy_kill_score = 0;
 				memset(score.name, 0, NAME_MAX_SIZE);
 
-				int values_read = fscanf_s(scoresFile, "%s,%d,%f", score.name, NAME_MAX_SIZE, &score.enemy_kill_score, &score.time_score);
-				//int values_read = fscanf_s(scoresFile, "%s,", score.name, NAME_MAX_SIZE);
-				printf("filePos: %d\n", ftell(scoresFile));
-				if (values_read == 1)
+				int values_read = fscanf_s(scoresFile, "%s %d,%f", score.name, NAME_MAX_SIZE, &score.enemy_kill_score, &score.time_score);
+				if (values_read == 3)
 				{
 					highscores[highscore_count] = score;
+					highscore_count++;
 					printf("Highscore added.\n");
 				}
 				else

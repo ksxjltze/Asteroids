@@ -40,8 +40,8 @@ void Asteroids_Audio_Manager_Exit(void)
 {
 	if (sfx_ButtonHover)
 		CP_Sound_Free(sfx_ButtonHover);
-	if (sfx_ButtonHover)
+	if (sfx_bgm_MainMenu)
 		CP_Sound_Free(sfx_bgm_MainMenu);
-	if (sfx_ButtonHover)
+	if (sfx_bullet)
 		CP_Sound_Free(sfx_bullet);
 }
