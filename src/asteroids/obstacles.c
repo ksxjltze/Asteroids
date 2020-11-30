@@ -171,7 +171,6 @@ void Asteroids_Obstacle_Spawn_Warning(void)
 	GammaRay.pos.y = posY;
 	Blackhole.pos.y = posY;
 	Asteroids_Audio_dangersound_Play();
-
 }
 void Asteroids_Obstacle_TimeInterval(void)
 {

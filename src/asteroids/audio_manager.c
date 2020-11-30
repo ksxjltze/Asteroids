@@ -46,7 +46,7 @@ void Asteroids_Audio_PickUps_Play(void)
 
 void Asteroids_Audio_dangersound_Play(void)
 {
-	sfx_pickups = CP_Sound_load("./Assets/SFX/dangeralarm.mp3");
+	sfx_dangersound = CP_Sound_Load("./Assets/SFX/dangeralarm.mp3");
 	CP_Sound_Play(sfx_dangersound);
 }
 
