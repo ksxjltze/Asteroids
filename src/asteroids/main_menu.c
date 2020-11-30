@@ -3,6 +3,7 @@
 #include "skin_menu.h"
 #include "upgrades_menu.h"
 #include "currency.h"
+#include "audio_manager.h"
 
 #define BUTTON_WIDTH 500.0f
 #define BUTTON_HEIGHT 100.0f
@@ -35,6 +36,8 @@ CP_Vector backgroundPos;
 CP_Vector backgroundPos2;
 CP_Vector backgroundPos3;
 
+static CP_Sound bgm;
+
 void Asteroids_MainMenu_Init(void)
 {
 	status = true;
@@ -63,6 +66,8 @@ void Asteroids_MainMenu_Init(void)
 	Asteroids_Currency_Init();
 	Asteroids_Upgrades_Init();
 	Asteroids_Skin_Menu_Init();
+	Asteroids_Audio_Manager_Init();
+	Asteroids_Audio_MainMenu_BGM_Play();
 }
 
 void Asteroids_MainMenu_Update(void)
@@ -74,7 +79,7 @@ void Asteroids_MainMenu_Update(void)
 
 void Asteroids_MainMenu_Exit(void)
 {
-
+	Asteroids_Audio_Manager_Exit();
 }
 
 void Asteroids_MainMenu_Update_Background(void)
@@ -127,7 +132,7 @@ void Asteroids_Draw_MainMenu(void)
 		Asteroids_Button_Update(&DifficultyBtn);
 		Asteroids_Button_Update(&SkinsBtn);
 		Asteroids_Button_Update(&UpgradesBtn);
-		CP_Image_Draw(current_skin.sprite, (float)WIN_WIDTH / 2.0f , (float)WIN_HEIGHT / 2.0f, 200.0f, 200.0f, 255);
+		Asteroids_MainMenu_Draw_Current_Ship();
 	}
 	else if (!status)
 	{
@@ -135,6 +140,18 @@ void Asteroids_Draw_MainMenu(void)
 		Asteroids_Button_Update(&Exit);
 	}
 
+}
+
+void Asteroids_MainMenu_Draw_Current_Ship()
+{
+
+	CP_Image_DrawAdvanced(current_skin.sprite, (float)WIN_WIDTH / 2.0f, (float)WIN_HEIGHT / 2.0f, 5 * ASTEROIDS_PLAYER_SPRITE_WIDTH, 5 * ASTEROIDS_PLAYER_SPRITE_HEIGHT, 255, Asteroids_MainMenu_Rotation_Towards_Mouse());
+
+}
+
+float Asteroids_MainMenu_Rotation_Towards_Mouse()
+{
+	return Asteroids_Utility_Get_Rotation_Angle_To_Mouse(Asteroids_Utility_GetWindowMiddle());
 }
 
 void Asteroids_MainMenu_Button_Init(void)

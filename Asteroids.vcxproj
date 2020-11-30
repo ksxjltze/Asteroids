@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\asteroids\audio_manager.h" />
     <ClInclude Include="src\asteroids\bigboy.h" />
     <ClInclude Include="src\asteroids\bullet.h" />
     <ClInclude Include="src\asteroids\button.h" />
@@ -57,6 +58,7 @@
     <ClInclude Include="src\asteroids\weapon.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\asteroids\audio_manager.c" />
     <ClCompile Include="src\asteroids\bigboy.c" />
     <ClCompile Include="src\asteroids\bullet.c" />
     <ClCompile Include="src\asteroids\button.c" />

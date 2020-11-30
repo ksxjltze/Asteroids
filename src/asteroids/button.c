@@ -1,6 +1,7 @@
 #include "button.h"
 #include <stdio.h>
 #include "game.h"
+#include "audio_manager.h"
 
 Button Asteroids_Button_Add_New_Button(float width, float height)
 {
@@ -87,9 +88,7 @@ void Asteroids_Button_Update(Button* button)
 	{
 		if (isMouseOver_Rect(button->position, button->width, button->height, mouseX, mouseY))
 		{
-			button->status = HOVER;
-			if (CP_Input_MouseDown(MOUSE_BUTTON_1))
-				button->status = CLICKED;
+			Asteroids_Button_Is_MouseOver_Button(button);
 			if (CP_Input_MouseReleased(MOUSE_BUTTON_1))
 				Asteroids_Button_Execute_Callback(button);
 		}
@@ -116,9 +115,7 @@ void Asteroids_Button_Update_Advanced(Button* button, void* ptr)
 	{
 		if (isMouseOver_Rect(button->position, button->width, button->height, mouseX, mouseY))
 		{
-			button->status = HOVER;
-			if (CP_Input_MouseDown(MOUSE_BUTTON_1))
-				button->status = CLICKED;
+			Asteroids_Button_Is_MouseOver_Button(button);
 			if (CP_Input_MouseReleased(MOUSE_BUTTON_1))
 			{
 				Asteroids_Button_Execute_Callback(button);
@@ -138,6 +135,17 @@ void Asteroids_Button_Update_Advanced(Button* button, void* ptr)
 
 	if (button->hidden == false)
 		Asteroids_Button_Draw(*button);
+}
+
+void Asteroids_Button_Is_MouseOver_Button(Button* button)
+{
+	if (button->status != HOVER && button->status != CLICKED)
+	{
+		button->status = HOVER;
+		Asteroids_Audio_Button_Hover_Play();
+	}
+	else if (CP_Input_MouseDown(MOUSE_BUTTON_1))
+		button->status = CLICKED;
 }
 
 void Asteroids_Button_Execute_Callback(Button* button)

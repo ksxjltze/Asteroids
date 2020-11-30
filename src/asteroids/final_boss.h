@@ -33,3 +33,5 @@ float Asteroids_Final_Boss_FireRate(void);
 void Asteroids_Final_Boss_State_Death(const void* context);
 void Asteroid_Final_Boss_Reset();
 void Asteroids_Final_Boss_Idle(Enemy* Final_Boss, Player* player);
+
+void Asteroids_Final_Boss_Hp_Draw(Enemy Final_Boss);
