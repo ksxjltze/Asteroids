@@ -137,7 +137,7 @@ void Asteroids_Enemy_Death(Enemy* enemy)
 	}
 	spawn_explosion_anim(enemy->pos, enemy->size); //
 	Asteroids_Enemy_Reset(enemy);
-	void Asteroids_Audio_Explosion_Play(enemy);
+	Asteroids_Audio_Explosion_Play();
 }
 
 void Asteroids_Enemy_Reset(Enemy* enemy)
