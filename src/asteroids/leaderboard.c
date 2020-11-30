@@ -40,7 +40,7 @@ void Asteroids_Leaderboard_Update()
 		CP_Font_DrawText(killText, pos.x + 100, pos.y);
 		CP_Font_DrawText(timeText, pos.x + 200, pos.y);
 	}
-	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_BASELINE);
+	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 }
 
 void Asteroids_Leaderboard_Exit()
