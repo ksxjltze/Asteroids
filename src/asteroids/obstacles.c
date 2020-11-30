@@ -186,7 +186,7 @@ void Asteroids_Obstacle_TimeInterval(void)
 		warning_interval -= dt;
 	}
 
-	int rng = CP_Random_RangeInt(1, 1);
+	int rng = CP_Random_RangeInt(0, 1);
 
 	if (warning_interval < 0)
 	{
