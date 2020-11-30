@@ -25,6 +25,3 @@ void Asteroids_Draw_Scores(void);
 // SCORE MANAGERS
 void Asteroids_EnemyKill_Score_Manager(void);
 void Asteroids_Time_Score_Manager(void);
-
-//void Asteroids_Pause_Timer(void);
-//void Asteroids_Resume_Timer(void);
