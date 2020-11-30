@@ -410,6 +410,7 @@ void Asteroids_Final_Boss_Death_Screen(Enemy Final_Boss)
 void Asteroids_Continue_Game(void)
 {
 	endgame.end = false;
+	Asteroids_Enemy_Enable_Spawn();
 	Asteroid_Final_Boss_Reset();
 }
 
