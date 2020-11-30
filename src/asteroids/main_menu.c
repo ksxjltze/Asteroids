@@ -249,7 +249,9 @@ void Asteroids_Menu_Display_UpgradesMenu(void)
 
 void Asteroids_VolOnOff(void)
 {
+	status = true;
 	overlay_type = VOL_BUTTON;
+
 
 
 }
