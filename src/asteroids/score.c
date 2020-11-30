@@ -1,5 +1,5 @@
 #include "score.h"
-
+#include <stdbool.h>
 
 #define y 160.0f
 #define x1 130.0f
@@ -7,6 +7,7 @@
 
 #define textsize 40.0f
 
+static bool timer_pause;
 float time_counter;
 
 void Asteroids_Init_Score(void)
@@ -39,7 +40,8 @@ void Asteroids_EnemyKill_Score_Manager(void)
 void Asteroids_Time_Score_Manager(void)
 {
 	time_counter = CP_System_GetDt();
-	Score.time_score += time_counter;
+	if(!timer_pause)
+		Score.time_score += time_counter;
 
 	char time_buffer[16];
 	sprintf_s(time_buffer, 16, ":%.2f", Score.time_score);
@@ -47,4 +49,11 @@ void Asteroids_Time_Score_Manager(void)
 	CP_Font_DrawText(time_buffer, x1, y);
 
 	CP_Image_Draw(Score.Time_Score_Sprite, x1 - 90.0f, y, 50.0f, 50.0f, 255);
+}
+void Asteroids_Pause_Timer(void)
+{
+	timer_pause = true;
+}void Asteroids_Resume_Timer(void)
+{
+	timer_pause = false;
 }

@@ -54,6 +54,8 @@ void Asteroids_Enemy_Check_OutOfBounds(Enemy enemy_pool[], int pool_size);
 void Asteroid_Enemy_Check_Status(Enemy* enemy);
 void Asteroids_Enemy_Hit(Enemy* enemy, float damage);
 void Asteroids_Enemy_Disable_Spawn(void);
+void Asteroids_Enemy_Enable_Spawn(void);
+
 
 //LIU KE
 void Asteroids_Enemy_Spawn_Child(Enemy enemy_pool[], int pool_count, Enemy parent, int count);

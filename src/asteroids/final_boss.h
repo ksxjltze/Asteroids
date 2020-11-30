@@ -6,6 +6,7 @@
 #include "bullet.h"
 #include "bigboy.h"
 #include "score.h"
+#include "game.h"
 
 void Asteroids_Final_Boss_Init(void);
 void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_count, Bullet bullet_pool[]);

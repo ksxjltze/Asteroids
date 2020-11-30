@@ -437,3 +437,8 @@ void Asteroids_Enemy_Disable_Spawn(void)
 {
 	enemy_spawn = false;
 }
+
+void Asteroids_Enemy_Enable_Spawn(void)
+{
+	enemy_spawn = true;
+}

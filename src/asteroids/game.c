@@ -333,6 +333,17 @@ void Asteroids_Debug_Check_Input()
 		}
 	}
 }
+void Asteroids_Disable_All_Spawn(void)
+{
+	Asteroids_Pause_Obstacles();
+	Asteroids_Enemy_Disable_Spawn();
+}
+void Asteroids_Enable_All_Spawn(void)
+{
+	Asteroids_Resume_Timer();
+	Asteroids_Enemy_Enable_Spawn();
+	Asteroids_Resume_Obstacles();
+}
 
 // use CP_Engine_SetNextGameState to specify this function as the exit function
 // this function will be called once just before leaving the current gamestate

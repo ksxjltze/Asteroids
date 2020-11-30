@@ -3,6 +3,7 @@
 #include "state.h"
 #include "button.h"
 #include "gameover.h"
+#include "score.h"
 
 Enemy final_boss;
 State bossState;
@@ -384,7 +385,6 @@ void Asteroids_Final_Boss_Death_Screen(Enemy Final_Boss)
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
 	CP_Vector vec = Asteroids_Utility_GetWindowMiddle();
 	vec.x = (float)(WIN_WIDTH * 0.33);
-	printf("%.2f\n", vec.x);
 	vec.y -= textsize;
 	CP_Settings_TextSize(textsize);
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
@@ -401,12 +401,16 @@ void Asteroids_Final_Boss_Death_Screen(Enemy Final_Boss)
 	Asteroids_Button_Set_Position(&NoBtn, BtnPos2);
 	Asteroids_Button_Update(&YesBtn);
 	Asteroids_Button_Update(&NoBtn);
+	Asteroids_Disable_All_Spawn();
+	Asteroids_Pause_Timer();
 }
 
 void Asteroids_Continue_Game(void)
 {
-	// start spawning everything again
-}void Asteroids_End_Game(void)
+	Asteroids_Enable_All_Spawn();
+}
+
+void Asteroids_End_Game(void)
 {
 	Asteroid_Final_Boss_Reset();
 	CP_Engine_SetNextGameState(Asteroids_GameOver_Init, Asteroids_GameOver_Update, Asteroids_GameOver_Exit);
