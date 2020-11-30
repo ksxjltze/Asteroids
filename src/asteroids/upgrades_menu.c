@@ -118,7 +118,7 @@ UpgradeMenuItem Asteroids_Upgrades_Menu_Init_Upgrade_Info(Upgrade upgrade, CP_Ve
 	btnPos.x -= menuItem.btnBuy.width / 2;
 
 	Asteroids_Button_Set_Position(&menuItem.btnBuy, btnPos);
-	Asteroids_Button_Set_Text(&menuItem.btnBuy, 20, "BUY");
+	Asteroids_Button_Set_Text(&menuItem.btnBuy, 10, "BUY");
 	Asteroids_Button_Set_Callback_Pointer(callback, &menuItem.btnBuy);
 
 	return menuItem;

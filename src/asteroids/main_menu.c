@@ -14,7 +14,7 @@ static int overlay_type;
 bool page1;
 bool page2;
 
-enum OVERLAY_TYPE { CREDITS_SCREEN, LEADERBOARD_SCREEN, CONTROLS_SCREEN, DIFFICULTY_MENU, SKIN_MENU, UPGRADES_MENU};
+enum OVERLAY_TYPE { CREDITS_SCREEN, LEADERBOARD_SCREEN, CONTROLS_SCREEN, DIFFICULTY_MENU, SKIN_MENU, UPGRADES_MENU, VOL_BUTTON};
 
 DIFFICULTY ASTEROIDS_GAME_DIFFICULTY = NORMAL;
 DIFFICULTY DIFFICULTY_OPTION = NORMAL;
@@ -29,6 +29,7 @@ CP_Image Control_screen;
 CP_Image Control_screen2;
 CP_Image Credits_screen;
 CP_Image Chosenship;
+CP_Image Volumebutton;
 
 CP_Image backgroundImage;
 
@@ -55,6 +56,8 @@ void Asteroids_MainMenu_Init(void)
 	backgroundPos2 = backgroundPos;
 	backgroundPos3 = backgroundPos2;
 
+	Volumebutton = CP_Image_Load("./Assets/Volumebutton.png");
+
 	backgroundPos2.x = backgroundPos.x + (float)WIN_WIDTH - ASTEROIDS_MAINMENU_BACKGROUND_SCROLL_OFFSET;
 	backgroundPos3.x = backgroundPos2.x + (float)WIN_WIDTH - ASTEROIDS_MAINMENU_BACKGROUND_SCROLL_OFFSET;
 
@@ -69,6 +72,7 @@ void Asteroids_MainMenu_Init(void)
 	Asteroids_Audio_Manager_Init();
 	Asteroids_Audio_MainMenu_BGM_Play();
 }
+
 
 void Asteroids_MainMenu_Update(void)
 {
@@ -241,6 +245,13 @@ void Asteroids_Menu_Display_UpgradesMenu(void)
 	status = false;
 	overlay_type = UPGRADES_MENU;
 	Asteroids_Upgrades_Menu_Init();
+}
+
+void Asteroids_VolOnOff(void)
+{
+	overlay_type = VOL_BUTTON;
+
+
 }
 
 void Asteroids_Menu_Display_SkinMenu(void)
