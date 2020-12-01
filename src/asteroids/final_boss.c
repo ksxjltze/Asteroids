@@ -30,7 +30,7 @@ typedef struct Context
 } Context;
 
 
-#define ENEMY_POOL_SIZE 500
+#define ENEMY_POOL_SIZE 600
 #define ASTEROIDS_POOLSIZE_BULLETS 999
 
 static float boss_width, boss_height;
@@ -180,6 +180,8 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 				Boss_Projectile->parent_id = final_boss.id;
 				Boss_Projectile->id = i;
 
+				Boss_Projectile->size = 2 + ((ASTEROIDS_GAME_DIFFICULTY - 1) * 0.2f);
+				printf("%.2f\n", Boss_Projectile->size);
 				Boss_Projectile->velocity = CP_Vector_Subtract (player->pos, Boss_Projectile->pos);
 				Boss_Projectile->velocity = CP_Vector_Normalize(Boss_Projectile->velocity);
 				Boss_Projectile->velocity = CP_Vector_Scale(Boss_Projectile->velocity, ASTEROIDS_FINAL_BOSS_PROJECTILE_SPEED);
