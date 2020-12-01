@@ -41,7 +41,7 @@ typedef struct Player {
 
 
 struct Player Asteroids_Player_Init(float player_width, float player_height);
-void Asteroids_Player_Update(Player* player);
+void Asteroids_Player_Update(Player* player);	//DANIA
 
 void Asteroids_Player_Draw(CP_Image player_sprite, CP_Vector pos, float player_width, float player_height, int player_alpha, float player_rotation);
 

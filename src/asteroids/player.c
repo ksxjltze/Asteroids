@@ -60,7 +60,7 @@ struct Player Asteroids_Player_Init(float player_width, float player_height)
 	player.status.hit_cooldown = 0;
 
 	Asteroids_Upgrades_Apply_Upgrades(&player);
-	spawn_smoke_trail_anim(player.pos, 0.3f);
+	spawn_smoke_trail_anim(player.pos, 0.3f);	//Dania
 	return player;
 }
 
@@ -76,6 +76,7 @@ void Asteroids_Player_Update(Player* player)
 			player->status.hit = 0;
 			player->status.hit_cooldown = PLAYER_HURT_WINDOW;
 		}
+		//DANIA START
 		else if (player->status.blink_cooldown <= 0)
 		{
 			player->status.blink_cooldown = PLAYER_HURT_WINDOW / 6;
@@ -93,6 +94,7 @@ void Asteroids_Player_Update(Player* player)
 	{
 		player->alpha = 255;
 	}
+	//DANIA END
 	Asteroids_Player_Update_Movement(player, CP_System_GetDt());
 
 	if (player->hp.current <= 0)
