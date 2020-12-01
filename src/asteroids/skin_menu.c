@@ -56,7 +56,7 @@ void Asteroids_Skin_Menu_Next_Skin(void)
 	Asteroids_Skin_Menu_Load_Selected_Skin();
 	Asteroids_Skin_Menu_Write_Selected_Skin();
 
-	if (current_skinID >= skin4)
+	if (current_skinID >= skin5)
 	{
 		current_skinID = -1;
 	}

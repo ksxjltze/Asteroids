@@ -24,7 +24,7 @@ static CP_Color textColor;
 static float menuTextSize;
 static char* menuText = "Asteroids";
 
-Button Credits, Play, Quit, Leaderboard, Controls, Exit, DifficultyBtn, SkinsBtn, NextPage, PrevPage, UpgradesBtn;
+Button Credits, Play, Quit, Leaderboard, Controls, Exit, DifficultyBtn, SkinsBtn, NextPage, PrevPage, UpgradesBtn, Volume;
 CP_Image Control_screen;
 CP_Image Control_screen2;
 CP_Image Credits_screen;
@@ -55,8 +55,6 @@ void Asteroids_MainMenu_Init(void)
 	backgroundPos = Asteroids_Utility_GetWindowMiddle();
 	backgroundPos2 = backgroundPos;
 	backgroundPos3 = backgroundPos2;
-
-	Volumebutton = CP_Image_Load("./Assets/Volumebutton.png");
 
 	backgroundPos2.x = backgroundPos.x + (float)WIN_WIDTH - ASTEROIDS_MAINMENU_BACKGROUND_SCROLL_OFFSET;
 	backgroundPos3.x = backgroundPos2.x + (float)WIN_WIDTH - ASTEROIDS_MAINMENU_BACKGROUND_SCROLL_OFFSET;
@@ -176,6 +174,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	CP_Vector pos4 = CP_Vector_Set(x2, y1);
 	CP_Vector pos5 = CP_Vector_Set(x2, y2+30);
 	CP_Vector pos10 = CP_Vector_Set(x2, y3+60); // Prev page
+	CP_Vector pos11 = CP_Vector_Set(x1, y2+45); //vol button
 
 	// Exit Button
 	CP_Vector pos6 = CP_Vector_Set((float)((WIN_WIDTH / 2 - BUTTON_WIDTH / 2)), (float)(WIN_HEIGHT - BUTTON_HEIGHT));
@@ -199,6 +198,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	NextPage = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	PrevPage = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	UpgradesBtn = Asteroids_Button_Add_New_Button(BUTTON_WIDTH - 100.0f , BUTTON_HEIGHT - 40.0f);
+	Volume = Asteroids_Button_Add_New_Button(BUTTON_WIDTH , BUTTON_HEIGHT );
 
 	Asteroids_Button_Set_Text(&Play, textSize, "Play");
 	Asteroids_Button_Set_Text(&Controls, textSize, "Help");
@@ -211,6 +211,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Text(&NextPage, textSize, "Next");
 	Asteroids_Button_Set_Text(&PrevPage, textSize, "Back");
 	Asteroids_Button_Set_Text(&UpgradesBtn, textSize, "Upgrades");
+	Asteroids_Button_Set_Text(&Volume, textSize, "Vol");
 
 	Asteroids_Button_Set_Position(&Play, pos1 );
 	Asteroids_Button_Set_Position(&Controls, pos2);
@@ -223,6 +224,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Position(&PrevPage, pos9);
 	Asteroids_Button_Set_Position(&SkinsBtn, pos5);
 	Asteroids_Button_Set_Position(&UpgradesBtn, upgradesPos);
+	Asteroids_Button_Set_Position(&Volume, pos11);
 
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Play_Game, &Play);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Controls, &Controls);
@@ -251,7 +253,7 @@ void Asteroids_VolOnOff(void)
 {
 	status = true;
 	overlay_type = VOL_BUTTON;
-
+	Asteroids_Audio_MainMenu_BGM_Play();
 
 
 }
