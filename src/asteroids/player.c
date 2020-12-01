@@ -126,11 +126,6 @@ void Asteroids_Player_Draw(CP_Image player_sprite, CP_Vector pos, float player_w
 	{
 		pos.y += player_width;
 	}
-
-	//printf("%f\n", player_rotation);
-
-	
-
 }
 
 void Asteroids_Player_Refuel(float amount, Player* player)

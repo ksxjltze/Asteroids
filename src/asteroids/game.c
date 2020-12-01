@@ -20,6 +20,7 @@
 #include "final_boss.h"
 #include "leaderboard.h"
 #include "audio_manager.h"
+#include "Camera.h"
 
 float shoot_cooldown = 0.0f;
 

@@ -4,16 +4,22 @@
 #include "button.h"
 #include "gameover.h"
 #include "score.h"
+#include "audio_manager.h"
 
 Enemy final_boss;
 State bossState;
 CP_Image final_boss_sprite[2];
 CP_Image final_boss_sprite_hurt[2];
 
+CP_Image test;
+
 static bool lap;
 static bool state_change;
 static int id;
+static float stuff;
+static float current_stuff;
 static float state_change_rate;
+static int count;
 
 typedef struct Context
 {
@@ -67,13 +73,22 @@ void Asteroids_Final_Boss_Init(void)
 	Asteroids_Button_Set_Text(&NoBtn, 50.0f, "No");
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Continue_Game, &YesBtn);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_End_Game, &NoBtn);
+
+	test = CP_Image_Load("./Assets/SmokeTrail/smoke_2.png");
+
+	current_stuff = 1.0f;
+	stuff = 1.0f;
+	count = 0;
+
+	final_boss.pos = Asteroids_Utility_Generate_Random_Pos();
 }
 
 void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_count, Bullet bullet_pool[])
 {
 	if (!battleStarted)
-		Asteroids_Final_Boss_Summon_Criteria_Check();
-
+	{
+		lalala(enemy_pool);
+	}
 	if (final_boss.active)
 	{
 		Asteroids_Final_Boss_Hp_Draw(final_boss);
@@ -91,11 +106,6 @@ void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_c
 	if (CP_Input_KeyTriggered(KEY_B))
 	{
 		Asteroids_Enemy_Final_Boss_Spawn();
-		for (int i = 0; i < ENEMY_POOL_SIZE; i++)
-		{
-			if(enemy_pool[i].active)
-				Asteroids_Enemy_Death(enemy_pool + i);
-		}
 	}
 	if (final_boss.killed)
 	{
@@ -103,13 +113,13 @@ void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_c
 	}
 }
 
-void Asteroids_Enemy_Final_Boss_Spawn(void)
+void Asteroids_Enemy_Final_Boss_Spawn()
 {
+	Asteroids_Enemy_Disable_Spawn(); // stop spawning of random asteroids
+
 	final_boss.hp.max = ASTEROIDS_FINAL_BOSS_MAX_HP * (ASTEROIDS_GAME_DIFFICULTY - 1);
 	final_boss.hp.current = final_boss.hp.max;
 	final_boss.speed = ASTEROIDS_FINAL_BOSS_MOVEMENT_SPEED;
-
-	final_boss.pos = Asteroids_Utility_Generate_Random_Pos();
 	final_boss.killed = false;
 	final_boss.active = 1;
 	final_boss.size = 10;
@@ -120,7 +130,6 @@ void Asteroids_Enemy_Final_Boss_Spawn(void)
 	final_boss.sprite_type = CP_Random_RangeInt(0, 1);
 	battleStarted = 1;
 
-	Asteroids_Enemy_Disable_Spawn(); // stop spawning of random asteroids
 }
 void Asteroids_Final_Boss_Draw(void)
 {
@@ -133,7 +142,6 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 	float dt = CP_System_GetDt();
 
 	fire_rate -= dt;
-	printf("%.2f\n", fire_rate);
 	if (fire_rate <= 0)
 	{
 		CP_Matrix AngularDisplacement;
@@ -175,10 +183,11 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 	fire_rate = Asteroids_Final_Boss_FireRate();
 	}
 }
-void Asteroids_Final_Boss_Summon_Criteria_Check(void)
+bool Asteroids_Final_Boss_Summon_Criteria_Check(void)
 {
-	if (CURRENT_SCORE.enemy_kill_score >= ASTEROIDS_FINAL_BOSS_SUMMON_CRITERIA)
-		Asteroids_Enemy_Final_Boss_Spawn();
+	if (CURRENT_SCORE.enemy_kill_score >= 20)//ASTEROIDS_FINAL_BOSS_SUMMON_CRITERIA)
+		return true;
+	return false;
 }
 
 void Asteroids_Final_Boss_State_Update(Player* player, Enemy enemy_pool[], int enemy_count, Bullet bullet_pool[])
@@ -464,4 +473,31 @@ void Asteroids_End_Game(void)
 {
 	Asteroid_Final_Boss_Reset();
 	CP_Engine_SetNextGameState(Asteroids_GameOver_Init, Asteroids_GameOver_Update, Asteroids_GameOver_Exit);
+}
+
+void lalala(Enemy* enemy_pool)
+{
+	if(Asteroids_Final_Boss_Summon_Criteria_Check())
+	{
+		printf("%d\n", (int)Asteroids_Final_Boss_Summon_Criteria_Check());
+		float dt = CP_System_GetDt();
+		current_stuff -= dt;
+		CP_Image_Draw(test, final_boss.pos.x, final_boss.pos.y, boss_width * 10, boss_height * 10, (int)fabsf(255 * ((current_stuff / stuff))));
+		if (current_stuff < -1)
+		{
+			current_stuff = stuff;
+			static int sia = 0;
+			sia++;
+			if (sia == 3)
+			{
+				for (int i = 0; i < ENEMY_POOL_SIZE; i++)
+				{
+					if (enemy_pool[i].active)
+						Asteroids_Enemy_Death(enemy_pool + i);
+
+				}
+				Asteroids_Enemy_Final_Boss_Spawn();
+			}
+		}
+	}
 }

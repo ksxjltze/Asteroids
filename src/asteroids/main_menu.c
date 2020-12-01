@@ -5,6 +5,7 @@
 #include "currency.h"
 #include "audio_manager.h"
 #include "leaderboard.h"
+#include "Camera.h"
 
 #define BUTTON_WIDTH 500.0f
 #define BUTTON_HEIGHT 100.0f
@@ -72,6 +73,7 @@ void Asteroids_MainMenu_Init(void)
 	Asteroids_Skin_Menu_Init();
 	Asteroids_Audio_Manager_Init();
 	Asteroids_Audio_MainMenu_BGM_Play();
+	Camera_Initialize();
 }
 
 
@@ -80,6 +82,27 @@ void Asteroids_MainMenu_Update(void)
 	CP_Settings_Background(backgroundColor);
 	Asteroids_MainMenu_Update_Background();
 	Asteroids_Draw_MainMenu();
+	float dt = CP_System_GetDt();
+	float cam_spd = 100.0f;
+	Camera_Update(dt);
+	if (CP_Input_KeyDown(KEY_P)) {
+		Camera_Shake(500.0f);
+	}
+	if (CP_Input_KeyDown(KEY_W)) {
+		Camera_SetY(Camera_GetY() - cam_spd * dt);
+	}
+	if (CP_Input_KeyDown(KEY_A)) {
+		Camera_SetX(Camera_GetX() - cam_spd * dt);
+	}
+	if (CP_Input_KeyDown(KEY_S)) {
+		Camera_SetY(Camera_GetY() + cam_spd * dt);
+	}
+	if (CP_Input_KeyDown(KEY_D)) {
+		Camera_SetX(Camera_GetX() + cam_spd * dt);
+	}
+	if (CP_Input_KeyDown(KEY_I)) {
+		Camera_SetRotation(Camera_GetRotation() + 100.0f * dt);
+	}
 }
 
 void Asteroids_MainMenu_Exit(void)
@@ -125,7 +148,6 @@ void Asteroids_Draw_MainMenu(void)
 	CP_Settings_Fill(textColor);
 	CP_Settings_TextSize(menuTextSize);
 
-
 	if (status)
 	{
 		CP_Font_DrawTextBox(menuText, 0, 50.0f + menuTextSize / 2, (float)WIN_WIDTH);
@@ -149,8 +171,9 @@ void Asteroids_Draw_MainMenu(void)
 
 void Asteroids_MainMenu_Draw_Current_Ship()
 {
-
-	CP_Image_DrawAdvanced(current_skin.sprite, (float)WIN_WIDTH / 2.0f, (float)WIN_HEIGHT / 2.0f, 5 * ASTEROIDS_PLAYER_SPRITE_WIDTH, 5 * ASTEROIDS_PLAYER_SPRITE_HEIGHT, 255, Asteroids_MainMenu_Rotation_Towards_Mouse());
+	CP_Vector position = (CP_Vector){ (float)WIN_WIDTH / 2.0f, (float)WIN_HEIGHT / 2.0f };
+	position = CP_Vector_MatrixMultiply(Camera_GetCameraTransform(), position);
+	CP_Image_DrawAdvanced(current_skin.sprite, position.x, position.y , 5 * ASTEROIDS_PLAYER_SPRITE_WIDTH, 5 * ASTEROIDS_PLAYER_SPRITE_HEIGHT, 255, Asteroids_MainMenu_Rotation_Towards_Mouse());
 
 }
 
@@ -252,9 +275,6 @@ void Asteroids_VolOnOff(void)
 {
 	status = true;
 	overlay_type = VOL_BUTTON;
-
-
-
 }
 
 void Asteroids_Menu_Display_SkinMenu(void)

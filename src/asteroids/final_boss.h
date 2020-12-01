@@ -20,7 +20,7 @@ void Asteroids_Enemy_Final_Boss_Spawn(void);
 void Asteroids_Final_Boss_Draw(void);
 
 void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* player);
-void Asteroids_Final_Boss_Summon_Criteria_Check(void);
+bool Asteroids_Final_Boss_Summon_Criteria_Check(void);
 
 
 void Asteroids_Final_Boss_State_Update(Player* player, Enemy enemy_pool[], int enemy_count, Bullet bullet_pool[]);
@@ -49,3 +49,5 @@ void Asteroids_Final_Boss_Death_Screen(Enemy Final_Boss);
 
 void Asteroids_Continue_Game(void);
 void Asteroids_End_Game(void);
+
+void lalala(Enemy* enemy_pool);
