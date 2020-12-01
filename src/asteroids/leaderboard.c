@@ -1,4 +1,17 @@
-﻿#include "leaderboard.h"
+﻿//---------------------------------------------------------
+// file:	leaderboard.c
+// author:	Lee Jia Keat
+// email:	l.jiakeat@digipen.edu
+//
+// brief:	Leaderboard source file. Reads and Writes data 
+//			to and from a text file, dynamically allocating
+//			an array of Score structs to display a leaderboard
+//			of highscores.
+//
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
+#include "leaderboard.h"
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
