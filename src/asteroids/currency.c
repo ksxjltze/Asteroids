@@ -1,3 +1,17 @@
+//---------------------------------------------------------
+// file:	currency.c
+// author:	Lee Jia Keat, Bryan Koh Yan Wei
+// email:	l.jiakeat@digipen.edu
+//
+// brief:	Currency Manager source file.
+//			Reads and Writes currency data (credits)
+//			from a specific text file.
+//			Provides an interface for updating
+//			(Adding and Subtracting) currency balance.
+//
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #include "currency.h"
 #include <stdio.h>
 #include "file_manager.h"
@@ -9,6 +23,7 @@ static float time = 0;
 static float currency_factor = 0;
 static int currency = 0;
 
+//JIA KEAT
 void Asteroids_Currency_Init(void)
 {
 	if (currentCredits == 0)
@@ -68,6 +83,7 @@ void Asteroids_Currency_Write_To_File()
 	Asteroids_Close_File(creditsFile);
 }
 
+//BRYAn
 void Asteroids_Currency_Earning_Manager(void)
 {
 	kills += 1;
