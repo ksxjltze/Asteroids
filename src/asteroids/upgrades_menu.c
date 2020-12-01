@@ -1,3 +1,16 @@
+//---------------------------------------------------------
+// file:	upgrades_menu.c
+// author:	Lee Jia Keat
+// email:	l.jiakeat@digipen.edu
+//
+// brief:	Upgrades Menu source file.
+//			Draws the user interface (menu) for
+//			purchasing upgrades using currency (credits).
+//			Displays available upgrades and credits balance/
+//
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #include "upgrades_menu.h"
 #include <stdio.h>
 #include "utility.h"
