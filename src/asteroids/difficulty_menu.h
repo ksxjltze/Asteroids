@@ -1,3 +1,16 @@
+//---------------------------------------------------------
+// file:	difficulty_menu.h
+// author:	Lee Jia Keat
+// email:	l.jiakeat@digipen.edu
+// brief:	Difficulty Menu header file.
+//			Contains functions that initializes,
+//			updates and draws the Difficulty Menu User Interface.
+//			Enables setting game difficulty through buttons.
+//			Reads and Writes selected difficulty option to and from
+//			a specific text file.
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #pragma once
 #include "cprocessing.h"
 #include "main_menu.h"
