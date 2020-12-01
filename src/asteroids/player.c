@@ -1,3 +1,19 @@
+//---------------------------------------------------------
+// file:	player.c
+// author:	Lee Jia Keat
+// contributors: Dania Mohd (Particle Effects and Animation)
+// email:	l.jiakeat@digipen.edu, 
+//
+// brief:	Player entity source file.
+//			Contains functions for player functionality.
+//			Defines the player entity struct.
+//			Initializes, Draws and Updates a specified player entity.
+//			Handles player movement and fuel management.
+//			Provides an interface for damaging and disabling the player entity.
+//
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #include "player.h"
 #include "constants.h"
 #include <stdio.h>
