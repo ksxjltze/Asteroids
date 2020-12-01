@@ -16,8 +16,8 @@ CP_Image test;
 static bool lap;
 static bool state_change;
 static int id;
-static float stuff;
-static float current_stuff;
+static float max_loop;
+static float current_loop;
 static float state_change_rate;
 static int count;
 
@@ -76,8 +76,8 @@ void Asteroids_Final_Boss_Init(void)
 
 	test = CP_Image_Load("./Assets/SmokeTrail/smoke_2.png");
 
-	current_stuff = 1.0f;
-	stuff = 1.0f;
+	current_loop = 1.0f;
+	max_loop = 1.0f;
 	count = 0;
 
 	final_boss.pos = Asteroids_Utility_Generate_Random_Pos();
@@ -479,16 +479,15 @@ void lalala(Enemy* enemy_pool)
 {
 	if(Asteroids_Final_Boss_Summon_Criteria_Check())
 	{
-		printf("%d\n", (int)Asteroids_Final_Boss_Summon_Criteria_Check());
 		float dt = CP_System_GetDt();
-		current_stuff -= dt;
-		CP_Image_Draw(test, final_boss.pos.x, final_boss.pos.y, boss_width * 10, boss_height * 10, (int)fabsf(255 * ((current_stuff / stuff))));
-		if (current_stuff < -1)
+		current_loop -= dt;
+		CP_Image_Draw(test, final_boss.pos.x, final_boss.pos.y, boss_width * 10, boss_height * 10, (int)fabsf(255 * ((current_loop / max_loop))));
+		if (current_loop < -1)
 		{
-			current_stuff = stuff;
-			static int sia = 0;
-			sia++;
-			if (sia == 3)
+			current_loop = max_loop;
+			static int current_loop_count = 0;
+			current_loop_count++;
+			if (current_loop_count == 3)
 			{
 				for (int i = 0; i < ENEMY_POOL_SIZE; i++)
 				{
