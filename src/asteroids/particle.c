@@ -34,10 +34,36 @@ struct Smoke
 	float delay;
 }smoke;
 
+struct Death
+{
+	Sprite death_sprite;
+	CP_Image image[10];
+	CP_Vector dimensions;
+	int image_count;
+	float delay;
+} death;
+
 /// <summary>
 /// Initialize Particles
 /// </summary>
 /// <param name="void"></param>
+
+void particle_init()
+{
+	for (int i = 0; i < sizeof(particle) / sizeof(particle[0]); i++)
+	{
+		particle[i].posX = 0;
+		particle[i].posY = 0;
+		particle[i].velocity.x = 0;
+		particle[i].velocity.y = 0;
+		particle[i].enabled = 0;
+		particle[i].lifetime = 0;
+		particle[i].life = 0;
+		particle[i].id = 0;
+		particle[i].loop = false;
+	}
+}
+
 void explosion_init(void)
 {
 	explosion.image[0] = CP_Image_Load("./Assets/Explosion/Image001.png");
@@ -62,21 +88,6 @@ void explosion_init(void)
 	
 }
 
-void particle_init()
-{
-	for (int i = 0; i < sizeof(particle) / sizeof(particle[0]); i++)
-	{
-		particle[i].posX = 0;
-		particle[i].posY = 0;
-		particle[i].velocity.x = 0;
-		particle[i].velocity.y = 0;
-		particle[i].enabled = 0;
-		particle[i].lifetime = 0;
-		particle[i].life = 0;
-		particle[i].id = 0;
-		particle[i].loop = false;
-	}
-}
 
 void smoke_init()
 {
@@ -93,6 +104,11 @@ void smoke_init()
 
 	smoke.delay = 0.1f;
 	smoke.smoke_sprite = Asteroids_Sprite_Create(smoke.image, smoke.dimensions, smoke.image_count, smoke.delay * smoke.image_count, 0);
+}
+
+void player_death_particles()
+{
+
 }
 
 void draw_particle()
