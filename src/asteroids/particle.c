@@ -207,7 +207,7 @@ void smoke_velocity(CP_Vector position, int particles, float min_velocity,
 }
 
 void spawn_death_particles(CP_Vector position, int particles, float min_velocity,
-	float max_velocity, float size, Sprite sprite, int type)
+	float max_velocity, float size)
 {
 	Spawn_Particle(position, particles, min_velocity, max_velocity, size, death.death_sprite, DEATH, false);
 }
