@@ -1,3 +1,19 @@
+//---------------------------------------------------------
+// file:	bullet.h
+// author:	Lee Jia Keat
+// contributors: Liu Ke (Initial code for Asteroid Splitting)
+//				 Bryan (Bullet splitting implementation)
+// email:	l.jiakeat@digipen.edu, 
+//
+// brief:	Bullet entity header file.
+//			Handles Initialization, Updating and Drawing
+//			of a specified pool (static array) of bullet entities.
+//			Provides an interface for spawning (firing) bullets.
+//			Contains implementation of multishot (split bullets) powerup.
+//
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #pragma once
 #include "cprocessing.h"
 #include "enemy.h"

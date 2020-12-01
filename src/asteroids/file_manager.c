@@ -1,3 +1,14 @@
+//---------------------------------------------------------
+// file:	file_manager.c
+// author:	Lee Jia Keat
+// email:	l.jiakeat@digipen.edu
+// brief:	File Manager source file
+//			Provides an interface for Opening and Closing files.
+//			Handles errors for file manipulation and prints
+//			them (to some extent) to the std output stream.
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #include "file_manager.h"
 
 FILE* Asteroids_Open_File(const char* path, const char* mode)

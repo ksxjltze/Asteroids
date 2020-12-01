@@ -1,3 +1,14 @@
+//---------------------------------------------------------
+// file:	gameover.c
+// author:	Lee Jia Keat
+// contributors: Bryan Koh Yan Wei (Display score)
+// email:	l.jiakeat@digipen.edu, 
+// brief:	Game Over scene source file, handles the game over scene.
+//			Displays the player's score (Asteroids destroyed and time survived)
+//			and provides buttons to retry the game or exit to title screen.
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #include "gameover.h"
 #include "button.h"
 #include "game.h"
@@ -12,6 +23,7 @@ Button btnQuit; //return to main menu
 static char str_time_score[20];
 static char str_kill_score[20];
 
+//JIA KEAT
 void Asteroids_GameOver_Init(void)
 {
 	float btnWidth = 300, btnHeight = 100;
@@ -56,6 +68,7 @@ void Asteroids_GameOver_Update(void)
 	Asteroids_Button_Update(&btnQuit);
 }
 
+//BRYAN
 void Asteroids_GameOver_Init_Score(void)
 {
 	sprintf_s(str_time_score, 20, "Time: %.2fs", CURRENT_SCORE.time_score);

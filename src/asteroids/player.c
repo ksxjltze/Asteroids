@@ -1,3 +1,19 @@
+//---------------------------------------------------------
+// file:	player.c
+// author:	Lee Jia Keat
+// contributors: Dania Mohd (Particle Effects and Animation)
+// email:	l.jiakeat@digipen.edu, 
+//
+// brief:	Player entity source file.
+//			Contains functions for player functionality.
+//			Defines the player entity struct.
+//			Initializes, Draws and Updates a specified player entity.
+//			Handles player movement and fuel management.
+//			Provides an interface for damaging and disabling the player entity.
+//
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #include "player.h"
 #include "constants.h"
 #include <stdio.h>
@@ -44,7 +60,7 @@ struct Player Asteroids_Player_Init(float player_width, float player_height)
 	player.status.hit_cooldown = 0;
 
 	Asteroids_Upgrades_Apply_Upgrades(&player);
-	spawn_smoke_trail_anim(player.pos, 0.3f);
+	spawn_smoke_trail_anim(player.pos, 0.3f);	//Dania
 	return player;
 }
 
@@ -60,6 +76,7 @@ void Asteroids_Player_Update(Player* player)
 			player->status.hit = 0;
 			player->status.hit_cooldown = PLAYER_HURT_WINDOW;
 		}
+		//DANIA START
 		else if (player->status.blink_cooldown <= 0)
 		{
 			player->status.blink_cooldown = PLAYER_HURT_WINDOW / 6;
@@ -77,6 +94,7 @@ void Asteroids_Player_Update(Player* player)
 	{
 		player->alpha = 255;
 	}
+	//DANIA END
 	Asteroids_Player_Update_Movement(player, CP_System_GetDt());
 
 	if (player->hp.current <= 0)
@@ -88,6 +106,9 @@ void Asteroids_Player_Update(Player* player)
 void Asteroids_Player_Death(Player* player)
 {
 	player->active = 0;
+
+	//death particles.
+
 }
 
 void Asteroids_Player_Hit(Player* player, float damage) //Player hurt

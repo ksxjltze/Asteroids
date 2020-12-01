@@ -25,6 +25,7 @@ CP_Sound sfx_pickups;
 CP_Sound sfx_explosions;
 CP_Sound sfx_dangersound;
 CP_Sound sfx_gameplaysound;
+CP_Image Volbutton;
 
 void Asteroids_Audio_Manager_Init(void)
 {
@@ -40,8 +41,12 @@ void Asteroids_Audio_Button_Hover_Play(void)
 
 void Asteroids_Audio_MainMenu_BGM_Play(void)
 {
+	Volbutton = CP_Image_Load("./Assets/volumebutton.png");
+
 	if (sfx_bgm_MainMenu)
 		CP_Sound_PlayAdvanced(sfx_bgm_MainMenu, 0.1f, 1.0f, 1, 0);
+
+
 
 }
 

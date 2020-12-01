@@ -1,3 +1,14 @@
+//---------------------------------------------------------
+// file:	collision_manager.c
+// author:	Lee Jia Keat
+// email:	l.jiakeat@digipen.edu
+//
+// brief:	Collision Manager source file.
+//			Checks and resolves specific collisions between various entities.
+//			Detects collision between two colliders. (AABB and Circle)
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #include "collision_manager.h"
 #include "powerups.h"
 #include "powerup_interaction.h"

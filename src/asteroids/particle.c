@@ -9,10 +9,11 @@ CP_Vector pos;
 //Particle pool
 Particle particle[10000];
 Particle smoke_particle[1];
+Particle death_particles[10];
 static float smoke_spawn_interval;
 static Particle* smoke_ptr;
 
-enum ParticleType {NONE, EXPLOSION, SMOKE,};
+enum ParticleType {NONE, EXPLOSION, SMOKE, DEATH};
 
 //Struct to hold data for Explosion particles
 struct Explosion
@@ -34,10 +35,34 @@ struct Smoke
 	float delay;
 }smoke;
 
+struct Death
+{
+	Sprite death_sprite;
+	CP_Image image;
+	CP_Vector dimensions;
+} death;
+
 /// <summary>
 /// Initialize Particles
 /// </summary>
 /// <param name="void"></param>
+
+void particle_init()
+{
+	for (int i = 0; i < sizeof(particle) / sizeof(particle[0]); i++)
+	{
+		particle[i].posX = 0;
+		particle[i].posY = 0;
+		particle[i].velocity.x = 0;
+		particle[i].velocity.y = 0;
+		particle[i].enabled = 0;
+		particle[i].lifetime = 0;
+		particle[i].life = 0;
+		particle[i].id = 0;
+		particle[i].loop = false;
+	}
+}
+
 void explosion_init(void)
 {
 	explosion.image[0] = CP_Image_Load("./Assets/Explosion/Image001.png");
@@ -62,21 +87,6 @@ void explosion_init(void)
 	
 }
 
-void particle_init()
-{
-	for (int i = 0; i < sizeof(particle) / sizeof(particle[0]); i++)
-	{
-		particle[i].posX = 0;
-		particle[i].posY = 0;
-		particle[i].velocity.x = 0;
-		particle[i].velocity.y = 0;
-		particle[i].enabled = 0;
-		particle[i].lifetime = 0;
-		particle[i].life = 0;
-		particle[i].id = 0;
-		particle[i].loop = false;
-	}
-}
 
 void smoke_init()
 {
@@ -94,6 +104,15 @@ void smoke_init()
 	smoke.delay = 0.1f;
 	smoke.smoke_sprite = Asteroids_Sprite_Create(smoke.image, smoke.dimensions, smoke.image_count, smoke.delay * smoke.image_count, 0);
 }
+
+void player_death_init()
+{
+	death.image = CP_Image_Load("./Assets/reddot.png");
+	death.dimensions.x = (float)CP_Image_GetWidth(death.image);
+	death.dimensions.y = (float)CP_Image_GetHeight(death.image);
+
+}
+
 
 void draw_particle()
 {
@@ -135,6 +154,32 @@ Particle* Spawn_Particle(CP_Vector position, int particles, float min_velocity,
 	return NULL;
 }
 
+void player_death_particle_velocity(CP_Vector position, int particles, float min_velocity,
+	float max_velocity, float size)
+{
+	CP_Vector velocity;
+	for (int i = 0; i < sizeof(death_particles) / sizeof(death_particles[0]); i++)
+	{
+		if (particles <= 0)
+			return;
+
+		if (death_particles[i].enabled == 0)
+		{
+			velocity.x = CP_Random_RangeFloat(min_velocity, max_velocity);
+			velocity.y = CP_Random_RangeFloat(min_velocity, max_velocity);
+			death_particles[i].enabled = 1;
+			death_particles[i].posX = position.x;
+			death_particles[i].posY = position.y;
+			death_particles[i].velocity = velocity;
+			death_particles[i].life = death_particles[i].sprite.duration;
+			death_particles[i].lifetime = death_particles[i].life;
+			//smoke_particle[i].lifetime = 999;
+			death_particles[i].size = size;
+			--particles;
+		}
+	}
+}
+
 void smoke_velocity(CP_Vector position, int particles, float min_velocity, 
 	float max_velocity, float size)
 {
@@ -159,6 +204,12 @@ void smoke_velocity(CP_Vector position, int particles, float min_velocity,
 			--particles;
 		}
 	}
+}
+
+void spawn_death_particles(CP_Vector position, int particles, float min_velocity,
+	float max_velocity, float size)
+{
+	Spawn_Particle(position, particles, min_velocity, max_velocity, size, death.death_sprite, DEATH, false);
 }
 
 void spawn_explosion_anim(CP_Vector position, float size)
