@@ -1,3 +1,17 @@
+//---------------------------------------------------------
+// file:	audio_manager.c
+// author:	Lee Jia Keat, Dania Mohd, Liu Ke
+// email:	l.jiakeat@digipen.edu
+//
+// brief:	Audio Manager source file.
+//			Manages Audio loaded using the CProcessing Framework.
+//			Loads audio files from the Assets folder and provides
+//			an Interface to play those sounds.
+//			Loads audio on scene enter and frees audio on scene exit.
+//
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #include "audio_manager.h"
 #include "cprocessing.h"
 
@@ -72,4 +86,12 @@ void Asteroids_Audio_Manager_Exit(void)
 		CP_Sound_Free(sfx_bgm_MainMenu);
 	if (sfx_bullet)
 		CP_Sound_Free(sfx_bullet);
+	if (sfx_pickups)
+		CP_Sound_Free(sfx_pickups);
+	if (sfx_explosions)
+		CP_Sound_Free(sfx_explosions);
+	if (sfx_dangersound)
+		CP_Sound_Free(sfx_dangersound);
+	if (sfx_gameplaysound)
+		CP_Sound_Free(sfx_gameplaysound);
 }
