@@ -19,7 +19,7 @@ static int id;
 static float max_loop;
 static float current_loop;
 static float state_change_rate;
-static int count;
+static int blink_count;
 
 typedef struct Context
 {
@@ -29,9 +29,8 @@ typedef struct Context
 	Bullet* bullet_pool;
 } Context;
 
-enum BossState {NONE, DEATH, LEPAK, ATTACK, DODGE, BULLET_HELL, WILDBOAR};
 
-#define ENEMY_POOL_SIZE 200
+#define ENEMY_POOL_SIZE 500
 #define ASTEROIDS_POOLSIZE_BULLETS 999
 
 static float boss_width, boss_height;
@@ -78,7 +77,7 @@ void Asteroids_Final_Boss_Init(void)
 
 	current_loop = 1.0f;
 	max_loop = 1.0f;
-	count = 0;
+	blink_count = 0;
 
 	final_boss.pos = Asteroids_Utility_Generate_Random_Pos();
 }
@@ -133,7 +132,14 @@ void Asteroids_Enemy_Final_Boss_Spawn()
 }
 void Asteroids_Final_Boss_Draw(void)
 {
-	Asteroids_Enemy_Draw(&final_boss, 1, final_boss_sprite, final_boss_sprite_hurt, boss_width, boss_height);
+	if (bossState.id == ENRAGED)
+	{
+		Asteroids_Enemy_Draw(&final_boss, 1, final_boss_sprite_hurt, final_boss_sprite_hurt, boss_width, boss_height);
+	}
+	else
+	{
+		Asteroids_Enemy_Draw(&final_boss, 1, final_boss_sprite, final_boss_sprite_hurt, boss_width, boss_height);
+	}
 }
 
 void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* player)
@@ -159,7 +165,7 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 
 					Boss_Projectile->velocity = CP_Vector_Subtract(player->pos, Boss_Projectile->pos);
 					Boss_Projectile->velocity = CP_Vector_Normalize(Boss_Projectile->velocity);
-					Boss_Projectile->velocity = CP_Vector_Scale(Boss_Projectile->velocity, ASTEROIDS_FINAL_BOSS_PROJECTILE_SPEED);
+					Boss_Projectile->velocity = CP_Vector_Scale(Boss_Projectile->velocity, (ASTEROIDS_FINAL_BOSS_PROJECTILE_SPEED * (ASTEROIDS_GAME_DIFFICULTY - 1)));
 					Boss_Projectile->velocity = CP_Vector_MatrixMultiply(AngularDisplacement, Boss_Projectile->velocity);
 				}
 			}
@@ -185,8 +191,10 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 }
 bool Asteroids_Final_Boss_Summon_Criteria_Check(void)
 {
-	if (CURRENT_SCORE.enemy_kill_score >= 20)//ASTEROIDS_FINAL_BOSS_SUMMON_CRITERIA)
+	if (CURRENT_SCORE.lame >= 20)//ASTEROIDS_FINAL_BOSS_SUMMON_CRITERIA)
+	{
 		return true;
+	}
 	return false;
 }
 
@@ -232,9 +240,9 @@ void Asteroids_Final_Boss_State_CheckConditions()
 	}*/
 	//if (CP_Input_KeyDown(KEY_N))
 	//{
-	//	bossState.id = WILDBOAR;
-	//	bossState.name = "WildBoar";
-	//	bossState.action = &Asteroids_Final_Boss_State_WildBoar;
+	//	bossState.id = ENRAGED;
+	//	bossState.name = "Enraged";
+	//	bossState.action = &Asteroids_Final_Boss_State_Enraged;
 	//}
 	if (CP_Input_KeyDown(KEY_F3))
 	{
@@ -261,7 +269,7 @@ void Asteroid_Final_Boss_Reset()
 	final_boss.hp.max = 0;
 	final_boss.hp.current = 0;
 	final_boss.speed = 0;
-	final_boss.pos = CP_Vector_Zero();
+	final_boss.pos = Asteroids_Utility_Generate_Random_Pos();
 	final_boss.size = 0;
 	final_boss.split_count = 0;
 	final_boss.collider.diameter = 0;
@@ -270,6 +278,8 @@ void Asteroid_Final_Boss_Reset()
 	bossState.id = NONE;
 	bossState.name = "NONE";
 	bossState.action = NULL;
+	battleStarted = 0;
+	blink_count = 0;
 }
 
 void Asteroids_Final_Boss_State_Attack(const void* context)
@@ -319,11 +329,11 @@ float Asteroids_Final_Boss_FireRate(void)
 	switch (bossState.id)
 	{
 	case ATTACK:
-		return ASTEROIDS_FINAL_BOSS_FIRE_RATE;
+		return ASTEROIDS_FINAL_BOSS_FIRE_RATE - (0.3f * (ASTEROIDS_GAME_DIFFICULTY - 1));
 	case DODGE:
-		return ASTEROIDS_FINAL_BOSS_DODGE_STATE_FIRE_RATE;
+		return ASTEROIDS_FINAL_BOSS_DODGE_STATE_FIRE_RATE - (0.5f * (ASTEROIDS_GAME_DIFFICULTY - 1));
 	case BULLET_HELL:
-		return ASTEROIDS_FINAL_BOSS_BULLETHELL_STATE_FIRE_RATE;
+		return ASTEROIDS_FINAL_BOSS_BULLETHELL_STATE_FIRE_RATE - (0.05f * (ASTEROIDS_GAME_DIFFICULTY - 1));
 	default:
 		return 0;
 	}
@@ -362,9 +372,9 @@ void Asteroids_Final_Boss_State_Manager(void)
 		bossState.id = BULLET_HELL;
 		break;
 	case 6:
-		bossState.action = &Asteroids_Final_Boss_State_WildBoar;
-		bossState.name = "WildBoar";
-		bossState.id = WILDBOAR;
+		bossState.action = &Asteroids_Final_Boss_State_Enraged;
+		bossState.name = "Enraged";
+		bossState.id = ENRAGED;
 	}
 }
 
@@ -372,18 +382,18 @@ void Asteroids_Final_Boss_Idle(Enemy* Final_Boss, Player* player)
 {
 	Final_Boss->speed = 1;
 }
-void Asteroids_Final_Boss_State_WildBoar(const void* context)
+void Asteroids_Final_Boss_State_Enraged(const void* context)
 {
 	Context parameters = *(Context*)context;
-	Asteroids_Final_Boss_WildBoar(&final_boss, parameters.player);
+	Asteroids_Final_Boss_Enraged(&final_boss, parameters.player);
 
 }
-void Asteroids_Final_Boss_WildBoar(Enemy* Final_Boss, Player* player)
+void Asteroids_Final_Boss_Enraged(Enemy* Final_Boss, Player* player)
 {
 	float dt = CP_System_GetDt();
 	CP_Vector direction = CP_Vector_Subtract(player->pos, Final_Boss->pos);
 	direction = CP_Vector_Normalize(direction);
-	float speed = ASTEROIDS_FINAL_BOSS_WILDBOAR_STATE_BASE_SPEED;
+	float speed = ASTEROIDS_FINAL_BOSS_ENRAGED_STATE_BASE_SPEED;
 	speed = speed + ((ASTEROIDS_GAME_DIFFICULTY - 1) / 2);
 	direction = CP_Vector_Scale(direction, speed * dt);
 
@@ -466,6 +476,7 @@ void Asteroids_Continue_Game(void)
 {
 	endgame.end = false;
 	Asteroids_Enemy_Enable_Spawn();
+	CURRENT_SCORE.lame = 0;
 	Asteroid_Final_Boss_Reset();
 }
 
@@ -485,9 +496,9 @@ void lalala(Enemy* enemy_pool)
 		if (current_loop < -1)
 		{
 			current_loop = max_loop;
-			static int current_loop_count = 0;
-			current_loop_count++;
-			if (current_loop_count == 3)
+			blink_count++;
+			printf("%d\n", blink_count);
+			if (blink_count == 3)
 			{
 				for (int i = 0; i < ENEMY_POOL_SIZE; i++)
 				{
@@ -495,6 +506,7 @@ void lalala(Enemy* enemy_pool)
 						Asteroids_Enemy_Death(enemy_pool + i);
 
 				}
+				current_loop = 0;
 				Asteroids_Enemy_Final_Boss_Spawn();
 			}
 		}

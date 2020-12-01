@@ -10,6 +10,7 @@ typedef struct Scores
 	CP_Image Time_Score_Sprite;
 	float time_score;
 	int enemy_kill_score;
+	int lame;
 	unsigned int id;
 	char name[NAME_MAX_SIZE];
 } Score;
