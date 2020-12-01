@@ -9,15 +9,18 @@ CP_Image Warning;
 
 dot dot_pool[MaxDotParticleArrSize];
 
-float current_lifespan = 1.0f;
+#define ENEMY_POOL_SIZE 200
 
-static float warning_lifespan = 1.0f;
-static float obstacle_interval;
+
+float current_lifespan = 0.5f;
+
+static float warning_lifespan = 0.5;
 static float warning_interval;
+static float obstacle_interval;
 
 static float dot_particle_lifespan;
 
-static bool pause_obstacles;
+
 
 void Asteroids_Obstacles_Init(void)
 {
@@ -33,9 +36,6 @@ void Asteroids_Obstacles_Init(void)
 	dot_particle_lifespan = 1.5f;
 
 	Asteroids_Particle_Dot_Init();
-
-	pause_obstacles = false;
-
 }
 void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_count)
 {
@@ -56,20 +56,14 @@ void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_co
 		Asteroids_Draw_Obstacle(&GammaRay);
 		Asteroids_Obstacle_Check_LifeSpan(&GammaRay);
 		Asteroids_Check_Collision_Gammaray_Enemy_Player(enemy_pool, player, &GammaRay, enemy_count);
-		//Asteroids_Check_Collision_Gammaray_Player(player, &GammaRay);
 
-
-		for (int j = 0; j < 100; j++)
+		for (int j = 0; j < ENEMY_POOL_SIZE; j++)
 		{
 			if (Asteroids_Collision_CheckCollision_AABB_Circle(GammaRay.Collider, GammaRay.pos, enemy_pool[j].collider, enemy_pool[j].pos))
 				Asteroids_Enemy_Death(&enemy_pool[j]);
 		}
 
 	}
-	/*if (CP_Input_KeyTriggered(KEY_T))
-	{
-		Asteroids_Obstacle_Spawn_Blackhole();
-	}*/
 	Asteroids_particle_dot_debug();
 }
 

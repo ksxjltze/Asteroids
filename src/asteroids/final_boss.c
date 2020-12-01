@@ -117,7 +117,7 @@ void Asteroids_Enemy_Final_Boss_Spawn(void)
 	final_boss.split_count = 0; // no split, game ends when boss DIES
 	final_boss.collider.diameter = final_boss.size * boss_width;
 
-	final_boss.sprite_type = CP_Random_RangeInt(0, 1); //lmao
+	final_boss.sprite_type = CP_Random_RangeInt(0, 1);
 	battleStarted = 1;
 
 	Asteroids_Enemy_Disable_Spawn(); // stop spawning of random asteroids
