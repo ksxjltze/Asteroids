@@ -1,3 +1,16 @@
+//---------------------------------------------------------
+// file:	upgrades.h
+// author:	Lee Jia Keat
+// email:	l.jiakeat@digipen.edu
+//
+// brief:	Upgrades Manager header file.
+//			Handles initialization, saving, loading and updating
+//			of player upgrades.
+//			Provides an interface for getting a specific upgrade,
+//			leveling/activating an upgrade and applying upgrades to the player.
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #pragma once
 #include <stdbool.h>
 #include "player.h"
