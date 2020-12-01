@@ -37,7 +37,7 @@ struct Smoke
 struct Death
 {
 	Sprite death_sprite;
-	CP_Image image[10];
+	CP_Image image;
 	CP_Vector dimensions;
 	int image_count;
 	float delay;
@@ -106,7 +106,14 @@ void smoke_init()
 	smoke.smoke_sprite = Asteroids_Sprite_Create(smoke.image, smoke.dimensions, smoke.image_count, smoke.delay * smoke.image_count, 0);
 }
 
-void player_death_particles()
+void player_death_init()
+{
+	death.image = CP_Image_Load("./Assets/reddot.png");
+	death.dimensions.x = (float)CP_Image_GetWidth(death.image);
+	death.dimensions.y = (float)CP_Image_GetHeight(death.image);
+}
+
+void player_death_particle()
 {
 
 }
