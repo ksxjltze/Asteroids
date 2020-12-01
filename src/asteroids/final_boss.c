@@ -376,7 +376,7 @@ void Asteroids_Final_Boss_WildBoar(Enemy* Final_Boss, Player* player)
 	float dt = CP_System_GetDt();
 	CP_Vector direction = CP_Vector_Subtract(player->pos, Final_Boss->pos);
 	direction = CP_Vector_Normalize(direction);
-	float speed = (float)(200 + (ASTEROIDS_GAME_DIFFICULTY - 1) / 2);
+	float speed = (float)(300 + (ASTEROIDS_GAME_DIFFICULTY - 1) / 2);
 	direction = CP_Vector_Scale(direction, speed * dt);
 
 	Final_Boss->pos = CP_Vector_Add(Final_Boss->pos, direction);
