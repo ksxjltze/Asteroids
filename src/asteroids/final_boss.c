@@ -52,7 +52,6 @@ void Asteroids_Final_Boss_Init(void)
 
 	final_boss.active = 0;
 	final_boss.id = ENEMY_POOL_SIZE + 1;
-	//fire_rate = ASTEROIDS_FINAL_BOSS_FIRE_RATE;
 
 	bossState.id = ATTACK;
 	bossState.name = "Attack";
@@ -148,7 +147,6 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 {
 	
 	float dt = CP_System_GetDt();
-
 	fire_rate -= dt;
 	if (fire_rate <= 0)
 	{
@@ -348,7 +346,6 @@ float Asteroids_Final_Boss_FireRate(void)
 }
 void Asteroids_Final_Boss_State_Manager(void)
 {
-	printf("%s\n", bossState.name);
 	if (state_change)
 	{
 		id = Asteroids_Final_Boss_Random_State(id);
@@ -411,7 +408,6 @@ void Asteroids_Final_Boss_Enraged(Enemy* Final_Boss, Player* player)
 
 int Asteroids_Final_Boss_Random_State(int old_id)
 {
-	// { NONE, DEATH, LEPAK, ATTACK, DODGE, BULLET_HELL, ENRAGED};
 	int new_state = 0;
 	if (ASTEROIDS_GAME_DIFFICULTY >= PEPEGA)
 	{
@@ -420,7 +416,6 @@ int Asteroids_Final_Boss_Random_State(int old_id)
 		{
 			new_state = (CP_Random_RangeInt(ATTACK, ENRAGED));
 		}
-		return new_state;
 	}
 	else
 	{
@@ -462,6 +457,8 @@ void Asteroids_Final_Boss_Hp_Draw(Enemy Final_Boss)
 	CP_Graphics_DrawRect(mid.x, mid.y, width, height);
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 150));
 	CP_Font_DrawTextBox(boss_hp_buffer, (float)WIN_WIDTH / 2 - (WIN_WIDTH / 11), mid.y + (height / 2), 200);
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	CP_Font_DrawTextBox(bossState.name, 0, mid.y - 50.0f, (float)WIN_WIDTH);
 	
 	if (CP_Input_KeyDown(KEY_F2))
 	{
@@ -486,22 +483,21 @@ void Asteroids_Final_Boss_Death_Screen(Enemy Final_Boss)
 
 	Asteroids_Button_Set_Position(&YesBtn, BtnPos);
 	Asteroids_Button_Set_Position(&NoBtn, BtnPos2);
-	Asteroids_Button_Update(&YesBtn);
-	Asteroids_Button_Update(&NoBtn);
-	Asteroids_MainMenu_Update_Background();
 	Asteroids_MainMenu_Draw_Background();
 
+	Asteroids_MainMenu_Update_Background();
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Font_DrawTextBox("Congratulations!", 0, vec.y, (float)WIN_WIDTH);
 	CP_Font_DrawTextBox("You have defeated the final boss!", 0, vec.y + textsize, (float)WIN_WIDTH);
 	CP_Font_DrawTextBox("Would you like to continue playing?", 0, vec.y + textsize * 2, (float)WIN_WIDTH);
+	Asteroids_Button_Update(&YesBtn);
+	Asteroids_Button_Update(&NoBtn);
 }
 
 void Asteroids_Continue_Game(void)
 {
 	endgame.end = false;
 	Asteroids_Enemy_Enable_Spawn();
-	CURRENT_SCORE.lame = 0;
 	Asteroids_Final_Boss_Reset();
 }
 
