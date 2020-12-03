@@ -8,7 +8,7 @@
 #include "score.h"
 #include "game.h"
 #include <stdbool.h>
-enum BossState { NONE, DEATH, LEPAK, ATTACK, DODGE, BULLET_HELL, ENRAGED};
+enum BossState { NONE, DEATH, SLEEP, ATTACK, DODGE, BULLET_HELL, ENRAGED};
 
 struct EndGame
 {

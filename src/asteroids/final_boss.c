@@ -247,8 +247,8 @@ void Asteroids_Final_Boss_State_CheckConditions()
 	//}
 	if (CP_Input_KeyDown(KEY_F3))
 	{
-		bossState.id = LEPAK;
-		bossState.name = "Lepak";
+		bossState.id = SLEEP;
+		bossState.name = "SLEEP";
 		bossState.action = &Asteroids_Final_Boss_State_Idle;
 	}
 }
@@ -354,8 +354,8 @@ void Asteroids_Final_Boss_State_Manager(void)
 	//	bossState.name = "Death";
 	//	bossState.id = DEATH;
 	case 2:
-		bossState.id = LEPAK;
-		bossState.name = "Lepak";
+		bossState.id = SLEEP;
+		bossState.name = "Sleep";
 		bossState.action = &Asteroids_Final_Boss_State_Idle;
 		break;
 	case 3:
@@ -415,7 +415,7 @@ int Asteroids_Final_Boss_Random_State(int old_id)
 	}
 	else
 	{
-		new_state = CP_Random_RangeInt(LEPAK, ENRAGED);
+		new_state = CP_Random_RangeInt(SLEEP, ENRAGED);
 		while (new_state == old_id)
 		{
 			new_state = (CP_Random_RangeInt(ATTACK, ENRAGED));
@@ -445,16 +445,18 @@ void Asteroids_Final_Boss_Hp_Draw(Enemy Final_Boss)
 	mid.y -= height;
 
 	char boss_hp_buffer[16];
-	sprintf_s(boss_hp_buffer, 16, ":%.0f/%.0f", Final_Boss.hp.current, Final_Boss.hp.max);
+	char boss_state[50];
+	sprintf_s(boss_state, 50, "Current state:  %s", bossState.name);
+	sprintf_s(boss_hp_buffer, 16, "HP: %.0f/%.0f", Final_Boss.hp.current, Final_Boss.hp.max);
 	CP_Settings_TextSize(height);
 	CP_Settings_Fill(CP_Color_Create(244, 244, 244, 255));
 	CP_Graphics_DrawRect(mid.x, mid.y, scale, height);
 	CP_Settings_Fill(CP_Color_Create(255, 204, 229, 255));
 	CP_Graphics_DrawRect(mid.x, mid.y, width, height);
-	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 150));
-	CP_Font_DrawTextBox(boss_hp_buffer, (float)WIN_WIDTH / 2 - (WIN_WIDTH / 11), mid.y + (height / 2), 200);
+	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+	CP_Font_DrawTextBox(boss_hp_buffer, 0, mid.y + height / 2, (float)WIN_WIDTH);
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Font_DrawTextBox(bossState.name, 0, mid.y - 50.0f, (float)WIN_WIDTH);
+	CP_Font_DrawTextBox(boss_state, 0, mid.y - height, (float)WIN_WIDTH);
 	
 	if (CP_Input_KeyDown(KEY_F2))
 	{
@@ -467,7 +469,6 @@ void Asteroids_Final_Boss_Death_Screen(Enemy Final_Boss, Player player)
 {
 	Asteroids_MainMenu_Update_Background();
 	Asteroids_MainMenu_Draw_Background();
-	Asteroids_Player_Update(&player);
 
 	float textsize = 50.0f;
 	CP_Vector vec = Asteroids_Utility_GetWindowMiddle();

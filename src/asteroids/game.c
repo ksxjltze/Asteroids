@@ -115,10 +115,10 @@ void Asteroids_Update(void)
 
 		Asteroids_Debug();
 		Asteroids_Final_Boss_Update(&player, enemy_pool, enemy_count, bullet_pool);
-		Asteroids_UI_Update(player);
 		Asteroids_Draw_Scores();
 		Asteroids_Player_Update(&player);
 		Asteroids_Draw();
+		Asteroids_UI_Update(player);
 
 	}
 }
