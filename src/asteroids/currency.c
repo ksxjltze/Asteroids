@@ -40,7 +40,6 @@ void Asteroids_Currency_Init(void)
 void Asteroids_Currency_Add(int amount)
 {
 	currentCredits += amount;
-	printf("currentCredits = %d, amount = %d\n", currentCredits, amount);
 }
 
 int Asteroids_Currency_Get_Balance()
@@ -88,31 +87,13 @@ void Asteroids_Currency_Write_To_File()
 //BRYAn
 void Asteroids_Currency_Earning_Manager(void)
 {
-	/*switch (ASTEROIDS_GAME_DIFFICULTY)
+	kills += 1;
+	if (kills >= 100 && currency_factor < ASTEROIDS_CURRENCY_EARNING_BALANCE_MAX)
 	{
-	case EASY:
-		currency_factor = 1;
-		break;
-	case NORMAL:
-		currency_factor = 1.5;
-		break;
-	case HARD:
-		currency_factor = 2;
-		break;
-	case INSANE:
-		currency_factor = 2.5;
-		break;
-	case IMPOSSIBLE:
-		currency_factor = 3.0;
-		break;
-	case PEPEGA:
-		currency_factor = 3.5;
-		break;
-	case BRUH:
-		currency_factor = 4.0;
-		break;
+		currency_factor += 1;
+		kills = 0;
 	}
-
-	int earnings = (int)(ASTEROIDS_CURRENCY_EARNING_BALANCE_BASE * currency_factor);
-	/*////Asteroids_Currency_Add(earnings);
+	// eg: 1 * 10 * 6 = 60?
+	int earnings = ASTEROIDS_ENEMY_CURRENCY_DROP_AMOUNT * currency_factor * ASTEROIDS_GAME_DIFFICULTY;
+	Asteroids_Currency_Add(earnings);
 }
