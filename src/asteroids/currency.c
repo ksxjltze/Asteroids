@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include "file_manager.h"
 #include "constants.h"
+#include "game.h"
 
 static int currentCredits = 0;
 static float kills = 0;
@@ -86,12 +87,31 @@ void Asteroids_Currency_Write_To_File()
 //BRYAn
 void Asteroids_Currency_Earning_Manager(void)
 {
-	kills += 1;
-	if (kills >= 100 && currency_factor < ASTEROIDS_CURRENCY_EARNING_BALANCE_MAX)
+	switch (ASTEROIDS_GAME_DIFFICULTY)
 	{
-		currency_factor += 1;
-		kills = 0;
+	case EASY:
+		currency_factor = 1;
+		break;
+	case NORMAL:
+		currency_factor = 1.5;
+		break;
+	case HARD:
+		currency_factor = 2;
+		break;
+	case INSANE:
+		currency_factor = 2.5;
+		break;
+	case IMPOSSIBLE:
+		currency_factor = 3.0;
+		break;
+	case PEPEGA:
+		currency_factor = 3.5;
+		break;
+	case BRUH:
+		currency_factor = 4.0;
+		break;
 	}
-	int earnings = currency * (int)currency_factor;
+
+	int earnings = (int)(ASTEROIDS_CURRENCY_EARNING_BALANCE_BASE * currency_factor);
 	Asteroids_Currency_Add(earnings);
 }

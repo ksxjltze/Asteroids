@@ -92,7 +92,6 @@ void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_c
 	}
 	if (final_boss.active)
 	{
-		Asteroids_Final_Boss_Hp_Draw(final_boss);
 		Asteroids_Final_Boss_State_Update(player, enemy_pool, enemy_count, bullet_pool);
 		Asteroids_Final_Boss_State_Change_Manager();
 		Asteroids_Final_Boss_State_Manager();
@@ -103,6 +102,7 @@ void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_c
 			bullet_pool[i] = Asteroids_Collision_CheckCollision_EnemyBoss_Bullet(&final_boss, bullet_pool[i], player);
 		}
 		Asteroids_Final_Boss_Draw();
+		Asteroids_Final_Boss_Hp_Draw(final_boss);
 	}
 	if (CP_Input_KeyTriggered(KEY_B))
 	{
@@ -195,7 +195,7 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 }
 bool Asteroids_Final_Boss_Summon_Criteria_Check(void)
 {
-	if (CURRENT_SCORE.lame >= 20)//ASTEROIDS_FINAL_BOSS_SUMMON_CRITERIA)
+	if (CURRENT_SCORE.lame >= ASTEROIDS_FINAL_BOSS_SUMMON_CRITERIA)
 	{
 		return true;
 	}
