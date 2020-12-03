@@ -77,7 +77,7 @@ void Asteroids_Final_Boss_Init(void)
 
 	blink_count = 0;
 
-	final_boss.pos = Asteroids_Utility_Generate_Random_Pos();
+	final_boss.pos = Asteroids_Utility_Generate_Random_Pos_Var2(ASTEROIDS_FINAL_BOSS_DIAMETER * 10, ASTEROIDS_FINAL_BOSS_DIAMETER * 10);
 }
 
 void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_count, Bullet bullet_pool[])
@@ -101,7 +101,10 @@ void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_c
 		Asteroids_Final_Boss_Hp_Draw(final_boss);
 	}
 
-
+	if (CP_Input_KeyTriggered(KEY_B))
+		Asteroids_Enemy_Final_Boss_Spawn();
+	if (CP_Input_KeyTriggered(KEY_N))
+		Asteroids_Final_Boss_Reset();
 	if (!battleStarted)
 	{
 		lalala(enemy_pool);
@@ -120,8 +123,10 @@ void Asteroids_Enemy_Final_Boss_Spawn()
 	final_boss.size = 10;
 	final_boss.speed = 0;
 	final_boss.split_count = 0; // no split, game ends when boss DIES
+	
 	final_boss.collider.diameter = final_boss.size * boss_width;
 
+	printf("diameter: %.2f\n", final_boss.collider.diameter);
 	final_boss.sprite_type = CP_Random_RangeInt(0, 1);
 	battleStarted = 1;
 
@@ -270,10 +275,12 @@ void Asteroids_Final_Boss_Reset()
 	final_boss.hp.max = 0;
 	final_boss.hp.current = 0;
 	final_boss.speed = 0;
-	final_boss.pos = Asteroids_Utility_Generate_Random_Pos();
+	final_boss.pos = Asteroids_Utility_Generate_Random_Pos_Var2(final_boss.collider.diameter, final_boss.collider.diameter);
+
+	printf("posx: %.2f posy: %.2f\n", final_boss.pos.x, final_boss.pos.y);
+
 	final_boss.size = 0;
 	final_boss.split_count = 0;
-	final_boss.collider.diameter = 0;
 	final_boss.sprite_type = 0;
 	final_boss.killed = false;
 	bossState.id = NONE;
