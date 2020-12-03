@@ -11,13 +11,13 @@ State bossState;
 CP_Image final_boss_sprite[2];
 CP_Image final_boss_sprite_hurt[2];
 
-CP_Image test;
+CP_Image Final_Boss_Spawn_Animation;
 
 static bool lap;
 static bool state_change;
 static int id;
-static float max_loop;
-static float current_loop;
+static float Max_Loop_Timespan;
+static float Current_Loop_Timespan;
 static float state_change_rate;
 static int blink_count;
 
@@ -73,11 +73,12 @@ void Asteroids_Final_Boss_Init(void)
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Continue_Game, &YesBtn);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_End_Game, &NoBtn);
 
-	test = CP_Image_Load("./Assets/SmokeTrail/smoke_2.png");
-	Asteroids_Utility_Generate_Hurt_Sprite(test, &test);
+	Final_Boss_Spawn_Animation = CP_Image_Load("./Assets/SmokeTrail/smoke_2.png");
+	Asteroids_Utility_Generate_Hurt_Sprite(Final_Boss_Spawn_Animation, &Final_Boss_Spawn_Animation);
 
-	current_loop = 1.0f;
-	max_loop = 1.0f;
+	Current_Loop_Timespan = ASTEROIDS_FINAL_BOSS_SUMMON_ANIMATION_TIMER;
+	Max_Loop_Timespan = ASTEROIDS_FINAL_BOSS_SUMMON_ANIMATION_TIMER;
+
 	blink_count = 0;
 
 	final_boss.pos = Asteroids_Utility_Generate_Random_Pos();
@@ -494,14 +495,13 @@ void lalala(Enemy* enemy_pool)
 	if(Asteroids_Final_Boss_Summon_Criteria_Check())
 	{
 		float dt = CP_System_GetDt();
-		current_loop -= dt;
-		CP_Image_Draw(test, final_boss.pos.x, final_boss.pos.y, boss_width * 10, boss_height * 10, (int)fabsf(255 * ((current_loop / max_loop))));
-		if (current_loop < -1)
+		Current_Loop_Timespan -= dt;
+		CP_Image_Draw(Final_Boss_Spawn_Animation, final_boss.pos.x, final_boss.pos.y, boss_width * 10, boss_height * 10, (int)fabsf(255 * ((Current_Loop_Timespan / Max_Loop_Timespan))));
+		if (Current_Loop_Timespan < -1)
 		{
-			current_loop = max_loop;
+			Current_Loop_Timespan = Max_Loop_Timespan;
 			blink_count++;
-			printf("%d\n", blink_count);
-			if (blink_count == 3)
+			if (blink_count >=  ASTEROIDS_FINAL_BOSS_SUMMON_ANIMATION_COUNT)
 			{
 				for (int i = 0; i < ENEMY_POOL_SIZE; i++)
 				{
@@ -509,7 +509,7 @@ void lalala(Enemy* enemy_pool)
 						Asteroids_Enemy_Death(enemy_pool + i);
 
 				}
-				current_loop = 0;
+				Current_Loop_Timespan = 0;
 				Asteroids_Enemy_Final_Boss_Spawn();
 			}
 		}
