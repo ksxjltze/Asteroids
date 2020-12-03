@@ -5,6 +5,7 @@
 #include "gameover.h"
 #include "score.h"
 #include "audio_manager.h"
+#include "game.h"
 
 Enemy final_boss;
 State bossState;
@@ -29,10 +30,6 @@ typedef struct Context
 	Bullet* bullet_pool;
 } Context;
 
-
-#define ENEMY_POOL_SIZE 600
-#define ASTEROIDS_POOLSIZE_BULLETS 999
-
 static float boss_width, boss_height;
 static float fire_rate;
 static int battleStarted;
@@ -51,7 +48,7 @@ void Asteroids_Final_Boss_Init(void)
 	boss_height = ASTEROIDS_FINAL_BOSS_DIAMETER;
 
 	final_boss.active = 0;
-	final_boss.id = ENEMY_POOL_SIZE + 1;
+	final_boss.id = ASTEROIDS_POOLSIZE_ENEMIES + 1;
 	//fire_rate = ASTEROIDS_FINAL_BOSS_FIRE_RATE;
 
 	bossState.id = ATTACK;
@@ -159,7 +156,7 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 			{
 				int lol = ASTEROIDS_FINAL_BOSS_BULLET_HELL_STATE_PROJECTILE_NUM;
 				AngularDisplacement = CP_Matrix_Rotate((-ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE * (lol / 2) + ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE * i));
-				Enemy* Boss_Projectile = Asteroids_Enemy_Spawn(enemy_pool, ENEMY_POOL_SIZE, Final_Boss.pos);
+				Enemy* Boss_Projectile = Asteroids_Enemy_Spawn(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, Final_Boss.pos);
 				if (Boss_Projectile)
 				{
 					Boss_Projectile->parent_id = final_boss.id;
@@ -176,7 +173,7 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 		{
 			int lol = ASTEROIDS_FINAL_BOSS_ATTACK_STATE_PROJECTILE_NUM;
 			AngularDisplacement = CP_Matrix_Rotate(-(ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE) * (lol / 2) + ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE * i);
-			Enemy* Boss_Projectile = Asteroids_Enemy_Spawn(enemy_pool, ENEMY_POOL_SIZE, Final_Boss.pos);
+			Enemy* Boss_Projectile = Asteroids_Enemy_Spawn(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, Final_Boss.pos);
 			if (Boss_Projectile)
 			{
 				Boss_Projectile->parent_id = final_boss.id;
@@ -503,7 +500,7 @@ void lalala(Enemy* enemy_pool)
 			blink_count++;
 			if (blink_count >=  ASTEROIDS_FINAL_BOSS_SUMMON_ANIMATION_COUNT)
 			{
-				for (int i = 0; i < ENEMY_POOL_SIZE; i++)
+				for (int i = 0; i < ASTEROIDS_POOLSIZE_ENEMIES; i++)
 				{
 					if (enemy_pool[i].active)
 						Asteroids_Enemy_Death(enemy_pool + i);
