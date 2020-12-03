@@ -1,6 +1,6 @@
 #include "constants.h"
 const float SPLASH_DURATION = 3.0f;
-const float ASTEROIDS_DIFFICULTY_INTERVAL = 3.0f;
+const float ASTEROIDS_DIFFICULTY_INTERVAL = 60.0f;
 
 const float MAX_VELOCITY = 10.0f; //pixels per second
 const float ASTEROIDS_PLAYER_BASE_MOVE_SPEED = 300.0f;

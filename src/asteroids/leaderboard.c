@@ -127,7 +127,10 @@ void Asteroids_Leaderboard_ReadScores()
 		Asteroids_Close_File(scoresFile);
 	}
 	else
+	{
 		Asteroids_Leaderboard_WriteScores();
+		Asteroids_Leaderboard_ReadScores();
+	}
 
 }
 
