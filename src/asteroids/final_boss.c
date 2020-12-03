@@ -172,22 +172,25 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 				}
 			}
 		}
-		for (int i = 0; i < ASTEROIDS_FINAL_BOSS_ATTACK_STATE_PROJECTILE_NUM; i++)
+		else 
 		{
-			int lol = ASTEROIDS_FINAL_BOSS_ATTACK_STATE_PROJECTILE_NUM;
-			AngularDisplacement = CP_Matrix_Rotate(-(ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE) * (lol / 2) + ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE * i);
-			Enemy* Boss_Projectile = Asteroids_Enemy_Spawn(enemy_pool, ENEMY_POOL_SIZE, Final_Boss.pos);
-			if (Boss_Projectile)
+			for (int i = 0; i < ASTEROIDS_FINAL_BOSS_ATTACK_STATE_PROJECTILE_NUM; i++)
 			{
-				Boss_Projectile->parent_id = final_boss.id;
-				Boss_Projectile->id = i;
+				int lol = ASTEROIDS_FINAL_BOSS_ATTACK_STATE_PROJECTILE_NUM;
+				AngularDisplacement = CP_Matrix_Rotate(-(ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE) * (lol / 2) + ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE * i);
+				Enemy* Boss_Projectile = Asteroids_Enemy_Spawn(enemy_pool, ENEMY_POOL_SIZE, Final_Boss.pos);
+				if (Boss_Projectile)
+				{
+					Boss_Projectile->parent_id = final_boss.id;
+					Boss_Projectile->id = i;
 
-				Boss_Projectile->size = 2 + ((ASTEROIDS_GAME_DIFFICULTY - 1) * 0.2f);
-				printf("%.2f\n", Boss_Projectile->size);
-				Boss_Projectile->velocity = CP_Vector_Subtract (player->pos, Boss_Projectile->pos);
-				Boss_Projectile->velocity = CP_Vector_Normalize(Boss_Projectile->velocity);
-				Boss_Projectile->velocity = CP_Vector_Scale(Boss_Projectile->velocity, ASTEROIDS_FINAL_BOSS_PROJECTILE_SPEED);
-				Boss_Projectile->velocity = CP_Vector_MatrixMultiply(AngularDisplacement, Boss_Projectile->velocity);
+					Boss_Projectile->size = 2 + ((ASTEROIDS_GAME_DIFFICULTY - 1) * 0.2f);
+					printf("%.2f\n", Boss_Projectile->size);
+					Boss_Projectile->velocity = CP_Vector_Subtract (player->pos, Boss_Projectile->pos);
+					Boss_Projectile->velocity = CP_Vector_Normalize(Boss_Projectile->velocity);
+					Boss_Projectile->velocity = CP_Vector_Scale(Boss_Projectile->velocity, ASTEROIDS_FINAL_BOSS_PROJECTILE_SPEED);
+					Boss_Projectile->velocity = CP_Vector_MatrixMultiply(AngularDisplacement, Boss_Projectile->velocity);
+				}
 			}
 		}
 	fire_rate = Asteroids_Final_Boss_FireRate();
@@ -284,6 +287,7 @@ void Asteroids_Final_Boss_Reset()
 	bossState.action = NULL;
 	battleStarted = 0;
 	blink_count = 0;
+	CURRENT_SCORE.lame = 0;
 }
 
 void Asteroids_Final_Boss_State_Attack(const void* context)
@@ -344,6 +348,7 @@ float Asteroids_Final_Boss_FireRate(void)
 }
 void Asteroids_Final_Boss_State_Manager(void)
 {
+	printf("%s\n", bossState.name);
 	if (state_change)
 	{
 		id = Asteroids_Final_Boss_Random_State(id);
@@ -406,13 +411,26 @@ void Asteroids_Final_Boss_Enraged(Enemy* Final_Boss, Player* player)
 
 int Asteroids_Final_Boss_Random_State(int old_id)
 {
-	int new_id = CP_Random_RangeInt(2, 6);
-
-	while (new_id == old_id)
+	// { NONE, DEATH, LEPAK, ATTACK, DODGE, BULLET_HELL, ENRAGED};
+	int new_state = 0;
+	if (ASTEROIDS_GAME_DIFFICULTY >= PEPEGA)
 	{
-		new_id = CP_Random_RangeInt(2, 6);
+		new_state = (CP_Random_RangeInt(ATTACK, ENRAGED));
+		while (new_state == old_id)
+		{
+			new_state = (CP_Random_RangeInt(ATTACK, ENRAGED));
+		}
+		return new_state;
 	}
-	return new_id;
+	else
+	{
+		new_state = CP_Random_RangeInt(LEPAK, ENRAGED);
+		while (new_state == old_id)
+		{
+			new_state = (CP_Random_RangeInt(ATTACK, ENRAGED));
+		}
+	}
+	return new_state;
 }
 void Asteroids_Final_Boss_State_Change_Manager(void)
 {
