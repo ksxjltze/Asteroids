@@ -46,7 +46,7 @@ void Asteroids_Final_Boss_State_Enraged(const void* context);
 void Asteroids_Final_Boss_Enraged(Enemy* Final_Boss, Player* player);
 
 void Asteroids_Final_Boss_Hp_Draw(Enemy Final_Boss);
-void Asteroids_Final_Boss_Death_Screen(Enemy Final_Boss);
+void Asteroids_Final_Boss_Death_Screen(Enemy Final_Boss, Player player);
 
 void Asteroids_Continue_Game(void);
 void Asteroids_End_Game(void);

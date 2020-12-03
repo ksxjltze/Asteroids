@@ -82,9 +82,9 @@ void Asteroids_Final_Boss_Init(void)
 
 void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_count, Bullet bullet_pool[])
 {
-	if (!battleStarted)
+	if (final_boss.killed)
 	{
-		lalala(enemy_pool);
+		Asteroids_Final_Boss_Death_Screen(final_boss, *player);
 	}
 	if (final_boss.active)
 	{
@@ -100,13 +100,11 @@ void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_c
 		Asteroids_Final_Boss_Draw();
 		Asteroids_Final_Boss_Hp_Draw(final_boss);
 	}
-	if (CP_Input_KeyTriggered(KEY_B))
+
+
+	if (!battleStarted)
 	{
-		Asteroids_Enemy_Final_Boss_Spawn();
-	}
-	if (final_boss.killed)
-	{
-		Asteroids_Final_Boss_Death_Screen(final_boss);
+		lalala(enemy_pool);
 	}
 }
 
@@ -193,6 +191,7 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 }
 bool Asteroids_Final_Boss_Summon_Criteria_Check(void)
 {
+	
 	if (CURRENT_SCORE.lame >= ASTEROIDS_FINAL_BOSS_SUMMON_CRITERIA)
 	{
 		return true;
@@ -464,8 +463,12 @@ void Asteroids_Final_Boss_Hp_Draw(Enemy Final_Boss)
 		FB->hp.current = 1;
 	}
 }
-void Asteroids_Final_Boss_Death_Screen(Enemy Final_Boss)
+void Asteroids_Final_Boss_Death_Screen(Enemy Final_Boss, Player player)
 {
+	Asteroids_MainMenu_Update_Background();
+	Asteroids_MainMenu_Draw_Background();
+	Asteroids_Player_Update(&player);
+
 	float textsize = 50.0f;
 	CP_Vector vec = Asteroids_Utility_GetWindowMiddle();
 	vec.x = (float)(WIN_WIDTH * 0.33);
@@ -480,9 +483,7 @@ void Asteroids_Final_Boss_Death_Screen(Enemy Final_Boss)
 
 	Asteroids_Button_Set_Position(&YesBtn, BtnPos);
 	Asteroids_Button_Set_Position(&NoBtn, BtnPos2);
-	Asteroids_MainMenu_Draw_Background();
 
-	Asteroids_MainMenu_Update_Background();
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Font_DrawTextBox("Congratulations!", 0, vec.y, (float)WIN_WIDTH);
 	CP_Font_DrawTextBox("You have defeated the final boss!", 0, vec.y + textsize, (float)WIN_WIDTH);
