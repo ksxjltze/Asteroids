@@ -5,8 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define ASTEROIDS_POOLSIZE_BULLETS 999
-#define ASTEROIDS_POOLSIZE_ENEMIES 200
+#define ASTEROIDS_POOLSIZE_BULLETS 9999
+#define ASTEROIDS_POOLSIZE_ENEMIES 600
 #define ASTEROIDS_ENEMY_SPRITE_COUNT 3
 
 typedef int DIFFICULTY;
@@ -18,6 +18,7 @@ extern DIFFICULTY DIFFICULTY_OPTION;
 void Asteroids_Init(void);
 void Asteroids_Update(void);
 void Asteroids_Exit(void);
+void Asteroids_Cleanup(void);
 
 void Asteroids_Check_Input();
 

@@ -80,8 +80,11 @@ bool Asteroids_Currency_Get_From_File()
 void Asteroids_Currency_Write_To_File()
 {
 	FILE* creditsFile = Asteroids_Open_File("./Assets/credits.data", "w");
-	fprintf(creditsFile, "%d", currentCredits);
-	Asteroids_Close_File(creditsFile);
+	if (creditsFile)
+	{
+		fprintf(creditsFile, "%d", currentCredits);
+		Asteroids_Close_File(creditsFile);
+	}
 }
 
 //BRYAn
