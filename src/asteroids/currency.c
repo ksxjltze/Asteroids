@@ -21,7 +21,7 @@
 static int currentCredits = 0;
 static float kills = 0;
 static float time = 0;
-static float currency_factor = 0;
+static int currency_factor = 0;
 static int currency = 0;
 
 //JIA KEAT
@@ -93,7 +93,7 @@ void Asteroids_Currency_Earning_Manager(void)
 		currency_factor += 1;
 		kills = 0;
 	}
-	// eg: 1 * 10 * 6 = 60?
+	// eg: 1 * 10 * 6 = 60? hm
 	int earnings = ASTEROIDS_ENEMY_CURRENCY_DROP_AMOUNT * currency_factor * ASTEROIDS_GAME_DIFFICULTY;
 	Asteroids_Currency_Add(earnings);
 }
