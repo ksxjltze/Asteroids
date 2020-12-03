@@ -135,6 +135,7 @@ void Asteroids_Draw_MainMenu(void)
 		Asteroids_Button_Update(&DifficultyBtn);
 		Asteroids_Button_Update(&SkinsBtn);
 		Asteroids_Button_Update(&UpgradesBtn);
+		Asteroids_Button_Update(&Volume);
 		Asteroids_MainMenu_Draw_Current_Ship();
 	}
 	else if (!status)
@@ -175,7 +176,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	CP_Vector pos4 = CP_Vector_Set(x2, y1);
 	CP_Vector pos5 = CP_Vector_Set(x2, y2+30);
 	CP_Vector pos10 = CP_Vector_Set(x2, y3+60); // Prev page
-	CP_Vector pos11 = CP_Vector_Set(x1, y2+45); //vol button
+	CP_Vector pos11 = CP_Vector_Set(x1, y2-240); //vol button
 
 	// Exit Button
 	CP_Vector pos6 = CP_Vector_Set((float)((WIN_WIDTH / 2 - BUTTON_WIDTH / 2)), (float)(WIN_HEIGHT - BUTTON_HEIGHT));
