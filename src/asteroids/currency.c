@@ -40,6 +40,7 @@ void Asteroids_Currency_Init(void)
 void Asteroids_Currency_Add(int amount)
 {
 	currentCredits += amount;
+	printf("currentCredits = %d, amount = %d\n", currentCredits, amount);
 }
 
 int Asteroids_Currency_Get_Balance()
@@ -87,7 +88,7 @@ void Asteroids_Currency_Write_To_File()
 //BRYAn
 void Asteroids_Currency_Earning_Manager(void)
 {
-	switch (ASTEROIDS_GAME_DIFFICULTY)
+	/*switch (ASTEROIDS_GAME_DIFFICULTY)
 	{
 	case EASY:
 		currency_factor = 1;
@@ -113,5 +114,5 @@ void Asteroids_Currency_Earning_Manager(void)
 	}
 
 	int earnings = (int)(ASTEROIDS_CURRENCY_EARNING_BALANCE_BASE * currency_factor);
-	Asteroids_Currency_Add(earnings);
+	//*/Asteroids_Currency_Add(earnings);
 }
