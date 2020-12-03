@@ -74,6 +74,7 @@ void Asteroids_Final_Boss_Init(void)
 	Asteroids_Button_Set_Callback_Void(&Asteroids_End_Game, &NoBtn);
 
 	test = CP_Image_Load("./Assets/SmokeTrail/smoke_2.png");
+	Asteroids_Utility_Generate_Hurt_Sprite(test, &test);
 
 	current_loop = 1.0f;
 	max_loop = 1.0f;
