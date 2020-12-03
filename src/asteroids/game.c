@@ -21,6 +21,7 @@
 #include "leaderboard.h"
 #include "audio_manager.h"
 #include "Camera.h"
+#include "leaderboard.h"
 
 float shoot_cooldown = 0.0f;
 
@@ -74,7 +75,7 @@ void Asteroids_Init(void)
 	Asteroids_Boss_Init(enemy_sprites, enemy_hurt_sprites, enemy_width, enemy_height, &player);
 	Asteroids_Final_Boss_Init();
 	Asteroids_Audio_Manager_Init();
-	//Asteroids_Init_LeaderBoard();
+	Asteroids_Leaderboard_Init();
 	Asteroids_Audio_gameplaysound_Play();
 }
 
