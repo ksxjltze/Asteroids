@@ -48,7 +48,7 @@ const float ASTEROIDS_UI_PLAYER_HEALTH_BAR_WIDTH = 300.0f;
 const float ASTEROIDS_UI_PLAYER_FUEL_METER_BAR_WIDTH = 30.0f;
 const float ASTEROIDS_UI_PLAYER_FUEL_METER_BAR_HEIGHT = 300.0f;
 
-const float PLAYER_MAX_HP = 50.0f;
+const float PLAYER_MAX_HP = 20.0f;
 const float PLAYER_MAX_FUEL = 50.0f;
 const float DRAIN_RATE = 4.0f;
 
