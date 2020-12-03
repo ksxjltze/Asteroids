@@ -74,7 +74,6 @@ void Asteroids_Init(void)
 	Asteroids_Boss_Init(enemy_sprites, enemy_hurt_sprites, enemy_width, enemy_height, &player);
 	Asteroids_Final_Boss_Init();
 	Asteroids_Audio_Manager_Init();
-	//Asteroids_Init_LeaderBoard();
 	Asteroids_Audio_gameplaysound_Play();
 }
 
@@ -155,6 +154,11 @@ void Asteroids_Difficulty_Update()
 
 void Asteroids_Raise_Difficulty()
 {
+	if (ASTEROIDS_GAME_DIFFICULTY > BRUH)
+	{
+		return;
+	}
+
 	Asteroids_Enemy_Spawn_Scale_Interval(ASTEROIDS_GAME_DIFFICULTY);
 	ASTEROIDS_GAME_DIFFICULTY++;
 }
