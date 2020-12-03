@@ -53,6 +53,7 @@ void Asteroids_UI_Health_HP_Draw(Health hp)
 	CP_Settings_Stroke(CP_Color_Create(255, 255, 255, 255));
 
 	CP_Settings_TextSize(50);
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Font_DrawText("HP:", 60, 70);
 
 	CP_Settings_Fill(CP_Color_Create(50, 50, 50, 255));
