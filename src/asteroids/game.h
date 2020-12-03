@@ -18,6 +18,7 @@ extern DIFFICULTY DIFFICULTY_OPTION;
 void Asteroids_Init(void);
 void Asteroids_Update(void);
 void Asteroids_Exit(void);
+void Asteroids_Cleanup(void);
 
 void Asteroids_Check_Input();
 

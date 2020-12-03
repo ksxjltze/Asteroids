@@ -177,6 +177,7 @@ void Asteroids_Entities_Init()
 //@brief Loads sprites from file path and sets their width and height.
 void Asteroids_Sprites_Load()
 {
+	Asteroids_Skin_Menu_Load_Selected_Skin();
 	player_sprite = current_skin.sprite;
 	if (!player_sprite)
 		player_sprite = CP_Image_Load(ASTEROIDS_PLAYER_SPRITE_PATH_DEFAULT);
@@ -347,7 +348,11 @@ void Asteroids_Exit(void)
 	// shut down the gamestate and cleanup any dynamic memory
 	Asteroids_Collision_Exit();
 	Asteroids_Audio_Manager_Exit();
+	Asteroids_Cleanup();
+}
 
+void Asteroids_Cleanup()
+{
 	CP_Image_Free(&player_sprite);
 	CP_Image_Free(&bullet_sprite);
 	for (int i = 0; i < ASTEROIDS_ENEMY_SPRITE_COUNT; i++)
