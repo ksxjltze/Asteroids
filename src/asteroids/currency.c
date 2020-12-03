@@ -114,5 +114,5 @@ void Asteroids_Currency_Earning_Manager(void)
 	}
 
 	int earnings = (int)(ASTEROIDS_CURRENCY_EARNING_BALANCE_BASE * currency_factor);
-	//*/Asteroids_Currency_Add(earnings);
+	/*////Asteroids_Currency_Add(earnings);
 }
