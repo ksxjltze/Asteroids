@@ -1,5 +1,5 @@
 #include "pause.h"
-
+#include "final_boss.h"
 bool paused = false;
 
 CP_Vector position;
@@ -33,6 +33,7 @@ void Asteroids_Pause_Init()
 void Asteroids_Pause_QuitGame()
 {
 	paused = false;
+	Asteroids_Final_Boss_Reset();
 	CP_Engine_SetNextGameState(Asteroids_MainMenu_Init, Asteroids_MainMenu_Update, Asteroids_MainMenu_Exit);
 }
 

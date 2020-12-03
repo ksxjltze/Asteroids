@@ -261,10 +261,10 @@ void Asteroids_Final_Boss_State_Idle(const void* context)
 
 void Asteroids_Final_Boss_State_Death(const void* context)
 {
-	Asteroid_Final_Boss_Reset();
+	Asteroids_Final_Boss_Reset();
 }
 
-void Asteroid_Final_Boss_Reset()
+void Asteroids_Final_Boss_Reset()
 {
 	final_boss.active = 0;
 	final_boss.hp.max = 0;
@@ -452,25 +452,28 @@ void Asteroids_Final_Boss_Hp_Draw(Enemy Final_Boss)
 void Asteroids_Final_Boss_Death_Screen(Enemy Final_Boss)
 {
 	float textsize = 50.0f;
-	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 100));
 	CP_Vector vec = Asteroids_Utility_GetWindowMiddle();
 	vec.x = (float)(WIN_WIDTH * 0.33);
 	vec.y -= textsize;
 	CP_Settings_TextSize(textsize);
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Font_DrawTextBox("Congratulations!", 0, vec.y, (float)WIN_WIDTH);
-	CP_Font_DrawTextBox("You have defeated the final boss!", 0, vec.y + textsize, (float)WIN_WIDTH);
-	CP_Font_DrawTextBox("Would you like to continue playing?", 0, vec.y + textsize * 2, (float)WIN_WIDTH);
 
 	CP_Vector BtnPos = Asteroids_Utility_GetWindowMiddle();
 	BtnPos.x -= 100.0f;
 	BtnPos.y = BtnPos.y + 2 * textsize;
 	CP_Vector BtnPos2 = BtnPos;
 	BtnPos2.x += 100;
+
 	Asteroids_Button_Set_Position(&YesBtn, BtnPos);
 	Asteroids_Button_Set_Position(&NoBtn, BtnPos2);
 	Asteroids_Button_Update(&YesBtn);
 	Asteroids_Button_Update(&NoBtn);
+	Asteroids_MainMenu_Update_Background();
+	Asteroids_MainMenu_Draw_Background();
+
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	CP_Font_DrawTextBox("Congratulations!", 0, vec.y, (float)WIN_WIDTH);
+	CP_Font_DrawTextBox("You have defeated the final boss!", 0, vec.y + textsize, (float)WIN_WIDTH);
+	CP_Font_DrawTextBox("Would you like to continue playing?", 0, vec.y + textsize * 2, (float)WIN_WIDTH);
 }
 
 void Asteroids_Continue_Game(void)
@@ -478,12 +481,12 @@ void Asteroids_Continue_Game(void)
 	endgame.end = false;
 	Asteroids_Enemy_Enable_Spawn();
 	CURRENT_SCORE.lame = 0;
-	Asteroid_Final_Boss_Reset();
+	Asteroids_Final_Boss_Reset();
 }
 
 void Asteroids_End_Game(void)
 {
-	Asteroid_Final_Boss_Reset();
+	Asteroids_Final_Boss_Reset();
 	CP_Engine_SetNextGameState(Asteroids_GameOver_Init, Asteroids_GameOver_Update, Asteroids_GameOver_Exit);
 }
 
