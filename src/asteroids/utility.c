@@ -11,6 +11,7 @@ CP_Vector Asteroids_Utility_Generate_Random_Pos()
 
 	return CP_Vector_Set(x, y);
 }
+
 CP_Vector Asteroids_Utility_Generate_Random_Pos_Var2(float width, float height)
 {
 	float x = CP_Random_RangeFloat(width / 2, CP_System_GetWindowWidth() - width / 2);

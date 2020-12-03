@@ -100,11 +100,6 @@ void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_c
 		Asteroids_Final_Boss_Draw();
 		Asteroids_Final_Boss_Hp_Draw(final_boss);
 	}
-
-	if (CP_Input_KeyTriggered(KEY_B))
-		Asteroids_Enemy_Final_Boss_Spawn();
-	if (CP_Input_KeyTriggered(KEY_N))
-		Asteroids_Final_Boss_Reset();
 	if (!battleStarted)
 	{
 		lalala(enemy_pool);
@@ -186,7 +181,7 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 					printf("%.2f\n", Boss_Projectile->size);
 					Boss_Projectile->velocity = CP_Vector_Subtract (player->pos, Boss_Projectile->pos);
 					Boss_Projectile->velocity = CP_Vector_Normalize(Boss_Projectile->velocity);
-					Boss_Projectile->velocity = CP_Vector_Scale(Boss_Projectile->velocity, ASTEROIDS_FINAL_BOSS_PROJECTILE_SPEED);
+					Boss_Projectile->velocity = CP_Vector_Scale(Boss_Projectile->velocity, ASTEROIDS_FINAL_BOSS_PROJECTILE_SPEED * (((float)ASTEROIDS_GAME_DIFFICULTY - 1) / 2));
 					Boss_Projectile->velocity = CP_Vector_MatrixMultiply(AngularDisplacement, Boss_Projectile->velocity);
 				}
 			}
