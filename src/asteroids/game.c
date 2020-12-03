@@ -355,11 +355,6 @@ void Asteroids_Cleanup()
 {
 	CP_Image_Free(&player_sprite);
 	CP_Image_Free(&bullet_sprite);
-	for (int i = 0; i < ASTEROIDS_ENEMY_SPRITE_COUNT; i++)
-	{
-		CP_Image_Free(&enemy_sprites[i]);
-		CP_Image_Free(&enemy_hurt_sprites[i]);
-	}
 	CP_Image_Free(&health_bar_sprite);
 	CP_Image_Free(&player_health_sprite);
 }
