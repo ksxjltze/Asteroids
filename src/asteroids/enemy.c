@@ -10,9 +10,14 @@
 #include "collision_manager.h"
 #include "currency.h"
 #include "audio_manager.h"
+#include "state.h"
+#include "final_boss.h"
 
 static float spawn_timer;
 static float spawn_interval;
+
+State bossState;
+
 
 static bool enemy_spawn;
 void Asteroids_Enemy_Init(Enemy enemy_pool[], int count, float enemy_width, float enemy_height, Player player)
@@ -128,6 +133,7 @@ void Asteroids_Enemy_Split(Enemy* enemy, Player player, Enemy enemy_pool[], int 
 void Asteroids_Enemy_Death(Enemy* enemy)
 {
 	CURRENT_SCORE.enemy_kill_score += 1;
+	CURRENT_SCORE.lame += 1;
 	Asteroids_Currency_Earning_Manager();
 
 	int random = Asteroids_Powerup_RNG();
@@ -401,8 +407,16 @@ void Asteroids_Enemy_Hit(Enemy* enemy, float damage)
 {
 	if (!enemy->status.hit)
 	{
-		enemy->status.hit = 1;
-		enemy->hp.current -= damage;
+		if (bossState.id == ENRAGED)
+		{
+			enemy->status.hit = 1;
+			enemy->hp.current -= damage * ASTEROIDS_FINAL_BOSS_ENRAGED_DMG_AMP;
+		}
+		else
+		{
+			enemy->status.hit = 1;
+			enemy->hp.current -= damage;
+		}
 	}
 	printf("%.2f\n", enemy->hp.current);
 }

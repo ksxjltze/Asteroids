@@ -8,6 +8,7 @@
 #include "score.h"
 #include "game.h"
 #include <stdbool.h>
+enum BossState { NONE, DEATH, LEPAK, ATTACK, DODGE, BULLET_HELL, ENRAGED};
 
 struct EndGame
 {
@@ -20,7 +21,7 @@ void Asteroids_Enemy_Final_Boss_Spawn(void);
 void Asteroids_Final_Boss_Draw(void);
 
 void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* player);
-void Asteroids_Final_Boss_Summon_Criteria_Check(void);
+bool Asteroids_Final_Boss_Summon_Criteria_Check(void);
 
 
 void Asteroids_Final_Boss_State_Update(Player* player, Enemy enemy_pool[], int enemy_count, Bullet bullet_pool[]);
@@ -38,14 +39,16 @@ void Asteroids_Final_Boss_Dodge(Enemy* Final_boss, Player* player);
 float Asteroids_Final_Boss_FireRate(void);
 
 void Asteroids_Final_Boss_State_Death(const void* context);
-void Asteroid_Final_Boss_Reset();
+void Asteroids_Final_Boss_Reset();
 void Asteroids_Final_Boss_Idle(Enemy* Final_Boss, Player* player);
 
-void Asteroids_Final_Boss_State_WildBoar(const void* context);
-void Asteroids_Final_Boss_WildBoar(Enemy* Final_Boss, Player* player);
+void Asteroids_Final_Boss_State_Enraged(const void* context);
+void Asteroids_Final_Boss_Enraged(Enemy* Final_Boss, Player* player);
 
 void Asteroids_Final_Boss_Hp_Draw(Enemy Final_Boss);
 void Asteroids_Final_Boss_Death_Screen(Enemy Final_Boss);
 
 void Asteroids_Continue_Game(void);
 void Asteroids_End_Game(void);
+
+void lalala(Enemy* enemy_pool);

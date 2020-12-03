@@ -106,6 +106,9 @@ void Asteroids_Player_Update(Player* player)
 void Asteroids_Player_Death(Player* player)
 {
 	player->active = 0;
+
+	//death particles.
+
 }
 
 void Asteroids_Player_Hit(Player* player, float damage) //Player hurt
@@ -144,11 +147,6 @@ void Asteroids_Player_Draw(CP_Image player_sprite, CP_Vector pos, float player_w
 	{
 		pos.y += player_width;
 	}
-
-	//printf("%f\n", player_rotation);
-
-	
-
 }
 
 void Asteroids_Player_Refuel(float amount, Player* player)

@@ -1,5 +1,5 @@
 #include "pause.h"
-
+#include "final_boss.h"
 bool paused = false;
 
 CP_Vector position;
@@ -33,6 +33,7 @@ void Asteroids_Pause_Init()
 void Asteroids_Pause_QuitGame()
 {
 	paused = false;
+	Asteroids_Final_Boss_Reset();
 	CP_Engine_SetNextGameState(Asteroids_MainMenu_Init, Asteroids_MainMenu_Update, Asteroids_MainMenu_Exit);
 }
 
@@ -71,6 +72,7 @@ void Asteroids_Pause_DisplayMenu()
 {
 	CP_Settings_Background(backgroundColor);
 	CP_Settings_TextSize(100.0f);
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Font_DrawText("Paused", (float)WIN_WIDTH / 2, 100);
 	Asteroids_Pause_Buttons_Update();
 }

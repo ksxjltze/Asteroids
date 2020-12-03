@@ -13,6 +13,7 @@
 #include "powerups.h"
 #include "powerup_interaction.h"
 #include <stdio.h>
+#include "audio_manager.h"
 
 extern bool invulnerable;
 

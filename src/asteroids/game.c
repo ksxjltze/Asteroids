@@ -20,6 +20,7 @@
 #include "final_boss.h"
 #include "leaderboard.h"
 #include "audio_manager.h"
+#include "Camera.h"
 
 float shoot_cooldown = 0.0f;
 
@@ -73,7 +74,6 @@ void Asteroids_Init(void)
 	Asteroids_Boss_Init(enemy_sprites, enemy_hurt_sprites, enemy_width, enemy_height, &player);
 	Asteroids_Final_Boss_Init();
 	Asteroids_Audio_Manager_Init();
-	//Asteroids_Init_LeaderBoard();
 	Asteroids_Audio_gameplaysound_Play();
 }
 
@@ -154,6 +154,11 @@ void Asteroids_Difficulty_Update()
 
 void Asteroids_Raise_Difficulty()
 {
+	if (ASTEROIDS_GAME_DIFFICULTY > BRUH)
+	{
+		return;
+	}
+
 	Asteroids_Enemy_Spawn_Scale_Interval(ASTEROIDS_GAME_DIFFICULTY);
 	ASTEROIDS_GAME_DIFFICULTY++;
 }
@@ -176,6 +181,7 @@ void Asteroids_Entities_Init()
 //@brief Loads sprites from file path and sets their width and height.
 void Asteroids_Sprites_Load()
 {
+	Asteroids_Skin_Menu_Load_Selected_Skin();
 	player_sprite = current_skin.sprite;
 	if (!player_sprite)
 		player_sprite = CP_Image_Load(ASTEROIDS_PLAYER_SPRITE_PATH_DEFAULT);
@@ -346,4 +352,13 @@ void Asteroids_Exit(void)
 	// shut down the gamestate and cleanup any dynamic memory
 	Asteroids_Collision_Exit();
 	Asteroids_Audio_Manager_Exit();
+	Asteroids_Cleanup();
+}
+
+void Asteroids_Cleanup()
+{
+	CP_Image_Free(&player_sprite);
+	CP_Image_Free(&bullet_sprite);
+	CP_Image_Free(&health_bar_sprite);
+	CP_Image_Free(&player_health_sprite);
 }

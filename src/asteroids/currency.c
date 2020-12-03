@@ -16,11 +16,12 @@
 #include <stdio.h>
 #include "file_manager.h"
 #include "constants.h"
+#include "game.h"
 
 static int currentCredits = 0;
 static float kills = 0;
 static float time = 0;
-static float currency_factor = 0;
+static int currency_factor = 0;
 static int currency = 0;
 
 //JIA KEAT
@@ -79,8 +80,11 @@ bool Asteroids_Currency_Get_From_File()
 void Asteroids_Currency_Write_To_File()
 {
 	FILE* creditsFile = Asteroids_Open_File("./Assets/credits.data", "w");
-	fprintf(creditsFile, "%d", currentCredits);
-	Asteroids_Close_File(creditsFile);
+	if (creditsFile)
+	{
+		fprintf(creditsFile, "%d", currentCredits);
+		Asteroids_Close_File(creditsFile);
+	}
 }
 
 //BRYAn
@@ -92,6 +96,6 @@ void Asteroids_Currency_Earning_Manager(void)
 		currency_factor += 1;
 		kills = 0;
 	}
-	int earnings = currency * (int)currency_factor;
+	int earnings = ASTEROIDS_ENEMY_CURRENCY_DROP_AMOUNT * currency_factor * ASTEROIDS_GAME_DIFFICULTY;
 	Asteroids_Currency_Add(earnings);
 }

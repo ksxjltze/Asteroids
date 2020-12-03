@@ -14,6 +14,9 @@
 
 #include "audio_manager.h"
 #include "cprocessing.h"
+#include <math.h>
+#include <stdbool.h>
+#include <stdio.h>
 
 CP_Sound sfx_ButtonHover; //prev name: sound_ButtonHover
 CP_Sound sfx_bgm_MainMenu;
