@@ -5,6 +5,7 @@
 #include "currency.h"
 #include "audio_manager.h"
 #include "leaderboard.h"
+#include <stdbool.h>
 #include "Camera.h"
 
 #define BUTTON_WIDTH 500.0f
@@ -12,6 +13,8 @@
 
 bool status;
 static int overlay_type;
+
+static bool ONOFF;
 
 bool page1;
 bool page2;
@@ -276,10 +279,19 @@ void Asteroids_Menu_Display_UpgradesMenu(void)
 
 void Asteroids_VolOnOff(void)
 {
+	
 	status = true;
 	overlay_type = VOL_BUTTON;
-	Asteroids_Audio_MainMenu_BGM_Play();
-
+	//.if (Volume == 1 )
+	if (ONOFF)
+	{
+		ONOFF = !ONOFF;
+		Asteroids_Audio_MainMenu_BGM_STOP();
+	}
+	if (ONOFF == true)
+	{
+		Asteroids_Audio_MainMenu_BGM_Play();
+	}
 
 }
 
