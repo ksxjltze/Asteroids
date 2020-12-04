@@ -54,6 +54,7 @@
     <ClInclude Include="src\asteroids\sprite.h" />
     <ClInclude Include="src\asteroids\state.h" />
     <ClInclude Include="src\asteroids\status.h" />
+    <ClInclude Include="src\asteroids\tutorial.h" />
     <ClInclude Include="src\asteroids\upgrades_menu.h" />
     <ClInclude Include="src\asteroids\user_interface.h" />
     <ClInclude Include="src\asteroids\utility.h" />
@@ -92,6 +93,7 @@
     <ClCompile Include="src\asteroids\skin_menu.c" />
     <ClCompile Include="src\asteroids\splash.c" />
     <ClCompile Include="src\asteroids\sprite.c" />
+    <ClCompile Include="src\asteroids\tutorial.c" />
     <ClCompile Include="src\asteroids\upgrades.c" />
     <ClInclude Include="src\asteroids\upgrades.h" />
     <ClCompile Include="src\asteroids\upgrades_menu.c" />

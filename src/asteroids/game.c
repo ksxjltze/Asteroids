@@ -36,7 +36,6 @@ CP_Image player_health_sprite;
 //player
 float player_width;
 float player_height;
-float player_rotation;
 
 float bullet_width;
 float bullet_height;
@@ -100,7 +99,6 @@ void Asteroids_Update(void)
 		Asteroids_Enemy_Update(enemy_pool, enemy_count, player);
 		Asteroids_Bullet_Update(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, enemy_pool, enemy_count, player);
 
-
 		if (!debug_mode)
 			Asteroids_Collision_CheckCollision_Enemy_Player(enemy_pool, enemy_count, &player);
 
@@ -124,7 +122,7 @@ void Asteroids_Update(void)
 		Asteroids_Draw_Scores();
 		Asteroids_Player_Update(&player);
 		Asteroids_UI_Update(player);
-		Asteroids_Player_Draw(player_sprite, player.pos, player_width, player_height, player.alpha, player_rotation);
+		Asteroids_Player_Draw(player_sprite, player.pos, player_width, player_height, player.alpha, player.rotation);
 
 
 	}
@@ -174,7 +172,7 @@ void Asteroids_Raise_Difficulty()
 void Asteroids_Entities_Init()
 {
 	//Player
-	player = Asteroids_Player_Init(player_width, player_height);
+	player = Asteroids_Player_Init(player_width, player_height, true);
 
 	//TODO: Possibly implement an entity manager to manage different types of entities.
 	Asteroids_Enemy_Init(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, enemy_width, enemy_height, player);
@@ -223,7 +221,7 @@ void Asteroids_Sprites_Load()
 
 void Asteroids_Player_Rotate(CP_Vector direction)
 {
-	player_rotation = Asteroids_Utility_Get_Rotation_Angle_To_Mouse(player.pos);
+	player.rotation = Asteroids_Utility_Get_Rotation_Angle_To_Mouse(player.pos);
 }
 
 void Asteroids_Check_Input()
