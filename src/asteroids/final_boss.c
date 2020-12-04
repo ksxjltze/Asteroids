@@ -31,6 +31,7 @@ CP_Image Final_Boss_Spawn_Animation;
 
 static bool lap;
 static bool state_change;
+static bool is_Clapping;
 static int id;
 static float Max_Loop_Timespan;
 static float Current_Loop_Timespan;
@@ -77,6 +78,7 @@ void Asteroids_Final_Boss_Init(void)
 	battleStarted = 0;
 	lap = false;
 	state_change = false;
+	is_Clapping = false;
 	id = bossState.id;
 	state_change_rate = ASTEROIDS_FINAL_BOSS_STATE_CHANGE_RATE;
 
@@ -305,6 +307,7 @@ void Asteroids_Final_Boss_Reset()
 	battleStarted = 0;
 	blink_count = 0;
 	CURRENT_SCORE.lame = 0;
+	is_Clapping = false;
 }
 
 void Asteroids_Final_Boss_State_Attack(const void* context)
@@ -480,7 +483,7 @@ void Asteroids_Final_Boss_Hp_Draw(Enemy Final_Boss)
 	CP_Font_DrawTextBox(boss_hp_buffer, 0, mid.y + height / 2, (float)WIN_WIDTH);
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Font_DrawTextBox(boss_state, 0, mid.y - height, (float)WIN_WIDTH);
-	
+
 	if (CP_Input_KeyDown(KEY_F2))
 	{
 		// DEBUG
@@ -514,6 +517,11 @@ void Asteroids_Final_Boss_Death_Screen(Enemy Final_Boss, Player player)
 	CP_Font_DrawTextBox("Would you like to continue playing?", 0, vec.y + textsize * 2, (float)WIN_WIDTH);
 	Asteroids_Button_Update(&YesBtn);
 	Asteroids_Button_Update(&NoBtn);
+	if (!is_Clapping)
+	{
+		Asteroids_Audio_EZCLAP_Play();
+		is_Clapping = true;
+	}
 }
 
 void Asteroids_Continue_Game(void)

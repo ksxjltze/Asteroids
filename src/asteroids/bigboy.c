@@ -19,6 +19,7 @@
 #include "collider_circle.h"
 #include "collision_manager.h"
 #include "final_boss.h"
+#include "audio_manager.h"
 
 Enemy Boss;
 

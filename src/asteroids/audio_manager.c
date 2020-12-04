@@ -21,11 +21,13 @@ CP_Sound sfx_pickups;
 CP_Sound sfx_explosions;
 CP_Sound sfx_dangersound;
 CP_Sound sfx_gameplaysound;
+CP_Sound sfx_EZCLAP;
 
 void Asteroids_Audio_Manager_Init(void)
 {
 	sfx_ButtonHover = CP_Sound_Load("./Assets/HiHat.wav");
 	sfx_bgm_MainMenu = CP_Sound_LoadMusic("./Assets/menu_bgm.wav");
+	sfx_EZCLAP = CP_Sound_Load("./Assets/Clap.wav");
 }
 
 void Asteroids_Audio_Button_Hover_Play(void)
@@ -40,8 +42,6 @@ void Asteroids_Audio_MainMenu_BGM_Play(void)
 
 	if (sfx_bgm_MainMenu)
 		CP_Sound_PlayAdvanced(sfx_bgm_MainMenu, 0.1f, 1.0f, 1, 0);
-
-		
 }
 
 
@@ -96,4 +96,10 @@ void Asteroids_Audio_Manager_Exit(void)
 	CP_Sound_Free(sfx_ButtonHover);
 	CP_Sound_Free(sfx_bgm_MainMenu);
 	CP_Sound_Free(sfx_bullet);
+	CP_Sound_Free(sfx_EZCLAP);
+}
+
+void Asteroids_Audio_EZCLAP_Play(void)
+{
+	CP_Sound_PlayAdvanced(sfx_EZCLAP, 20.0f, 3, 1, 9);
 }
