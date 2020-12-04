@@ -85,7 +85,7 @@ void Asteroids_Init(void)
 void Asteroids_Update(void)
 {
 	// check input, update simulation, render etc.
-	Asteroids_Check_Input(&the_player);
+	Asteroids_Check_Input(&the_player, bullet_pool);
 	Asteroids_Pause_Update();
 
 	if (!Asteroids_Pause_GetStatus())
@@ -210,8 +210,6 @@ void Asteroids_Sprites_Load()
 
 	the_player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
 
-	player_width = (float)CP_Image_GetWidth(player_sprite) * 2;
-	player_height = (float)CP_Image_GetHeight(player_sprite) * 2;
 	player_width = ASTEROIDS_PLAYER_SPRITE_WIDTH;
 	player_height = ASTEROIDS_PLAYER_SPRITE_HEIGHT;
 
@@ -228,8 +226,9 @@ void Asteroids_Player_Rotate(Player* player, CP_Vector direction)
 	player->rotation = Asteroids_Utility_Get_Rotation_Angle_To_Mouse(player->pos);
 }
 
-void Asteroids_Check_Input(Player* player)
+void Asteroids_Check_Input(Player* player, void* bullets)
 {
+	bullets = (Bullet*)bullets;
 	Asteroids_Pause_CheckInput();
 
 	if (player->active != 1)

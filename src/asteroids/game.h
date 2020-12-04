@@ -21,7 +21,7 @@ void Asteroids_Update(void);
 void Asteroids_Exit(void);
 void Asteroids_Cleanup(void);
 
-void Asteroids_Check_Input(Player* player);
+void Asteroids_Check_Input(Player* player, void* bullets);
 
 void Asteroids_Draw();
 void Asteroids_FPS_Draw();
