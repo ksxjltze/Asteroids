@@ -23,3 +23,4 @@ void Asteroids_Audio_PickUps_Play(void);
 void Asteroids_Audio_dangersound_Play(void);
 void Asteroids_Audio_Explosion_Play(void);
 void Asteroids_Audio_gameplaysound_Play(void);
+void Asteroids_Audio_MainMenu_BGM_STOP(void);

@@ -50,6 +50,18 @@ void Asteroids_Audio_MainMenu_BGM_Play(void)
 
 }
 
+
+void Asteroids_Audio_MainMenu_BGM_STOP(void)
+{
+	//Volbutton = CP_Image_Load("./Assets/volumebutton.png");
+
+	if (sfx_bgm_MainMenu)
+		CP_Sound_StopGroup(0);
+
+
+
+}
+
 void Asteroids_Audio_Explosion_Play(void)
 {
 	sfx_explosions = CP_Sound_Load("./Assets/SFX/explosion_sound.mp3");
