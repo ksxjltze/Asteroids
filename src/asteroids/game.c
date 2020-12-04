@@ -22,6 +22,7 @@
 #include "audio_manager.h"
 #include "Camera.h"
 #include "leaderboard.h"
+#include "difficulty_menu.h"
 
 float shoot_cooldown = 0.0f;
 
@@ -56,6 +57,7 @@ Player player;
 void Asteroids_Init(void)
 {
 	// initialize variables and CProcessing settings for this gamestate
+	Asteroids_Difficulty_Get_From_File();
 	Asteroids_Set_Difficulty(DIFFICULTY_OPTION);
 	Asteroids_Sprites_Load();
 	Asteroids_UI_Init();
