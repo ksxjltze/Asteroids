@@ -6,6 +6,7 @@
 #include "audio_manager.h"
 #include "leaderboard.h"
 #include "Camera.h"
+#include "help.h"
 
 #define BUTTON_WIDTH 500.0f
 #define BUTTON_HEIGHT 100.0f
@@ -26,7 +27,7 @@ static CP_Color textColor;
 static float menuTextSize;
 static char* menuText = "Asteroids";
 
-Button Credits, Play, Quit, Leaderboard, Controls, Exit, DifficultyBtn, SkinsBtn, NextPage, PrevPage, UpgradesBtn, Volume;
+Button Credits, Play, Quit, Leaderboard, Controls, ExitBtn, DifficultyBtn, SkinsBtn, NextPage, PrevPage, UpgradesBtn, Volume;
 CP_Image Control_screen;
 CP_Image Control_screen2;
 CP_Image Credits_screen;
@@ -162,7 +163,7 @@ void Asteroids_Draw_MainMenu(void)
 	else if (!status)
 	{
 		Asteroids_MainMenu_CheckInput();
-		Asteroids_Button_Update(&Exit);
+		Asteroids_Button_Update(&ExitBtn);
 	}
 
 }
@@ -216,7 +217,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	Credits = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	Leaderboard = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	Quit = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
-	Exit = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
+	ExitBtn = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	DifficultyBtn = Asteroids_Button_Add_New_Button(BUTTON_WIDTH - 100.0f , BUTTON_HEIGHT - 40.0f);
 	SkinsBtn = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	NextPage = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -229,7 +230,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Text(&Credits, textSize, "Credits");
 	Asteroids_Button_Set_Text(&Leaderboard, textSize, "Leaderboard");
 	Asteroids_Button_Set_Text(&Quit, textSize, "Quit");
-	Asteroids_Button_Set_Text(&Exit, textSize, "Exit");
+	Asteroids_Button_Set_Text(&ExitBtn, textSize, "Exit");
 	Asteroids_Button_Set_Text(&DifficultyBtn, textSize, "Difficulty");
 	Asteroids_Button_Set_Text(&SkinsBtn, textSize, "Skins");
 	Asteroids_Button_Set_Text(&NextPage, textSize, "Next");
@@ -242,7 +243,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Position(&Credits, pos3);
 	Asteroids_Button_Set_Position(&Leaderboard, pos4);
 	Asteroids_Button_Set_Position(&Quit, pos10);
-	Asteroids_Button_Set_Position(&Exit, pos6);
+	Asteroids_Button_Set_Position(&ExitBtn, pos6);
 	Asteroids_Button_Set_Position(&DifficultyBtn, pos7);
 	Asteroids_Button_Set_Position(&NextPage, pos8);
 	Asteroids_Button_Set_Position(&PrevPage, pos9);
@@ -255,7 +256,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Credits, &Credits);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Display_LeaderBoard, &Leaderboard);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_QuitGame, &Quit);
-	Asteroids_Button_Set_Callback_Void(&Asteroids_Exit_Screen, &Exit);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_Exit_Screen, &ExitBtn);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_DifficultyMenu, &DifficultyBtn);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_SkinMenu, &SkinsBtn);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_UpgradesMenu, &UpgradesBtn);
@@ -278,7 +279,6 @@ void Asteroids_VolOnOff(void)
 	status = true;
 	overlay_type = VOL_BUTTON;
 	Asteroids_Audio_MainMenu_BGM_Play();
-
 
 }
 
@@ -318,7 +318,7 @@ void Asteroids_Credits(void)
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 20));
 	CP_Settings_TextSize(50.0f);
 	CP_Font_DrawText("Ty for carry", (float)(WIN_WIDTH / 2 + 350.0f), (float)(WIN_HEIGHT * 0.28));
-	Asteroids_Button_Update(&Exit);
+	Asteroids_Button_Update(&ExitBtn);
 }
 
 void Asteroids_Display_LeaderBoard(void)
@@ -330,44 +330,45 @@ void Asteroids_Display_LeaderBoard(void)
 }
 void Asteroids_Controls(void)
 {	
-	overlay_type = CONTROLS_SCREEN;
-	status = false;
+	CP_Engine_SetNextGameState(Asteroids_Help_Screen_Init, Asteroids_Help_Screen_Update, Asteroids_Help_Screen_Exit);
+	//overlay_type = CONTROLS_SCREEN;
+	//status = false;
 
-	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
-	CP_Vector pos8 = CP_Vector_Set((float)WIN_WIDTH - BUTTON_WIDTH, (float)(WIN_HEIGHT / 2)); // Next Page
-	CP_Vector pos9 = CP_Vector_Set(0, (float)(WIN_HEIGHT / 2)); // Prev page
-	CP_Vector mouse;
-	mouse.x = CP_Input_GetMouseX();
-	mouse.y = CP_Input_GetMouseY();
+	//CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
+	//CP_Vector pos8 = CP_Vector_Set((float)WIN_WIDTH - BUTTON_WIDTH, (float)(WIN_HEIGHT / 2)); // Next Page
+	//CP_Vector pos9 = CP_Vector_Set(0, (float)(WIN_HEIGHT / 2)); // Prev page
+	//CP_Vector mouse;
+	//mouse.x = CP_Input_GetMouseX();
+	//mouse.y = CP_Input_GetMouseY();
 
-	if(page1)
-	{
-		CP_Image_Draw(Control_screen, (float)WIN_WIDTH / 2.0f, (float)WIN_HEIGHT / 2.0f, (float)WIN_WIDTH, (float)WIN_HEIGHT, 255);
-		Asteroids_Button_Update(&NextPage);
-		if (mouse.x >= pos8.x && mouse.x <= pos8.x + BUTTON_WIDTH && 
-			mouse.y >= pos8.y && mouse.y <= pos8.y + BUTTON_HEIGHT)
-		{
-			if (CP_Input_MouseClicked())
-			{
-				page1 = false;
-				page2 = true;
-			}
-		}
-	}
-	if (page2)
-	{
-		CP_Image_Draw(Control_screen2, (float)WIN_WIDTH / 2.0f, (float)WIN_HEIGHT / 2.0f, (float)WIN_WIDTH, (float)WIN_HEIGHT, 255);
-		Asteroids_Button_Update(&PrevPage);
-		if (mouse.x >= pos9.x && mouse.x <= pos9.x + BUTTON_WIDTH &&
-			mouse.y >= pos9.y && mouse.y <= pos9.y + BUTTON_HEIGHT)
-		{
-			if (CP_Input_MouseClicked())
-			{
-				page1 = true;
-				page2 = false;
-			}
-		}
-	}
+	//if(page1)
+	//{
+	//	CP_Image_Draw(Control_screen, (float)WIN_WIDTH / 2.0f, (float)WIN_HEIGHT / 2.0f, (float)WIN_WIDTH, (float)WIN_HEIGHT, 255);
+	//	Asteroids_Button_Update(&NextPage);
+	//	if (mouse.x >= pos8.x && mouse.x <= pos8.x + BUTTON_WIDTH && 
+	//		mouse.y >= pos8.y && mouse.y <= pos8.y + BUTTON_HEIGHT)
+	//	{
+	//		if (CP_Input_MouseClicked())
+	//		{
+	//			page1 = false;
+	//			page2 = true;
+	//		}
+	//	}
+	//}
+	//if (page2)
+	//{
+	//	CP_Image_Draw(Control_screen2, (float)WIN_WIDTH / 2.0f, (float)WIN_HEIGHT / 2.0f, (float)WIN_WIDTH, (float)WIN_HEIGHT, 255);
+	//	Asteroids_Button_Update(&PrevPage);
+	//	if (mouse.x >= pos9.x && mouse.x <= pos9.x + BUTTON_WIDTH &&
+	//		mouse.y >= pos9.y && mouse.y <= pos9.y + BUTTON_HEIGHT)
+	//	{
+	//		if (CP_Input_MouseClicked())
+	//		{
+	//			page1 = true;
+	//			page2 = false;
+	//		}
+	//	}
+	//}
 
 }
 
@@ -382,9 +383,9 @@ void Asteroids_Exit_Screen(void)
 		Asteroids_Leaderboard_Exit();
 	}
 
-	//Reset control page display to first page
-	page1 = true;
-	page2 = false;
+	////Reset control page display to first page
+	//page1 = true;
+	//page2 = false;
 }
 
 void Asteroids_MainMenu_CheckInput(void)
