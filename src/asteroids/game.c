@@ -1,3 +1,16 @@
+//---------------------------------------------------------
+// file:	game.c
+// author:	Lee Jia Keat
+// contributors: Bryan Koh Yan Wei, Dania Mohd, Liu Ke
+//
+// brief:	Game scene source file.
+//			Main scene of Asteroids.
+//			Facilitates the gameplay of Asteroids.
+//			Contains code for Initialization, Updating, Checking Input and Debugging the main game.
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
+
 #pragma once
 #include "game.h"
 #include "constants.h"
