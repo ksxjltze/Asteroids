@@ -103,13 +103,12 @@ void Asteroids_Player_Update(Player* player)
 	{
 		Asteroids_Player_Death(player);
 	}
+	particle_update();
 }
 
 void Asteroids_Player_Death(Player* player)
 {
 	//wait for timer then die.
-	float time_left = 3;
-	float dt = CP_System_GetDt();
 
 	//unsigned int x_hours = 0;
 	//unsigned int x_minutes = 0;
@@ -138,17 +137,9 @@ void Asteroids_Player_Death(Player* player)
 
 	//	printf("\nYou have %d seconds left ( %d )\n",time_left,count_down_time_in_secs);
 	//}
-	while (time_left > 0)
-	{
-		time_left -= dt;
-	}
-
-	if (time_left == 0)
-	{
 		//death particles.
-		spawn_death_particles(player->pos, 30, 1, 10, 1);
-		player->active = 0;
-	}
+		//spawn_death_particles(player->pos, 30, 1, 10, 1);
+		draw_player_death_anim(player);
 }
 
 void Asteroids_Player_Hit(Player* player, float damage) //Player hurt
