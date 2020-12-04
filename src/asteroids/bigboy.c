@@ -2,11 +2,8 @@
 #include "collider_circle.h"
 #include "collision_manager.h"
 #include "final_boss.h"
-#include "game.h"
 
 Enemy Boss;
-
-DIFFICULTY ASTEROIDS_GAME_DIFFICULTY;
 
 CP_Image Boss_Sprite[2];
 CP_Image Boss_HurtSprite[2];
@@ -89,11 +86,11 @@ void Asteroids_Enemy_Boss_Spawn(void)
 {
 	Boss.active = 1;
 
-	Boss.speed = ASTEROIDS_ENEMY_BIGBOY_SPEED * (ASTEROIDS_GAME_DIFFICULTY - 1);
+	Boss.speed = ASTEROIDS_ENEMY_BIGBOY_SPEED;
 	Boss.size = Boss_Scale_Factor;
 	Boss.pos = Asteroids_Boss_Random_Spawn_Location();
 
-	Boss.hp.max = ASTEROIDS_ENEMY_BIGBOY_BASE_HP * (ASTEROIDS_GAME_DIFFICULTY - 1);
+	Boss.hp.max = ASTEROIDS_ENEMY_BIGBOY_BASE_HP;
 	Boss.hp.current = Boss.hp.max;
 
 	Boss.rotation = 0;
@@ -179,10 +176,10 @@ void Asteroids_Enemy_Check_Boss_Hp(Enemy* boss, Player player, Enemy enemy_pool[
 	{
 		boss->killed = true;
 		boss->active = false;
+		endgame.end = true;
 		
 		if (split == 0)
 		{
-			endgame.end = true;
 			return;
 		}
 		DeathPos = Boss.pos;
@@ -193,11 +190,7 @@ void Asteroids_Enemy_Check_Boss_Hp(Enemy* boss, Player player, Enemy enemy_pool[
 void Asteroids_Enemy_Boss_Spawn_Interval(void)
 {
 	float dt = CP_System_GetDt();
-	if (!endgame.end)
-	{
-		boss_interval -= dt;
-	}
-
+	boss_interval -= dt;
 	if(boss_interval <= 0)
 	{
 		Asteroids_Enemy_Boss_Spawn();

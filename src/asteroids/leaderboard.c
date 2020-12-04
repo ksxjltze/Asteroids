@@ -19,15 +19,15 @@
 #include "game.h"
 #include "constants.h"
 
-#define SCORE_VARIABLES_COUNT 5
+#define SCORE_VARIABLES_COUNT 6
 const char* filePath = "./Assets/scores.data";
 CP_Vector cameraPos;
 
 Score* highscores;
 static size_t highscore_count;
 static float row_width = 50;
-float offsets[SCORE_VARIABLES_COUNT] = { 100, 250, 400, 550, 750 };
-char labels[SCORE_VARIABLES_COUNT][20] = { "Name", "Kills", "Time", "Difficulty", "Score" };
+float offsets[SCORE_VARIABLES_COUNT] = { 100, 250, 400, 550, 750, 950};
+char labels[SCORE_VARIABLES_COUNT][20] = { "Name", "Kills", "Time", "Difficulty", "Stage", "Score" };
 
 void Asteroids_Leaderboard_Init()
 {
@@ -80,8 +80,9 @@ void Asteroids_Leaderboard_Update()
 		strcpy_s(scoreStrings[0], NAME_MAX_SIZE, highscores[i].name);
 		sprintf_s(scoreStrings[1], 100, "%d", highscores[i].enemy_kill_score);
 		sprintf_s(scoreStrings[2], 100, "%.2fs", highscores[i].time_score);
-		strcpy_s(scoreStrings[3], 20, Asteroids_Leaderboard_Evaluate_Difficulty(highscores[i].difficulty));
-		sprintf_s(scoreStrings[4], 100, "%.d", Asteroids_Leaderboard_Evaluate_Score(highscores[i]));
+		strcpy_s(scoreStrings[3], 20, Asteroids_Leaderboard_Evaluate_Difficulty(highscores[i].difficulty_option));
+		strcpy_s(scoreStrings[4], 20, Asteroids_Leaderboard_Evaluate_Difficulty(highscores[i].stage));
+		sprintf_s(scoreStrings[5], 100, "%.d", Asteroids_Leaderboard_Evaluate_Score(highscores[i]));
 
 		for (int j = 0; j < SCORE_VARIABLES_COUNT; j++)
 		{
@@ -130,6 +131,12 @@ char* Asteroids_Leaderboard_Evaluate_Difficulty(int difficulty)
 		break;
 	case IMPOSSIBLE:
 		strcpy_s(difficultyString, 20, "IMPOSSIBLE");
+		break;
+	case PEPEGA:
+		strcpy_s(difficultyString, 20, "PEPEGA");
+		break;
+	case BRUH:
+		strcpy_s(difficultyString, 20, "BRUH");
 		break;
 	}
 	return difficultyString;
@@ -182,11 +189,11 @@ void Asteroids_Leaderboard_ReadScores()
 				Score score;
 				score.time_score = 0;
 				score.enemy_kill_score = 0;
-				score.difficulty = 0;
+				score.difficulty_option = 0;
 				memset(score.name, 0, NAME_MAX_SIZE);
 
-				int values_read = fscanf_s(scoresFile, "%s %d,%f,%d", score.name, NAME_MAX_SIZE, &score.enemy_kill_score, &score.time_score, &score.difficulty);
-				if (values_read == 4)
+				int values_read = fscanf_s(scoresFile, "%s %d,%f,%d,%d", score.name, NAME_MAX_SIZE, &score.enemy_kill_score, &score.time_score, &score.difficulty_option, &score.stage);
+				if (values_read == SCORE_VARIABLES_COUNT - 1)
 				{
 					highscores[highscore_count] = score;
 					highscores[highscore_count].id = (int)highscore_count;
@@ -221,7 +228,7 @@ void Asteroids_Leaderboard_WriteScores()
 	{
 		for (size_t i = 0; i < highscore_count; i++)
 		{
-			fprintf_s(scoresFile, "%s %d,%f,%d\n", highscores[i].name, highscores[i].enemy_kill_score, highscores[i].time_score, highscores[i].difficulty);
+			fprintf_s(scoresFile, "%s %d,%f,%d,%d\n", highscores[i].name, highscores[i].enemy_kill_score, highscores[i].time_score, highscores[i].difficulty_option, highscores[i].stage);
 		}
 		Asteroids_Close_File(scoresFile);
 	}
@@ -229,7 +236,7 @@ void Asteroids_Leaderboard_WriteScores()
 
 int Asteroids_Leaderboard_Evaluate_Score(Score score)
 {
-	return (int)((score.enemy_kill_score + score.time_score) * score.difficulty);
+	return (int)((score.enemy_kill_score + score.time_score) * score.difficulty_option);
 }
 
 int Asteroids_Leaderboard_Compare_Highscores(void* context, const void* lhs, const void* rhs)

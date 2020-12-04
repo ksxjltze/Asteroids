@@ -1,7 +1,6 @@
 #include "obstacles.h"
 #include "utility.h"
 #include "audio_manager.h"
-#include "final_boss.h"
 
 Obstacle Blackhole;
 Obstacle GammaRay;
@@ -9,14 +8,15 @@ CP_Image Warning;
 
 dot dot_pool[MaxDotParticleArrSize];
 
+float current_lifespan = 1.0f;
 
-float current_lifespan = 0.5f;
-
-static float warning_lifespan = 0.5;
-static float warning_interval;
+static float warning_lifespan = 1.0f;
 static float obstacle_interval;
+static float warning_interval;
 
 static float dot_particle_lifespan;
+
+static bool pause_obstacles;
 
 void Asteroids_Obstacles_Init(void)
 {
@@ -29,37 +29,50 @@ void Asteroids_Obstacles_Init(void)
 
 	obstacle_interval = ASTEROIDS_OBSTACLE_SPAWN_INTERVAL;
 	warning_interval = ASTEROIDS_OBSTACLE_WARNING_INTERVAL;
-	dot_particle_lifespan = ASTEROIDS_OBSTACLES_DOT_PARTICLE_LIFESPAN;
+	dot_particle_lifespan = 1.5f;
 
 	Asteroids_Particle_Dot_Init();
+
+	pause_obstacles = false;
+
 }
 void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_count)
 {
 	float dt = CP_System_GetDt();
-	Asteroids_Obstacle_TimeInterval();
-
-	if (Blackhole.active == true)
+	if (!pause_obstacles)
 	{
-		Blackhole.pos = CP_Vector_Add(Blackhole.pos, CP_Vector_Scale(Blackhole.velocity, dt));
-		Asteroids_Draw_Obstacle(&Blackhole);
-		Asteroids_Check_Collision_Blackhole_Enemy_Player(enemy_pool, player, &Blackhole, enemy_count);
-		Asteroids_Obstacle_Check_LifeSpan(&Blackhole);
-	}
+		Asteroids_Obstacle_TimeInterval();
 
-	if (GammaRay.active)
-	{
-		GammaRay.pos = CP_Vector_Add(GammaRay.pos, CP_Vector_Scale(GammaRay.velocity, dt));
-		Asteroids_Draw_Obstacle(&GammaRay);
-		Asteroids_Obstacle_Check_LifeSpan(&GammaRay);
-		Asteroids_Check_Collision_Gammaray_Enemy_Player(enemy_pool, player, &GammaRay, enemy_count);
-
-		for (int j = 0; j < ASTEROIDS_POOLSIZE_ENEMIES; j++)
+		if (Blackhole.active == true)
 		{
-			if (Asteroids_Collision_CheckCollision_AABB_Circle(GammaRay.Collider, GammaRay.pos, enemy_pool[j].collider, enemy_pool[j].pos))
-				Asteroids_Enemy_Death(&enemy_pool[j]);
+			Blackhole.pos = CP_Vector_Add(Blackhole.pos, CP_Vector_Scale(Blackhole.velocity, dt));
+			Asteroids_Draw_Obstacle(&Blackhole);
+			Asteroids_Check_Collision_Blackhole_Enemy_Player(enemy_pool, player, &Blackhole, enemy_count);
+			Asteroids_Obstacle_Check_LifeSpan(&Blackhole);
 		}
 
+		if (GammaRay.active)
+		{
+			GammaRay.pos = CP_Vector_Add(GammaRay.pos, CP_Vector_Scale(GammaRay.velocity, dt));
+			Asteroids_Draw_Obstacle(&GammaRay);
+			Asteroids_Obstacle_Check_LifeSpan(&GammaRay);
+			Asteroids_Check_Collision_Gammaray_Enemy_Player(enemy_pool, player, &GammaRay, enemy_count);
+			//Asteroids_Check_Collision_Gammaray_Player(player, &GammaRay);
+
+
+			for (int j = 0; j < 100; j++)
+			{
+				if (Asteroids_Collision_CheckCollision_AABB_Circle(GammaRay.Collider, GammaRay.pos, enemy_pool[j].collider, enemy_pool[j].pos))
+					Asteroids_Enemy_Death(&enemy_pool[j]);
+			}
+
+		}
 	}
+		/*if (CP_Input_KeyTriggered(KEY_T))
+		{
+			Asteroids_Obstacle_Spawn_Blackhole();
+		}*/
+	Asteroids_particle_dot_debug();
 }
 
 void Asteroids_Obstacle_Spawn_Blackhole(void)
@@ -169,13 +182,10 @@ void Asteroids_Obstacle_Spawn_Warning(void)
 void Asteroids_Obstacle_TimeInterval(void)
 {
 	float dt = CP_System_GetDt();
-	if (!endgame.end)
-	{
-		obstacle_interval -= dt;
-		warning_interval -= dt;
-	}
+	obstacle_interval -= dt;
+	warning_interval -= dt;
 
-	int rng = CP_Random_RangeInt(0, 1);
+	int rng = CP_Random_RangeInt(1, 1);
 
 	if (warning_interval < 0)
 	{
@@ -285,4 +295,29 @@ void Asteroids_Particle_Dot_Despawn(dot* dot_particle)
 {
 	dot_particle->enabled = false;
 	dot_particle->lifespan = dot_particle_lifespan;
+}
+
+
+void Asteroids_particle_dot_debug(void)
+{
+	CP_Vector posi = Asteroids_Utility_GetWindowMiddle();
+
+	if (CP_Input_KeyDown(KEY_5))
+	{
+		for (int i = 0; i < DotsPerArr; i++)
+		{
+			CP_Image_DrawAdvanced(dot_pool[0].image[i], posi.x += 20, posi.y, 50, 50, 255, 255);
+			CP_Image_DrawAdvanced(dot_pool[1].image[i], posi.x += 20, posi.y + 50.0f, 50, 50, 255, 255);
+
+		}
+	}
+}
+
+void Asteroids_Pause_Obstacles(void)
+{
+	pause_obstacles = true;
+}
+void Asteroids_Resume_Obstacles(void)
+{
+	pause_obstacles = false;
 }
