@@ -5,6 +5,7 @@
 #define getVarName(name) #name
 
 CP_Vector Asteroids_Utility_Generate_Random_Pos();
+CP_Vector Asteroids_Utility_Generate_Random_Pos_Var2(float width, float height);
 CP_Vector Asteroids_Utility_GetWindowMiddle();
 void Asteroids_Utility_Generate_Hurt_Sprite(CP_Image sprite, CP_Image* out);
 bool isMouseOver_Rect(CP_Vector position, float width, float height, float mouseX, float mouseY);

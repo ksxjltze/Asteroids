@@ -49,7 +49,6 @@ void Asteroids_Final_Boss_Init(void)
 
 	final_boss.active = 0;
 	final_boss.id = ASTEROIDS_POOLSIZE_ENEMIES + 1;
-	//fire_rate = ASTEROIDS_FINAL_BOSS_FIRE_RATE;
 
 	bossState.id = ATTACK;
 	bossState.name = "Attack";
@@ -78,14 +77,14 @@ void Asteroids_Final_Boss_Init(void)
 
 	blink_count = 0;
 
-	final_boss.pos = Asteroids_Utility_Generate_Random_Pos();
+	final_boss.pos = Asteroids_Utility_Generate_Random_Pos_Var2(ASTEROIDS_FINAL_BOSS_DIAMETER * 10, ASTEROIDS_FINAL_BOSS_DIAMETER * 10);
 }
 
 void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_count, Bullet bullet_pool[])
 {
-	if (!battleStarted)
+	if (final_boss.killed)
 	{
-		lalala(enemy_pool);
+		Asteroids_Final_Boss_Death_Screen(final_boss, *player);
 	}
 	if (final_boss.active)
 	{
@@ -101,13 +100,9 @@ void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_c
 		Asteroids_Final_Boss_Draw();
 		Asteroids_Final_Boss_Hp_Draw(final_boss);
 	}
-	if (CP_Input_KeyTriggered(KEY_B))
+	if (!battleStarted)
 	{
-		Asteroids_Enemy_Final_Boss_Spawn();
-	}
-	if (final_boss.killed)
-	{
-		Asteroids_Final_Boss_Death_Screen(final_boss);
+		lalala(enemy_pool);
 	}
 }
 
@@ -123,8 +118,10 @@ void Asteroids_Enemy_Final_Boss_Spawn()
 	final_boss.size = 10;
 	final_boss.speed = 0;
 	final_boss.split_count = 0; // no split, game ends when boss DIES
+	
 	final_boss.collider.diameter = final_boss.size * boss_width;
 
+	printf("diameter: %.2f\n", final_boss.collider.diameter);
 	final_boss.sprite_type = CP_Random_RangeInt(0, 1);
 	battleStarted = 1;
 
@@ -145,7 +142,6 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 {
 	
 	float dt = CP_System_GetDt();
-
 	fire_rate -= dt;
 	if (fire_rate <= 0)
 	{
@@ -169,22 +165,25 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 				}
 			}
 		}
-		for (int i = 0; i < ASTEROIDS_FINAL_BOSS_ATTACK_STATE_PROJECTILE_NUM; i++)
+		else 
 		{
-			int lol = ASTEROIDS_FINAL_BOSS_ATTACK_STATE_PROJECTILE_NUM;
-			AngularDisplacement = CP_Matrix_Rotate(-(ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE) * (lol / 2) + ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE * i);
-			Enemy* Boss_Projectile = Asteroids_Enemy_Spawn(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, Final_Boss.pos);
-			if (Boss_Projectile)
+			for (int i = 0; i < ASTEROIDS_FINAL_BOSS_ATTACK_STATE_PROJECTILE_NUM; i++)
 			{
-				Boss_Projectile->parent_id = final_boss.id;
-				Boss_Projectile->id = i;
+				int lol = ASTEROIDS_FINAL_BOSS_ATTACK_STATE_PROJECTILE_NUM;
+				AngularDisplacement = CP_Matrix_Rotate(-(ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE) * (lol / 2) + ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE * i);
+				Enemy* Boss_Projectile = Asteroids_Enemy_Spawn(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, Final_Boss.pos);
+				if (Boss_Projectile)
+				{
+					Boss_Projectile->parent_id = final_boss.id;
+					Boss_Projectile->id = i;
 
-				Boss_Projectile->size = 2 + ((ASTEROIDS_GAME_DIFFICULTY - 1) * 0.2f);
-				printf("%.2f\n", Boss_Projectile->size);
-				Boss_Projectile->velocity = CP_Vector_Subtract (player->pos, Boss_Projectile->pos);
-				Boss_Projectile->velocity = CP_Vector_Normalize(Boss_Projectile->velocity);
-				Boss_Projectile->velocity = CP_Vector_Scale(Boss_Projectile->velocity, ASTEROIDS_FINAL_BOSS_PROJECTILE_SPEED);
-				Boss_Projectile->velocity = CP_Vector_MatrixMultiply(AngularDisplacement, Boss_Projectile->velocity);
+					Boss_Projectile->size = 2 + ((ASTEROIDS_GAME_DIFFICULTY - 1) * 0.2f);
+					printf("%.2f\n", Boss_Projectile->size);
+					Boss_Projectile->velocity = CP_Vector_Subtract (player->pos, Boss_Projectile->pos);
+					Boss_Projectile->velocity = CP_Vector_Normalize(Boss_Projectile->velocity);
+					Boss_Projectile->velocity = CP_Vector_Scale(Boss_Projectile->velocity, ASTEROIDS_FINAL_BOSS_PROJECTILE_SPEED * (((float)ASTEROIDS_GAME_DIFFICULTY - 1) / 2));
+					Boss_Projectile->velocity = CP_Vector_MatrixMultiply(AngularDisplacement, Boss_Projectile->velocity);
+				}
 			}
 		}
 	fire_rate = Asteroids_Final_Boss_FireRate();
@@ -192,6 +191,7 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 }
 bool Asteroids_Final_Boss_Summon_Criteria_Check(void)
 {
+	
 	if (CURRENT_SCORE.lame >= ASTEROIDS_FINAL_BOSS_SUMMON_CRITERIA)
 	{
 		return true;
@@ -247,8 +247,8 @@ void Asteroids_Final_Boss_State_CheckConditions()
 	//}
 	if (CP_Input_KeyDown(KEY_F3))
 	{
-		bossState.id = LEPAK;
-		bossState.name = "Lepak";
+		bossState.id = SLEEP;
+		bossState.name = "SLEEP";
 		bossState.action = &Asteroids_Final_Boss_State_Idle;
 	}
 }
@@ -270,10 +270,12 @@ void Asteroids_Final_Boss_Reset()
 	final_boss.hp.max = 0;
 	final_boss.hp.current = 0;
 	final_boss.speed = 0;
-	final_boss.pos = Asteroids_Utility_Generate_Random_Pos();
+	final_boss.pos = Asteroids_Utility_Generate_Random_Pos_Var2(final_boss.collider.diameter, final_boss.collider.diameter);
+
+	printf("posx: %.2f posy: %.2f\n", final_boss.pos.x, final_boss.pos.y);
+
 	final_boss.size = 0;
 	final_boss.split_count = 0;
-	final_boss.collider.diameter = 0;
 	final_boss.sprite_type = 0;
 	final_boss.killed = false;
 	bossState.id = NONE;
@@ -281,6 +283,7 @@ void Asteroids_Final_Boss_Reset()
 	bossState.action = NULL;
 	battleStarted = 0;
 	blink_count = 0;
+	CURRENT_SCORE.lame = 0;
 }
 
 void Asteroids_Final_Boss_State_Attack(const void* context)
@@ -353,8 +356,8 @@ void Asteroids_Final_Boss_State_Manager(void)
 	//	bossState.name = "Death";
 	//	bossState.id = DEATH;
 	case 2:
-		bossState.id = LEPAK;
-		bossState.name = "Lepak";
+		bossState.id = SLEEP;
+		bossState.name = "Sleep";
 		bossState.action = &Asteroids_Final_Boss_State_Idle;
 		break;
 	case 3:
@@ -403,13 +406,24 @@ void Asteroids_Final_Boss_Enraged(Enemy* Final_Boss, Player* player)
 
 int Asteroids_Final_Boss_Random_State(int old_id)
 {
-	int new_id = CP_Random_RangeInt(2, 6);
-
-	while (new_id == old_id)
+	int new_state = 0;
+	if (ASTEROIDS_GAME_DIFFICULTY >= PEPEGA)
 	{
-		new_id = CP_Random_RangeInt(2, 6);
+		new_state = (CP_Random_RangeInt(ATTACK, ENRAGED));
+		while (new_state == old_id)
+		{
+			new_state = (CP_Random_RangeInt(ATTACK, ENRAGED));
+		}
 	}
-	return new_id;
+	else
+	{
+		new_state = CP_Random_RangeInt(SLEEP, ENRAGED);
+		while (new_state == old_id)
+		{
+			new_state = (CP_Random_RangeInt(ATTACK, ENRAGED));
+		}
+	}
+	return new_state;
 }
 void Asteroids_Final_Boss_State_Change_Manager(void)
 {
@@ -433,14 +447,18 @@ void Asteroids_Final_Boss_Hp_Draw(Enemy Final_Boss)
 	mid.y -= height;
 
 	char boss_hp_buffer[16];
-	sprintf_s(boss_hp_buffer, 16, ":%.0f/%.0f", Final_Boss.hp.current, Final_Boss.hp.max);
+	char boss_state[50];
+	sprintf_s(boss_state, 50, "Current state:  %s", bossState.name);
+	sprintf_s(boss_hp_buffer, 16, "HP: %.0f/%.0f", Final_Boss.hp.current, Final_Boss.hp.max);
 	CP_Settings_TextSize(height);
 	CP_Settings_Fill(CP_Color_Create(244, 244, 244, 255));
 	CP_Graphics_DrawRect(mid.x, mid.y, scale, height);
 	CP_Settings_Fill(CP_Color_Create(255, 204, 229, 255));
 	CP_Graphics_DrawRect(mid.x, mid.y, width, height);
-	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 150));
-	CP_Font_DrawTextBox(boss_hp_buffer, (float)WIN_WIDTH / 2 - (WIN_WIDTH / 11), mid.y + (height / 2), 200);
+	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+	CP_Font_DrawTextBox(boss_hp_buffer, 0, mid.y + height / 2, (float)WIN_WIDTH);
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	CP_Font_DrawTextBox(boss_state, 0, mid.y - height, (float)WIN_WIDTH);
 	
 	if (CP_Input_KeyDown(KEY_F2))
 	{
@@ -449,8 +467,11 @@ void Asteroids_Final_Boss_Hp_Draw(Enemy Final_Boss)
 		FB->hp.current = 1;
 	}
 }
-void Asteroids_Final_Boss_Death_Screen(Enemy Final_Boss)
+void Asteroids_Final_Boss_Death_Screen(Enemy Final_Boss, Player player)
 {
+	Asteroids_MainMenu_Update_Background();
+	Asteroids_MainMenu_Draw_Background();
+
 	float textsize = 50.0f;
 	CP_Vector vec = Asteroids_Utility_GetWindowMiddle();
 	vec.x = (float)(WIN_WIDTH * 0.33);
@@ -465,22 +486,19 @@ void Asteroids_Final_Boss_Death_Screen(Enemy Final_Boss)
 
 	Asteroids_Button_Set_Position(&YesBtn, BtnPos);
 	Asteroids_Button_Set_Position(&NoBtn, BtnPos2);
-	Asteroids_Button_Update(&YesBtn);
-	Asteroids_Button_Update(&NoBtn);
-	Asteroids_MainMenu_Update_Background();
-	Asteroids_MainMenu_Draw_Background();
 
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Font_DrawTextBox("Congratulations!", 0, vec.y, (float)WIN_WIDTH);
 	CP_Font_DrawTextBox("You have defeated the final boss!", 0, vec.y + textsize, (float)WIN_WIDTH);
 	CP_Font_DrawTextBox("Would you like to continue playing?", 0, vec.y + textsize * 2, (float)WIN_WIDTH);
+	Asteroids_Button_Update(&YesBtn);
+	Asteroids_Button_Update(&NoBtn);
 }
 
 void Asteroids_Continue_Game(void)
 {
 	endgame.end = false;
 	Asteroids_Enemy_Enable_Spawn();
-	CURRENT_SCORE.lame = 0;
 	Asteroids_Final_Boss_Reset();
 }
 

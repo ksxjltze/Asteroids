@@ -97,7 +97,6 @@ void Asteroids_Update(void)
 		Asteroids_Enemy_Update(enemy_pool, enemy_count, player);
 		Asteroids_Bullet_Update(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, enemy_pool, enemy_count, player);
 
-		Asteroids_Player_Update(&player);
 
 		if (!debug_mode)
 			Asteroids_Collision_CheckCollision_Enemy_Player(enemy_pool, enemy_count, &player);
@@ -112,15 +111,18 @@ void Asteroids_Update(void)
 		}
 
 		Asteroids_Obstacles_Update(enemy_pool, &player, enemy_count);
-		Asteroids_Final_Boss_Update(&player, enemy_pool, enemy_count, bullet_pool);
-		Asteroids_Draw();
 		Asteroids_Boss_Update(&player, enemy_pool, enemy_count, bullet_pool);
 		Asteroids_Update_Powerups(&player);
 		Asteroids_Particle_Draw_Dot();
 
 		Asteroids_Debug();
-		Asteroids_UI_Update(player);
+		Asteroids_Draw();
+		Asteroids_Final_Boss_Update(&player, enemy_pool, enemy_count, bullet_pool);
 		Asteroids_Draw_Scores();
+		Asteroids_Player_Update(&player);
+		Asteroids_UI_Update(player);
+		Asteroids_Player_Draw(player_sprite, player.pos, player_width, player_height, player.alpha, player_rotation);
+
 
 	}
 }
@@ -156,6 +158,11 @@ void Asteroids_Difficulty_Update()
 
 void Asteroids_Raise_Difficulty()
 {
+	if (ASTEROIDS_GAME_DIFFICULTY >= ASTEROIDS_DIFFICULTY_CAP)
+	{
+		return;
+	}
+
 	Asteroids_Enemy_Spawn_Scale_Interval(ASTEROIDS_GAME_DIFFICULTY);
 	ASTEROIDS_GAME_DIFFICULTY++;
 }
@@ -286,7 +293,6 @@ void Asteroids_Draw()
 
 	Asteroids_Bullet_Draw(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, bullet_sprite, bullet_width, bullet_height);
 	Asteroids_Enemy_Draw(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, enemy_sprites, enemy_hurt_sprites, enemy_width, enemy_height);
-	Asteroids_Player_Draw(player_sprite, player.pos, player_width, player_height, player.alpha, player_rotation);
 }
 
 void Asteroids_Debug_Draw_Text()
