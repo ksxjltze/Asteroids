@@ -5,7 +5,7 @@
 // email:	yanweibryan.koh@digipen.edu
 //			
 // brief:	Code relating to the help screen available at the main menu.
-//
+//			
 //
 // Copyright  2020 DigiPen, All rights reserved.
 //---------------------------------------------------------
@@ -22,6 +22,7 @@
 #define BTN_TEXTSIZE 75
 
 Help_screen screen;
+
 #define FIRST_PAGE 0
 #define LAST_PAGE 4
 

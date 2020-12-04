@@ -8,7 +8,8 @@
 // email:	l.jiakeat@digipen.edu
 //			yanweibryan.koh@digipen.edu
 //
-// brief:	File holding constants for the game
+// brief:	File holding constants for the game so that it does not look like magic nums
+//			
 
 
 // Copyright  2020 DigiPen, All rights reserved.
@@ -21,6 +22,7 @@ const CP_KEY ASTEROIDS_PAUSE_KEY = KEY_ESCAPE;
 const char* ASTEROIDS_ERROR_STR_MISSING_SPRITE = "ERROR - Missing Sprite";
 const float HURT_WINDOW = 0.01f; //seconds
 const float PLAYER_HURT_WINDOW = 1.5f; //seconds
+const float ASTEROIDS_INPUT_BACKSPACE_DELETE_SPEED = 0.05f;
 
 
 
@@ -30,6 +32,8 @@ const float MAX_VELOCITY = 10.0f; //pixels per second
 const float ASTEROIDS_PLAYER_BASE_MOVE_SPEED = 300.0f;
 const float ASTEROIDS_PLAYER_SLOWED_SPEED = 50.0f;
 const int ASTEROIDS_PLAYER_SIMPLE_SPEED = 400;
+
+
 
 
 /*				VFX CONSTANTS								*/
@@ -43,6 +47,7 @@ const float ASTEROIDS_SPRITE_EXPLOSION_DIMENSIONS_SCALE_FACTOR = 0.3f;
 const float ASTEROIDS_WEAPON_RAILGUN_PROJECTILE_SPEED = 400;
 const float ASTEROIDS_WEAPON_RAILGUN_FIRE_RATE = 200.0f; //bullets per minute
 const float ASTEROIDS_WEAPON_RAILGUN_DAMAGE = 1;
+
 
 
 
@@ -182,7 +187,3 @@ const float ASTEROIDS_FINAL_BOSS_ENRAGED_DMG_AMP = 2.0f;
 const float ASTEROIDS_FINAL_BOSS_SLEEP_DMG_REDUCTION = 0.5f;
 const float ASTEROIDS_FINAL_BOSS_SUMMON_ANIMATION_TIMER = 1.0f;
 const float ASTEROIDS_FINAL_BOSS_SUMMON_ANIMATION_COUNT = 3.0f;
-
-
-
-const float ASTEROIDS_INPUT_BACKSPACE_DELETE_SPEED = 0.05f;
