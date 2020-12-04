@@ -208,7 +208,7 @@ void Asteroids_Check_Collision_Gammaray_Enemy_Player(Enemy enemy_pool[], Player*
 {
 	if (Asteroids_Collision_CheckCollision_AABB_Circle(obstacle->Collider, obstacle->pos, player->collider, player->pos))
 	{
-		spawn_explosion_anim(player->pos, obstacle->Collider2.diameter);
+		spawn_explosion_anim(player->pos, 20.0f);
 		obstacle->active = false;
 		player->hp.current -= ASTEROIDS_OBSTACLE_GAMMARAY_DAMAGE;
 	}
@@ -308,12 +308,12 @@ void Asteroids_particle_dot_debug(void)
 		}
 	}
 }
-
-void Asteroids_Pause_Obstacles(void)
-{
-	pause_obstacles = true;
-}
-void Asteroids_Resume_Obstacles(void)
-{
-	pause_obstacles = false;
-}
+//
+//void Asteroids_Pause_Obstacles(void)
+//{
+//	pause_obstacles = true;
+//}
+//void Asteroids_Resume_Obstacles(void)
+//{
+//	pause_obstacles = false;
+//}
