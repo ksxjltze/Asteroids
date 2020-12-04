@@ -35,17 +35,6 @@ struct Smoke
 	float delay;
 }smoke;
 
-#define deathParticles 20
-
-struct Death
-{
-	CP_Image sprite[deathParticles];
-	CP_Vector dimensions;
-	CP_Vector position[deathParticles];
-	CP_Vector velocity[deathParticles];
-	float currentLifespan;
-	float maxLifespan;
-} death;
 
 /// <summary>
 /// Initialize Particles
@@ -119,10 +108,11 @@ void player_death_init()
 		death.velocity[i].x = CP_Random_RangeFloat(-40, 40);
 		death.velocity[i].y = CP_Random_RangeFloat(-40, 40);
 	}
-	death.dimensions.x = (float)CP_Image_GetWidth(death.sprite[0]);
-	death.dimensions.y = (float)CP_Image_GetHeight(death.sprite[0]);
+	death.dimensions.x = (float)CP_Image_GetWidth(death.sprite[0]) * 0.5f;
+	death.dimensions.y = (float)CP_Image_GetHeight(death.sprite[0]) * 0.5f;
 	death.currentLifespan = 5;
 	death.maxLifespan = 5;
+	death.enabled = false;
 
 }
 
@@ -227,22 +217,29 @@ void smoke_velocity(CP_Vector position, int particles, float min_velocity,
 
 void draw_player_death_anim(Player* player)
 {
-	float dt = CP_System_GetDt();
-	death.currentLifespan -= dt;
-	if (death.currentLifespan >= 0)
+	//CP_Vector shit = Asteroids_Utility_GetWindowMiddle();
+	//CP_Image_Draw(death.sprite[0], shit.x, shit.y, 200, 200, 255);
+	if (death.enabled)
 	{
-		for (int i = 0; i < deathParticles; i++)
+		printf("test\n");
+		float dt = CP_System_GetDt();
+		death.currentLifespan -= dt;
+		if (death.currentLifespan >= 0)
 		{
-			death.position[i] = player->pos;
-			death.velocity[i] = CP_Vector_Normalize(death.velocity[i]);
-			death.velocity[i] = CP_Vector_Scale(death.velocity[i], 50.0f * dt);
-			death.position[i] = CP_Vector_Add(death.position[i], death.velocity[i]);
-			CP_Image_Draw(death.sprite[i], death.position[i].x, death.position[i].y, death.dimensions.x, death.dimensions.y, (int)(death.currentLifespan/death.maxLifespan) * 255);
+			for (int i = 0; i < deathParticles; i++)
+			{
+				death.position[i] = player->pos;
+				death.velocity[i] = CP_Vector_Normalize(death.velocity[i]);
+				death.velocity[i] = CP_Vector_Scale(death.velocity[i], 300.0f * dt);
+				death.position[i] = CP_Vector_Add(death.position[i], death.velocity[i]);
+				CP_Image_Draw(death.sprite[i], death.position[i].x, death.position[i].y, death.dimensions.x, death.dimensions.y, 255); // (int)(death.currentLifespan/death.maxLifespan) *
+				printf("%.2f %.2f\n", death.position[i].x, death.position[i].y);
+			}
 		}
-	}
-	if (death.currentLifespan <= 0)
-	{
-		player->active = 0;
+		if (death.currentLifespan <= 0)
+		{
+			player->active = 0;
+		}
 	}
 }
 
