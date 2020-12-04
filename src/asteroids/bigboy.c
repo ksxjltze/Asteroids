@@ -92,7 +92,7 @@ void Asteroids_Enemy_Boss_Spawn(void)
 	Boss.size = Boss_Scale_Factor;
 	Boss.pos = Asteroids_Boss_Random_Spawn_Location();
 
-	Boss.hp.max = ASTEROIDS_ENEMY_BIGBOY_BASE_HP;
+	Boss.hp.max = ASTEROIDS_ENEMY_BIGBOY_BASE_HP * (ASTEROIDS_GAME_DIFFICULTY - 1);
 	Boss.hp.current = Boss.hp.max;
 
 	Boss.rotation = 0;
