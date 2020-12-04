@@ -54,6 +54,7 @@ void Asteroids_Skin_Menu_Update(void)
 	Asteroids_Skin_Menu_Draw();
 }
 
+// function to draw out the skin menu
 void Asteroids_Skin_Menu_Draw(void)
 {
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
@@ -62,6 +63,8 @@ void Asteroids_Skin_Menu_Draw(void)
 	CP_Image_Draw(current_skin.sprite, skinDisplayPos.x, skinDisplayPos.y, ASTEROIDS_PLAYER_SPRITE_WIDTH * displayScaleFactor, ASTEROIDS_PLAYER_SPRITE_HEIGHT * displayScaleFactor, 255);
 
 }
+
+//function to select next skin
 
 void Asteroids_Skin_Menu_Next_Skin(void)
 {
@@ -74,6 +77,8 @@ void Asteroids_Skin_Menu_Next_Skin(void)
 		current_skinID = -1;
 	}
 }
+
+//list of skins installed in the assets folders
 
 void Asteroids_Skin_Menu_Load_Selected_Skin()
 {
