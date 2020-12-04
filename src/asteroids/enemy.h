@@ -1,3 +1,15 @@
+//---------------------------------------------------------
+// file:	enemy.h
+// author:	Lee Jia Keat
+// contributors: Dania (Explosion animation), Liu Ke (Initial code for splitting)
+// email:	l.jiakeat@digipen.edu, 
+//
+// brief:	Enemy entity header file.
+//			Initializes, Updates and Draws Enemy entities (Asteroid).
+//			Provides an interface for damaging, destroying and spawning enemies.
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #pragma once
 #include "cprocessing.h"
 #include "player.h"

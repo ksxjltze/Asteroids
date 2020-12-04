@@ -1,3 +1,15 @@
+//---------------------------------------------------------
+// file:	skin_menu.c
+// author:	Lee Jia Keat
+// contributors: Liu Ke (Additional Skins)
+// email:	l.jiakeat@digipen.edu, 
+//
+// brief:	Skin menu source file.
+//			Handles Initialization, Loading, Selecting and Saving of skins.
+//			Reads and Writes from a specific file to read and save player skins.
+//			Displays a user interface for swapping skins.
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
 #include "skin_menu.h"
 #include "utility.h"
 #include "button.h"

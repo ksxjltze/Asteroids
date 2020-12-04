@@ -164,6 +164,12 @@ void Asteroids_Upgrades_Menu_Upgrade_Add_Level(void* upgradePtr)
 	UpgradeMenuItem* menuItem = (UpgradeMenuItem*)upgradePtr;
 	if (menuItem->upgrade.hasLevel)
 	{
+		if (menuItem->upgrade.level + 1 > menuItem->upgrade.max_level)
+		{
+			printf("Upgrade %s is already at the max level.\n", menuItem->upgrade.name);
+			return;
+		}
+
 		if (Asteroids_Currency_Deduct_Balance(menuItem->upgrade.cost))
 		{
 			Asteroids_Upgrade_Add_Level(menuItem->upgrade.id);

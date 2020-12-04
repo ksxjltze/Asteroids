@@ -19,5 +19,6 @@ typedef struct Weapons
 	float damage;
 	float fire_rate;
 	float projectile_speed;
+	int projectile_count;
 	bool isPiercing;
 } Weapon;

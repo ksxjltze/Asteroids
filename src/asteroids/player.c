@@ -56,6 +56,7 @@ struct Player Asteroids_Player_Init(float player_width, float player_height)
 	Railgun_Base.isPiercing = false;
 
 	player.weapon = Railgun_Base;
+	player.weapon.projectile_count = 1;
 
 	player.status.hit = 0;
 	player.status.hit_cooldown = 0;
@@ -102,13 +103,12 @@ void Asteroids_Player_Update(Player* player)
 	{
 		Asteroids_Player_Death(player);
 	}
+	particle_update();
 }
 
 void Asteroids_Player_Death(Player* player)
 {
 	//wait for timer then die.
-	float time_left = 3;
-	float dt = CP_System_GetDt();
 
 	//unsigned int x_hours = 0;
 	//unsigned int x_minutes = 0;
@@ -137,23 +137,19 @@ void Asteroids_Player_Death(Player* player)
 
 	//	printf("\nYou have %d seconds left ( %d )\n",time_left,count_down_time_in_secs);
 	//}
-	while (time_left > 0)
-	{
-		time_left -= dt;
-	}
-
-	if (time_left == 0)
-	{
 		//death particles.
-		spawn_death_particles(player->pos, 30, 1, 10, 1);
-		player->active = 0;
-	}
+		//spawn_death_particles(player->pos, 30, 1, 10, 1);
+		death.enabled = true;
 }
 
 void Asteroids_Player_Hit(Player* player, float damage) //Player hurt
 {
 	if (!player->status.hit)
 	{
+		if (player->hp.current <= 0)
+		{
+			return;
+		}
 		damage *= ((float)ASTEROIDS_GAME_DIFFICULTY / 4);
 		player->hp.current -= damage;
 		player->alpha = 150;

@@ -1,3 +1,11 @@
+//---------------------------------------------------------
+// file:	button.c
+// author:	Lee Jia Keat
+//
+// brief:	Button system source file.
+//			Handles creation, updating, drawing and executing callbacks for buttons.
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
 #include "button.h"
 #include <stdio.h>
 #include "game.h"

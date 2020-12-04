@@ -1,3 +1,16 @@
+//---------------------------------------------------------
+// file:	game.c
+// author:	Lee Jia Keat
+// contributors: Bryan Koh Yan Wei, Dania Mohd, Liu Ke
+//
+// brief:	Game scene source file.
+//			Main scene of Asteroids.
+//			Facilitates the gameplay of Asteroids.
+//			Contains code for Initialization, Updating, Checking Input and Debugging the main game.
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
+
 #pragma once
 #include "game.h"
 #include "constants.h"
@@ -20,7 +33,6 @@
 #include "final_boss.h"
 #include "leaderboard.h"
 #include "audio_manager.h"
-#include "Camera.h"
 #include "leaderboard.h"
 
 float shoot_cooldown = 0.0f;
@@ -64,7 +76,7 @@ void Asteroids_Init(void)
 	particle_init();
 	explosion_init();
 	smoke_init();
-	
+	player_death_init();
 
 	Asteroids_Entities_Init();
 	Asteroids_Pause_Init();
@@ -107,7 +119,12 @@ void Asteroids_Update(void)
 		//Gameover
 		if (player.active != 1)
 		{
+			//static float timer = 5;
+			//timer -= CP_System_GetDt();
 			CP_Engine_SetNextGameState(Asteroids_GameOver_Init, Asteroids_GameOver_Update, Asteroids_GameOver_Exit);
+			/*if (timer < 0)
+			{
+			}*/
 			CP_Engine_Run();
 		}
 
@@ -123,8 +140,8 @@ void Asteroids_Update(void)
 		Asteroids_Player_Update(&player);
 		Asteroids_UI_Update(player);
 		Asteroids_Player_Draw(player_sprite, player.pos, player_width, player_height, player.alpha, player_rotation);
-
-
+		draw_player_death_anim(&player);
+			;
 	}
 }
 
@@ -191,22 +208,30 @@ void Asteroids_Sprites_Load()
 	if (!player_sprite)
 		player_sprite = CP_Image_Load(ASTEROIDS_PLAYER_SPRITE_PATH_DEFAULT);
 
+	// type of bullets assets
+
 	bullet_sprite = CP_Image_Load("./Assets/bullet_long.png");
+
+	// multiple types of asteroids assets
 
 	enemy_sprites[0] = CP_Image_Load("./Assets/asteroids_cropped.png");
 	enemy_sprites[1] = CP_Image_Load("./Assets/asteroids_small.png");
 	enemy_sprites[2] = CP_Image_Load("./Assets/Largeasteroids.png");
+	enemy_sprites[3] = CP_Image_Load("./Assets/newasteroids.png");
+	enemy_sprites[4] = CP_Image_Load("./Assets/newasteroids2.png");
 
 	for (int i = 0; i < ASTEROIDS_ENEMY_SPRITE_COUNT; i++)
 	{
 		Asteroids_Utility_Generate_Hurt_Sprite(enemy_sprites[i], &enemy_hurt_sprites[i]);
 	}
+	// vector image of health pick up (powerup)
+
 	player_health_sprite = CP_Image_Load("./Assets/heart.png");
 
-	player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
+	// player positions and sizes
 
-	player_width = (float)CP_Image_GetWidth(player_sprite) * 2;
-	player_height = (float)CP_Image_GetHeight(player_sprite) * 2;
+	the_player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
+
 	player_width = ASTEROIDS_PLAYER_SPRITE_WIDTH;
 	player_height = ASTEROIDS_PLAYER_SPRITE_HEIGHT;
 

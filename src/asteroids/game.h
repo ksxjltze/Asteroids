@@ -1,13 +1,26 @@
+//---------------------------------------------------------
+// file:	game.h
+// author:	Lee Jia Keat
+// contributors: Bryan Koh Yan Wei, Dania Mohd, Liu Ke
+//
+// brief:	Game scene header file.
+//			Main scene of Asteroids.
+//			Facilitates the gameplay of Asteroids.
+//			Contains code for Initialization, Updating, Checking Input and Debugging the main game.
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #pragma once
 #include "cprocessing.h" //CProcessing Framework, used to Render sprites and perform game logic (e.g. Vectors)
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "player.h"
 
-#define ASTEROIDS_POOLSIZE_BULLETS 9999
-#define ASTEROIDS_POOLSIZE_ENEMIES 600
-#define ASTEROIDS_ENEMY_SPRITE_COUNT 3
+#define ASTEROIDS_POOLSIZE_BULLETS 19999
+#define ASTEROIDS_POOLSIZE_ENEMIES 650
+#define ASTEROIDS_ENEMY_SPRITE_COUNT 5
 
 typedef int DIFFICULTY;
 enum DIFFICULTY_TYPE {EASY = 1, NORMAL, HARD, INSANE, IMPOSSIBLE, PEPEGA, BRUH};

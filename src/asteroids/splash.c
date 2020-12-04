@@ -1,3 +1,13 @@
+//---------------------------------------------------------
+// file:	splash.c
+// author:	Lee Jia Keat
+// email:	l.jiakeat@digipen.edu, 
+//
+// brief:	Splash screen source file.
+//			Draws the DigiPen splash logo for a specified duration.
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #pragma once
 #include "constants.h"
 #include "splash.h"

@@ -1,3 +1,16 @@
+//---------------------------------------------------------
+// file:	main_menu.c
+// author:	Bryan Koh Yan Wei
+// contributors: Lee Jia Keat (Difficulty, Skin, Leaderboard and Upgrade Menus), Liu Ke (UI Design)
+// email:	, l.jiakeat@digipen.edu, 
+//
+// brief:	Main menu source file.
+//			Handles Initialization, Updating and Drawing of the Main Menu/Title Screen.
+//			Contains functions to display other sub menus (overlays) as well as buttons to toggle them.
+//			Is the entry point into the main game, as well as the screen where settings such as difficulty can be set from.
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #include "main_menu.h"
 #include "difficulty_menu.h"
 #include "skin_menu.h"
@@ -6,16 +19,15 @@
 #include "audio_manager.h"
 #include "leaderboard.h"
 #include <stdbool.h>
-#include "Camera.h"
 #include "help.h"
 
-#define BUTTON_WIDTH 500.0f
-#define BUTTON_HEIGHT 100.0f
+#define BUTTON_WIDTH 400.0f
+#define BUTTON_HEIGHT 80.0f
 
 bool status;
 static int overlay_type;
 
-static bool ONOFF;
+bool Playmusic = true;
 
 bool page1;
 bool page2;
@@ -36,6 +48,7 @@ CP_Image Control_screen2;
 CP_Image Credits_screen;
 CP_Image Chosenship;
 CP_Image Volumebutton;
+CP_Image Tutorialbutton;
 
 CP_Image backgroundImage;
 
@@ -75,7 +88,6 @@ void Asteroids_MainMenu_Init(void)
 	Asteroids_Skin_Menu_Init();
 	Asteroids_Audio_Manager_Init();
 	Asteroids_Audio_MainMenu_BGM_Play();
-	Camera_Initialize();
 }
 
 
@@ -84,27 +96,7 @@ void Asteroids_MainMenu_Update(void)
 	CP_Settings_Background(backgroundColor);
 	Asteroids_MainMenu_Update_Background();
 	Asteroids_Draw_MainMenu();
-	float dt = CP_System_GetDt();
-	float cam_spd = 100.0f;
-	Camera_Update(dt);
-	if (CP_Input_KeyDown(KEY_P)) {
-		Camera_Shake(500.0f);
-	}
-	if (CP_Input_KeyDown(KEY_W)) {
-		Camera_SetY(Camera_GetY() - cam_spd * dt);
-	}
-	if (CP_Input_KeyDown(KEY_A)) {
-		Camera_SetX(Camera_GetX() - cam_spd * dt);
-	}
-	if (CP_Input_KeyDown(KEY_S)) {
-		Camera_SetY(Camera_GetY() + cam_spd * dt);
-	}
-	if (CP_Input_KeyDown(KEY_D)) {
-		Camera_SetX(Camera_GetX() + cam_spd * dt);
-	}
-	if (CP_Input_KeyDown(KEY_I)) {
-		Camera_SetRotation(Camera_GetRotation() + 100.0f * dt);
-	}
+	
 }
 
 void Asteroids_MainMenu_Exit(void)
@@ -175,7 +167,6 @@ void Asteroids_Draw_MainMenu(void)
 void Asteroids_MainMenu_Draw_Current_Ship()
 {
 	CP_Vector position = (CP_Vector){ (float)WIN_WIDTH / 2.0f, (float)WIN_HEIGHT / 2.0f };
-	position = CP_Vector_MatrixMultiply(Camera_GetCameraTransform(), position);
 	CP_Image_DrawAdvanced(current_skin.sprite, position.x, position.y , 5 * ASTEROIDS_PLAYER_SPRITE_WIDTH, 5 * ASTEROIDS_PLAYER_SPRITE_HEIGHT, 255, Asteroids_MainMenu_Rotation_Towards_Mouse());
 
 }
@@ -201,9 +192,9 @@ void Asteroids_MainMenu_Button_Init(void)
 	CP_Vector pos2 = CP_Vector_Set(x1, y2+30);
 	CP_Vector pos3 = CP_Vector_Set(x1, y3+60);
 	CP_Vector pos4 = CP_Vector_Set(x2, y1);
-	CP_Vector pos5 = CP_Vector_Set(x2, y2+30);
+	CP_Vector pos5 = CP_Vector_Set(x2, y2+30); 
 	CP_Vector pos10 = CP_Vector_Set(x2, y3+60); // Prev page
-	CP_Vector pos11 = CP_Vector_Set(x1, y2-240); //vol button
+	CP_Vector pos11 = CP_Vector_Set(x1, y2-290); //vol button
 
 	// Exit Button
 	CP_Vector pos6 = CP_Vector_Set((float)(((float)WIN_WIDTH / 2 - BUTTON_WIDTH / 2)), (float)(WIN_HEIGHT - BUTTON_HEIGHT));
@@ -227,7 +218,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	NextPage = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	PrevPage = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	UpgradesBtn = Asteroids_Button_Add_New_Button(BUTTON_WIDTH - 100.0f , BUTTON_HEIGHT - 40.0f);
-	Volume = Asteroids_Button_Add_New_Button(BUTTON_WIDTH , BUTTON_HEIGHT );
+	Volume = Asteroids_Button_Add_New_Button(BUTTON_WIDTH - 150.0f , BUTTON_HEIGHT );
 
 	Asteroids_Button_Set_Text(&Play, textSize, "Play");
 	Asteroids_Button_Set_Text(&Controls, textSize, "Help");
@@ -282,20 +273,13 @@ void Asteroids_Menu_Display_UpgradesMenu(void)
 void Asteroids_Menu_Display_VolumeONOFF(void)
 {
 	
-	status = true;
-	overlay_type = VOL_BUTTON;
-	Asteroids_Audio_MainMenu_BGM_Play();
-
-	//.if (Volume == 1 )
-	if (ONOFF)
-	{
-		ONOFF = !ONOFF;
-		Asteroids_Audio_MainMenu_BGM_STOP();
-
-	}
-	else if (ONOFF == true)
+	if (Playmusic == false)
 	{
 		Asteroids_Audio_MainMenu_BGM_Play();
+	}
+	else
+	{
+		Asteroids_Audio_MainMenu_BGM_STOP();
 	}
 
 }
