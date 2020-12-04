@@ -27,7 +27,7 @@
 static Weapon Railgun_Base;
 static Weapon Laser_Base;
 
-struct Player Asteroids_Player_Init(float player_width, float player_height, bool is_apply_ugprades)
+struct Player Asteroids_Player_Init(float player_width, float player_height)
 {
 	struct Player player;
 	strcpy_s(player.name, 10, "Asteroids");
@@ -61,10 +61,7 @@ struct Player Asteroids_Player_Init(float player_width, float player_height, boo
 	player.status.hit = 0;
 	player.status.hit_cooldown = 0;
 
-	player.rotation = 0;
-
-	if (is_apply_ugprades)
-		Asteroids_Upgrades_Apply_Upgrades(&player);
+	Asteroids_Upgrades_Apply_Upgrades(&player);
 	spawn_smoke_trail_anim(player.pos, 0.3f);	//Dania
 	return player;
 }

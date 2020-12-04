@@ -35,6 +35,7 @@ CP_Image player_health_sprite;
 //player
 float player_width;
 float player_height;
+float player_rotation;
 
 float bullet_width;
 float bullet_height;
@@ -97,6 +98,7 @@ void Asteroids_Update(void)
 
 		Asteroids_Enemy_Update(enemy_pool, enemy_count, the_player);
 		Asteroids_Bullet_Update(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, enemy_pool, enemy_count, the_player);
+
 
 		if (!debug_mode)
 			Asteroids_Collision_CheckCollision_Enemy_Player(enemy_pool, enemy_count, &the_player);
