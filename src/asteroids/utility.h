@@ -1,8 +1,19 @@
+#pragma once
+//---------------------------------------------------------
+// file:	utility.h
+// author:	Lee Jia Keat
+//
+// email:	l.jiakeat@digipen.edu, 
+//
+// brief:	Utility file which contains helper functions used often in the code base.
+//			
+// 
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
 #include <stdlib.h>
 #include <stdbool.h>
 #include "cprocessing.h"
 #include "constants.h"
-#define getVarName(name) #name
 
 CP_Vector Asteroids_Utility_Generate_Random_Pos();
 CP_Vector Asteroids_Utility_Generate_Random_Pos_Var2(float width, float height);

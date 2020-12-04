@@ -1,3 +1,15 @@
+//---------------------------------------------------------
+// file:	utility.c
+// author:	Lee Jia Keat
+//
+// email:	l.jiakeat@digipen.edu, 
+//
+// brief:	Utility file which contains helper functions used often in the code base.
+//			
+// 
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #include "utility.h"
 #include <stdio.h>
 
@@ -87,8 +99,6 @@ void Asteroids_Utility_Generate_Blue_Sprite(CP_Image sprite, CP_Image* out)
 			}
 				
 		}
-		printf("\n");
-
 	}
 
 	CP_Image image = CP_Image_CreateFromData(CP_Image_GetWidth(sprite), CP_Image_GetHeight(sprite), pixels);

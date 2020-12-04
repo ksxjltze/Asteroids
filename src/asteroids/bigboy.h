@@ -1,4 +1,21 @@
 #pragma once
+//---------------------------------------------------------
+// file:	bigboy.c
+// author:	Bryan Koh Yan Wei
+//
+// email:	yanweibryan.koh@digipen.edu
+//
+// brief:	Spawns a super asteroid enemy after every 60s.
+//			Boss may spawn on any side of the screen.
+//			Kills the player instantly upon contact.
+//			Creates a shockwave which kills every asteroid on the field upon death.
+//			Hp scales with difficulty as time progresses.
+//			
+//
+//
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #include "enemy.h"
 #include "utility.h"
 #include "player.h"

@@ -35,11 +35,6 @@ extern bool invulnerable = false;
 extern bool bullet_split = false;
 extern bool BPM = false;
 
-//extern struct powerup
-//{
-//	bool powerup_lifespan;
-//}
-
 enum Asteroids_Powerup_Type { ASTEROIDS_POWERUP_FUEL_PICKUP = 5 };
 
 CP_Image Powerup_Bulletsplit_Sprite;
@@ -105,11 +100,6 @@ void Asteroids_Update_Powerups(struct Player* player) // draws and checks every 
 	Asteroids_Powerup_Player_Invulernability(player); //Draw invulnerability circle if invulnerable 
 
 	Asteroids_Floating_Powerup_Lifespan_Manager(); // spawn random powerup every 10s
-	if (CP_Input_KeyTriggered(KEY_F1)) //debug
-	{
-		player->hp.current = player->hp.max;
-		invulnerable = true;
-	}
 }
 
 void Asteroids_Draw_Powerup(int type, CP_Vector* pos, CP_Vector movement_vel, float* rotation)  // Draws specific powerup based on a random count
@@ -147,8 +137,7 @@ void Asteroids_Draw_Powerup(int type, CP_Vector* pos, CP_Vector movement_vel, fl
 
 int Asteroids_Generate_Random_Powerup(void) //Returns random powerup type
 {
-	int random_powerup = CP_Random_RangeInt(POWERUP_MIN_VALUE, POWERUP_MAX_VALUE);
-	return random_powerup;
+	return CP_Random_RangeInt(POWERUP_MIN_VALUE, POWERUP_MAX_VALUE);
 }
 
 void Asteroids_Generate_Powerup_On_Enemy_Death(CP_Vector position) //Guarded by RNG fnc, initialize powerup if rng is beaten
@@ -188,7 +177,6 @@ void Asteroids_Floating_Powerup_Lifespan_Manager(void)	// tracks time life of po
 
 void Asteroids_Spawn_Floating_Powerup(void)	// Initialize variables for floating stuff
 {
-	//kinda whack, why do i have this. maybe i i'll change dis
 	for(int i = 0; i < POWERUP_MAX_SIZE; i++)
 	{
 		if (!powerup_pool[i].active && !powerup_pool[i].effect) //if inactive and effect not running, spawn.
@@ -264,10 +252,8 @@ void Asteroids_Checkpowerup_Location(Powerup* powerup)
 
 int Asteroids_Powerup_RNG(void)
 {
-	int rng = CP_Random_RangeInt(1, 50); // 2%
-	return rng;
+	return CP_Random_RangeInt(1, 50); // 2%
 }
-
 void Asteroids_Powerup_Interact_Fuel_Pickup(Player* player)
 {
 	Asteroids_Player_Refuel(ASTEROIDS_PLAYER_FUEL_REFUEL_AMOUNT, player);
@@ -318,5 +304,5 @@ void Asteroids_Powerup_Lifespan_Manager(Powerup* powerup)
 void Asteroids_Powerup_Reset(Powerup* powerup)
 {
 	powerup->active = false;
-	powerup->effect = false; // just to play safe
+	powerup->effect = false;
 }

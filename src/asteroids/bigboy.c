@@ -1,3 +1,20 @@
+//---------------------------------------------------------
+// file:	bigboy.c
+// author:	Bryan Koh Yan Wei
+//
+// email:	yanweibryan.koh@digipen.edu
+//
+// brief:	Spawns a super asteroid enemy after every 60s.
+//			Boss may spawn on any side of the screen.
+//			Kills the player instantly upon contact.
+//			Creates a shockwave which kills every asteroid on the field upon death.
+//			Hp scales with difficulty as time progresses.
+//			
+//
+//
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #include "bigboy.h"
 #include "collider_circle.h"
 #include "collision_manager.h"
@@ -69,10 +86,6 @@ void Asteroids_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_count, 
 			Asteroids_Player_Death(player);
 		}
 	}
-	/*if (CP_Input_KeyTriggered(KEY_9))
-	{
-		Asteroids_Enemy_Boss_Spawn();
-	}*/
 	if (Boss.killed)
 	{
 		Asteroids_Enemy_Boss_Death_Circle(&Boss, *player, enemy_pool, Boss.split_count);
@@ -137,7 +150,7 @@ CP_Vector Asteroids_Boss_Random_Spawn_Location(void)
 	float x2 = (float)WIN_WIDTH / 2;
 	float y2 = 0 - (float)ASTEROIDS_ENEMY_BASE_DIAMETER * Boss.size / 2;
 
-	// Bottom of screen?
+	// Bottom of screen
 	float x3 = x2;
 	float y3 = (float)WIN_HEIGHT + ASTEROIDS_ENEMY_BASE_DIAMETER * Boss.size / 2;
 

@@ -1,4 +1,18 @@
 #pragma once
+//---------------------------------------------------------
+// file:	score.h
+// author:	Bryan Koh Yan Wei
+//
+// email:	yanweibryan.koh@digipen.edu
+//
+// brief:	Calculates the timed score and kill score.
+//			Draws the scores onto the screen.
+//			Contains variable for the playthrough which is used on the leaderboard.
+//			
+//
+//
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
 #include "cprocessing.h"
 #include <stdio.h>
 
