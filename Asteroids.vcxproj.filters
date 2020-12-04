@@ -177,9 +177,6 @@
     <ClCompile Include="src\asteroids\main_menu.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\asteroids\health.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\asteroids\user_interface.c">
       <Filter>Source Files</Filter>
     </ClCompile>
