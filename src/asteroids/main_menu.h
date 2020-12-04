@@ -30,6 +30,7 @@ void Asteroids_Credits(void);
 void Asteroids_Display_LeaderBoard(void);
 void Asteroids_Exit_Screen(void);
 void Asteroids_Menu_Display_VolumeONOFF(void);
+void Asteroids_Menu_Display_Tutorialplay(void);
 
 //BACKGROUND
 void Asteroids_MainMenu_Update_Background(void);
