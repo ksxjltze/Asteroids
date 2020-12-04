@@ -130,18 +130,14 @@ void Asteroids_Bullet_Powerup_Split(Bullet bullets[], int count, Player player, 
 {
 	if (!bullet_split)
 		return;
-
-	CP_Matrix Rotate1 = CP_Matrix_Rotate(ASTEROIDS_POWERUP_BULLET_SPLIT_ANGLE);
-	CP_Matrix Rotate2 = CP_Matrix_Rotate(-ASTEROIDS_POWERUP_BULLET_SPLIT_ANGLE);
-
-	CP_Vector split_1 = shoot_direction;
-	CP_Vector split_2 = shoot_direction;
-
-	split_1 = CP_Vector_MatrixMultiply(Rotate1, split_1);
-	split_2 = CP_Vector_MatrixMultiply(Rotate2, split_2);
-
-	Asteroids_Bullet_Spawn(bullets, count, player, split_1);
-	Asteroids_Bullet_Spawn(bullets, count, player, split_2);
+	if (player.weapon.projectile_count > 1)
+	{
+		Asteroids_Bullet_Split(bullets, count, player.weapon.projectile_count, ASTEROIDS_POWERUP_BULLET_SPLIT_ANGLE, player, shoot_direction);
+	}
+	else
+	{
+		Asteroids_Bullet_Split(bullets, count, 3, ASTEROIDS_POWERUP_BULLET_SPLIT_ANGLE, player, shoot_direction);
+	}
 }
 
 void Asteroids_Bullet_Split(Bullet bullets[], int pool_size, int bullet_count, float angle, Player player, CP_Vector shoot_direction)
