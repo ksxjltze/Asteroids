@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include "Camera.h"
 #include "help.h"
+#include "tutorial.h"
 
 #define BUTTON_WIDTH 400.0f
 #define BUTTON_HEIGHT 80.0f
@@ -30,7 +31,7 @@ static CP_Color textColor;
 static float menuTextSize;
 static char* menuText = "Asteroids";
 
-Button Credits, Play, Quit, Leaderboard, Controls, Exit, DifficultyBtn, SkinsBtn, NextPage, PrevPage, UpgradesBtn, Volume, Tutorial;
+Button Credits, Play, Quit, Leaderboard, Controls, ExitBtn, DifficultyBtn, SkinsBtn, NextPage, PrevPage, UpgradesBtn, Volume, Tutorial;
 CP_Image Control_screen;
 CP_Image Control_screen2;
 CP_Image Credits_screen;
@@ -287,7 +288,9 @@ void Asteroids_Menu_Display_UpgradesMenu(void)
 }
 
 void Asteroids_Menu_Display_Tutorialplay(void)
-{};
+{
+	CP_Engine_SetNextGameState(Asteroids_Tutorial_Init, Asteroids_Tutorial_Update, Asteroids_Tutorial_Exit);
+};
 
 void Asteroids_Menu_Display_VolumeONOFF(void)
 {

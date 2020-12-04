@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "player.h"
 
 #define ASTEROIDS_POOLSIZE_BULLETS 9999
 #define ASTEROIDS_POOLSIZE_ENEMIES 600
@@ -20,7 +21,7 @@ void Asteroids_Update(void);
 void Asteroids_Exit(void);
 void Asteroids_Cleanup(void);
 
-void Asteroids_Check_Input();
+void Asteroids_Check_Input(Player* player);
 
 void Asteroids_Draw();
 void Asteroids_FPS_Draw();
@@ -31,7 +32,7 @@ void Asteroids_Debug_Check_Input();
 void Asteroids_Sprites_Load();
 void Asteroids_Entities_Init();
 
-void Asteroids_Player_Rotate(CP_Vector direction);
+void Asteroids_Player_Rotate(Player* player, CP_Vector direction);
 
 void Asteroids_Cooldown_Update();
 

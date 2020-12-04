@@ -13,7 +13,7 @@ State tutorialState;
 
 enum tutorialStateType { TUTORIAL_MOVE };
 
-void Asteroids_Tutorial_Init()
+void Asteroids_Tutorial_Init(void)
 {
 	player_sprite = CP_Image_Load(ASTEROIDS_PLAYER_SPRITE_PATH_DEFAULT);
 	player = Asteroids_Player_Init(ASTEROIDS_PLAYER_SPRITE_WIDTH, ASTEROIDS_PLAYER_SPRITE_HEIGHT, false);
@@ -25,11 +25,19 @@ void Asteroids_Tutorial_Init()
 	Asteroids_Audio_Manager_Init();
 }
 
-void Asteroids_Tutorial_Update()
+void Asteroids_Tutorial_Update(void)
 {
+	Asteroids_Check_Input(&player);
 	Asteroids_Player_Update(&player);
-	Asteroids_Player_Draw(player_sprite, player.pos, ASTEROIDS_PLAYER_SPRITE_WIDTH, ASTEROIDS_PLAYER_SPRITE_HEIGHT, 255, player.rotation);
 	Asteroids_Tutorial_State_Update();
+
+	Asteroids_Tutorial_Draw();
+	Asteroids_Player_Draw(player_sprite, player.pos, ASTEROIDS_PLAYER_SPRITE_WIDTH, ASTEROIDS_PLAYER_SPRITE_HEIGHT, 255, player.rotation);
+}
+
+void Asteroids_Tutorial_Draw(void)
+{
+	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
 }
 
 void Asteroids_Tutorial_State_Update()
@@ -50,7 +58,7 @@ void Asteroids_Tutorial_DrawText(CP_Vector pos, const char* text)
 	CP_Font_DrawTextBox(text, pos.x, pos.y, text_row_width);
 }
 
-void Asteroids_Tutorial_Exit()
+void Asteroids_Tutorial_Exit(void)
 {
 	Asteroids_Audio_Manager_Exit();
 }
