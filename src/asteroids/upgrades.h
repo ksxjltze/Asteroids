@@ -23,6 +23,7 @@ typedef struct Upgrades
 	int cost;
 	unsigned int id;
 	unsigned int level;
+	unsigned int max_level;
 	bool hasLevel;
 	bool activated;
 }Upgrade;
@@ -44,3 +45,4 @@ void Asteroids_Upgrades_Save_All_To_File(void);
 void Asteroids_Upgrades_Read_From_File(void);
 void Asteroids_Upgrades_Set_Upgrade_Name(Upgrade* upgrade);
 void Asteroids_Upgrades_Apply_Upgrades(Player* player);
+void Asteroids_Upgrades_Upgrade_Set_Max_Level(unsigned int id, unsigned int level);

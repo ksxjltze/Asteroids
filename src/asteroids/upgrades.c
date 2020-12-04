@@ -29,6 +29,7 @@ void Asteroids_Upgrades_Init(void)
 		upgrades[i].level = 0;
 		upgrades[i].name = "NONE";
 		upgrades[i].hasLevel = false;
+		upgrades[i].max_level = 999;
 	}
 
 	Asteroids_Upgrades_Read_From_File();
@@ -43,6 +44,18 @@ void Asteroids_Upgrades_Init(void)
 	Asteroids_Upgrades_Upgrade_Disable_Levels(PIERCING);
 
 	Asteroids_Upgrades_Create_Upgrade(MULTISHOT, ASTEROIDS_UPGRADES_MULTISHOT_UPGRADE_COST, "Multishot");
+	Asteroids_Upgrades_Upgrade_Set_Max_Level(MULTISHOT, 360 / 10);
+}
+
+void Asteroids_Upgrades_Upgrade_Set_Max_Level(unsigned int id, unsigned int level)
+{
+	for (int i = 0; i < NUM_UPGRADES; i++)
+	{
+		if (upgrades[i].id == id)
+		{
+			upgrades[i].max_level = level;
+		}
+	}
 }
 
 void Asteroids_Upgrades_Create_Upgrade(unsigned int id, int cost, const char* name)
@@ -143,6 +156,12 @@ void Asteroids_Upgrade_Add_Level(unsigned int id)
 	{
 		if (upgrades[i].id == id)
 		{
+			if (upgrades[i].id > upgrades[i].max_level)
+			{
+				printf("Upgrade %s has reached the max level.\n", upgrades[i].name);
+				return;
+			}
+
 			if (!upgrades[i].hasLevel)
 			{
 				printf("Upgrade %s has no levels.\n", upgrades[i].name);
