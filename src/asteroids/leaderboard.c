@@ -20,6 +20,7 @@
 
 #define SCORE_VARIABLES_COUNT 5
 const char* filePath = "./Assets/scores.data";
+CP_Vector cameraPos;
 
 Score* highscores;
 static size_t highscore_count;
@@ -31,10 +32,13 @@ void Asteroids_Leaderboard_Init()
 	highscores = NULL;
 	highscore_count = 0;
 	Asteroids_Leaderboard_ReadScores();
+	cameraPos = CP_Vector_Zero();
 }
 
 void Asteroids_Leaderboard_Update()
 {
+	Asteroids_Leaderboard_Check_Input();
+
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, CP_TEXT_ALIGN_V_BASELINE);
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
@@ -42,12 +46,15 @@ void Asteroids_Leaderboard_Update()
 
 	for (int i = 0; i < SCORE_VARIABLES_COUNT; i++)
 	{
-		CP_Font_DrawText(labels[i], offsets[i], 50);
+		CP_Vector pos = CP_Vector_Set(offsets[i], 50);
+		pos = CP_Vector_MatrixMultiply(CP_Matrix_Translate(cameraPos), pos);
+		CP_Font_DrawText(labels[i], pos.x, pos.y);
 	}
 
 	for (size_t i = 0; i < highscore_count; i++)
 	{
 		CP_Vector pos = CP_Vector_Set(103, ((float)i + 1) * 50 + 40);
+		pos = CP_Vector_MatrixMultiply(CP_Matrix_Translate(cameraPos), pos);
 
 		char scoreStrings[SCORE_VARIABLES_COUNT][100];
 		for (int j = 0; j < SCORE_VARIABLES_COUNT; j++)
@@ -68,6 +75,14 @@ void Asteroids_Leaderboard_Update()
 
 	}
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
+}
+
+void Asteroids_Leaderboard_Check_Input()
+{
+	if (CP_Input_MouseWheel() != 0)
+	{
+		cameraPos.y += CP_Input_MouseWheel() * 100;
+	}
 }
 
 char* Asteroids_Leaderboard_Evaluate_Difficulty(int difficulty)

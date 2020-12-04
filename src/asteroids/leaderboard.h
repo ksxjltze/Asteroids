@@ -17,6 +17,7 @@
 void Asteroids_Leaderboard_Init();
 void Asteroids_Leaderboard_Update();
 void Asteroids_Leaderboard_Exit();
+void Asteroids_Leaderboard_Check_Input();
 
 void Asteroids_Leaderboard_Insert_Score(Score score);
 Score* Asteroids_Leaderboard_GetScores();
