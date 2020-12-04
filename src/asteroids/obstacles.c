@@ -8,9 +8,9 @@ CP_Image Warning;
 
 dot dot_pool[MaxDotParticleArrSize];
 
-float current_lifespan = 1.0f;
+float current_lifespan = 0.5f;
 
-static float warning_lifespan = 1.0f;
+static float warning_lifespan = 0.5f;
 static float obstacle_interval;
 static float warning_interval;
 
@@ -292,7 +292,6 @@ void Asteroids_Particle_Dot_Despawn(dot* dot_particle)
 	dot_particle->enabled = false;
 	dot_particle->lifespan = dot_particle_lifespan;
 }
-
 
 void Asteroids_particle_dot_debug(void)
 {

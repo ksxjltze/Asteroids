@@ -81,7 +81,6 @@ void Asteroids_Update_Powerups(struct Player* player) // draws and checks every 
 		if (powerup_pool[i].effect == true) // Update every frame if powerup effect is running
 		{
 			Asteroids_Powerup_Lifespan_Manager(&powerup_pool[i]);
-			printf("lifespan: %.2f\n", powerup_pool[i].lifespan);
 		}
 		if (powerup_pool[i].active == true) // Update every frame if power up is on screen
 		{
@@ -253,7 +252,7 @@ void Asteroids_Checkpowerup_Location(Powerup* powerup)
 
 int Asteroids_Powerup_RNG(void)
 {
-	int rng = CP_Random_RangeInt(1, 20);
+	int rng = CP_Random_RangeInt(1, 50); // 2%
 	return rng;
 }
 
