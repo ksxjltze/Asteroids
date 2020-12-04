@@ -183,7 +183,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	float x1 = (float)((WIN_WIDTH / 3.5) - BUTTON_WIDTH);
 	float x2 = (float)(WIN_WIDTH / 1.4);
 
-	float y2 = (float)(WIN_HEIGHT / 2 - (BUTTON_HEIGHT / 2)); // middle 
+	float y2 = (float)((float)WIN_HEIGHT / 2 - (BUTTON_HEIGHT / 2)); // middle 
 	float y1 = y2 - BUTTON_HEIGHT;
 	float y3 = y2 + BUTTON_HEIGHT;
 
@@ -197,7 +197,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	CP_Vector pos11 = CP_Vector_Set(x1, y2-290); //vol button
 
 	// Exit Button
-	CP_Vector pos6 = CP_Vector_Set((float)((WIN_WIDTH / 2 - BUTTON_WIDTH / 2)), (float)(WIN_HEIGHT - BUTTON_HEIGHT));
+	CP_Vector pos6 = CP_Vector_Set((float)(((float)WIN_WIDTH / 2 - BUTTON_WIDTH / 2)), (float)(WIN_HEIGHT - BUTTON_HEIGHT));
 
 	// Difficulty Button
 	CP_Vector pos7 = CP_Vector_Set((float)WIN_WIDTH - 300 , 50);
@@ -319,7 +319,7 @@ void Asteroids_Credits(void)
 
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 20));
 	CP_Settings_TextSize(50.0f);
-	CP_Font_DrawText("Ty for carry", (float)(WIN_WIDTH / 2 + 350.0f), (float)(WIN_HEIGHT * 0.28));
+	CP_Font_DrawText("Ty for carry", ((float)WIN_WIDTH / 2 + 350.0f), (float)(WIN_HEIGHT * 0.28));
 	Asteroids_Button_Update(&ExitBtn);
 }
 

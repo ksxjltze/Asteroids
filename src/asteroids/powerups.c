@@ -1,3 +1,15 @@
+//---------------------------------------------------------
+// file:	powerup.c
+// author:	Bryan Koh Yan Wei
+//
+// email:	yanweibryan.koh@digipen.edu
+//			
+// brief:	Code relating to the powerups.
+//
+//
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #include "powerups.h"
 #include "final_boss.h"
 #include "audio_manager.h"
@@ -145,7 +157,6 @@ void Asteroids_Generate_Powerup_On_Enemy_Death(CP_Vector position) //Guarded by 
 	{
 		if (!powerup_pool[i].active && !powerup_pool[i].effect)
 		{
-			/*printf("spawn\n");*/
 			powerup_pool[i].active = true;
 			powerup_pool[i].type = Asteroids_Generate_Random_Powerup();
 			powerup_pool[i].pos = position;
@@ -153,6 +164,8 @@ void Asteroids_Generate_Powerup_On_Enemy_Death(CP_Vector position) //Guarded by 
 			powerup_pool[i].movement_Vel.y = CP_Random_RangeFloat(-3, 3);
 			powerup_pool[i].rotation = 50.0f;
 			powerup_pool[i].lifespan = ASTEROIDS_POWERUP_LIFESPAN_DURATION;
+			if (powerup_pool[i].type == INVULNERABILITY)
+				powerup_pool[i].lifespan = ASTEROIDS_POWERUP_INVUNERABILITY_DURATION;
 			return;
 		}
 	}
@@ -187,6 +200,8 @@ void Asteroids_Spawn_Floating_Powerup(void)	// Initialize variables for floating
 			powerup_pool[i].movement_Vel.y = CP_Random_RangeFloat(-3, 3);
 			powerup_pool[i].rotation = 50.0f;
 			powerup_pool[i].lifespan = ASTEROIDS_POWERUP_LIFESPAN_DURATION;
+			if (powerup_pool[i].type == INVULNERABILITY)
+				powerup_pool[i].lifespan = ASTEROIDS_POWERUP_INVUNERABILITY_DURATION;
 			return;
 		}
 	}
@@ -249,7 +264,7 @@ void Asteroids_Checkpowerup_Location(Powerup* powerup)
 
 int Asteroids_Powerup_RNG(void)
 {
-	int rng = CP_Random_RangeInt(1, 20);
+	int rng = CP_Random_RangeInt(1, 50); // 2%
 	return rng;
 }
 

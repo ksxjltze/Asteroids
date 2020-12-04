@@ -1,4 +1,17 @@
 #pragma once
+//---------------------------------------------------------
+// file:	final_boss.h
+// author:	Bryan Koh Yan Wei
+//
+//
+// email:	yanweibryan.koh@digipen.edu
+//			
+//
+// brief:	Handles the code related to the final boss
+//
+//
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
 #include "cprocessing.h"
 #include "enemy.h"
 #include "utility.h"
@@ -8,6 +21,8 @@
 #include "score.h"
 #include "game.h"
 #include <stdbool.h>
+
+
 enum BossState { NONE, DEATH, SLEEP, ATTACK, DODGE, BULLET_HELL, ENRAGED};
 
 struct EndGame

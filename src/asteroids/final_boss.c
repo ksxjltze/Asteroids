@@ -1,3 +1,17 @@
+//---------------------------------------------------------
+// file:	final_boss.h
+// author:	Bryan Koh Yan Wei
+//
+//
+// email:	yanweibryan.koh@digipen.edu
+//			
+//
+// brief:	Handles the code related to the final boss
+//
+//
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #include "final_boss.h"
 #include "constants.h"
 #include "state.h"
@@ -160,7 +174,7 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 			for (int i = 0; i < ASTEROIDS_FINAL_BOSS_BULLET_HELL_STATE_PROJECTILE_NUM; i++)
 			{
 				int lol = ASTEROIDS_FINAL_BOSS_BULLET_HELL_STATE_PROJECTILE_NUM;
-				AngularDisplacement = CP_Matrix_Rotate((-ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE * (lol / 2) + ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE * i));
+				AngularDisplacement = CP_Matrix_Rotate((-ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE * ((float)lol / 2) + ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE * i));
 				Enemy* Boss_Projectile = Asteroids_Enemy_Spawn(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, Final_Boss.pos);
 				if (Boss_Projectile)
 				{
@@ -179,7 +193,7 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 			for (int i = 0; i < ASTEROIDS_FINAL_BOSS_ATTACK_STATE_PROJECTILE_NUM; i++)
 			{
 				int lol = ASTEROIDS_FINAL_BOSS_ATTACK_STATE_PROJECTILE_NUM;
-				AngularDisplacement = CP_Matrix_Rotate(-(ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE) * (lol / 2) + ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE * i);
+				AngularDisplacement = CP_Matrix_Rotate(-(ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE) * ((float)lol / 2) + ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE * i);
 				Enemy* Boss_Projectile = Asteroids_Enemy_Spawn(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, Final_Boss.pos);
 				if (Boss_Projectile)
 				{
@@ -405,7 +419,7 @@ void Asteroids_Final_Boss_Enraged(Enemy* Final_Boss, Player* player)
 	CP_Vector direction = CP_Vector_Subtract(player->pos, Final_Boss->pos);
 	direction = CP_Vector_Normalize(direction);
 	float speed = ASTEROIDS_FINAL_BOSS_ENRAGED_STATE_BASE_SPEED;
-	speed = speed + ((ASTEROIDS_GAME_DIFFICULTY - 1) / 2);
+	speed = speed + ((float)(ASTEROIDS_GAME_DIFFICULTY - 1) / 2);
 	direction = CP_Vector_Scale(direction, speed * dt);
 
 	Final_Boss->pos = CP_Vector_Add(Final_Boss->pos, direction);

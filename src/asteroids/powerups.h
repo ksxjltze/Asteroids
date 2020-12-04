@@ -1,4 +1,15 @@
 #pragma once
+//---------------------------------------------------------
+// file:	powerup.h
+// author:	Bryan Koh Yan Wei
+//
+// email:	yanweibryan.koh@digipen.edu
+//			
+// brief:	Code relating to the powerups.
+//
+//
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
 #include "cprocessing.h"
 #include "collider_circle.h"
 #include "utility.h"

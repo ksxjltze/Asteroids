@@ -1,4 +1,15 @@
 #pragma once
+//---------------------------------------------------------
+// file:	obstacles.h
+// author:	Bryan Koh Yan Wei
+//
+// email:	yanweibryan.koh@digipen.edu
+//			
+// brief:	Code relating to the game environment obstacles.
+//
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #include "cprocessing.h"
 #include "collider_aabb.h"
 #include "collider_circle.h"
@@ -13,7 +24,7 @@
 typedef struct Obstacles
 {
 	CP_Image Sprite;
-	CP_Vector pos, velocity; //suction;
+	CP_Vector pos, velocity;
 	struct Collider_AABB Collider;
 	struct Collider_Circle Collider2;
 	float width, height, speed;

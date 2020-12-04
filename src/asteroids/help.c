@@ -1,3 +1,15 @@
+//---------------------------------------------------------
+// file:	help.c
+// author:	Bryan Koh Yan Wei
+//
+// email:	yanweibryan.koh@digipen.edu
+//			
+// brief:	Code relating to the help screen available at the main menu.
+//
+//
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #include "help.h"
 #include "utility.h"
 #include "button.h"
