@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include "file_manager.h"
 #include "game.h"
+#include "constants.h"
 
 #define SCORE_VARIABLES_COUNT 5
 const char* filePath = "./Assets/scores.data";
@@ -34,6 +35,20 @@ void Asteroids_Leaderboard_Init()
 	highscore_count = 0;
 	Asteroids_Leaderboard_ReadScores();
 	cameraPos = CP_Vector_Zero();
+}
+
+void Asteroids_Leaderboard_Draw_Scrollbar()
+{
+	CP_Vector pos = CP_Vector_Set(50, 50);
+	//bar
+	CP_Settings_Fill(CP_Color_Create(50, 50, 50, 255));
+	float scrollbar_height = (float)WIN_HEIGHT - pos.y * 2;
+	CP_Graphics_DrawRect(pos.x, pos.y, 20, scrollbar_height);
+
+	//scroll thingy
+	pos.y += (cameraPos.y / row_width) * (scrollbar_height / highscore_count);
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	CP_Graphics_DrawRect(pos.x, pos.y, 20, 10);
 }
 
 void Asteroids_Leaderboard_Update()
@@ -76,6 +91,7 @@ void Asteroids_Leaderboard_Update()
 		}
 
 	}
+	Asteroids_Leaderboard_Draw_Scrollbar();
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 }
 
@@ -86,6 +102,8 @@ void Asteroids_Leaderboard_Check_Input()
 		cameraPos.y -= CP_Input_MouseWheel() * row_width;
 		if (cameraPos.y < 0)
 			cameraPos.y = 0;
+		else if (cameraPos.y > highscore_count * row_width)
+			cameraPos.y = highscore_count * row_width;
 	}
 }
 
