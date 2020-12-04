@@ -1,3 +1,13 @@
+//---------------------------------------------------------
+// file:	user_interface.c
+// author:	Lee Jia Keat
+// email:	l.jiakeat@digipen.edu, 
+//
+// brief:	User interface source file.
+//			Display the main user interface for the game.
+//			i.e. Player Health, Fuel meter, etc.
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
 #include "user_interface.h"
 #include "cprocessing.h"
 #include <stdio.h>
