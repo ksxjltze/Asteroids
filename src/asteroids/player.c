@@ -107,43 +107,47 @@ void Asteroids_Player_Update(Player* player)
 void Asteroids_Player_Death(Player* player)
 {
 	//wait for timer then die.
-	//float timer = 3;
+	float time_left = 3;
+	float dt = CP_System_GetDt();
 
-	unsigned int x_hours = 0;
-	unsigned int x_minutes = 0;
-	unsigned int x_seconds = 0;
-	unsigned int x_milliseconds = 0;
-	unsigned int count_down_time_in_secs = 0, time_left = 0;
+	//unsigned int x_hours = 0;
+	//unsigned int x_minutes = 0;
+	//unsigned int x_seconds = 0;
+	//unsigned int x_milliseconds = 0;
+	//unsigned int count_down_time_in_secs = 0, time_left = 0;
 
-	clock_t x_startTime, x_countTime;
-	count_down_time_in_secs = 3;  // 1 minute is 60, 1 hour is 3600
+	//clock_t x_startTime, x_countTime;
+	//count_down_time_in_secs = 2;  // 1 minute is 60, 1 hour is 3600
 
 
-	x_startTime = clock();  // start clock
-	time_left = count_down_time_in_secs - x_seconds;   // update timer
+	//x_startTime = clock();  // start clock
+	//time_left = count_down_time_in_secs - x_seconds;   // update timer
 
+	//while (time_left > 0)
+	//{
+	//	x_countTime = clock(); // update timer difference
+	//	x_milliseconds = x_countTime - x_startTime;
+	//	x_seconds = (x_milliseconds / (CLOCKS_PER_SEC)) - (x_minutes * 60);
+	//	x_minutes = (x_milliseconds / (CLOCKS_PER_SEC)) / 60;
+	//	x_hours = x_minutes / 60;
+
+
+	//	time_left = count_down_time_in_secs - x_seconds; // subtract to get difference 
+
+
+	//	printf("\nYou have %d seconds left ( %d )\n",time_left,count_down_time_in_secs);
+	//}
 	while (time_left > 0)
 	{
-		x_countTime = clock(); // update timer difference
-		x_milliseconds = x_countTime - x_startTime;
-		x_seconds = (x_milliseconds / (CLOCKS_PER_SEC)) - (x_minutes * 60);
-		x_minutes = (x_milliseconds / (CLOCKS_PER_SEC)) / 60;
-		x_hours = x_minutes / 60;
-
-
-		time_left = count_down_time_in_secs - x_seconds; // subtract to get difference 
-
-
-		printf("\nYou have %d seconds left ( %d )\n",time_left,count_down_time_in_secs);
+		time_left -= dt;
 	}
+
 	if (time_left == 0)
 	{
-		player->active = 0;
 		//death particles.
 		spawn_death_particles(player->pos, 30, 1, 10, 1);
+		player->active = 0;
 	}
-
-
 }
 
 void Asteroids_Player_Hit(Player* player, float damage) //Player hurt
