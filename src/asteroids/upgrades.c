@@ -45,7 +45,7 @@ void Asteroids_Upgrades_Init(void)
 	Asteroids_Upgrades_Upgrade_Disable_Levels(PIERCING);
 
 	Asteroids_Upgrades_Create_Upgrade(MULTISHOT, ASTEROIDS_UPGRADES_MULTISHOT_UPGRADE_COST, "Multishot");
-	Asteroids_Upgrades_Upgrade_Set_Max_Level(MULTISHOT, 360 / 10);
+	Asteroids_Upgrades_Upgrade_Set_Max_Level(MULTISHOT, (int)(360 / ASTEROIDS_UPGRADES_MULTISHOT_ANGLE));
 }
 
 void Asteroids_Upgrades_Upgrade_Set_Max_Level(unsigned int id, unsigned int level)
