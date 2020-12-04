@@ -331,61 +331,17 @@ void Asteroids_Display_LeaderBoard(void)
 void Asteroids_Controls(void)
 {	
 	CP_Engine_SetNextGameState(Asteroids_Help_Screen_Init, Asteroids_Help_Screen_Update, Asteroids_Help_Screen_Exit);
-	//overlay_type = CONTROLS_SCREEN;
-	//status = false;
-
-	//CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
-	//CP_Vector pos8 = CP_Vector_Set((float)WIN_WIDTH - BUTTON_WIDTH, (float)(WIN_HEIGHT / 2)); // Next Page
-	//CP_Vector pos9 = CP_Vector_Set(0, (float)(WIN_HEIGHT / 2)); // Prev page
-	//CP_Vector mouse;
-	//mouse.x = CP_Input_GetMouseX();
-	//mouse.y = CP_Input_GetMouseY();
-
-	//if(page1)
-	//{
-	//	CP_Image_Draw(Control_screen, (float)WIN_WIDTH / 2.0f, (float)WIN_HEIGHT / 2.0f, (float)WIN_WIDTH, (float)WIN_HEIGHT, 255);
-	//	Asteroids_Button_Update(&NextPage);
-	//	if (mouse.x >= pos8.x && mouse.x <= pos8.x + BUTTON_WIDTH && 
-	//		mouse.y >= pos8.y && mouse.y <= pos8.y + BUTTON_HEIGHT)
-	//	{
-	//		if (CP_Input_MouseClicked())
-	//		{
-	//			page1 = false;
-	//			page2 = true;
-	//		}
-	//	}
-	//}
-	//if (page2)
-	//{
-	//	CP_Image_Draw(Control_screen2, (float)WIN_WIDTH / 2.0f, (float)WIN_HEIGHT / 2.0f, (float)WIN_WIDTH, (float)WIN_HEIGHT, 255);
-	//	Asteroids_Button_Update(&PrevPage);
-	//	if (mouse.x >= pos9.x && mouse.x <= pos9.x + BUTTON_WIDTH &&
-	//		mouse.y >= pos9.y && mouse.y <= pos9.y + BUTTON_HEIGHT)
-	//	{
-	//		if (CP_Input_MouseClicked())
-	//		{
-	//			page1 = true;
-	//			page2 = false;
-	//		}
-	//	}
-	//}
-
 }
 
 void Asteroids_Exit_Screen(void)
 {
 	overlay_type = 0;
-	// Draw main menu screen. 
 	status = true;
 
 	if (overlay_type == LEADERBOARD_SCREEN)
 	{
 		Asteroids_Leaderboard_Exit();
 	}
-
-	////Reset control page display to first page
-	//page1 = true;
-	//page2 = false;
 }
 
 void Asteroids_MainMenu_CheckInput(void)
