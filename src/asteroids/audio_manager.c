@@ -29,8 +29,6 @@ void Asteroids_Audio_MainMenu_BGM_Play(void)
 		CP_Sound_PlayAdvanced(sfx_bgm_MainMenu, 0.1f, 1.0f, 1, 0);
 
 		
-
-
 }
 
 
