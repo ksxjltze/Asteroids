@@ -24,6 +24,7 @@ CP_Vector cameraPos;
 
 Score* highscores;
 static size_t highscore_count;
+static float row_width = 50;
 float offsets[SCORE_VARIABLES_COUNT] = { 100, 250, 400, 550, 750 };
 char labels[SCORE_VARIABLES_COUNT][20] = { "Name", "Kills", "Time", "Difficulty", "Score" };
 
@@ -46,15 +47,14 @@ void Asteroids_Leaderboard_Update()
 
 	for (int i = 0; i < SCORE_VARIABLES_COUNT; i++)
 	{
-		CP_Vector pos = CP_Vector_Set(offsets[i], 50);
-		pos = CP_Vector_MatrixMultiply(CP_Matrix_Translate(cameraPos), pos);
+		CP_Vector pos = CP_Vector_Set(offsets[i], row_width);
 		CP_Font_DrawText(labels[i], pos.x, pos.y);
 	}
 
 	for (size_t i = 0; i < highscore_count; i++)
 	{
-		CP_Vector pos = CP_Vector_Set(103, ((float)i + 1) * 50 + 40);
-		pos = CP_Vector_MatrixMultiply(CP_Matrix_Translate(cameraPos), pos);
+		CP_Vector pos = CP_Vector_Set(103, ((float)i + 1) * row_width + 40);
+		pos = CP_Vector_MatrixMultiply(CP_Matrix_Translate(CP_Vector_Negate(cameraPos)), pos);
 
 		char scoreStrings[SCORE_VARIABLES_COUNT][100];
 		for (int j = 0; j < SCORE_VARIABLES_COUNT; j++)
@@ -70,6 +70,8 @@ void Asteroids_Leaderboard_Update()
 
 		for (int j = 0; j < SCORE_VARIABLES_COUNT; j++)
 		{
+			if (pos.y <= 50)
+				continue;
 			CP_Font_DrawText(scoreStrings[j], offsets[j], pos.y);
 		}
 
@@ -81,7 +83,9 @@ void Asteroids_Leaderboard_Check_Input()
 {
 	if (CP_Input_MouseWheel() != 0)
 	{
-		cameraPos.y += CP_Input_MouseWheel() * 100;
+		cameraPos.y -= CP_Input_MouseWheel() * row_width;
+		if (cameraPos.y < 0)
+			cameraPos.y = 0;
 	}
 }
 
