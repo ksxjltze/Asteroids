@@ -5,6 +5,7 @@
 #include "currency.h"
 #include "audio_manager.h"
 #include "leaderboard.h"
+#include <stdbool.h>
 #include "Camera.h"
 #include "help.h"
 
@@ -13,6 +14,8 @@
 
 bool status;
 static int overlay_type;
+
+static bool ONOFF;
 
 bool page1;
 bool page2;
@@ -261,6 +264,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_DifficultyMenu, &DifficultyBtn);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_SkinMenu, &SkinsBtn);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_UpgradesMenu, &UpgradesBtn);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_VolumeONOFF, &Volume);
 
 	DifficultyBtn.colors.idle = CP_Color_Create(255, 255, 0, 255);
 	Asteroids_Button_Set_Text_Colors(&DifficultyBtn, CP_Color_Create(0, 0, 0, 255));
@@ -275,11 +279,24 @@ void Asteroids_Menu_Display_UpgradesMenu(void)
 	Asteroids_Upgrades_Menu_Init();
 }
 
-void Asteroids_VolOnOff(void)
+void Asteroids_Menu_Display_VolumeONOFF(void)
 {
+	
 	status = true;
 	overlay_type = VOL_BUTTON;
 	Asteroids_Audio_MainMenu_BGM_Play();
+
+	//.if (Volume == 1 )
+	if (ONOFF)
+	{
+		ONOFF = !ONOFF;
+		Asteroids_Audio_MainMenu_BGM_STOP();
+
+	}
+	else if (ONOFF == true)
+	{
+		Asteroids_Audio_MainMenu_BGM_Play();
+	}
 
 }
 

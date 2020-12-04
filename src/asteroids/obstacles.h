@@ -64,3 +64,6 @@ void Asteroids_Particle_Dot_Spawn(CP_Vector pos);
 void Asteroids_Particle_Draw_Dot(void);
 void Asteroids_Particle_Dot_Despawn(dot* dot_particle);
 void Asteroids_particle_dot_debug(void);
+
+void Asteroids_Pause_Obstacles(void);
+void Asteroids_Resume_Obstacles(void);

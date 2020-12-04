@@ -26,7 +26,7 @@ CP_Vector cameraPos;
 Score* highscores;
 static size_t highscore_count;
 static float row_width = 50;
-float offsets[SCORE_VARIABLES_COUNT] = { 100, 250, 400, 550, 750, 950};
+float offsets[SCORE_VARIABLES_COUNT] = { 100, 350, 500, 650, 850, 1050};
 char labels[SCORE_VARIABLES_COUNT][20] = { "Name", "Kills", "Time", "Difficulty", "Stage", "Score" };
 
 void Asteroids_Leaderboard_Init()
@@ -46,7 +46,7 @@ void Asteroids_Leaderboard_Draw_Scrollbar()
 	CP_Graphics_DrawRect(pos.x, pos.y, 20, scrollbar_height);
 
 	//scroll thingy
-	pos.y += (cameraPos.y / row_width) * (scrollbar_height / highscore_count);
+	pos.y += (cameraPos.y / row_width) * (scrollbar_height / highscore_count); 
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Graphics_DrawRect(pos.x, pos.y, 20, 10);
 }
