@@ -201,8 +201,8 @@ void Asteroids_Sprites_Load()
 	enemy_sprites[0] = CP_Image_Load("./Assets/asteroids_cropped.png");
 	enemy_sprites[1] = CP_Image_Load("./Assets/asteroids_small.png");
 	enemy_sprites[2] = CP_Image_Load("./Assets/Largeasteroids.png");
-	enemy_sprites[2] = CP_Image_Load("./Assets/newasteroids.png");
-	enemy_sprites[2] = CP_Image_Load("./Assets/newasteroids2.png");
+	enemy_sprites[3] = CP_Image_Load("./Assets/newasteroids.png");
+	enemy_sprites[4] = CP_Image_Load("./Assets/newasteroids2.png");
 
 	for (int i = 0; i < ASTEROIDS_ENEMY_SPRITE_COUNT; i++)
 	{
