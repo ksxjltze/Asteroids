@@ -146,6 +146,12 @@ char* Asteroids_Leaderboard_Evaluate_Difficulty(int difficulty)
 		strcpy_s(difficultyString, 20, "BRUH");
 		break;
 	}
+
+	if (difficulty > BRUH)
+	{
+		sprintf_s(difficultyString, 20, "BRUH + %d", difficulty - BRUH);
+	}
+
 	return difficultyString;
 }
 
