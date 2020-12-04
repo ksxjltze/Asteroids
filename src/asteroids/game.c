@@ -208,7 +208,11 @@ void Asteroids_Sprites_Load()
 	if (!player_sprite)
 		player_sprite = CP_Image_Load(ASTEROIDS_PLAYER_SPRITE_PATH_DEFAULT);
 
+	// type of bullets assets
+
 	bullet_sprite = CP_Image_Load("./Assets/bullet_long.png");
+
+	// multiple types of asteroids assets
 
 	enemy_sprites[0] = CP_Image_Load("./Assets/asteroids_cropped.png");
 	enemy_sprites[1] = CP_Image_Load("./Assets/asteroids_small.png");
@@ -220,10 +224,13 @@ void Asteroids_Sprites_Load()
 	{
 		Asteroids_Utility_Generate_Hurt_Sprite(enemy_sprites[i], &enemy_hurt_sprites[i]);
 	}
+	// vector image of health pick up (powerup)
 
 	player_health_sprite = CP_Image_Load("./Assets/heart.png");
 
-	player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
+	// player positions and sizes
+
+	the_player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
 
 	player_width = ASTEROIDS_PLAYER_SPRITE_WIDTH;
 	player_height = ASTEROIDS_PLAYER_SPRITE_HEIGHT;
