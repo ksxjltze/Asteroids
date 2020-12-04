@@ -198,7 +198,6 @@ void Asteroids_Sprites_Load()
 	{
 		Asteroids_Utility_Generate_Hurt_Sprite(enemy_sprites[i], &enemy_hurt_sprites[i]);
 	}
-
 	player_health_sprite = CP_Image_Load("./Assets/heart.png");
 
 	player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
