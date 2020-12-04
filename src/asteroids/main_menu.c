@@ -15,7 +15,7 @@
 bool status;
 static int overlay_type;
 
-static bool ONOFF;
+bool Playmusic = true;
 
 bool page1;
 bool page2;
@@ -282,20 +282,13 @@ void Asteroids_Menu_Display_UpgradesMenu(void)
 void Asteroids_Menu_Display_VolumeONOFF(void)
 {
 	
-	status = true;
-	overlay_type = VOL_BUTTON;
-	Asteroids_Audio_MainMenu_BGM_Play();
-
-	//.if (Volume == 1 )
-	if (ONOFF)
-	{
-		ONOFF = !ONOFF;
-		Asteroids_Audio_MainMenu_BGM_STOP();
-
-	}
-	else if (ONOFF == true)
+	if (Playmusic == false)
 	{
 		Asteroids_Audio_MainMenu_BGM_Play();
+	}
+	else
+	{
+		Asteroids_Audio_MainMenu_BGM_STOP();
 	}
 
 }
