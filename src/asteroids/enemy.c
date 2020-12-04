@@ -2,7 +2,7 @@
 //---------------------------------------------------------
 // file:	enemy.c
 // author:	Lee Jia Keat
-// contributors: Dania (Explosion animation), Liu Ke (Initial code for splitting)
+// contributors: Dania Mohd (Explosion animation), Liu Ke (Initial code for splitting)
 // email:	l.jiakeat@digipen.edu, 
 //
 // brief:	Enemy entity source file.

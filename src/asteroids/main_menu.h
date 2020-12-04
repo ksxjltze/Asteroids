@@ -1,3 +1,16 @@
+//---------------------------------------------------------
+// file:	main_menu.h
+// author:	Bryan Koh Yan Wei
+// contributors: Lee Jia Keat (Difficulty, Skin, Leaderboard and Upgrade Menus), Liu Ke (UI Design)
+// email:	, l.jiakeat@digipen.edu, 
+//
+// brief:	Main menu header file.
+//			Handles Initialization, Updating and Drawing of the Main Menu/Title Screen.
+//			Contains functions to display other sub menus (overlays) as well as buttons to toggle them.
+//			Is the entry point into the main game, as well as the screen where settings such as difficulty can be set from.
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #pragma once
 #include "main_menu.h"
 #include "game.h"
