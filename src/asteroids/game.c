@@ -143,10 +143,8 @@ void Asteroids_Update(void)
 		Asteroids_UI_Update(player);
 		Asteroids_Player_Draw(player_sprite, player.pos, player_width, player_height, player.alpha, player_rotation);
 		draw_player_death_anim(&player);
-			;
 	}
 }
-
 void Asteroids_Cooldown_Update()
 {
 	if (shoot_cooldown < 0)
@@ -283,7 +281,14 @@ void Asteroids_Check_Input()
 		Asteroids_Player_Simple_Movement(&player);
 	else
 		Asteroids_Player_Check_Input(&player, dt, shoot_direction);
+	if (CP_Input_MouseDown(MOUSE_BUTTON_RIGHT))
+	{
+		if (shoot_cooldown > 0)
+			return;
 
+		Asteroids_Bullet_Spawn(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, player, Asteroids_Utility_Find_Closest_Enemy(enemy_pool, &player));
+		shoot_cooldown = 60 / (ASTEROIDS_WEAPON_RAILGUN_FIRE_RATE + player.weapon.fire_rate); //seconds per bullet
+	}
 	if (CP_Input_MouseDown(MOUSE_BUTTON_1))
 	{
 		if (shoot_cooldown > 0)
@@ -305,6 +310,8 @@ void Asteroids_Check_Input()
 			Asteroids_Bullet_Split(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, 4, 15.0f, player, shoot_direction);
 
 		Asteroids_Audio_Bullets_Play();
+
+
 
 
 	}

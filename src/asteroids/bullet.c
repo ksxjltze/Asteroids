@@ -61,7 +61,7 @@ void Asteroids_Bullet_Update(Bullet arr_bullet[], int bullet_count, Enemy enemy_
 			}
 
 			bullet = Asteroids_Collision_CheckCollision_Enemy_Bullet(enemy_pool, enemy_count, bullet, player);
-
+		
 			bullet.pos = CP_Vector_Add(bullet.pos, CP_Vector_Scale(bullet.velocity, CP_System_GetDt()));
 			arr_bullet[i] = bullet;
 		}
@@ -149,5 +149,4 @@ void Asteroids_Bullet_Split(Bullet bullets[], int pool_size, int bullet_count, f
 		split = CP_Vector_MatrixMultiply(rotate, split);
 		Asteroids_Bullet_Spawn(bullets, pool_size, player, split);
 	}
-
 }

@@ -32,7 +32,23 @@ CP_Vector Asteroids_Utility_Generate_Random_Pos_Var2(float width, float height)
 	return CP_Vector_Set(x, y);
 }
 
+CP_Vector Asteroids_Utility_Find_Closest_Enemy(Enemy enemy_pool[], Player* player)
+{
+	CP_Vector Nearest = CP_Vector_Zero();
+	float distance = (float)WIN_WIDTH;
+	for (int i = 0; i < ASTEROIDS_POOLSIZE_ENEMIES; i++)
+	{
+		if (!enemy_pool[i].active)
+			continue;
 
+		float displacement = CP_Vector_Distance(enemy_pool[i].pos, player->pos);
+		if (fabsf(displacement) < distance)
+		{
+			Nearest = CP_Vector_Subtract(enemy_pool[i].pos, player->pos);
+		}
+	}
+	return CP_Vector_Normalize(Nearest);
+}
 //@brief Generates a red tinted sprite to serve as a "hurt sprite".
 void Asteroids_Utility_Generate_Hurt_Sprite(CP_Image sprite, CP_Image* out)
 {

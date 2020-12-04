@@ -72,7 +72,7 @@ void Asteroids_Button_Init(Button* button_out)
 
 	button.textbox.textSize = 0;
 	button.textbox.text = "NULL";
-	button.textbox.color = CP_Color_Create(0, 0, 0, 150); //Default white
+	button.textbox.color = CP_Color_Create(0, 0, 0, 255); //Default white
 
 	button.colors.idle = CP_Color_Create(153, 204, 255, 255);
 	button.colors.hover = CP_Color_Create(0, 255, 0, 255);
