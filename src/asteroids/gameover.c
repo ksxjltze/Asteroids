@@ -35,6 +35,7 @@ void Asteroids_GameOver_Init(void)
 
 	CURRENT_SCORE.stage = ASTEROIDS_GAME_DIFFICULTY;
 	Asteroids_GameOver_Init_Score();
+	Asteroids_Leaderboard_Init();
 
 	btnRestart = Asteroids_Button_Add_New_Button(btnWidth, btnHeight);
 	CP_Vector btnRestartPos = CP_Vector_Set(CP_System_GetWindowWidth() * 0.5f - btnRestart.width / 2, CP_System_GetWindowHeight() * 0.65f - btnRestart.height / 2);
@@ -58,7 +59,7 @@ void Asteroids_GameOver_CheckInput()
 {
 	if (CP_Input_KeyTriggered(KEY_ENTER))
 	{
-		if (!scoreSaved)
+		if (scoreSaved == false)
 		{
 			scoreSaved = true;
 			Asteroids_Leaderboard_Insert_Score(CURRENT_SCORE);
@@ -124,7 +125,7 @@ void Asteroids_GameOver_Update(void)
 
 	CP_Settings_TextSize(40.0f);
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Font_DrawText("PLAYER NAME:", (float)WIN_WIDTH / 2, (float)WIN_HEIGHT * 0.2f);
+	CP_Font_DrawText("PLAYER NAME:", (float)WIN_WIDTH / 2, (float)WIN_HEIGHT * 0.25f);
 
 	CP_Settings_TextSize(50.0f);
 	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
@@ -156,7 +157,7 @@ void Asteroids_GameOver_Display_Score(void)
 
 void Asteroids_GameOver_Exit(void)
 {
-	if (!scoreSaved)
+	if (scoreSaved == false)
 	{
 		scoreSaved = true;
 		Asteroids_Leaderboard_Insert_Score(CURRENT_SCORE);
