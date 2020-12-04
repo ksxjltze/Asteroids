@@ -20,6 +20,19 @@ typedef struct Particles
 
 }Particle;
 
+#define deathParticles 20
+
+struct Death
+{
+	CP_Image sprite[deathParticles];
+	CP_Vector dimensions;
+	CP_Vector position[deathParticles];
+	CP_Vector velocity[deathParticles];
+	float currentLifespan;
+	float maxLifespan;
+	bool enabled;
+} death;
+
 void particle_init();
 void explosion_init(void);
 void smoke_init(void);

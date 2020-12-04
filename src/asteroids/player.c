@@ -139,13 +139,17 @@ void Asteroids_Player_Death(Player* player)
 	//}
 		//death particles.
 		//spawn_death_particles(player->pos, 30, 1, 10, 1);
-		draw_player_death_anim(player);
+		death.enabled = true;
 }
 
 void Asteroids_Player_Hit(Player* player, float damage) //Player hurt
 {
 	if (!player->status.hit)
 	{
+		if (player->hp.current <= 0)
+		{
+			return;
+		}
 		player->hp.current -= damage;
 		player->alpha = 150;
 		player->status.hit = 1;

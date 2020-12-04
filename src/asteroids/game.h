@@ -21,7 +21,7 @@ void Asteroids_Update(void);
 void Asteroids_Exit(void);
 void Asteroids_Cleanup(void);
 
-void Asteroids_Check_Input(Player* player, void* bullets);
+void Asteroids_Check_Input();
 
 void Asteroids_Draw();
 void Asteroids_FPS_Draw();
@@ -32,7 +32,7 @@ void Asteroids_Debug_Check_Input();
 void Asteroids_Sprites_Load();
 void Asteroids_Entities_Init();
 
-void Asteroids_Player_Rotate(Player* player, CP_Vector direction);
+void Asteroids_Player_Rotate(CP_Vector direction);
 
 void Asteroids_Cooldown_Update();
 
