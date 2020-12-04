@@ -5,8 +5,8 @@
 
 Enemy Boss;
 
-CP_Image Boss_Sprite[2];
-CP_Image Boss_HurtSprite[2];
+CP_Image Boss_Sprite[ASTEROIDS_ENEMY_SPRITE_COUNT];
+CP_Image Boss_HurtSprite[ASTEROIDS_ENEMY_SPRITE_COUNT];
 static float boss_width;
 static float boss_height;
 
@@ -25,10 +25,11 @@ static bool boss_killed;
 void Asteroids_Boss_Init(CP_Image EnemySprite[], CP_Image EnemyHurtSprite[], float enemy_width, float enemy_height, Player* player)
 {
 	Boss.active = 0;
-	Boss_Sprite[0] = EnemySprite[0];
-	Boss_Sprite[1] = EnemySprite[1];
-	Boss_HurtSprite[0] = EnemyHurtSprite[0];
-	Boss_HurtSprite[1] = EnemyHurtSprite[1];
+	for (int i = 0; i < ASTEROIDS_ENEMY_SPRITE_COUNT; i++)
+	{
+		Boss_Sprite[i] = EnemySprite[i];
+		Boss_HurtSprite[i] = EnemyHurtSprite[i];
+	}
 
 	boss_height = enemy_height;
 	boss_width = enemy_width;
@@ -44,6 +45,7 @@ void Asteroids_Boss_Init(CP_Image EnemySprite[], CP_Image EnemyHurtSprite[], flo
 void Asteroids_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_count, Bullet bullet_pool[])
 {
 	float dt = CP_System_GetDt();
+
 	Asteroids_Enemy_Boss_Spawn_Interval();
 	if (Boss.active)
 	{	
@@ -101,7 +103,7 @@ void Asteroids_Enemy_Boss_Spawn(void)
 	Boss.velocity = CP_Vector_Normalize(Boss.velocity);
 	Boss.velocity = CP_Vector_Scale(Boss.velocity, Boss.speed);
 
-	Boss.sprite_type = CP_Random_RangeInt(0, 1);
+	Boss.sprite_type = CP_Random_RangeInt(0, ASTEROIDS_ENEMY_SPRITE_COUNT);
 
 	Boss.id = 101;
 	Boss.parent_id = 0;
