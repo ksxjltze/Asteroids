@@ -6,7 +6,7 @@
 #include <string.h>
 
 #define BUTTON_WIDTH 200
-#define BUTTON_HEIGHT 100
+#define BUTTON_HEIGHT 150
 #define BTN_TEXTSIZE 75
 
 Help_screen screen;
@@ -45,9 +45,9 @@ void Asteroids_Help_Screen_Init(void)
 
 	CP_Vector position_offset = Asteroids_Utility_GetWindowMiddle();
 
-	CP_Vector BackBtnPos = CP_Vector_Set(0 + BUTTON_WIDTH / 2, position_offset.y - BUTTON_HEIGHT / 2);
-	CP_Vector ExitBtnPos = CP_Vector_Set(position_offset.x - BUTTON_WIDTH / 2, (float)WIN_HEIGHT - BUTTON_HEIGHT / 2);
-	CP_Vector NextBtnPos = CP_Vector_Set((float)WIN_WIDTH - BUTTON_WIDTH / 2, position_offset.y - BUTTON_HEIGHT / 2);
+	CP_Vector ExitBtnPos = CP_Vector_Set(position_offset.x - BUTTON_WIDTH / 2, (float)WIN_HEIGHT - BUTTON_HEIGHT);
+	CP_Vector BackBtnPos = CP_Vector_Set(0, position_offset.y - BUTTON_HEIGHT / 2);
+	CP_Vector NextBtnPos = CP_Vector_Set((float)WIN_WIDTH - BUTTON_WIDTH, position_offset.y - BUTTON_HEIGHT / 2);
 
 	Asteroids_Button_Set_Position(&BackBtn, BackBtnPos);
 	Asteroids_Button_Set_Position(&NextBtn, NextBtnPos);
@@ -81,7 +81,7 @@ void Asteroids_Draw_Screen_Page(void)
 	if (screen.id > FIRST_PAGE)
 		Asteroids_Button_Update(&BackBtn);
 
-	if (screen.id < LAST_PAGE)
+	if (screen.id < LAST_PAGE -1)
 		Asteroids_Button_Update(&NextBtn);
 }
 

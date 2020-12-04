@@ -46,7 +46,6 @@ void Asteroids_Utility_Generate_Hurt_Sprite(CP_Image sprite, CP_Image* out)
 			}
 			else
 				pixels[i] = 0;
-
 		}
 
 	}
@@ -70,6 +69,11 @@ void Asteroids_Utility_Generate_Blue_Sprite(CP_Image sprite, CP_Image* out)
 		{
 			if (i % 4 != 2) //not blue
 			{
+				if (i % 4 == 1)
+				{
+					pixels[i] = 100;
+					continue;
+				}
 				if (i > 2)
 				{
 					if (i % 4 != 3)

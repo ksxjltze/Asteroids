@@ -11,6 +11,7 @@ Enemy final_boss;
 State bossState;
 CP_Image final_boss_sprite[2];
 CP_Image final_boss_sprite_hurt[2];
+CP_Image final_boss_sleep_sprite[2];
 
 CP_Image Final_Boss_Spawn_Animation;
 
@@ -21,6 +22,9 @@ static float Max_Loop_Timespan;
 static float Current_Loop_Timespan;
 static float state_change_rate;
 static int blink_count;
+
+#define BtnWidth 100
+#define BtnHeight 50
 
 typedef struct Context
 {
@@ -43,6 +47,8 @@ void Asteroids_Final_Boss_Init(void)
 
 	Asteroids_Utility_Generate_Hurt_Sprite(final_boss_sprite[0], &final_boss_sprite_hurt[0]);
 	Asteroids_Utility_Generate_Hurt_Sprite(final_boss_sprite[1], &final_boss_sprite_hurt[1]);
+	Asteroids_Utility_Generate_Blue_Sprite(final_boss_sprite[0], &final_boss_sleep_sprite[0]);
+	Asteroids_Utility_Generate_Blue_Sprite(final_boss_sprite[1], &final_boss_sleep_sprite[1]);
 
 	boss_width = ASTEROIDS_FINAL_BOSS_DIAMETER;
 	boss_height = ASTEROIDS_FINAL_BOSS_DIAMETER;
@@ -62,8 +68,8 @@ void Asteroids_Final_Boss_Init(void)
 
 	endgame.end = false;
 
-	YesBtn = Asteroids_Button_Add_New_Button(100.0f, 50.0f);
-	NoBtn = Asteroids_Button_Add_New_Button(100.0f, 50.0f);
+	YesBtn = Asteroids_Button_Add_New_Button(BtnWidth, BtnHeight);
+	NoBtn = Asteroids_Button_Add_New_Button(BtnWidth, BtnHeight);
 	Asteroids_Button_Set_Text(&YesBtn, 50.0f, "Yes");
 	Asteroids_Button_Set_Text(&NoBtn, 50.0f, "No");
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Continue_Game, &YesBtn);
@@ -131,6 +137,10 @@ void Asteroids_Final_Boss_Draw(void)
 	if (bossState.id == ENRAGED)
 	{
 		Asteroids_Enemy_Draw(&final_boss, 1, final_boss_sprite_hurt, final_boss_sprite_hurt, boss_width, boss_height);
+	}
+	else if (bossState.id == SLEEP)
+	{
+		Asteroids_Enemy_Draw(&final_boss, 1, final_boss_sleep_sprite, final_boss_sprite_hurt, boss_width, boss_height);
 	}
 	else
 	{
