@@ -44,6 +44,7 @@ CP_Vector Asteroids_Utility_Find_Closest_Enemy(Enemy enemy_pool[], Player* playe
 		float displacement = CP_Vector_Distance(enemy_pool[i].pos, player->pos);
 		if (fabsf(displacement) < distance)
 		{
+			distance = displacement;
 			Nearest = CP_Vector_Subtract(enemy_pool[i].pos, player->pos);
 		}
 	}
