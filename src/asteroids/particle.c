@@ -35,11 +35,16 @@ struct Smoke
 	float delay;
 }smoke;
 
+#define deathParticles 20
+
 struct Death
 {
-	Sprite death_sprite;
-	CP_Image image;
+	CP_Image sprite[deathParticles];
 	CP_Vector dimensions;
+	CP_Vector position[deathParticles];
+	CP_Vector velocity[deathParticles];
+	float currentLifespan;
+	float maxLifespan;
 } death;
 
 /// <summary>
@@ -107,9 +112,17 @@ void smoke_init()
 
 void player_death_init()
 {
-	death.image = CP_Image_Load("./Assets/reddot.png");
-	death.dimensions.x = (float)CP_Image_GetWidth(death.image);
-	death.dimensions.y = (float)CP_Image_GetHeight(death.image);
+	for (int i = 0; i < deathParticles; i++)
+	{
+		death.sprite[i] = CP_Image_Load("./Assets/reddot.png");
+		death.position[i] = CP_Vector_Zero();
+		death.velocity[i].x = CP_Random_RangeFloat(-40, 40);
+		death.velocity[i].y = CP_Random_RangeFloat(-40, 40);
+	}
+	death.dimensions.x = (float)CP_Image_GetWidth(death.sprite[0]);
+	death.dimensions.y = (float)CP_Image_GetHeight(death.sprite[0]);
+	death.currentLifespan = 5;
+	death.maxLifespan = 5;
 
 }
 
@@ -206,10 +219,31 @@ void smoke_velocity(CP_Vector position, int particles, float min_velocity,
 	}
 }
 
-void spawn_death_particles(CP_Vector position, int particles, float min_velocity,
+/*oid spawn_death_particles(CP_Vector position, int particles, float min_velocity,
 	float max_velocity, float size)
 {
-	Spawn_Particle(position, particles, min_velocity, max_velocity, size, death.death_sprite, DEATH, false);
+	Spawn_Particle(position, particles, min_velocity, max_velocity, size, death.sprite, DEATH, false);
+}*/
+
+void draw_player_death_anim(Player* player)
+{
+	float dt = CP_System_GetDt();
+	death.currentLifespan -= dt;
+	if (death.currentLifespan >= 0)
+	{
+		for (int i = 0; i < deathParticles; i++)
+		{
+			death.position[i] = player->pos;
+			death.velocity[i] = CP_Vector_Normalize(death.velocity[i]);
+			death.velocity[i] = CP_Vector_Scale(death.velocity[i], 50.0f * dt);
+			death.position[i] = CP_Vector_Add(death.position[i], death.velocity[i]);
+			CP_Image_Draw(death.sprite[i], death.position[i].x, death.position[i].y, death.dimensions.x, death.dimensions.y, (int)(death.currentLifespan/death.maxLifespan) * 255);
+		}
+	}
+	if (death.currentLifespan <= 0)
+	{
+		player->active = 0;
+	}
 }
 
 void spawn_explosion_anim(CP_Vector position, float size)

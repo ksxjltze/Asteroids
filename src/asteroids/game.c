@@ -64,7 +64,7 @@ void Asteroids_Init(void)
 	particle_init();
 	explosion_init();
 	smoke_init();
-	
+	player_death_init();
 
 	Asteroids_Entities_Init();
 	Asteroids_Pause_Init();
@@ -107,7 +107,12 @@ void Asteroids_Update(void)
 		//Gameover
 		if (player.active != 1)
 		{
-			CP_Engine_SetNextGameState(Asteroids_GameOver_Init, Asteroids_GameOver_Update, Asteroids_GameOver_Exit);
+			static float timer = 3;
+			timer -= CP_System_GetDt();
+			if (timer < 0)
+			{
+				CP_Engine_SetNextGameState(Asteroids_GameOver_Init, Asteroids_GameOver_Update, Asteroids_GameOver_Exit);
+			}
 			CP_Engine_Run();
 		}
 
