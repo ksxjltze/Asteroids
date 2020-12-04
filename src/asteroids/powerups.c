@@ -81,6 +81,7 @@ void Asteroids_Update_Powerups(struct Player* player) // draws and checks every 
 		if (powerup_pool[i].effect == true) // Update every frame if powerup effect is running
 		{
 			Asteroids_Powerup_Lifespan_Manager(&powerup_pool[i]);
+			printf("lifespan: %.2f\n", powerup_pool[i].lifespan);
 		}
 		if (powerup_pool[i].active == true) // Update every frame if power up is on screen
 		{
@@ -145,7 +146,6 @@ void Asteroids_Generate_Powerup_On_Enemy_Death(CP_Vector position) //Guarded by 
 	{
 		if (!powerup_pool[i].active && !powerup_pool[i].effect)
 		{
-			/*printf("spawn\n");*/
 			powerup_pool[i].active = true;
 			powerup_pool[i].type = Asteroids_Generate_Random_Powerup();
 			powerup_pool[i].pos = position;
@@ -153,6 +153,8 @@ void Asteroids_Generate_Powerup_On_Enemy_Death(CP_Vector position) //Guarded by 
 			powerup_pool[i].movement_Vel.y = CP_Random_RangeFloat(-3, 3);
 			powerup_pool[i].rotation = 50.0f;
 			powerup_pool[i].lifespan = ASTEROIDS_POWERUP_LIFESPAN_DURATION;
+			if (powerup_pool[i].type == INVULNERABILITY)
+				powerup_pool[i].lifespan = ASTEROIDS_POWERUP_INVUNERABILITY_DURATION;
 			return;
 		}
 	}
@@ -187,6 +189,8 @@ void Asteroids_Spawn_Floating_Powerup(void)	// Initialize variables for floating
 			powerup_pool[i].movement_Vel.y = CP_Random_RangeFloat(-3, 3);
 			powerup_pool[i].rotation = 50.0f;
 			powerup_pool[i].lifespan = ASTEROIDS_POWERUP_LIFESPAN_DURATION;
+			if (powerup_pool[i].type == INVULNERABILITY)
+				powerup_pool[i].lifespan = ASTEROIDS_POWERUP_INVUNERABILITY_DURATION;
 			return;
 		}
 	}
