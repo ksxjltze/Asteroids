@@ -56,6 +56,7 @@ struct Player Asteroids_Player_Init(float player_width, float player_height)
 	Railgun_Base.isPiercing = false;
 
 	player.weapon = Railgun_Base;
+	player.weapon.projectile_count = 1;
 
 	player.status.hit = 0;
 	player.status.hit_cooldown = 0;
