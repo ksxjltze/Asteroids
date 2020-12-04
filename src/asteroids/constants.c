@@ -78,8 +78,6 @@ const char* ASTEROIDS_PLAYER_SPRITE_PATH_DEFAULT = "./Assets/Spaceship2.png";
 const char* ASTEROIDS_PLAYER_SPRITE_PATH_LEGACY = "./Assets/spaceship1.png";
 const char* ASTEROIDS_PLAYER_SPRITE_PATH_PROTOTYPE = "./Assets/ship_temp.png";
 const char* ASTEROIDS_HEART_SPRITE_PATH = "./Assets/heart.png";
-const float ASTEROIDS_ASTEROID_ENEMY_BASE_DAMAGE = 100.0f;
-const float ASTEROIDS_SPRITE_EXPLOSION_DIMENSIONS_SCALE_FACTOR = 0.3f;
 
 
 
