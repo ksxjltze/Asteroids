@@ -41,6 +41,8 @@ void Asteroids_Upgrades_Init(void)
 
 	Asteroids_Upgrades_Create_Upgrade(PIERCING, ASTEROIDS_UPGRADES_PIERCING_PROJECTILES_UPGRADE_COST, "Piercing Projectiles");
 	Asteroids_Upgrades_Upgrade_Disable_Levels(PIERCING);
+
+	Asteroids_Upgrades_Create_Upgrade(MULTISHOT, ASTEROIDS_UPGRADES_MULTISHOT_UPGRADE_COST, "Multishot");
 }
 
 void Asteroids_Upgrades_Create_Upgrade(unsigned int id, int cost, const char* name)
@@ -276,6 +278,9 @@ void Asteroids_Upgrades_Set_Upgrade_Name(Upgrade* upgrade)
 	case PIERCING:
 		upgrade->name = "Piercing Projectiles";
 		break;
+	case MULTISHOT:
+		upgrade->name = "Multishot";
+		break;
 	default:
 		break;
 	}
@@ -290,6 +295,7 @@ void Asteroids_Upgrades_Apply_Upgrades(Player* player)
 	Upgrade fireRate = Asteroids_Upgrades_Get_Upgrade(FIRE_RATE);
 	Upgrade projectileSpeed = Asteroids_Upgrades_Get_Upgrade(PROJECTILE_SPEED);
 	Upgrade piercing = Asteroids_Upgrades_Get_Upgrade(PIERCING);
+	Upgrade multishot = Asteroids_Upgrades_Get_Upgrade(MULTISHOT);
 
 	if (fuelCapacity.id != NONE)
 	{
@@ -371,6 +377,18 @@ void Asteroids_Upgrades_Apply_Upgrades(Player* player)
 		{
 			player->weapon.isPiercing = true;
 			printf("Upgrade: Piercing Projectiles enabled.\n");
+		}
+	}
+
+	if (multishot.id != NONE)
+	{
+		int upgrade = multishot.level;
+		player->weapon.projectile_count += upgrade;
+
+		if (multishot.level > 0)
+		{
+			printf("Upgrade: Projectile Count increased by %d.\n", upgrade);
+			printf("Projectile Count: %d\n", player->weapon.projectile_count);
 		}
 	}
 
