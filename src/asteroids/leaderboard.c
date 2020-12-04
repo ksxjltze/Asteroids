@@ -26,8 +26,8 @@ CP_Vector cameraPos;
 Score* highscores;
 static size_t highscore_count;
 
-static float row_width = 40;
-static int row_count = 16;
+static float row_height;
+static int row_count;
 
 float offsets[SCORE_VARIABLES_COUNT] = { 100, 350, 500, 650, 850, 1050};
 char labels[SCORE_VARIABLES_COUNT][20] = { "Name", "Kills", "Time", "Difficulty", "Stage", "Score" };
@@ -38,6 +38,9 @@ void Asteroids_Leaderboard_Init()
 	highscore_count = 0;
 	Asteroids_Leaderboard_ReadScores();
 	cameraPos = CP_Vector_Zero();
+	row_height = 40.0f;
+	row_count = (int)((WIN_HEIGHT - offsets[0] - 100) / row_height);
+
 }
 
 void Asteroids_Leaderboard_Draw_Scrollbar()
@@ -49,7 +52,7 @@ void Asteroids_Leaderboard_Draw_Scrollbar()
 	CP_Graphics_DrawRect(pos.x, pos.y, 20, scrollbar_height);
 
 	//scroll thingy
-	pos.y += (cameraPos.y / row_width) * (scrollbar_height / (highscore_count - row_count)); 
+	pos.y += (cameraPos.y / row_height) * (scrollbar_height / (highscore_count - row_count));
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Graphics_DrawRect(pos.x, pos.y, 20, 10);
 }
@@ -61,17 +64,17 @@ void Asteroids_Leaderboard_Update()
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_LEFT, CP_TEXT_ALIGN_V_BASELINE);
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Settings_TextSize(20.0f);
+	CP_Settings_TextSize(row_height);
 
 	for (int i = 0; i < SCORE_VARIABLES_COUNT; i++)
 	{
-		CP_Vector pos = CP_Vector_Set(offsets[i], row_width);
+		CP_Vector pos = CP_Vector_Set(offsets[i], row_height);
 		CP_Font_DrawText(labels[i], pos.x, pos.y);
 	}
 
 	for (size_t i = 0; i < highscore_count; i++)
 	{
-		CP_Vector pos = CP_Vector_Set(103, ((float)i + 1) * row_width + 40);
+		CP_Vector pos = CP_Vector_Set(103, ((float)i + 1) * row_height + 40);
 		pos = CP_Vector_MatrixMultiply(CP_Matrix_Translate(CP_Vector_Negate(cameraPos)), pos);
 
 		char scoreStrings[SCORE_VARIABLES_COUNT][100];
@@ -103,12 +106,15 @@ void Asteroids_Leaderboard_Check_Input()
 {
 	if (CP_Input_MouseWheel() != 0)
 	{
-		float leaderboardMaxY = highscore_count * row_width - row_count * row_width;
-		cameraPos.y -= CP_Input_MouseWheel() * row_width;
+		cameraPos.y -= CP_Input_MouseWheel() * row_height;
 		if (cameraPos.y < 0)
+		{
 			cameraPos.y = 0;
-		else if (cameraPos.y > leaderboardMaxY)
-			cameraPos.y = leaderboardMaxY;
+		}
+		else if (cameraPos.y > highscore_count * row_height - row_count * row_height)
+		{
+			cameraPos.y = highscore_count * row_height - row_count * row_height;
+		}
 	}
 }
 
