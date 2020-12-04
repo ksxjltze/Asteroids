@@ -1,6 +1,6 @@
 #include "constants.h"
 const float SPLASH_DURATION = 3.0f;
-const float ASTEROIDS_DIFFICULTY_INTERVAL = 90.0f;
+const float ASTEROIDS_DIFFICULTY_INTERVAL = 5.0f;
 const int ASTEROIDS_DIFFICULTY_CAP = 10;
 
 

@@ -16,6 +16,7 @@
 #include "audio_manager.h"
 #include "final_boss.h"
 #include "leaderboard.h"
+#include "final_boss.h"
 
 Button btnRestart;
 Button btnQuit; //return to main menu
@@ -49,6 +50,7 @@ void Asteroids_GameOver_Init(void)
 
 void Asteroids_GameOver_Restart()
 {
+	Asteroids_Final_Boss_Reset();
 	CP_Engine_SetNextGameState(Asteroids_Init, Asteroids_Update, Asteroids_Exit);
 }
 
