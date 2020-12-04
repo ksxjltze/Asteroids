@@ -149,7 +149,7 @@ void Asteroids_Bullet_Split(Bullet bullets[], int pool_size, int bullet_count, f
 	for (int i = 0; i < bullet_count; i++)
 	{
 		CP_Vector split = shoot_direction;
-		CP_Matrix rotate = CP_Matrix_Rotate(angle * i - angle * (float)bullet_count / 2);
+		CP_Matrix rotate = CP_Matrix_Rotate((-angle * ((float)bullet_count / 2) + angle * i));
 		split = CP_Vector_MatrixMultiply(rotate, split);
 		Asteroids_Bullet_Spawn(bullets, pool_size, player, split);
 	}

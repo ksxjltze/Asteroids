@@ -293,9 +293,12 @@ void Asteroids_Check_Input()
 		{
 			Asteroids_Bullet_Split(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, player.weapon.projectile_count, ASTEROIDS_UPGRADES_MULTISHOT_ANGLE, player, shoot_direction);
 		}
+		else
+		{
+			Asteroids_Bullet_Spawn(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, player, shoot_direction);
+		}
 
 		shoot_cooldown = 60 / (ASTEROIDS_WEAPON_RAILGUN_FIRE_RATE + player.weapon.fire_rate); //seconds per bullet
-		Asteroids_Bullet_Spawn(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, player, shoot_direction);
 		Asteroids_Bullet_Powerup_Split(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, player, shoot_direction);
 
 		if (DIFFICULTY_OPTION == EASY)
