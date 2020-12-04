@@ -1,3 +1,17 @@
+//---------------------------------------------------------
+// file:	final_boss.h
+// author:	Bryan Koh Yan Wei
+//
+//
+// email:	yanweibryan.koh@digipen.edu
+//			
+//
+// brief:	Handles the code related to the final boss
+//
+//
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #include "final_boss.h"
 #include "constants.h"
 #include "state.h"

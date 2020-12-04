@@ -1,3 +1,15 @@
+//---------------------------------------------------------
+// file:	obstacles.c
+// author:	Bryan Koh Yan Wei
+//
+// email:	yanweibryan.koh@digipen.edu
+//			
+// brief:	Code relating to the game environment obstacles.
+//
+//
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #include "obstacles.h"
 #include "utility.h"
 #include "audio_manager.h"

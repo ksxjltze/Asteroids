@@ -1,3 +1,15 @@
+//---------------------------------------------------------
+// file:	powerup.c
+// author:	Bryan Koh Yan Wei
+//
+// email:	yanweibryan.koh@digipen.edu
+//			
+// brief:	Code relating to the powerups.
+//
+//
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #include "powerups.h"
 #include "final_boss.h"
 #include "audio_manager.h"
