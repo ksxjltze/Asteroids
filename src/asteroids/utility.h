@@ -8,6 +8,7 @@ CP_Vector Asteroids_Utility_Generate_Random_Pos();
 CP_Vector Asteroids_Utility_Generate_Random_Pos_Var2(float width, float height);
 CP_Vector Asteroids_Utility_GetWindowMiddle();
 void Asteroids_Utility_Generate_Hurt_Sprite(CP_Image sprite, CP_Image* out);
+void Asteroids_Utility_Generate_Blue_Sprite(CP_Image sprite, CP_Image* out);
 bool isMouseOver_Rect(CP_Vector position, float width, float height, float mouseX, float mouseY);
 bool Asteroids_Utility_isInWindow(CP_Vector position);
 void Asteroids_Utility_Move_Object_To_Mouse(CP_Vector* position);

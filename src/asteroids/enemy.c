@@ -412,13 +412,18 @@ void Asteroids_Enemy_Hit(Enemy* enemy, float damage)
 			enemy->status.hit = 1;
 			enemy->hp.current -= damage * ASTEROIDS_FINAL_BOSS_ENRAGED_DMG_AMP;
 		}
+		else if (bossState.id == SLEEP)
+		{
+			enemy->status.hit = 1;
+			enemy->hp.current -= damage * ASTEROIDS_FINAL_BOSS_SLEEP_DMG_REDUCTION;
+		}
 		else
+
 		{
 			enemy->status.hit = 1;
 			enemy->hp.current -= damage;
 		}
 	}
-	printf("%.2f\n", enemy->hp.current);
 }
 
 //LIU KE

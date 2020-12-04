@@ -23,9 +23,12 @@ typedef struct Particles
 void particle_init();
 void explosion_init(void);
 void smoke_init(void);
+void player_death_init(void);
 
 void spawn_explosion_anim(CP_Vector position, float size);
 void spawn_smoke_trail_anim(CP_Vector position, float size);
+void spawn_death_particles(CP_Vector position, int particles, float min_velocity,
+	float max_velocity, float size);
 
 void particle_update(void);
 void draw_particle();

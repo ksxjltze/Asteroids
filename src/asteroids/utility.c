@@ -46,8 +46,48 @@ void Asteroids_Utility_Generate_Hurt_Sprite(CP_Image sprite, CP_Image* out)
 			}
 			else
 				pixels[i] = 0;
-
 		}
+
+	}
+
+	CP_Image image = CP_Image_CreateFromData(CP_Image_GetWidth(sprite), CP_Image_GetHeight(sprite), pixels);
+	*out = image;
+
+	free(pixels);
+
+	return;
+}
+
+void Asteroids_Utility_Generate_Blue_Sprite(CP_Image sprite, CP_Image* out)
+{
+	unsigned char* pixels = malloc(CP_Image_GetPixelBufferSize(sprite));
+	CP_Image_GetPixelData(sprite, pixels);
+	//Create Enemy Hurt Sprite from modified enemy_sprite pixel data.
+	if (pixels)
+	{
+		for (int i = 0; i < CP_Image_GetPixelBufferSize(sprite); i++)
+		{
+			if (i % 4 != 2) //not blue
+			{
+				if (i % 4 == 1)
+				{
+					pixels[i] = 100;
+					continue;
+				}
+				if (i > 2)
+				{
+					if (i % 4 != 3)
+						pixels[i] = 0;
+
+				}
+			}
+			else
+			{
+				pixels[i] = 255;
+			}
+				
+		}
+		printf("\n");
 
 	}
 
