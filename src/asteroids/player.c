@@ -106,8 +106,8 @@ void Asteroids_Player_Update(Player* player)
 void Asteroids_Player_Death(Player* player)
 {
 	player->active = 0;
-
 	//death particles.
+}
 
 void Asteroids_Player_Hit(Player* player, float damage) //Player hurt
 {
