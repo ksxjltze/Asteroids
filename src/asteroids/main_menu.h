@@ -29,7 +29,7 @@ void Asteroids_QuitGame(void);
 void Asteroids_Credits(void);
 void Asteroids_Display_LeaderBoard(void);
 void Asteroids_Exit_Screen(void);
-void Asteroids_VolOnOff(void);
+void Asteroids_Menu_Display_VolumeONOFF(void);
 
 //BACKGROUND
 void Asteroids_MainMenu_Update_Background(void);
