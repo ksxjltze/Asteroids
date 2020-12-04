@@ -220,7 +220,7 @@ void Asteroids_Sprites_Load()
 
 void Asteroids_Player_Rotate(Player* player, CP_Vector direction)
 {
-	player->rotation = Asteroids_Utility_Get_Rotation_Angle_To_Mouse(the_player.pos);
+	player->rotation = Asteroids_Utility_Get_Rotation_Angle_To_Mouse(player->pos);
 }
 
 void Asteroids_Check_Input(Player* player)

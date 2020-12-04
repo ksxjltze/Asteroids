@@ -29,10 +29,10 @@ void Asteroids_Tutorial_Update(void)
 {
 	Asteroids_Check_Input(&player);
 	Asteroids_Player_Update(&player);
-	Asteroids_Tutorial_State_Update();
-
 	Asteroids_Tutorial_Draw();
 	Asteroids_Player_Draw(player_sprite, player.pos, ASTEROIDS_PLAYER_SPRITE_WIDTH, ASTEROIDS_PLAYER_SPRITE_HEIGHT, 255, player.rotation);
+	Asteroids_Tutorial_State_Update();
+
 }
 
 void Asteroids_Tutorial_Draw(void)
@@ -49,6 +49,7 @@ void Asteroids_Tutorial_State_Move_Tutorial(void* context)
 {
 	if (context)
 	{
+		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 		Asteroids_Tutorial_DrawText(Asteroids_Utility_GetWindowMiddle(), "TEST");
 	}
 }
