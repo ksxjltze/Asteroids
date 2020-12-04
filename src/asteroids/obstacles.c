@@ -57,7 +57,6 @@ void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_co
 			Asteroids_Draw_Obstacle(&GammaRay);
 			Asteroids_Obstacle_Check_LifeSpan(&GammaRay);
 			Asteroids_Check_Collision_Gammaray_Enemy_Player(enemy_pool, player, &GammaRay, enemy_count);
-			//Asteroids_Check_Collision_Gammaray_Player(player, &GammaRay);
 
 
 			for (int j = 0; j < 100; j++)
@@ -68,10 +67,6 @@ void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_co
 
 		}
 	}
-		/*if (CP_Input_KeyTriggered(KEY_T))
-		{
-			Asteroids_Obstacle_Spawn_Blackhole();
-		}*/
 	Asteroids_particle_dot_debug();
 }
 
@@ -185,7 +180,7 @@ void Asteroids_Obstacle_TimeInterval(void)
 	obstacle_interval -= dt;
 	warning_interval -= dt;
 
-	int rng = CP_Random_RangeInt(1, 1);
+	int rng = CP_Random_RangeInt(0, 1);
 
 	if (warning_interval < 0)
 	{
@@ -213,6 +208,7 @@ void Asteroids_Check_Collision_Gammaray_Enemy_Player(Enemy enemy_pool[], Player*
 {
 	if (Asteroids_Collision_CheckCollision_AABB_Circle(obstacle->Collider, obstacle->pos, player->collider, player->pos))
 	{
+		spawn_explosion_anim(player->pos, obstacle->Collider2.diameter);
 		obstacle->active = false;
 		player->hp.current -= ASTEROIDS_OBSTACLE_GAMMARAY_DAMAGE;
 	}
