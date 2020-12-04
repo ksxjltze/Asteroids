@@ -5,6 +5,7 @@
 #include "enemy.h"
 #include "bullet.h"
 #include "powerups.h"
+#include "player.h"
 #include "utility.h"
 #include "gameover.h"
 #include "pause.h"
@@ -21,7 +22,6 @@
 #include "audio_manager.h"
 #include "Camera.h"
 #include "leaderboard.h"
-#include "difficulty_menu.h"
 
 float shoot_cooldown = 0.0f;
 
@@ -35,6 +35,7 @@ CP_Image player_health_sprite;
 //player
 float player_width;
 float player_height;
+float player_rotation;
 
 float bullet_width;
 float bullet_height;
@@ -48,14 +49,13 @@ static float difficulty_timer;
 Bullet bullet_pool[ASTEROIDS_POOLSIZE_BULLETS];
 Enemy enemy_pool[ASTEROIDS_POOLSIZE_ENEMIES];
 Enemy Boss;
-Player the_player;
+Player player;
 
 // use CP_Engine_SetNextGameState to specify this function as the initialization function
 // this function will be called once at the beginning of the program
 void Asteroids_Init(void)
 {
 	// initialize variables and CProcessing settings for this gamestate
-	Asteroids_Difficulty_Get_From_File();
 	Asteroids_Set_Difficulty(DIFFICULTY_OPTION);
 	Asteroids_Sprites_Load();
 	Asteroids_UI_Init();
@@ -73,7 +73,7 @@ void Asteroids_Init(void)
 	Asteroids_Init_Score();
 	Asteroids_Powerup_Player_Interaction_Init();
 	Asteroids_Obstacles_Init();
-	Asteroids_Boss_Init(enemy_sprites, enemy_hurt_sprites, enemy_width, enemy_height, &the_player);
+	Asteroids_Boss_Init(enemy_sprites, enemy_hurt_sprites, enemy_width, enemy_height, &player);
 	Asteroids_Final_Boss_Init();
 	Asteroids_Audio_Manager_Init();
 	Asteroids_Leaderboard_Init();
@@ -85,7 +85,7 @@ void Asteroids_Init(void)
 void Asteroids_Update(void)
 {
 	// check input, update simulation, render etc.
-	Asteroids_Check_Input(&the_player);
+	Asteroids_Check_Input();
 	Asteroids_Pause_Update();
 
 	if (!Asteroids_Pause_GetStatus())
@@ -95,40 +95,41 @@ void Asteroids_Update(void)
 		Asteroids_Difficulty_Update();
 		Asteroids_Enemy_Spawn_Timer(enemy_pool, enemy_count);
 
-		Asteroids_Enemy_Update(enemy_pool, enemy_count, the_player);
-		Asteroids_Bullet_Update(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, enemy_pool, enemy_count, the_player);
+		Asteroids_Enemy_Update(enemy_pool, enemy_count, player);
+		Asteroids_Bullet_Update(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, enemy_pool, enemy_count, player);
+
 
 		if (!debug_mode)
-			Asteroids_Collision_CheckCollision_Enemy_Player(enemy_pool, enemy_count, &the_player);
+			Asteroids_Collision_CheckCollision_Enemy_Player(enemy_pool, enemy_count, &player);
 
 		particle_update();
 
 		//Gameover
-		if (the_player.active != 1)
+		if (player.active != 1)
 		{
-			static float timer = 3;
-			timer -= CP_System_GetDt();
-			if (timer < 0)
+			//static float timer = 5;
+			//timer -= CP_System_GetDt();
+			CP_Engine_SetNextGameState(Asteroids_GameOver_Init, Asteroids_GameOver_Update, Asteroids_GameOver_Exit);
+			/*if (timer < 0)
 			{
-				CP_Engine_SetNextGameState(Asteroids_GameOver_Init, Asteroids_GameOver_Update, Asteroids_GameOver_Exit);
-			}
+			}*/
 			CP_Engine_Run();
 		}
 
-		Asteroids_Obstacles_Update(enemy_pool, &the_player, enemy_count);
-		Asteroids_Boss_Update(&the_player, enemy_pool, enemy_count, bullet_pool);
-		Asteroids_Update_Powerups(&the_player);
+		Asteroids_Obstacles_Update(enemy_pool, &player, enemy_count);
+		Asteroids_Boss_Update(&player, enemy_pool, enemy_count, bullet_pool);
+		Asteroids_Update_Powerups(&player);
 		Asteroids_Particle_Draw_Dot();
 
 		Asteroids_Debug();
 		Asteroids_Draw();
-		Asteroids_Final_Boss_Update(&the_player, enemy_pool, enemy_count, bullet_pool);
+		Asteroids_Final_Boss_Update(&player, enemy_pool, enemy_count, bullet_pool);
 		Asteroids_Draw_Scores();
-		Asteroids_Player_Update(&the_player);
-		Asteroids_UI_Update(the_player);
-		Asteroids_Player_Draw(player_sprite, the_player.pos, player_width, player_height, the_player.alpha, the_player.rotation);
-
-
+		Asteroids_Player_Update(&player);
+		Asteroids_UI_Update(player);
+		Asteroids_Player_Draw(player_sprite, player.pos, player_width, player_height, player.alpha, player_rotation);
+		draw_player_death_anim(&player);
+			;
 	}
 }
 
@@ -176,14 +177,14 @@ void Asteroids_Raise_Difficulty()
 void Asteroids_Entities_Init()
 {
 	//Player
-	the_player = Asteroids_Player_Init(player_width, player_height, true);
+	player = Asteroids_Player_Init(player_width, player_height);
 
 	//TODO: Possibly implement an entity manager to manage different types of entities.
-	Asteroids_Enemy_Init(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, enemy_width, enemy_height, the_player);
+	Asteroids_Enemy_Init(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, enemy_width, enemy_height, player);
 	Asteroids_Bullet_Init(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, bullet_width, bullet_height);
 
 	//temp
-	the_player.bullet_diameter = bullet_pool[0].collider.diameter;
+	player.bullet_diameter = bullet_pool[0].collider.diameter;
 
 }
 
@@ -200,15 +201,15 @@ void Asteroids_Sprites_Load()
 	enemy_sprites[0] = CP_Image_Load("./Assets/asteroids_cropped.png");
 	enemy_sprites[1] = CP_Image_Load("./Assets/asteroids_small.png");
 	enemy_sprites[2] = CP_Image_Load("./Assets/Largeasteroids.png");
-	enemy_sprites[2] = CP_Image_Load("./Assets/newasteroids.png");
 
 	for (int i = 0; i < ASTEROIDS_ENEMY_SPRITE_COUNT; i++)
 	{
 		Asteroids_Utility_Generate_Hurt_Sprite(enemy_sprites[i], &enemy_hurt_sprites[i]);
 	}
+
 	player_health_sprite = CP_Image_Load("./Assets/heart.png");
 
-	the_player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
+	player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
 
 	player_width = (float)CP_Image_GetWidth(player_sprite) * 2;
 	player_height = (float)CP_Image_GetHeight(player_sprite) * 2;
@@ -223,28 +224,28 @@ void Asteroids_Sprites_Load()
 
 }
 
-void Asteroids_Player_Rotate(Player* player, CP_Vector direction)
+void Asteroids_Player_Rotate(CP_Vector direction)
 {
-	player->rotation = Asteroids_Utility_Get_Rotation_Angle_To_Mouse(player->pos);
+	player_rotation = Asteroids_Utility_Get_Rotation_Angle_To_Mouse(player.pos);
 }
 
-void Asteroids_Check_Input(Player* player)
+void Asteroids_Check_Input()
 {
 	Asteroids_Pause_CheckInput();
 
-	if (player->active != 1)
+	if (player.active != 1)
 		return;
 
 	float mouseX = CP_Input_GetMouseX();
 	float mouseY = CP_Input_GetMouseY();
 	CP_Vector mousePos = CP_Vector_Set(mouseX, mouseY);
-	CP_Vector shoot_direction = CP_Vector_Normalize(CP_Vector_Subtract(mousePos, player->pos));
-	smoke_update(shoot_direction, player->pos);
+	CP_Vector shoot_direction = CP_Vector_Normalize(CP_Vector_Subtract(mousePos, player.pos));
+	smoke_update(shoot_direction, player.pos);
 	
 
 	float dt = CP_System_GetDt();
 
-	Asteroids_Player_Rotate(player, shoot_direction);
+	Asteroids_Player_Rotate(shoot_direction);
 
 	if (CP_Input_KeyDown(KEY_GRAVE_ACCENT))
 	{
@@ -258,26 +259,21 @@ void Asteroids_Check_Input(Player* player)
 	}
 
 	if (DIFFICULTY_OPTION < HARD)
-		Asteroids_Player_Simple_Movement(player);
+		Asteroids_Player_Simple_Movement(&player);
 	else
-		Asteroids_Player_Check_Input(player, dt, shoot_direction);
+		Asteroids_Player_Check_Input(&player, dt, shoot_direction);
 
 	if (CP_Input_MouseDown(MOUSE_BUTTON_1))
 	{
 		if (shoot_cooldown > 0)
 			return;
 
-		shoot_cooldown = 60 / (ASTEROIDS_WEAPON_RAILGUN_FIRE_RATE + player->weapon.fire_rate); //seconds per bullet
-		Asteroids_Bullet_Spawn(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, *player, shoot_direction);
-		Asteroids_Bullet_Powerup_Split(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, *player, shoot_direction);
+		shoot_cooldown = 60 / (ASTEROIDS_WEAPON_RAILGUN_FIRE_RATE + player.weapon.fire_rate); //seconds per bullet
+		Asteroids_Bullet_Spawn(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, player, shoot_direction);
+		Asteroids_Bullet_Powerup_Split(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, player, shoot_direction);
 
 		if (DIFFICULTY_OPTION == EASY)
-			Asteroids_Bullet_Split(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, 4, 15.0f, *player, shoot_direction);
-
-		if (player->weapon.projectile_count > 1)
-		{
-			Asteroids_Bullet_Split(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, player->weapon.projectile_count, 10.0f, *player, shoot_direction);
-		}
+			Asteroids_Bullet_Split(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, 4, 15.0f, player, shoot_direction);
 
 		Asteroids_Audio_Bullets_Play();
 
@@ -311,7 +307,7 @@ void Asteroids_Debug_Draw_Text()
 	char str_fuel_text[20];
 	memset(str_fuel_text, '\0', sizeof(str_fuel_text));
 
-	sprintf_s(str_fuel_text, 20, "Fuel: %d", (int)the_player.engine.fuel.current);
+	sprintf_s(str_fuel_text, 20, "Fuel: %d", (int)player.engine.fuel.current);
 
 	CP_Settings_TextSize(50.0f);
 
@@ -326,7 +322,7 @@ void Asteroids_Debug()
 
 	Asteroids_Debug_Draw_Text();
 	Asteroids_Debug_Check_Input();
-	Asteroids_Player_Debug(the_player);
+	Asteroids_Player_Debug(player);
 	Asteroids_Enemy_Debug(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES);
 	Asteroids_Bullet_Debug(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS);
 
@@ -341,7 +337,7 @@ void Asteroids_Debug_Check_Input()
 
 	if (CP_Input_KeyTriggered(KEY_MINUS))
 	{
-		Asteroids_Player_Death(&the_player);
+		Asteroids_Player_Death(&player);
 	}
 
 	if (CP_Input_KeyTriggered(KEY_F2))
