@@ -1,3 +1,16 @@
+//---------------------------------------------------------
+// file:	enemy.c
+// author:	Lee Jia Keat
+// contributors: Dania Mohd (Bullet sound, buttons), Liu Ke (explosions, dangeralert gameplay BGM)
+// email:	l.jiakeat@digipen.edu, 
+//
+// brief:	Enemy entity source file.
+//			Initializes, Updates and Draws Enemy entities (Asteroid).
+//			Provides an interface for damaging, destroying and spawning enemies.
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
+
 #include "audio_manager.h"
 #include "cprocessing.h"
 
