@@ -109,8 +109,6 @@ void Asteroids_Player_Death(Player* player)
 
 	//death particles.
 
-}
-
 void Asteroids_Player_Hit(Player* player, float damage) //Player hurt
 {
 	if (!player->status.hit)
