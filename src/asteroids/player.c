@@ -115,6 +115,7 @@ void Asteroids_Player_Hit(Player* player, float damage) //Player hurt
 {
 	if (!player->status.hit)
 	{
+		damage *= (float)(ASTEROIDS_GAME_DIFFICULTY / 4);
 		player->hp.current -= damage;
 		player->alpha = 150;
 		player->status.hit = 1;

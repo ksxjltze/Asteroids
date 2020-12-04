@@ -127,7 +127,6 @@ void Asteroids_Enemy_Final_Boss_Spawn()
 	
 	final_boss.collider.diameter = final_boss.size * boss_width;
 
-	printf("diameter: %.2f\n", final_boss.collider.diameter);
 	final_boss.sprite_type = CP_Random_RangeInt(0, 1);
 	battleStarted = 1;
 
@@ -188,7 +187,7 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 					Boss_Projectile->id = i;
 
 					Boss_Projectile->size = 2 + ((ASTEROIDS_GAME_DIFFICULTY - 1) * 0.2f);
-					printf("%.2f\n", Boss_Projectile->size);
+					//printf("%.2f\n", Boss_Projectile->size);
 					Boss_Projectile->velocity = CP_Vector_Subtract (player->pos, Boss_Projectile->pos);
 					Boss_Projectile->velocity = CP_Vector_Normalize(Boss_Projectile->velocity);
 					Boss_Projectile->velocity = CP_Vector_Scale(Boss_Projectile->velocity, ASTEROIDS_FINAL_BOSS_PROJECTILE_SPEED * (((float)ASTEROIDS_GAME_DIFFICULTY - 1) / 2));
@@ -281,8 +280,6 @@ void Asteroids_Final_Boss_Reset()
 	final_boss.hp.current = 0;
 	final_boss.speed = 0;
 	final_boss.pos = Asteroids_Utility_Generate_Random_Pos_Var2(final_boss.collider.diameter, final_boss.collider.diameter);
-
-	printf("posx: %.2f posy: %.2f\n", final_boss.pos.x, final_boss.pos.y);
 
 	final_boss.size = 0;
 	final_boss.split_count = 0;
