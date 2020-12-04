@@ -18,10 +18,13 @@
 #include "file_manager.h"
 #include "game.h"
 
+#define SCORE_VARIABLES_COUNT 5
 const char* filePath = "./Assets/scores.data";
 
 Score* highscores;
 static size_t highscore_count;
+float offsets[SCORE_VARIABLES_COUNT] = { 100, 250, 400, 550, 750 };
+char labels[SCORE_VARIABLES_COUNT][20] = { "Name", "Kills", "Time", "Difficulty", "Score" };
 
 void Asteroids_Leaderboard_Init()
 {
@@ -37,25 +40,32 @@ void Asteroids_Leaderboard_Update()
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Settings_TextSize(30.0f);
 
-	CP_Font_DrawText("Name", 100, 50);
-	CP_Font_DrawText("Kills", 200, 50);
-	CP_Font_DrawText("Time", 300, 50);
-	CP_Font_DrawText("Difficulty", 400, 50);
+	for (int i = 0; i < SCORE_VARIABLES_COUNT; i++)
+	{
+		CP_Font_DrawText(labels[i], offsets[i], 50);
+	}
 
 	for (size_t i = 0; i < highscore_count; i++)
 	{
 		CP_Vector pos = CP_Vector_Set(103, ((float)i + 1) * 50 + 40);
-		CP_Font_DrawText(highscores[i].name, pos.x, pos.y);
 
-		char killText[100];
-		sprintf_s(killText, 100, "%d", highscores[i].enemy_kill_score);
-		char timeText[100];
-		sprintf_s(timeText, 100, "%.2f", highscores[i].time_score);		
-		char* difficultyText = Asteroids_Leaderboard_Evaluate_Difficulty(highscores[i].difficulty);
+		char scoreStrings[SCORE_VARIABLES_COUNT][100];
+		for (int j = 0; j < SCORE_VARIABLES_COUNT; j++)
+		{
+			memset(scoreStrings[j], 0, 100);
+		}
 
-		CP_Font_DrawText(killText, pos.x + 100, pos.y);
-		CP_Font_DrawText(timeText, pos.x + 200, pos.y);
-		CP_Font_DrawText(difficultyText, pos.x + 300, pos.y);
+		strcpy_s(scoreStrings[0], NAME_MAX_SIZE, highscores[i].name);
+		sprintf_s(scoreStrings[1], 100, "%d", highscores[i].enemy_kill_score);
+		sprintf_s(scoreStrings[2], 100, "%.2fs", highscores[i].time_score);
+		strcpy_s(scoreStrings[3], 20, Asteroids_Leaderboard_Evaluate_Difficulty(highscores[i].difficulty));
+		sprintf_s(scoreStrings[4], 100, "%.d", Asteroids_Leaderboard_Evaluate_Score(highscores[i]));
+
+		for (int j = 0; j < SCORE_VARIABLES_COUNT; j++)
+		{
+			CP_Font_DrawText(scoreStrings[j], offsets[j], pos.y);
+		}
+
 	}
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 }
@@ -180,14 +190,19 @@ void Asteroids_Leaderboard_WriteScores()
 	}
 }
 
+int Asteroids_Leaderboard_Evaluate_Score(Score score)
+{
+	return (int)((score.enemy_kill_score + score.time_score) * score.difficulty);
+}
+
 int Asteroids_Leaderboard_Compare_Highscores(void* context, const void* lhs, const void* rhs)
 {
 	Score left = *(Score*)lhs;
 	Score right = *(Score*)rhs;
 
-	if ((left.enemy_kill_score + left.time_score) * left.difficulty < (right.enemy_kill_score + right.time_score) * right.difficulty)
+	if (Asteroids_Leaderboard_Evaluate_Score(left) < Asteroids_Leaderboard_Evaluate_Score(right))
 		return 1;
-	else if ((left.enemy_kill_score + left.time_score) * left.difficulty > (right.enemy_kill_score + right.time_score) * right.difficulty)
+	else if (Asteroids_Leaderboard_Evaluate_Score(left) > Asteroids_Leaderboard_Evaluate_Score(right))
 		return -1;
 	return 0;
 }

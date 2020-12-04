@@ -24,3 +24,4 @@ int Asteroids_Leaderboard_Compare_Highscores(void* context, const void* lhs, con
 void Asteroids_Leaderboard_ReadScores();
 void Asteroids_Leaderboard_WriteScores();
 char* Asteroids_Leaderboard_Evaluate_Difficulty(int difficulty);
+int Asteroids_Leaderboard_Evaluate_Score(Score score);
