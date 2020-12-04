@@ -37,6 +37,7 @@ typedef struct Player {
 	int score;
 	float bullet_diameter;
 	int alpha;
+	float rotation;
 } Player;
 
 

@@ -178,7 +178,7 @@ void Asteroids_Raise_Difficulty()
 void Asteroids_Entities_Init()
 {
 	//Player
-	the_player = Asteroids_Player_Init(player_width, player_height, true);
+	the_player = Asteroids_Player_Init(player_width, player_height);
 
 	//TODO: Possibly implement an entity manager to manage different types of entities.
 	Asteroids_Enemy_Init(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, enemy_width, enemy_height, the_player);

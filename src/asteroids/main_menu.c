@@ -8,7 +8,6 @@
 #include <stdbool.h>
 #include "Camera.h"
 #include "help.h"
-#include "tutorial.h"
 
 #define BUTTON_WIDTH 400.0f
 #define BUTTON_HEIGHT 80.0f
@@ -21,7 +20,7 @@ bool Playmusic = true;
 bool page1;
 bool page2;
 
-enum OVERLAY_TYPE { CREDITS_SCREEN, LEADERBOARD_SCREEN, CONTROLS_SCREEN, DIFFICULTY_MENU, SKIN_MENU, UPGRADES_MENU, VOL_BUTTON, TUTORIAL_BUTTON};
+enum OVERLAY_TYPE { CREDITS_SCREEN, LEADERBOARD_SCREEN, CONTROLS_SCREEN, DIFFICULTY_MENU, SKIN_MENU, UPGRADES_MENU, VOL_BUTTON};
 
 DIFFICULTY ASTEROIDS_GAME_DIFFICULTY = NORMAL;
 DIFFICULTY DIFFICULTY_OPTION = NORMAL;
@@ -31,7 +30,7 @@ static CP_Color textColor;
 static float menuTextSize;
 static char* menuText = "Asteroids";
 
-Button Credits, Play, Quit, Leaderboard, Controls, ExitBtn, DifficultyBtn, SkinsBtn, NextPage, PrevPage, UpgradesBtn, Volume, Tutorial;
+Button Credits, Play, Quit, Leaderboard, Controls, ExitBtn, DifficultyBtn, SkinsBtn, NextPage, PrevPage, UpgradesBtn, Volume;
 CP_Image Control_screen;
 CP_Image Control_screen2;
 CP_Image Credits_screen;
@@ -164,7 +163,6 @@ void Asteroids_Draw_MainMenu(void)
 		Asteroids_Button_Update(&SkinsBtn);
 		Asteroids_Button_Update(&UpgradesBtn);
 		Asteroids_Button_Update(&Volume);
-		Asteroids_Button_Update(&Tutorial);
 		Asteroids_MainMenu_Draw_Current_Ship();
 	}
 	else if (!status)
@@ -207,7 +205,6 @@ void Asteroids_MainMenu_Button_Init(void)
 	CP_Vector pos5 = CP_Vector_Set(x2, y2+30); 
 	CP_Vector pos10 = CP_Vector_Set(x2, y3+60); // Prev page
 	CP_Vector pos11 = CP_Vector_Set(x1, y2-290); //vol button
-	CP_Vector pos12 = CP_Vector_Set(x1, y2-190);// Tutorial button
 
 	// Exit Button
 	CP_Vector pos6 = CP_Vector_Set((float)((WIN_WIDTH / 2 - BUTTON_WIDTH / 2)), (float)(WIN_HEIGHT - BUTTON_HEIGHT));
@@ -232,7 +229,6 @@ void Asteroids_MainMenu_Button_Init(void)
 	PrevPage = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	UpgradesBtn = Asteroids_Button_Add_New_Button(BUTTON_WIDTH - 100.0f , BUTTON_HEIGHT - 40.0f);
 	Volume = Asteroids_Button_Add_New_Button(BUTTON_WIDTH - 150.0f , BUTTON_HEIGHT );
-	Tutorial = Asteroids_Button_Add_New_Button(BUTTON_WIDTH  , BUTTON_HEIGHT);
 
 	Asteroids_Button_Set_Text(&Play, textSize, "Play");
 	Asteroids_Button_Set_Text(&Controls, textSize, "Help");
@@ -246,7 +242,6 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Text(&PrevPage, textSize, "Back");
 	Asteroids_Button_Set_Text(&UpgradesBtn, textSize, "Upgrades");
 	Asteroids_Button_Set_Text(&Volume, textSize, "Vol");
-	Asteroids_Button_Set_Text(&Tutorial, textSize, "Tutorial");
 
 	Asteroids_Button_Set_Position(&Play, pos1 );
 	Asteroids_Button_Set_Position(&Controls, pos2);
@@ -260,7 +255,6 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Position(&SkinsBtn, pos5);
 	Asteroids_Button_Set_Position(&UpgradesBtn, upgradesPos);
 	Asteroids_Button_Set_Position(&Volume, pos11);
-	Asteroids_Button_Set_Position(&Tutorial, pos12);
 
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Play_Game, &Play);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Controls, &Controls);
@@ -272,7 +266,6 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_SkinMenu, &SkinsBtn);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_UpgradesMenu, &UpgradesBtn);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_VolumeONOFF, &Volume);
-	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_Tutorialplay, &Tutorial);
 
 	DifficultyBtn.colors.idle = CP_Color_Create(255, 255, 0, 255);
 	Asteroids_Button_Set_Text_Colors(&DifficultyBtn, CP_Color_Create(0, 0, 0, 255));
@@ -286,11 +279,6 @@ void Asteroids_Menu_Display_UpgradesMenu(void)
 	overlay_type = UPGRADES_MENU;
 	Asteroids_Upgrades_Menu_Init();
 }
-
-void Asteroids_Menu_Display_Tutorialplay(void)
-{
-	CP_Engine_SetNextGameState(Asteroids_Tutorial_Init, Asteroids_Tutorial_Update, Asteroids_Tutorial_Exit);
-};
 
 void Asteroids_Menu_Display_VolumeONOFF(void)
 {
