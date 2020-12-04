@@ -64,6 +64,7 @@ void Asteroids_Init(void)
 	particle_init();
 	explosion_init();
 	smoke_init();
+	
 
 	Asteroids_Entities_Init();
 	Asteroids_Pause_Init();
