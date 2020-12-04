@@ -49,9 +49,6 @@ void Asteroids_Leaderboard_Draw_Scrollbar()
 	CP_Graphics_DrawRect(pos.x, pos.y, 20, scrollbar_height);
 
 	//scroll thingy
-	//printf("%.2f\n", cameraPos.y / row_width);
-	printf("%.2f\n", cameraPos.y);
-	//printf("%f\n", (float)highscore_count * row_width);
 	pos.y += (cameraPos.y / row_width) * (scrollbar_height / (highscore_count - row_count)); 
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Graphics_DrawRect(pos.x, pos.y, 20, 10);
