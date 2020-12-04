@@ -33,9 +33,10 @@ void main_init(void)
 	WIN_WIDTH = CP_System_GetWindowWidth();
 	WIN_HEIGHT = CP_System_GetWindowHeight();
 
-	splash = CP_Image_Load("./Assets/DigiPen_WHITE.png");
-
-
+	if (CP_Random_RangeInt(1, 2) == 1)
+		splash = CP_Image_Load("./Assets/DigiPen_WHITE.png");
+	else
+		splash = CP_Image_Load("./Assets/DigiPen_RED.png");
 }
 
 void main_update(void)
