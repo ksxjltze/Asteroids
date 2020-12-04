@@ -29,6 +29,7 @@ void Asteroids_GameOver_Init(void)
 	float btnWidth = 300, btnHeight = 100;
 	float textSize = 80.0f;
 
+	CURRENT_SCORE.stage = ASTEROIDS_GAME_DIFFICULTY;
 	Asteroids_GameOver_Init_Score();
 
 	btnRestart = Asteroids_Button_Add_New_Button(btnWidth, btnHeight);

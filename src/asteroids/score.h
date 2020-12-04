@@ -11,6 +11,8 @@ typedef struct Scores
 	float time_score;
 	int enemy_kill_score;
 	int lame;
+	int difficulty_option;
+	int stage;
 	unsigned int id;
 	char name[NAME_MAX_SIZE];
 } Score;
