@@ -74,7 +74,6 @@
     <ClCompile Include="src\asteroids\final_boss.c" />
     <ClCompile Include="src\asteroids\game.c" />
     <ClCompile Include="src\asteroids\gameover.c" />
-    <ClCompile Include="src\asteroids\health.c" />
     <ClCompile Include="src\asteroids\help.c" />
     <ClCompile Include="src\asteroids\init.c" />
     <ClCompile Include="src\asteroids\leaderboard.c" />

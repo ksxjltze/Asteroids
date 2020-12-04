@@ -230,7 +230,7 @@ void Asteroids_Sprites_Load()
 
 	// player positions and sizes
 
-	the_player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
+	player.pos = CP_Vector_Set((float)WIN_WIDTH / 2, (float)WIN_HEIGHT / 2);
 
 	player_width = ASTEROIDS_PLAYER_SPRITE_WIDTH;
 	player_height = ASTEROIDS_PLAYER_SPRITE_HEIGHT;
