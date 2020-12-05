@@ -14,6 +14,7 @@
 #include "utility.h"
 #include "audio_manager.h"
 #include "final_boss.h"
+#include "powerups.h"
 
 
 dot dot_pool[MaxDotParticleArrSize];
@@ -26,6 +27,7 @@ static float warning_interval;
 
 static float dot_particle_lifespan;
 
+extern bool invulnerable;
 static bool pause_obstacles;
 
 void Asteroids_Obstacles_Init(void)
@@ -140,9 +142,12 @@ void Asteroids_Check_Collision_Blackhole_Enemy_Player(Enemy enemy_pool[], Player
 {
 	if (player)
 	{
-		if (Asteroids_Collision_CheckCollision_Circle_Test(obstacle->Collider2, obstacle->pos, player->collider, player->pos))
+		if (!invulnerable)
 		{
-			player->hp.current -= ASTEROIDS_OBSTACLE_BACKHOLE_DAMAGE;
+			if (Asteroids_Collision_CheckCollision_Circle_Test(obstacle->Collider2, obstacle->pos, player->collider, player->pos))
+			{
+				player->hp.current -= ASTEROIDS_OBSTACLE_BACKHOLE_DAMAGE;
+			}
 		}
 	}
 	for (int i = 0; i < enemy_count; i++)
@@ -223,11 +228,14 @@ void Asteroids_Check_Collision_Gammaray_Enemy_Player(Enemy enemy_pool[], Player*
 {
 	if (player)
 	{
-		if (Asteroids_Collision_CheckCollision_AABB_Circle(obstacle->Collider, obstacle->pos, player->collider, player->pos))
+		if (!invulnerable)
 		{
-			spawn_explosion_anim(player->pos, 20.0f);
-			obstacle->active = false;
-			player->hp.current -= ASTEROIDS_OBSTACLE_GAMMARAY_DAMAGE;
+			if (Asteroids_Collision_CheckCollision_AABB_Circle(obstacle->Collider, obstacle->pos, player->collider, player->pos))
+			{
+				spawn_explosion_anim(player->pos, 20.0f);
+				obstacle->active = false;
+				player->hp.current -= ASTEROIDS_OBSTACLE_GAMMARAY_DAMAGE;
+			}
 		}
 	}
 	for (int i = 0; i < enemy_count; i++)

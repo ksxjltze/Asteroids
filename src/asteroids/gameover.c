@@ -131,6 +131,9 @@ void Asteroids_GameOver_Update(void)
 	CP_Font_DrawText("PLAYER NAME:", (float)WIN_WIDTH / 2, (float)WIN_HEIGHT * 0.25f);
 
 	CP_Settings_TextSize(50.0f);
+
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 100));
+	CP_Graphics_DrawRect((float)WIN_WIDTH / 3 - 5.0f, (float)WIN_HEIGHT * 0.28f, 50.0f* 13, 50);
 	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
 	CP_Font_DrawText(CURRENT_SCORE.name, (float)WIN_WIDTH / 2, (float)WIN_HEIGHT * 0.3f);
 
