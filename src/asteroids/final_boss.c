@@ -130,6 +130,7 @@ void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_c
 
 void Asteroids_Enemy_Final_Boss_Spawn()
 {
+	Asteroids_Audio_Manager_BGM_Boss_Battle_Play();
 	Asteroids_Enemy_Disable_Spawn(); // stop spawning of random asteroids
 
 	final_boss.hp.max = ASTEROIDS_FINAL_BOSS_MAX_HP * (ASTEROIDS_GAME_DIFFICULTY - 1);
@@ -512,9 +513,12 @@ void Asteroids_Final_Boss_Death_Screen(Enemy Final_Boss, Player player)
 	Asteroids_Button_Update(&NoBtn);
 	if (!is_Clapping)
 	{
-		Asteroids_Audio_EZCLAP_Play();
+		Asteroids_Audio_Manager_Stop_Music();
 		is_Clapping = true;
 	}
+	else
+		Asteroids_Audio_EZCLAP_Play();
+
 }
 
 void Asteroids_Continue_Game(void)
