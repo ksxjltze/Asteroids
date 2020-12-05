@@ -1,3 +1,13 @@
+//---------------------------------------------------------
+// file:	pause.c
+// author:	Lee Jia Keat
+// email:	l.jiakeat@digipen.edu
+//
+// brief:	Pause Menu.
+//			Contains functions for displaying the pause menu.
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #include "pause.h"
 #include "final_boss.h"
 bool paused = false;

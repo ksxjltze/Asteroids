@@ -1,3 +1,14 @@
+//---------------------------------------------------------
+// file:	sprite.c
+// author:	Lee Jia Keat
+// email:	l.jiakeat@digipen.edu
+//
+// brief:	Simple Sprite system for animation
+//			Contains functions for creating sprites (animated).
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
+
 #include "sprite.h"
 
 Sprite Asteroids_Sprite_Create_Animated(CP_Image images[], CP_Vector dimensions[], int frame_count, float duration, int start_frame)

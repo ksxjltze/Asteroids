@@ -1,3 +1,12 @@
+//---------------------------------------------------------
+// file:	init.c
+// author:	Lee Jia Keat
+// email:	l.jiakeat@digipen.edu
+//
+// brief:	File for initializing and setting CProcessing settings.
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #include "init.h"
 #include <stdlib.h>
 #include <time.h>
