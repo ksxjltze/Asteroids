@@ -110,6 +110,14 @@ void Asteroids_Upgrades_Menu_Display_Items()
 	{
 		if (menuItems[i].upgrade.id != NONE)
 		{
+			if (menuItems[i].upgrade.prerequisite != NONE)
+			{
+				if (Asteroids_Upgrade_Check_Prerequisite_Status(menuItems[i].upgrade.prerequisite) == false)
+				{
+					continue;
+				}
+			}
+
 			Asteroids_Upgrades_Menu_Display_Upgrade_Info(menuItems + i);
 		}
 	}
