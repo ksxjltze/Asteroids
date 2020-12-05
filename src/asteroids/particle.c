@@ -35,6 +35,16 @@ struct Smoke
 	float delay;
 }smoke;
 
+struct Death_Particle
+{
+	Sprite death_sprite;
+	CP_Vector min_velocity;
+	CP_Vector max_velocity;
+	float min_size;
+	float max_size;
+	float lifespan;
+}death_particle;
+
 
 /// <summary>
 /// Initialize Particles
@@ -131,7 +141,7 @@ void draw_particle()
 	}
 }
 //Generate particle velocity and set lifetime.
-Particle* Spawn_Particle(CP_Vector position, int particles, float min_velocity,
+Particle* Spawn_Particle_Animated(CP_Vector position, int particles, float min_velocity,
 	float max_velocity, float size, Sprite sprite, int type, bool loop)
 {
 	CP_Vector velocity;
@@ -215,6 +225,11 @@ void smoke_velocity(CP_Vector position, int particles, float min_velocity,
 	Spawn_Particle(position, particles, min_velocity, max_velocity, size, death.sprite, DEATH, false);
 }*/
 
+//void Asteroids_Particles_Spawn_Player_Death_Particles(CP_Vector pos)
+//{
+//	
+//}
+
 void draw_player_death_anim(Player* player)
 {
 	//CP_Vector shit = Asteroids_Utility_GetWindowMiddle();
@@ -248,7 +263,7 @@ void spawn_explosion_anim(CP_Vector position, float size)
 	int particles = 1;
 	float min_velocity = 0;
 	float max_velocity = 0;
-	Spawn_Particle(position, particles, min_velocity, max_velocity, size, explosion.explosion_sprite, EXPLOSION, false);
+	Spawn_Particle_Animated(position, particles, min_velocity, max_velocity, size, explosion.explosion_sprite, EXPLOSION, false);
 }
 
 void spawn_smoke_trail_anim(CP_Vector position, float size)
@@ -257,7 +272,7 @@ void spawn_smoke_trail_anim(CP_Vector position, float size)
 	float min_velocity = 0;
 	float max_velocity = 0;
 
-	smoke_ptr = Spawn_Particle(position, particles, min_velocity, max_velocity, size, smoke.smoke_sprite, SMOKE, true);
+	smoke_ptr = Spawn_Particle_Animated(position, particles, min_velocity, max_velocity, size, smoke.smoke_sprite, SMOKE, true);
 }
 
 void particle_update()
