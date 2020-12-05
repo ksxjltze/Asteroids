@@ -300,7 +300,7 @@ void Asteroids_Final_Boss_Reset()
 	final_boss.split_count = 0;
 	final_boss.sprite_type = 0;
 	final_boss.killed = false;
-	bossState.id = NONE;
+	bossState.id = NO;
 	bossState.name = "NONE";
 	bossState.action = NULL;
 	battleStarted = 0;

@@ -137,11 +137,13 @@ void Asteroids_Draw_Obstacle(Obstacle* obstacle)
 
 void Asteroids_Check_Collision_Blackhole_Enemy_Player(Enemy enemy_pool[], Player* player, Obstacle* obstacle, int enemy_count)
 {
-	if (Asteroids_Collision_CheckCollision_Circle_Test(obstacle->Collider2, obstacle->pos, player->collider, player->pos))
+	if (player)
 	{
-		player->hp.current -= ASTEROIDS_OBSTACLE_BACKHOLE_DAMAGE;
+		if (Asteroids_Collision_CheckCollision_Circle_Test(obstacle->Collider2, obstacle->pos, player->collider, player->pos))
+		{
+			player->hp.current -= ASTEROIDS_OBSTACLE_BACKHOLE_DAMAGE;
+		}
 	}
-
 	for (int i = 0; i < enemy_count; i++)
 	{
 		if (!enemy_pool[i].active)
@@ -215,11 +217,14 @@ void Asteroids_Obstacle_TimeInterval(void)
 
 void Asteroids_Check_Collision_Gammaray_Enemy_Player(Enemy enemy_pool[], Player* player, Obstacle* obstacle, int enemy_count)
 {
-	if (Asteroids_Collision_CheckCollision_AABB_Circle(obstacle->Collider, obstacle->pos, player->collider, player->pos))
+	if (player)
 	{
-		spawn_explosion_anim(player->pos, 20.0f);
-		obstacle->active = false;
-		player->hp.current -= ASTEROIDS_OBSTACLE_GAMMARAY_DAMAGE;
+		if (Asteroids_Collision_CheckCollision_AABB_Circle(obstacle->Collider, obstacle->pos, player->collider, player->pos))
+		{
+			spawn_explosion_anim(player->pos, 20.0f);
+			obstacle->active = false;
+			player->hp.current -= ASTEROIDS_OBSTACLE_GAMMARAY_DAMAGE;
+		}
 	}
 	for (int i = 0; i < enemy_count; i++)
 	{

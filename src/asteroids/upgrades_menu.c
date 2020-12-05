@@ -46,17 +46,17 @@ void Asteroids_Upgrades_Menu_Update(void)
 void Asteroids_Upgrades_Menu_Draw(void)
 {
 	CP_Settings_Background(CP_Color_Create(160, 160, 160, 255));
-	Asteroids_Upgrades_Menu_Display_Balance();
+	Asteroids_Upgrades_Menu_Display_Balance(CP_Color_Create(0, 0, 0, 255), CP_Vector_Set(120, 30));
 }
 
-void Asteroids_Upgrades_Menu_Display_Balance(void)
+void Asteroids_Upgrades_Menu_Display_Balance(CP_Color Color, CP_Vector pos)
 {
 	CP_Settings_TextSize(30);
 	int balance = Asteroids_Currency_Get_Balance();
 	char balanceText[BALANCE_BUFFER_SIZE];
-	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-	sprintf_s(balanceText, BALANCE_BUFFER_SIZE, "Balance: %d\n", balance);
-	CP_Font_DrawText(balanceText, 100, 30);
+	CP_Settings_Fill(Color);
+	sprintf_s(balanceText, BALANCE_BUFFER_SIZE, "Credits: %d\n", balance);
+	CP_Font_DrawText(balanceText, pos.x, pos.y);
 }
 
 void Asteroids_Upgrades_Menu_Init_MenuItems()

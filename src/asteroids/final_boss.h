@@ -25,7 +25,7 @@
 
 CP_Image Final_Boss_Spawn_Animation;
 
-enum BossState { NONE, DEATH, SLEEP, ATTACK, DODGE, BULLET_HELL, ENRAGED};
+enum BossState { NO, DEATH, SLEEP, ATTACK, DODGE, BULLET_HELL, ENRAGED};
 
 struct EndGame
 {
