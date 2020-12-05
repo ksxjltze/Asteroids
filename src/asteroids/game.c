@@ -38,6 +38,7 @@
 
 static float shoot_cooldown;
 static float homing_shoot_cooldown;
+static float death_timer;
 
 CP_Image player_sprite;
 CP_Image bullet_sprite;
@@ -123,9 +124,8 @@ void Asteroids_Update(void)
 		//Gameover
 		if (player.active == 0)
 		{
-			static float timer = 3.0f;
-			timer -= CP_System_GetDt();
-			if (timer < 0)
+			death_timer -= CP_System_GetDt();
+			if (death_timer < 0)
 			{
 				CP_Engine_SetNextGameState(Asteroids_GameOver_Init, Asteroids_GameOver_Update, Asteroids_GameOver_Exit);
 			}
@@ -203,6 +203,7 @@ void Asteroids_Entities_Init()
 	player = Asteroids_Player_Init(player_width, player_height);
 	shoot_cooldown = 0;
 	homing_shoot_cooldown = 0;
+	death_timer = 3.0f;
 
 	//TODO: Possibly implement an entity manager to manage different types of entities.
 	Asteroids_Enemy_Init(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, enemy_width, enemy_height, player);
