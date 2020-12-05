@@ -16,9 +16,11 @@
 #include "main_menu.h"
 #include "audio_manager.h"
 #include <string.h>
+#include "obstacles.h"
+#include "enemy.h"
 
-#define BUTTON_WIDTH 200
-#define BUTTON_HEIGHT 150
+#define BUTTON_WIDTH 150
+#define BUTTON_HEIGHT 75
 #define BTN_TEXTSIZE 75
 
 Help_screen screen;
@@ -29,6 +31,8 @@ Help_screen screen;
 CP_Image Page_Image[LAST_PAGE];
 
 Button BackBtn, NextBtn, ExitBtn;
+
+enum HELP_SCREEN { CONTROLS, MECHANICS, OBSTACLES, FINALBOSS, UPGRADES };
 
 void Asteroids_Help_Screen_Init(void)
 {
@@ -70,6 +74,7 @@ void Asteroids_Help_Screen_Init(void)
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Help_Screen_IncreasePageNo, &NextBtn);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Help_Screen_DecreasePageNo, &BackBtn);
 
+	Asteroids_Obstacles_Init();
 }
 void Asteroids_Help_Screen_Update(void)
 {
@@ -88,6 +93,7 @@ void Asteroids_Help_Screen_Exit_ToMenu(void)
 
 void Asteroids_Draw_Screen_Page(void)
 {
+	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
 	if(screen.id < LAST_PAGE)
 		CP_Image_Draw(Page_Image[screen.id], screen.pos.x, screen.pos.y, screen.width, screen.height, 255);
 
@@ -96,8 +102,33 @@ void Asteroids_Draw_Screen_Page(void)
 
 	if (screen.id < LAST_PAGE -1)
 		Asteroids_Button_Update(&NextBtn);
+	Asteroids_Draw_Obstacle_Screen();
 }
+void Asteroids_Draw_Obstacle_Screen(void)
+{
+	if (screen.id == OBSTACLES)
+	{
+		if (Blackhole.active == false)
+				{
+					Asteroids_Obstacle_Spawn_Tutorial(&Blackhole, ASTEROIDS_OBSTACLE_BLACKHOLE_SPEED, ASTEROIDS_OBSTACLE_BLACKHOLE_WIDTH,
+					ASTEROIDS_OBSTACLE_BLACKHOLE_WIDTH, CP_Vector_Set(0, (float)(WIN_HEIGHT / 3) - ASTEROIDS_OBSTACLE_BLACKHOLE_WIDTH));
+					Blackhole.Collider2.diameter = Blackhole.width;
+				}
+		if (GammaRay.active == false)
+		{
+			Asteroids_Obstacle_Spawn_Tutorial(&GammaRay, ASTEROIDS_OBSTACLE_GAMMARAY_SPEED, ASTEROIDS_OBSTACLE_GAMARAY_HEIGHT,
+				(float)(WIN_WIDTH / 4), CP_Vector_Set(0, (float)(WIN_HEIGHT / 3) + ASTEROIDS_OBSTACLE_GAMARAY_HEIGHT));
+			GammaRay.Collider.height = GammaRay.height;
+			GammaRay.Collider.width = GammaRay.width;
+		}
 
+		Asteroids_Help_Update_Obstacle_Pos(&Blackhole, CP_System_GetDt());
+		Asteroids_Help_Update_Obstacle_Pos(&GammaRay, CP_System_GetDt());
+
+		Asteroids_Draw_Obstacle(&Blackhole);
+		Asteroids_Draw_Obstacle(&GammaRay);
+	}
+}
 void Asteroids_Help_Screen_IncreasePageNo(void)
 {
 	if (screen.id >= LAST_PAGE)
@@ -113,3 +144,4 @@ void Asteroids_Help_Screen_DecreasePageNo(void)
 
 	screen.id -= 1;
 }
+

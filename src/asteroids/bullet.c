@@ -61,11 +61,11 @@ void Asteroids_Bullet_Update(Bullet arr_bullet[], int bullet_count, Enemy enemy_
 			}
 
 			bullet = Asteroids_Collision_CheckCollision_Enemy_Bullet(enemy_pool, enemy_count, bullet, player);
-		
-			bullet.pos = CP_Vector_Add(bullet.pos, CP_Vector_Scale(bullet.velocity, CP_System_GetDt()));
-			arr_bullet[i] = bullet;
+			{
+				bullet.pos = CP_Vector_Add(bullet.pos, CP_Vector_Scale(bullet.velocity, CP_System_GetDt()));
+				arr_bullet[i] = bullet;
+			}
 		}
-
 	}
 }
 
@@ -150,3 +150,36 @@ void Asteroids_Bullet_Split(Bullet bullets[], int pool_size, int bullet_count, f
 		Asteroids_Bullet_Spawn(bullets, pool_size, player, split);
 	}
 }
+//Bullet* Asteroids_Bullet_Spawn_Homing(Bullet bullets[], int count, Player player, CP_Vector shoot_direction)
+//{
+//	CP_Vector right = CP_Vector_Set(1, 0);
+//	CP_Vector up = CP_Vector_Set(0, 1);
+//
+//	float rotate = CP_Vector_Angle(shoot_direction, right);
+//	if (CP_Vector_DotProduct(shoot_direction, up) < 0)
+//		rotate = -rotate;
+//
+//	Bullet* ptr = (Bullet*)realloc(bullets * sizeof(Bullet) * 200);
+//
+//	for (int i = 0; i < count; i++)
+//	{
+//		Bullet bullet = bullets[i];
+//		if (!bullet.active)
+//		{
+//			bullet.pos = CP_Vector_Set(player.pos.x, player.pos.y);
+//			bullet.rotation = rotate;
+//
+//			if (BPM) // if powerup bpm
+//			{
+//				bullet.velocity = CP_Vector_Set(shoot_direction.x * player.weapon.projectile_speed * ASTEROIDS_POWERUP_INCREASE_FIRERATE_VALUE, shoot_direction.y * player.weapon.projectile_speed * 2);
+//			}
+//			else
+//				bullet.velocity = CP_Vector_Set(shoot_direction.x * player.weapon.projectile_speed, shoot_direction.y * player.weapon.projectile_speed);
+//			bullet.active = 1;
+//			printf("%.2f %.2f\n", bullet.velocity.x, bullet.velocity.y);
+//			
+//			return &bullets[i];
+//		}
+//	}
+//	return NULL;
+//}

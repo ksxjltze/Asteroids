@@ -14,8 +14,7 @@
 #include "utility.h"
 #include "audio_manager.h"
 
-Obstacle Blackhole;
-Obstacle GammaRay;
+
 CP_Image Warning;
 
 dot dot_pool[MaxDotParticleArrSize];
@@ -84,8 +83,8 @@ void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_co
 
 void Asteroids_Obstacle_Spawn_Blackhole(void)
 {
-	Blackhole.width = 100;
-	Blackhole.height = 100;
+	Blackhole.width = ASTEROIDS_OBSTACLE_BLACKHOLE_WIDTH;
+	Blackhole.height = ASTEROIDS_OBSTACLE_BLACKHOLE_WIDTH;
 	Blackhole.speed = ASTEROIDS_OBSTACLE_BLACKHOLE_SPEED; //speed
 	Blackhole.Collider2.diameter = Blackhole.width; //Circle collider
 	Blackhole.pos.x = 0 - Blackhole.width / 2;
@@ -104,8 +103,8 @@ void Asteroids_Obstacle_Spawn_Blackhole(void)
 
 void Asteroids_Obstacle_Spawn_GammaRay(void)
 {
-	GammaRay.width = (float)WIN_WIDTH / 4;
-	GammaRay.height = 20;
+	GammaRay.width = (float)(WIN_WIDTH / 4);
+	GammaRay.height = ASTEROIDS_OBSTACLE_GAMARAY_HEIGHT;
 	
 	// AABB Collider 
 	GammaRay.Collider.width = GammaRay.width; 
@@ -319,12 +318,30 @@ void Asteroids_particle_dot_debug(void)
 		}
 	}
 }
-//
-//void Asteroids_Pause_Obstacles(void)
-//{
-//	pause_obstacles = true;
-//}
-//void Asteroids_Resume_Obstacles(void)
-//{
-//	pause_obstacles = false;
-//}
+
+void Asteroids_Obstacle_Spawn_Tutorial(Obstacle* obstacle, const float speed, const float height, const float width, CP_Vector pos)
+{
+	obstacle->width = width;
+	obstacle->height = height;
+
+	obstacle->pos.x = pos.x;
+	obstacle->pos.y = pos.y;
+
+	obstacle->speed = speed;
+	obstacle->lifespan = ASTEROIDS_OBSTACLE_LIFESPAN;
+
+	CP_Vector direction = CP_Vector_Zero();
+	direction.x = (float)WIN_WIDTH;
+	direction.y = obstacle->pos.y;
+
+	obstacle->velocity = CP_Vector_Subtract(direction, obstacle->pos);
+	obstacle->velocity = CP_Vector_Normalize(obstacle->velocity);
+	obstacle->velocity = CP_Vector_Scale(obstacle->velocity, obstacle->speed);
+
+	obstacle->active = true;
+}
+
+void Asteroids_Help_Update_Obstacle_Pos(Obstacle* Annoying, const float dt)
+{
+	Annoying->pos = CP_Vector_Add(Annoying->pos, CP_Vector_Scale(Annoying->velocity, dt));
+}

@@ -45,6 +45,8 @@ typedef struct Dot
 	bool enabled;
 } dot;
 
+Obstacle Blackhole;
+Obstacle GammaRay;
 
 // ENTRY POINT
 void Asteroids_Obstacles_Init(void);
@@ -75,6 +77,5 @@ void Asteroids_Particle_Dot_Spawn(CP_Vector pos);
 void Asteroids_Particle_Draw_Dot(void);
 void Asteroids_Particle_Dot_Despawn(dot* dot_particle);
 void Asteroids_particle_dot_debug(void);
-
-void Asteroids_Pause_Obstacles(void);
-void Asteroids_Resume_Obstacles(void);
+void Asteroids_Obstacle_Spawn_Tutorial(Obstacle* obstacle, const float speed, float height, float width, CP_Vector pos);
+void Asteroids_Help_Update_Obstacle_Pos(Obstacle* Annoying, const float dt);

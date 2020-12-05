@@ -281,14 +281,23 @@ void Asteroids_Check_Input()
 		Asteroids_Player_Simple_Movement(&player);
 	else
 		Asteroids_Player_Check_Input(&player, dt, shoot_direction);
-	if (CP_Input_MouseDown(MOUSE_BUTTON_RIGHT))
+
+	/*if (CP_Input_MouseDown(MOUSE_BUTTON_RIGHT))
 	{
 		if (shoot_cooldown > 0)
 			return;
 
-		Asteroids_Bullet_Spawn(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, player, Asteroids_Utility_Find_Closest_Enemy(enemy_pool, &player));
-		shoot_cooldown = 60 / (ASTEROIDS_WEAPON_RAILGUN_FIRE_RATE + player.weapon.fire_rate); //seconds per bullet
-	}
+		Bullet* homing;
+		homing = Asteroids_Bullet_Spawn_Homing(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, player, Asteroids_Utility_Find_Closest_Enemy(enemy_pool, &player));
+		for (int i = 0; i < ASTEROIDS_POOLSIZE_BULLETS; i++)
+		{
+			if (!bullet_pool[i].active)
+			{
+				
+			}
+		}
+	}*/
+
 	if (CP_Input_MouseDown(MOUSE_BUTTON_1))
 	{
 		if (shoot_cooldown > 0)
