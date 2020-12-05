@@ -30,9 +30,9 @@
 Help_screen screen;
 
 #define FIRST_PAGE 0
-#define LAST_PAGE 4
-
+#define LAST_PAGE 5
 CP_Image Page_Image[LAST_PAGE];
+
 CP_Image Display;
 
 Button BackBtn, NextBtn, ExitBtn;
@@ -219,5 +219,12 @@ void Asteroids_Help_Menu_Spawn_Static_Enemies(void)
 	{
 		CP_Image_DrawAdvanced(Display, d2->pos.x, d2->pos.y, d2->collider.diameter, d2->collider.diameter, 255, d2->rotate_rate);
 		Asteroids_Check_Collision_Gammaray_Enemy_Player(d2, NULL, &GammaRay, 1);
+	}
+}
+void Asteroids_Help_Draw_Upagrdes_Screen(void)
+{
+	if (screen.id == UPGRADES)
+	{
+
 	}
 }

@@ -154,7 +154,8 @@ void Asteroids_Draw_MainMenu(void)
 		Asteroids_Button_Update(&SkinsBtn);
 		Asteroids_Button_Update(&UpgradesBtn);
 		Asteroids_Button_Update(&Volume);
-		Asteroids_MainMenu_Draw_Current_Ship();
+		Asteroids_MainMenu_Draw_Current_Ship(); 
+		Asteroids_Upgrades_Menu_Display_Balance(CP_Color_Create(255, 255, 255, 255), CP_Vector_Set(120, 30));
 	}
 	else if (!status)
 	{

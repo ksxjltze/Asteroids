@@ -15,6 +15,7 @@
 #include "constants.h"
 #include "game.h"
 #include "final_boss.h"
+#include "upgrades_menu.h"
 
 static CP_Image heart_sprite;
 static CP_Vector fuelPos;
@@ -55,6 +56,7 @@ void Asteroids_UI_Draw(Player player)
 	Asteroids_UI_Health_HP_Draw(player.hp);
 	Asteroids_UI_Fuel_Draw(player.engine.fuel);
 	Asteroids_UI_Display_Current_Difficulty();
+	Asteroids_Upgrades_Menu_Display_Balance(CP_Color_Create(255, 255, 255, 255), CP_Vector_Set(120, 30));
 }
 
 void Asteroids_UI_Health_HP_Draw(Health hp)
