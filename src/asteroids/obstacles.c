@@ -13,6 +13,7 @@
 #include "obstacles.h"
 #include "utility.h"
 #include "audio_manager.h"
+#include "final_boss.h"
 
 
 dot dot_pool[MaxDotParticleArrSize];
@@ -188,8 +189,11 @@ void Asteroids_Obstacle_Spawn_Warning(void)
 void Asteroids_Obstacle_TimeInterval(void)
 {
 	float dt = CP_System_GetDt();
-	obstacle_interval -= dt;
-	warning_interval -= dt;
+	if(!endgame.end)
+	{
+		obstacle_interval -= dt;
+		warning_interval -= dt;
+	}
 
 	int rng = CP_Random_RangeInt(0, 1);
 
