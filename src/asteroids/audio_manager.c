@@ -103,5 +103,11 @@ void Asteroids_Audio_Manager_Exit(void)
 
 void Asteroids_Audio_EZCLAP_Play(void)
 {
-	CP_Sound_PlayAdvanced(sfx_EZCLAP, 20.0f, 3, 1, 9);
+	CP_Sound_PlayAdvanced(sfx_EZCLAP, 20.0f, 1, 1, 9);
+	CP_Sound_PlayAdvanced(sfx_EZCLAP, 18.0f, 0.5, 1, 9);
+	CP_Sound_PlayAdvanced(sfx_EZCLAP, 18.0f, 0.75, 1, 9);
+	CP_Sound_PlayAdvanced(sfx_EZCLAP, 22.0f, 1.5, 1, 9);
+	CP_Sound_PlayAdvanced(sfx_EZCLAP, 22.0f, 0.25, 1, 9);
+	CP_Sound_PlayAdvanced(sfx_EZCLAP, 22.0f, 2.0, 1, 9);
+	CP_Sound_PlayAdvanced(sfx_EZCLAP, 21.0f, 1.25, 1, 9);
 }

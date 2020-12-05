@@ -19,7 +19,7 @@
 CP_Vector Asteroids_Utility_Generate_Random_Pos();
 CP_Vector Asteroids_Utility_Generate_Random_Pos_Var2(float width, float height);
 CP_Vector Asteroids_Utility_GetWindowMiddle();
-CP_Vector Asteroids_Utility_Find_Closest_Enemy(Enemy enemy_pool[], Player* player);
+CP_Vector Asteroids_Utility_Find_Closest_Enemy(Enemy enemy_pool[], CP_Vector pos, CP_Vector* direction_out);
 void Asteroids_Utility_Generate_Hurt_Sprite(CP_Image sprite, CP_Image* out);
 void Asteroids_Utility_Generate_Blue_Sprite(CP_Image sprite, CP_Image* out);
 bool isMouseOver_Rect(CP_Vector position, float width, float height, float mouseX, float mouseY);

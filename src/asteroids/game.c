@@ -36,7 +36,8 @@
 #include "leaderboard.h"
 #include "difficulty_menu.h"
 
-float shoot_cooldown = 0.0f;
+static float shoot_cooldown;
+static float homing_shoot_cooldown;
 
 CP_Image player_sprite;
 CP_Image bullet_sprite;
@@ -151,6 +152,11 @@ void Asteroids_Cooldown_Update()
 		shoot_cooldown = 0;
 	else
 		shoot_cooldown -= CP_System_GetDt();
+
+	if (homing_shoot_cooldown < 0)
+		homing_shoot_cooldown = 0;
+	else
+		homing_shoot_cooldown -= CP_System_GetDt();
 }
 
 void Asteroids_Set_Difficulty(DIFFICULTY difficulty)
@@ -190,6 +196,8 @@ void Asteroids_Entities_Init()
 {
 	//Player
 	player = Asteroids_Player_Init(player_width, player_height);
+	shoot_cooldown = 0;
+	homing_shoot_cooldown = 0;
 
 	//TODO: Possibly implement an entity manager to manage different types of entities.
 	Asteroids_Enemy_Init(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, enemy_width, enemy_height, player);
@@ -282,21 +290,17 @@ void Asteroids_Check_Input()
 	else
 		Asteroids_Player_Check_Input(&player, dt, shoot_direction);
 
-	/*if (CP_Input_MouseDown(MOUSE_BUTTON_RIGHT))
+	if (CP_Input_MouseDown(MOUSE_BUTTON_RIGHT))
 	{
-		if (shoot_cooldown > 0)
+		if (homing_shoot_cooldown > 0)
 			return;
 
 		Bullet* homing;
-		homing = Asteroids_Bullet_Spawn_Homing(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, player, Asteroids_Utility_Find_Closest_Enemy(enemy_pool, &player));
-		for (int i = 0; i < ASTEROIDS_POOLSIZE_BULLETS; i++)
-		{
-			if (!bullet_pool[i].active)
-			{
-				
-			}
-		}
-	}*/
+		CP_Vector direction = CP_Vector_Zero();
+		CP_Vector target = Asteroids_Utility_Find_Closest_Enemy(enemy_pool, player.pos, &direction);
+		homing = Asteroids_Bullet_Spawn_Homing(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, player, target, direction);
+		homing_shoot_cooldown = 60 / (ASTEROIDS_WEAPON_RAILGUN_FIRE_RATE + player.weapon.fire_rate);
+	}
 
 	if (CP_Input_MouseDown(MOUSE_BUTTON_1))
 	{
