@@ -110,6 +110,14 @@ void Asteroids_Upgrades_Menu_Display_Items()
 	{
 		if (menuItems[i].upgrade.id != NONE)
 		{
+			if (menuItems[i].upgrade.prerequisite != NONE)
+			{
+				if (Asteroids_Upgrade_Check_Prerequisite_Status(menuItems[i].upgrade.prerequisite) == false)
+				{
+					continue;
+				}
+			}
+
 			Asteroids_Upgrades_Menu_Display_Upgrade_Info(menuItems + i);
 		}
 	}
@@ -187,6 +195,15 @@ void Asteroids_Upgrades_Menu_Update_Upgrade_Info(UpgradeMenuItem* menuItem)
 void Asteroids_Upgrades_Menu_Upgrade_Add_Level(void* upgradePtr)
 {
 	UpgradeMenuItem* menuItem = (UpgradeMenuItem*)upgradePtr;
+	if (menuItem->upgrade.prerequisite != NONE)
+	{
+		if (Asteroids_Upgrade_Check_Prerequisite_Status(menuItem->upgrade.prerequisite) == false)
+		{
+			printf("Upgrade %s requires prerequisite ID %d.\n", menuItem->upgrade.name, menuItem->upgrade.prerequisite);
+			return;
+		}
+	}
+
 	if (menuItem->upgrade.hasLevel)
 	{
 		if (menuItem->upgrade.level + 1 > menuItem->upgrade.max_level)

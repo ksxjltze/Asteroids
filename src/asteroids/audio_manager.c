@@ -22,14 +22,25 @@ CP_Sound sfx_explosions;
 CP_Sound sfx_dangersound;
 CP_Sound sfx_gameplaysound;
 CP_Sound sfx_EZCLAP;
+CP_Sound bgm_BossBattle;
 
 CP_Image VOLbutton;
+
+static int clapCount = 0;
+static float clapTimer = 0.0f;
+
+enum Asteroids_Sound_Group {MUSIC};
+enum Asteroids_Music_ID { BGM_BOSS_BATTLE };
 
 void Asteroids_Audio_Manager_Init(void)
 {
 	sfx_ButtonHover = CP_Sound_Load("./Assets/HiHat.wav");
 	sfx_bgm_MainMenu = CP_Sound_LoadMusic("./Assets/menu_bgm.wav");
 	sfx_EZCLAP = CP_Sound_Load("./Assets/Clap.wav");
+	bgm_BossBattle = CP_Sound_Load("./Assets/bossBattle.wav");
+
+	clapCount = 0;
+	clapTimer = 0.0f;
 }
 
 void Asteroids_Audio_Button_Hover_Play(void)
@@ -38,12 +49,33 @@ void Asteroids_Audio_Button_Hover_Play(void)
 		CP_Sound_Play(sfx_ButtonHover);
 }
 
+void Asteroids_Audio_Manager_Start_Music(int id)
+{
+	switch(id)
+	{
+	case BGM_BOSS_BATTLE:
+		if (bgm_BossBattle)
+			CP_Sound_PlayAdvanced(bgm_BossBattle, 70.0f, 1.0f, 1, MUSIC);
+		break;
+	}
+}
+
+void Asteroids_Audio_Manager_Stop_Music()
+{
+	CP_Sound_StopGroup(MUSIC);
+}
+
+void Asteroids_Audio_Manager_BGM_Boss_Battle_Play()
+{
+	Asteroids_Audio_Manager_Start_Music(BGM_BOSS_BATTLE);
+}
+
 void Asteroids_Audio_MainMenu_BGM_Play(void)
 {
-	//Volbutton = CP_Image_Load("./Assets/volumebutton.png");
+	VOLbutton = CP_Image_Load("./Assets/volumebutton.png");
 
 	if (sfx_bgm_MainMenu)
-		CP_Sound_PlayAdvanced(sfx_bgm_MainMenu, 0.1f, 1.0f, 1, 0);
+		CP_Sound_PlayAdvanced(sfx_bgm_MainMenu, 0.1f, 1.0f, 1, MUSIC);
 }
 
 
@@ -52,7 +84,7 @@ void Asteroids_Audio_MainMenu_BGM_STOP(void)
 	VOLbutton = CP_Image_Load("./Assets/volumebutton.png");
 
 	if (sfx_bgm_MainMenu)
-		CP_Sound_StopGroup(0);
+		CP_Sound_StopGroup(MUSIC);
 
 }
 
@@ -99,15 +131,16 @@ void Asteroids_Audio_Manager_Exit(void)
 	CP_Sound_Free(sfx_bgm_MainMenu);
 	CP_Sound_Free(sfx_bullet);
 	CP_Sound_Free(sfx_EZCLAP);
+	CP_Sound_Free(bgm_BossBattle);
 }
 
 void Asteroids_Audio_EZCLAP_Play(void)
 {
-	CP_Sound_PlayAdvanced(sfx_EZCLAP, 20.0f, 1, 1, 9);
-	CP_Sound_PlayAdvanced(sfx_EZCLAP, 18.0f, 0.5, 1, 9);
-	CP_Sound_PlayAdvanced(sfx_EZCLAP, 18.0f, 0.75, 1, 9);
-	CP_Sound_PlayAdvanced(sfx_EZCLAP, 22.0f, 1.5, 1, 9);
-	CP_Sound_PlayAdvanced(sfx_EZCLAP, 22.0f, 0.25, 1, 9);
-	CP_Sound_PlayAdvanced(sfx_EZCLAP, 22.0f, 2.0, 1, 9);
-	CP_Sound_PlayAdvanced(sfx_EZCLAP, 21.0f, 1.25, 1, 9);
+	clapTimer += CP_System_GetDt();
+	if (clapTimer > 0.5f && clapCount < 10)
+	{
+		CP_Sound_PlayAdvanced(sfx_EZCLAP, 20.0f, CP_Random_RangeFloat(0.6f, 1.5f), 1, 9);
+		clapTimer = 0;
+		clapCount++;
+	}
 }

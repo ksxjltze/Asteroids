@@ -1,3 +1,13 @@
+//---------------------------------------------------------
+// file:	collider_circle.h
+// author:	Lee Jia Keat
+// email:	l.jiakeat@digipen.edu
+//
+// brief:	Circle collider header file.
+//			Handles intitialization and collision detection for circle colliders.
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #pragma once
 #include "cprocessing.h"
 #include <stdbool.h>

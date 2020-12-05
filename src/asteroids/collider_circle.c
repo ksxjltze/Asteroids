@@ -1,3 +1,13 @@
+//---------------------------------------------------------
+// file:	collider_circle.c
+// author:	Lee Jia Keat
+// email:	l.jiakeat@digipen.edu
+//
+// brief:	Circle collider source file.
+//			Handles intitialization and collision detection for circle colliders.
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #include "collider_circle.h"
 
 struct Collider_Circle Asteroids_Collision_Circle_Init_Collider(float diameter)

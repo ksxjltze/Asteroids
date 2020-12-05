@@ -1,3 +1,12 @@
+//---------------------------------------------------------
+// file:	collider_aabb.h
+// author:	Lee Jia Keat
+// email:	l.jiakeat@digipen.edu
+//
+// brief:	AABB collider header file.
+//			Handles intitialization and collision detection for AABB colliders.
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
 #pragma once
 #include "cprocessing.h"
 #include "collider_circle.h"

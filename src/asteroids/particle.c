@@ -1,3 +1,13 @@
+//---------------------------------------------------------
+// file:	init.c
+// author:	Dania Mohd
+// email:	, l.jiakeat@digipen.edu
+//
+// brief:	Simple particle system.
+//			Handles initialization, spawning, updating and destroying of particles.
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
+
 #include "particle.h"
 #include "game.h"
 #include "constants.h"
