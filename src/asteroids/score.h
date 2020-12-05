@@ -24,7 +24,7 @@ typedef struct Scores
 	CP_Image Time_Score_Sprite;
 	float time_score;
 	int enemy_kill_score;
-	int lame;
+	int killCountTracker;
 	int difficulty_option;
 	int stage;
 	unsigned int id;

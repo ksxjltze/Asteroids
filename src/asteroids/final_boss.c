@@ -139,10 +139,7 @@ void Asteroids_Enemy_Final_Boss_Spawn()
 	Asteroids_Audio_Manager_BGM_Boss_Battle_Play();
 	Asteroids_Enemy_Disable_Spawn(); // stop spawning of random asteroids
 
-	final_boss.hp.max = ASTEROIDS_FINAL_BOSS_MAX_HP;
-
-	if(ASTEROIDS_GAME_DIFFICULTY != EASY)
-		final_boss.hp.max = ASTEROIDS_FINAL_BOSS_MAX_HP * (ASTEROIDS_GAME_DIFFICULTY - 1);
+	final_boss.hp.max = ASTEROIDS_FINAL_BOSS_MAX_HP + (ASTEROIDS_FINAL_BOSS_MAX_HP * (ASTEROIDS_GAME_DIFFICULTY - 1));
 	final_boss.hp.current = final_boss.hp.max;
 	final_boss.speed = ASTEROIDS_FINAL_BOSS_MOVEMENT_SPEED;
 	final_boss.killed = false;
@@ -181,7 +178,21 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 	if (fire_rate <= 0)
 	{
 		CP_Matrix AngularDisplacement;
-		if (bossState.id == BULLET_HELL)
+		if (bossState.id == ENRAGED)
+		{
+			Enemy* Boss_Projectile = Asteroids_Enemy_Spawn(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, Final_Boss.pos);
+			if (Boss_Projectile)
+			{
+				Boss_Projectile->parent_id = final_boss.id;
+				Boss_Projectile->id = 1;
+
+				Boss_Projectile->size = 4 + ((ASTEROIDS_GAME_DIFFICULTY - 1) * 1.0f);
+				Boss_Projectile->velocity = CP_Vector_Subtract(player->pos, Boss_Projectile->pos);
+				Boss_Projectile->velocity = CP_Vector_Normalize(Boss_Projectile->velocity);
+				Boss_Projectile->velocity = CP_Vector_Scale(Boss_Projectile->velocity, ASTEROIDS_FINAL_BOSS_ENRAGED_STATE_PROJECTILE_SPEED + (((float)ASTEROIDS_GAME_DIFFICULTY - 1) * ASTEROIDS_FINAL_BOSS_PROJECTILE_SPEED_DIFFICULTY_SCALAR));
+			}
+		}
+		else if (bossState.id == BULLET_HELL)
 		{
 			for (int i = 0; i < ASTEROIDS_FINAL_BOSS_BULLET_HELL_STATE_PROJECTILE_NUM; i++)
 			{
@@ -192,10 +203,10 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 				{
 					Boss_Projectile->parent_id = final_boss.id;
 					Boss_Projectile->id = i;
-
+					Boss_Projectile->size = 2 + ((ASTEROIDS_GAME_DIFFICULTY - 1) * 0.1f);
 					Boss_Projectile->velocity = CP_Vector_Subtract(player->pos, Boss_Projectile->pos);
 					Boss_Projectile->velocity = CP_Vector_Normalize(Boss_Projectile->velocity);
-					Boss_Projectile->velocity = CP_Vector_Scale(Boss_Projectile->velocity, (ASTEROIDS_FINAL_BOSS_PROJECTILE_SPEED * (ASTEROIDS_GAME_DIFFICULTY - 1)));
+					Boss_Projectile->velocity = CP_Vector_Scale(Boss_Projectile->velocity, (ASTEROIDS_FINAL_BOSS_PROJECTILE_SPEED + (ASTEROIDS_FINAL_BOSS_PROJECTILE_SPEED * (ASTEROIDS_GAME_DIFFICULTY - 1))));
 					Boss_Projectile->velocity = CP_Vector_MatrixMultiply(AngularDisplacement, Boss_Projectile->velocity);
 				}
 			}
@@ -204,18 +215,18 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 		{
 			for (int i = 0; i < ASTEROIDS_FINAL_BOSS_ATTACK_STATE_PROJECTILE_NUM; i++)
 			{
-				int lol = ASTEROIDS_FINAL_BOSS_ATTACK_STATE_PROJECTILE_NUM;
-				AngularDisplacement = CP_Matrix_Rotate(-(ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE) * ((float)lol / 2) + ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE * i);
+				int lol = ASTEROIDS_FINAL_BOSS_ATTACK_STATE_PROJECTILE_NUM; // using int division
+				AngularDisplacement = CP_Matrix_Rotate((-ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE * (lol / 2)) + ((ASTEROIDS_FINAL_BOSS_PROJECTILE_ANGLE * i)));
 				Enemy* Boss_Projectile = Asteroids_Enemy_Spawn(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, Final_Boss.pos);
 				if (Boss_Projectile)
 				{
 					Boss_Projectile->parent_id = final_boss.id;
 					Boss_Projectile->id = i;
 
-					Boss_Projectile->size = 2 + ((ASTEROIDS_GAME_DIFFICULTY - 1) * 0.2f);
+					Boss_Projectile->size = 2 + ((ASTEROIDS_GAME_DIFFICULTY - 1) * 0.3f);
 					Boss_Projectile->velocity = CP_Vector_Subtract (player->pos, Boss_Projectile->pos);
 					Boss_Projectile->velocity = CP_Vector_Normalize(Boss_Projectile->velocity);
-					Boss_Projectile->velocity = CP_Vector_Scale(Boss_Projectile->velocity, ASTEROIDS_FINAL_BOSS_PROJECTILE_SPEED * (((float)ASTEROIDS_GAME_DIFFICULTY - 1) / 2));
+					Boss_Projectile->velocity = CP_Vector_Scale(Boss_Projectile->velocity, ASTEROIDS_FINAL_BOSS_PROJECTILE_SPEED + (((float)ASTEROIDS_GAME_DIFFICULTY - 1) * ASTEROIDS_FINAL_BOSS_PROJECTILE_SPEED_DIFFICULTY_SCALAR));
 					Boss_Projectile->velocity = CP_Vector_MatrixMultiply(AngularDisplacement, Boss_Projectile->velocity);
 				}
 			}
@@ -226,7 +237,7 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 bool Asteroids_Final_Boss_Summon_Criteria_Check(void)
 {
 	
-	if (CURRENT_SCORE.lame >= ASTEROIDS_FINAL_BOSS_SUMMON_CRITERIA)
+	if (CURRENT_SCORE.killCountTracker >= ASTEROIDS_FINAL_BOSS_SUMMON_CRITERIA)
 	{
 		return true;
 	}
@@ -273,7 +284,7 @@ void Asteroids_Final_Boss_Reset()
 	bossState.action = NULL;
 	battleStarted = 0;
 	blink_count = 0;
-	CURRENT_SCORE.lame = 0;
+	CURRENT_SCORE.killCountTracker = 0;
 	is_Clapping = false;
 }
 
@@ -324,11 +335,13 @@ float Asteroids_Final_Boss_FireRate(void)
 	switch (bossState.id)
 	{
 	case ATTACK:
-		return ASTEROIDS_FINAL_BOSS_FIRE_RATE - (0.3f * (ASTEROIDS_GAME_DIFFICULTY - 1));
+		return ASTEROIDS_FINAL_BOSS_FIRE_RATE - (ASTEROIDS_FINAL_BOSS_FIRE_RATE_DIFFICULTY_SCALAR * (ASTEROIDS_GAME_DIFFICULTY - 1));
 	case DODGE:
-		return ASTEROIDS_FINAL_BOSS_DODGE_STATE_FIRE_RATE - (0.5f * (ASTEROIDS_GAME_DIFFICULTY - 1));
+		return ASTEROIDS_FINAL_BOSS_DODGE_STATE_FIRE_RATE - (0.3f * (ASTEROIDS_GAME_DIFFICULTY - 1));
 	case BULLET_HELL:
-		return ASTEROIDS_FINAL_BOSS_BULLETHELL_STATE_FIRE_RATE - (0.05f * (ASTEROIDS_GAME_DIFFICULTY - 1));
+		return ASTEROIDS_FINAL_BOSS_BULLETHELL_STATE_FIRE_RATE - (0.04f * (ASTEROIDS_GAME_DIFFICULTY - 1));
+	case ENRAGED:
+		return ASTEROIDS_FINAL_BOSS_FIRE_RATE - (ASTEROIDS_FINAL_BOSS_FIRE_RATE_DIFFICULTY_SCALAR * (ASTEROIDS_GAME_DIFFICULTY - 1));
 	default:
 		return 0;
 	}
@@ -377,6 +390,7 @@ void Asteroids_Final_Boss_State_Enraged(const void* context)
 {
 	Context parameters = *(Context*)context;
 	Asteroids_Final_Boss_Enraged(&final_boss, parameters.player);
+	Asteroids_Final_Boss_Shoot(final_boss, parameters.enemy_pool, parameters.player);
 
 }
 void Asteroids_Final_Boss_Enraged(Enemy* Final_Boss, Player* player)
