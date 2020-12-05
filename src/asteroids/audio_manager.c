@@ -137,9 +137,9 @@ void Asteroids_Audio_Manager_Exit(void)
 void Asteroids_Audio_EZCLAP_Play(void)
 {
 	clapTimer += CP_System_GetDt();
-	if (clapTimer > 0.4f && clapCount < 5)
+	if (clapTimer > 0.2f && clapCount < 10)
 	{
-		CP_Sound_PlayAdvanced(sfx_EZCLAP, 20.0f, 1, 1, 9);
+		CP_Sound_PlayAdvanced(sfx_EZCLAP, 20.0f, CP_Random_RangeFloat(0.6f, 1.5f), 1, 9);
 		clapTimer = 0;
 		clapCount++;
 	}

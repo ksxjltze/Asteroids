@@ -72,8 +72,10 @@ void Asteroids_Bullet_Update(Bullet arr_bullet[], int bullet_count, Enemy enemy_
 				if (CP_Vector_Length(target) > 0)
 				{
 					bullet.velocity = CP_Vector_Normalize(bullet.velocity);
-					bullet.velocity.x = (bullet.velocity.x + direction.x) * player.weapon.projectile_speed;
-					bullet.velocity.y = (bullet.velocity.y + direction.y) * player.weapon.projectile_speed;
+					bullet.velocity = direction;
+
+					bullet.velocity = CP_Vector_Scale(bullet.velocity, player.weapon.projectile_speed);
+
 
 					CP_Vector right = CP_Vector_Set(1, 0);
 					CP_Vector up = CP_Vector_Set(0, 1);
@@ -163,7 +165,7 @@ void Asteroids_Bullet_Powerup_Split(Bullet bullets[], int count, Player player, 
 	}
 	else
 	{
-		Asteroids_Bullet_Split(bullets, count, 3, ASTEROIDS_POWERUP_BULLET_SPLIT_ANGLE, player, shoot_direction);
+		Asteroids_Bullet_Split(bullets, count, 2, ASTEROIDS_POWERUP_BULLET_SPLIT_ANGLE, player, shoot_direction);
 	}
 }
 

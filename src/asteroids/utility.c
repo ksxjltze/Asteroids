@@ -43,7 +43,11 @@ CP_Vector Asteroids_Utility_Find_Closest_Enemy(Enemy enemy_pool[], CP_Vector pos
 		if (!enemy_pool[i].active)
 			continue;
 		
+		if (!Asteroids_Utility_isInWindow(enemy_pool[i].pos))
+			continue;
+
 		float displacement = CP_Vector_Distance(enemy_pool[i].pos, pos);
+
 		if (fabsf(displacement) < distance)
 		{
 			target = enemy_pool[i].pos;
