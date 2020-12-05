@@ -37,6 +37,8 @@ UpgradeMenuItem Asteroids_Upgrades_Menu_Init_Upgrade_Info(Upgrade upgrade, CP_Ve
 void Asteroids_Upgrades_Menu_Display_Upgrade_Info(UpgradeMenuItem* menuItem);
 void Asteroids_Upgrades_Menu_Update_Upgrade_Info(UpgradeMenuItem* menuItem);
 void Asteroids_Upgrades_Menu_Upgrade_Add_Level(void* upgradePtr);
+void Asteroids_Upgrades_Menu_Reset_Upgrades();
+void Asteroids_Upgrades_Menu_Refresh_Items();
 void Asteroids_Upgrades_Menu_Display_Balance(CP_Color Color, CP_Vector pos);
 void Asteroids_Upgrades_Menu_Init_MenuItems();
 void Asteroids_Upgrades_Menu_Create_MenuItem(unsigned int id, CP_Vector pos, void(*callback)(void* ptr));

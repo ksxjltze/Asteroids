@@ -44,5 +44,6 @@ void Asteroids_Upgrades_Create_File(void);
 void Asteroids_Upgrades_Save_All_To_File(void);
 void Asteroids_Upgrades_Read_From_File(void);
 void Asteroids_Upgrades_Set_Upgrade_Name(Upgrade* upgrade);
+int Asteroids_Upgrades_Reset_Upgrades(void);
 void Asteroids_Upgrades_Apply_Upgrades(Player* player);
 void Asteroids_Upgrades_Upgrade_Set_Max_Level(unsigned int id, unsigned int level);

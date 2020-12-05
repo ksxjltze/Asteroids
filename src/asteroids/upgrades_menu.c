@@ -17,12 +17,18 @@
 #include "constants.h"
 #include "currency.h"
 #include "file_manager.h"
+#include "button.h"
 
 UpgradeMenuItem menuItems[NUM_UPGRADES];
+Button resetBtn;
 
 void Asteroids_Upgrades_Menu_Init(void)
 {
 	Asteroids_Upgrades_Menu_Init_MenuItems();
+	resetBtn = Asteroids_Button_Add_New_Button(200, 100);
+	Asteroids_Button_Set_Text(&resetBtn, 20, "Reset");
+	Asteroids_Button_Set_Position(&resetBtn, CP_Vector_Set((float)WIN_WIDTH - resetBtn.width, (float)WIN_HEIGHT - resetBtn.height));
+	Asteroids_Button_Set_Callback_Void(&Asteroids_Upgrades_Menu_Reset_Upgrades, &resetBtn);
 
 	int row = 1;
 	for (int i = 0; i < Asteroids_Upgrades_Get_Upgrade_Count(); i++)
@@ -46,6 +52,7 @@ void Asteroids_Upgrades_Menu_Update(void)
 void Asteroids_Upgrades_Menu_Draw(void)
 {
 	CP_Settings_Background(CP_Color_Create(160, 160, 160, 255));
+	Asteroids_Button_Update(&resetBtn);
 	Asteroids_Upgrades_Menu_Display_Balance(CP_Color_Create(0, 0, 0, 255), CP_Vector_Set(120, 30));
 }
 
@@ -86,6 +93,17 @@ void Asteroids_Upgrades_Menu_Add_MenuItem(UpgradeMenuItem item)
 	}
 }
 
+void Asteroids_Upgrades_Menu_Refresh_Items()
+{
+	for (int i = 0; i < NUM_UPGRADES; i++)
+	{
+		if (menuItems[i].upgrade.id != NONE)
+		{
+			Asteroids_Upgrades_Menu_Update_Upgrade_Info(&menuItems[i]);
+		}
+	}
+}
+
 void Asteroids_Upgrades_Menu_Display_Items()
 {
 	for (int i = 0; i < NUM_UPGRADES; i++)
@@ -95,6 +113,13 @@ void Asteroids_Upgrades_Menu_Display_Items()
 			Asteroids_Upgrades_Menu_Display_Upgrade_Info(menuItems + i);
 		}
 	}
+}
+
+void Asteroids_Upgrades_Menu_Reset_Upgrades()
+{
+	int refund = Asteroids_Upgrades_Reset_Upgrades();
+	Asteroids_Currency_Add(refund);
+	Asteroids_Upgrades_Menu_Refresh_Items();
 }
 
 UpgradeMenuItem Asteroids_Upgrades_Menu_Update_Upgrade_Info_Text(UpgradeMenuItem menuItem)
