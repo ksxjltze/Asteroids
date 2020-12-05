@@ -221,7 +221,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	Volume = Asteroids_Button_Add_New_Button(BUTTON_WIDTH - 150.0f , BUTTON_HEIGHT );
 
 	Asteroids_Button_Set_Text(&Play, textSize, "Play");
-	Asteroids_Button_Set_Text(&Controls, textSize, "Help");
+	Asteroids_Button_Set_Text(&Controls, textSize, "Guide");
 	Asteroids_Button_Set_Text(&Credits, textSize, "Credits");
 	Asteroids_Button_Set_Text(&Leaderboard, textSize, "Leaderboard");
 	Asteroids_Button_Set_Text(&Quit, textSize, "Quit");
