@@ -126,7 +126,7 @@ void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_c
 	}
 	if (!battleStarted)
 	{
-		lalala(enemy_pool);
+		Asteroids_Final_Boss_CheckConditions(enemy_pool);
 	}
 }
 
@@ -205,7 +205,6 @@ void Asteroids_Final_Boss_Shoot(Enemy Final_Boss, Enemy enemy_pool[], Player* pl
 					Boss_Projectile->id = i;
 
 					Boss_Projectile->size = 2 + ((ASTEROIDS_GAME_DIFFICULTY - 1) * 0.2f);
-					//printf("%.2f\n", Boss_Projectile->size);
 					Boss_Projectile->velocity = CP_Vector_Subtract (player->pos, Boss_Projectile->pos);
 					Boss_Projectile->velocity = CP_Vector_Normalize(Boss_Projectile->velocity);
 					Boss_Projectile->velocity = CP_Vector_Scale(Boss_Projectile->velocity, ASTEROIDS_FINAL_BOSS_PROJECTILE_SPEED * (((float)ASTEROIDS_GAME_DIFFICULTY - 1) / 2));
@@ -234,50 +233,8 @@ void Asteroids_Final_Boss_State_Update(Player* player, Enemy enemy_pool[], int e
 	context.enemy_poolSize = enemy_count;
 	context.bullet_pool = bullet_pool;
 
-	Asteroids_Final_Boss_State_CheckConditions();
 	if (bossState.action)
 		bossState.action(&context);
-}
-
-void Asteroids_Final_Boss_State_CheckConditions()
-{
-	//if (final_boss.hp.current <= 0)
-	//{
-	//	bossState.action = &Asteroids_Final_Boss_State_Death;
-	//	bossState.name = "Death";
-	//	bossState.id = DEATH;
-	//}
-
-	//if (CP_Input_KeyDown(KEY_E))
-	//{
-	//	bossState.action = &Asteroids_Final_Boss_State_Dodge;
-	//	bossState.name = "Dodge";
-	//	bossState.id = DODGE;
-	//}
-	if (CP_Input_KeyDown(KEY_N))
-	{
-		bossState.action = &Asteroids_Final_Boss_State_BulletHell;
-		bossState.name = "BulletHell";
-		bossState.id = BULLET_HELL;
-	}
-	/*if (CP_Input_KeyDown(KEY_M))
-	{
-		bossState.id = LEPAK;
-		bossState.name = "LEPAK";
-		bossState.action = &Asteroids_Final_Boss_State_Idle;
-	}*/
-	//if (CP_Input_KeyDown(KEY_N))
-	//{
-	//	bossState.id = ENRAGED;
-	//	bossState.name = "Enraged";
-	//	bossState.action = &Asteroids_Final_Boss_State_Enraged;
-	//}
-	if (CP_Input_KeyDown(KEY_F3))
-	{
-		bossState.id = SLEEP;
-		bossState.name = "SLEEP";
-		bossState.action = &Asteroids_Final_Boss_State_Idle;
-	}
 }
 
 void Asteroids_Final_Boss_State_Idle(const void* context)
@@ -377,10 +334,6 @@ void Asteroids_Final_Boss_State_Manager(void)
 	}
 	switch (id)
 	{
-	//case 4:
-	//	bossState.action = &Asteroids_Final_Boss_State_Death;
-	//	bossState.name = "Death";
-	//	bossState.id = DEATH;
 	case 2:
 		bossState.id = SLEEP;
 		bossState.name = "Sleep";
@@ -532,7 +485,7 @@ void Asteroids_End_Game(void)
 	CP_Engine_SetNextGameState(Asteroids_GameOver_Init, Asteroids_GameOver_Update, Asteroids_GameOver_Exit);
 }
 
-void lalala(Enemy* enemy_pool)
+void Asteroids_Final_Boss_CheckConditions(Enemy* enemy_pool)
 {
 	if(Asteroids_Final_Boss_Summon_Criteria_Check())
 	{

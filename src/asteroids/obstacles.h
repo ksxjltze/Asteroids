@@ -69,7 +69,6 @@ void Asteroids_Check_Collision_Blackhole_Enemy_Player(Enemy enemy_pool[], Player
 void Asteroids_Check_Collision_Gammaray_Enemy_Player(Enemy enemy_pool[], Player* player, Obstacle* obstacle, int enemy_count);
 
 // DEBUG
-void Asteroids_Obstacles_Debug_BlackHole_To_Mouse();
 
 #define MaxDotParticleArrSize 100
 #define DotsPerArr 10
@@ -77,6 +76,5 @@ void Asteroids_Particle_Dot_Init(void);
 void Asteroids_Particle_Dot_Spawn(CP_Vector pos);
 void Asteroids_Particle_Draw_Dot(void);
 void Asteroids_Particle_Dot_Despawn(dot* dot_particle);
-void Asteroids_particle_dot_debug(void);
 void Asteroids_Obstacle_Spawn_Tutorial(Obstacle* obstacle, const float speed, float height, float width, CP_Vector pos);
 void Asteroids_Help_Update_Obstacle_Pos(Obstacle* Annoying, const float dt);

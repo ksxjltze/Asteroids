@@ -397,14 +397,6 @@ void Asteroids_Debug_Check_Input()
 	{
 		Asteroids_Enemy_Disable_Spawn();
 	}
-
-	if (CP_Input_KeyDown(KEY_LEFT_SHIFT) && CP_Input_KeyDown(KEY_Q))
-	{
-		if (CP_Input_MouseClicked())
-		{
-			Asteroids_Obstacles_Debug_BlackHole_To_Mouse();
-		}
-	}
 }
 
 // use CP_Engine_SetNextGameState to specify this function as the exit function

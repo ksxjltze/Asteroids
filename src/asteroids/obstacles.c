@@ -79,7 +79,6 @@ void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_co
 
 		}
 	}
-	Asteroids_particle_dot_debug();
 }
 
 void Asteroids_Obstacle_Spawn_Blackhole(void)
@@ -248,13 +247,6 @@ void Asteroids_Check_Collision_Gammaray_Enemy_Player(Enemy enemy_pool[], Player*
 	}
 }
 
-void Asteroids_Obstacles_Debug_BlackHole_To_Mouse()
-{
-	if (!Blackhole.active)
-		Asteroids_Obstacle_Spawn_Blackhole();
-		
-	Asteroids_Utility_Move_Object_To_Mouse_Stationary(&Blackhole.pos, &Blackhole.velocity);
-}
 void Asteroids_Particle_Dot_Init(void)
 {
 	CP_Image Dot_sprite = CP_Image_Load("./Assets/Dot.png");
@@ -319,20 +311,6 @@ void Asteroids_Particle_Dot_Despawn(dot* dot_particle)
 	dot_particle->lifespan = dot_particle_lifespan;
 }
 
-void Asteroids_particle_dot_debug(void)
-{
-	CP_Vector posi = Asteroids_Utility_GetWindowMiddle();
-
-	if (CP_Input_KeyDown(KEY_5))
-	{
-		for (int i = 0; i < DotsPerArr; i++)
-		{
-			CP_Image_DrawAdvanced(dot_pool[0].image[i], posi.x += 20, posi.y, 50, 50, 255, 255);
-			CP_Image_DrawAdvanced(dot_pool[1].image[i], posi.x += 20, posi.y + 50.0f, 50, 50, 255, 255);
-
-		}
-	}
-}
 
 void Asteroids_Obstacle_Spawn_Tutorial(Obstacle* obstacle, const float speed, const float height, const float width, CP_Vector pos)
 {
@@ -360,4 +338,3 @@ void Asteroids_Help_Update_Obstacle_Pos(Obstacle* Annoying, const float dt)
 {
 	Annoying->pos = CP_Vector_Add(Annoying->pos, CP_Vector_Scale(Annoying->velocity, dt));
 }
-
