@@ -51,6 +51,7 @@ typedef struct Buttons
 	ButtonColors colors;
 
 	CP_Vector position;
+	CP_Image image;
 	float width, height;
 
 	bool enabled;
@@ -59,6 +60,7 @@ typedef struct Buttons
 }Button;
 
 Button Asteroids_Button_Add_New_Button(float width, float height);
+Button Asteroids_Button_Add_New_Image_Button(CP_Image image, float width, float height);
 void Asteroids_Button_Set_Position(Button* button, CP_Vector position);
 void Asteroids_Button_Set_Text(Button* button, float textsize, char text[]);
 void Asteroids_Button_Set_Text_Colors(Button* button, CP_Color fill);

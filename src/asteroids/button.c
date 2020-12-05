@@ -15,6 +15,18 @@ Button Asteroids_Button_Add_New_Button(float width, float height)
 {
 	Button button;
 	Asteroids_Button_Init(&button);
+	button.image = NULL;
+	button.width = width;
+	button.height = height;
+
+	return button;
+}
+
+Button Asteroids_Button_Add_New_Image_Button(CP_Image image, float width, float height)
+{
+	Button button;
+	Asteroids_Button_Init(&button);
+	button.image = image;
 	button.width = width;
 	button.height = height;
 
@@ -185,10 +197,17 @@ void Asteroids_Button_Draw(Button button)
 		break;
 	}
 
-	CP_Graphics_DrawRect(button.position.x, button.position.y, button.width, button.height);
-	if (button.textbox.text)
+	if (button.image != NULL)
 	{
-		Asteroids_Button_Draw_Text(button);
+		CP_Image_Draw(button.image, button.position.x + button.width / 2, button.position.y + button.height / 2, button.width, button.height, 255);
+	}
+	else
+	{
+		CP_Graphics_DrawRect(button.position.x, button.position.y, button.width, button.height);
+		if (button.textbox.text)
+		{
+			Asteroids_Button_Draw_Text(button);
+		}
 	}
 }
 

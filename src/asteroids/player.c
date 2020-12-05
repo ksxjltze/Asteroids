@@ -54,6 +54,7 @@ struct Player Asteroids_Player_Init(float player_width, float player_height)
 	Railgun_Base.fire_rate = ASTEROIDS_WEAPON_RAILGUN_FIRE_RATE;
 	Railgun_Base.projectile_speed = ASTEROIDS_WEAPON_RAILGUN_PROJECTILE_SPEED;	
 	Railgun_Base.isPiercing = false;
+	Railgun_Base.special.homing = false;
 
 	player.weapon = Railgun_Base;
 	player.weapon.projectile_count = 1;
@@ -99,8 +100,9 @@ void Asteroids_Player_Update(Player* player)
 	//DANIA END
 	Asteroids_Player_Update_Movement(player, CP_System_GetDt());
 
-	if (player->hp.current <= 0)
+	if (player->hp.current <= 0 && player->active)
 	{
+		player->hp.current = 0;
 		Asteroids_Player_Death(player);
 	}
 	particle_update();
@@ -108,7 +110,11 @@ void Asteroids_Player_Update(Player* player)
 
 void Asteroids_Player_Death(Player* player)
 {
-	death.enabled = true;
+	if (player->active)
+	{
+		Asteroids_Particle_Player_Death_Particle_Spawn(player->pos);
+		player->active = false;
+	}
 }
 
 void Asteroids_Player_Hit(Player* player, float damage) //Player hurt

@@ -46,6 +46,9 @@ void Asteroids_Upgrades_Init(void)
 
 	Asteroids_Upgrades_Create_Upgrade(MULTISHOT, ASTEROIDS_UPGRADES_MULTISHOT_UPGRADE_COST, "Multishot");
 	Asteroids_Upgrades_Upgrade_Set_Max_Level(MULTISHOT, (int)(360 / ASTEROIDS_UPGRADES_MULTISHOT_ANGLE));
+
+	Asteroids_Upgrades_Create_Upgrade(HOMING, ASTEROIDS_UPGRADES_HOMING_PROJECTILES_UPGRADE_COST, "Homing Special Attack");
+	Asteroids_Upgrades_Upgrade_Disable_Levels(HOMING);
 }
 
 void Asteroids_Upgrades_Upgrade_Set_Max_Level(unsigned int id, unsigned int level)
@@ -301,9 +304,39 @@ void Asteroids_Upgrades_Set_Upgrade_Name(Upgrade* upgrade)
 	case MULTISHOT:
 		upgrade->name = "Multishot";
 		break;
+	case HOMING:
+		upgrade->name = "Homing Special Attack";
+		break;
 	default:
 		break;
 	}
+}
+
+int Asteroids_Upgrades_Reset_Upgrades(void)
+{
+	int refund = 0;
+	for (int i = 0; i < NUM_UPGRADES; i++)
+	{
+		if (upgrades[i].id != NONE)
+		{
+			if (upgrades[i].hasLevel)
+			{
+				if (upgrades[i].level > 0)
+				{
+					refund += upgrades[i].level * upgrades[i].cost;
+					upgrades[i].level = 0;
+				}
+			}
+			else if (upgrades[i].activated)
+			{
+				refund += upgrades[i].cost;
+				upgrades[i].activated = false;
+				upgrades[i].level = 0;
+			}
+		}
+	}
+	Asteroids_Upgrades_Save_All_To_File();
+	return refund;
 }
 
 void Asteroids_Upgrades_Apply_Upgrades(Player* player)
@@ -316,6 +349,7 @@ void Asteroids_Upgrades_Apply_Upgrades(Player* player)
 	Upgrade projectileSpeed = Asteroids_Upgrades_Get_Upgrade(PROJECTILE_SPEED);
 	Upgrade piercing = Asteroids_Upgrades_Get_Upgrade(PIERCING);
 	Upgrade multishot = Asteroids_Upgrades_Get_Upgrade(MULTISHOT);
+	Upgrade homing = Asteroids_Upgrades_Get_Upgrade(HOMING);
 
 	if (fuelCapacity.id != NONE)
 	{
@@ -409,6 +443,15 @@ void Asteroids_Upgrades_Apply_Upgrades(Player* player)
 		{
 			printf("Upgrade: Projectile Count increased by %d.\n", upgrade);
 			printf("Projectile Count: %d\n", player->weapon.projectile_count);
+		}
+	}
+
+	if (homing.id != NONE)
+	{
+		if (homing.activated)
+		{
+			player->weapon.special.homing = true;
+			printf("Upgrade: Homing Special Attack enabled.\n");
 		}
 	}
 

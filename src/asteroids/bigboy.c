@@ -64,6 +64,8 @@ void Asteroids_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_count, 
 {
 	float dt = CP_System_GetDt();
 
+	if (CP_Input_KeyDown(KEY_0))
+		Asteroids_Enemy_Boss_Spawn();
 	Asteroids_Enemy_Boss_Spawn_Interval();
 	if (Boss.active)
 	{	

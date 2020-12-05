@@ -22,6 +22,7 @@
 #include "enemy.h"
 #include "constants.h"
 
+
 #define BUTTON_WIDTH 150
 #define BUTTON_HEIGHT 75
 #define BTN_TEXTSIZE 75
@@ -29,9 +30,10 @@
 Help_screen screen;
 
 #define FIRST_PAGE 0
-#define LAST_PAGE 4
-
+#define LAST_PAGE 5
 CP_Image Page_Image[LAST_PAGE];
+
+CP_Image Display;
 
 Button BackBtn, NextBtn, ExitBtn;
 
@@ -42,6 +44,9 @@ static float warning_lifespan = 0.5f;
 static float spawn_animation_lifespan;
 static float spawn_animation_lifespan_max;
 
+Enemy helpEnemy[1];
+Enemy helpEnemy2[1];
+
 void Asteroids_Help_Screen_Init(void)
 {
 	for (int i = 0; i < LAST_PAGE; i++)
@@ -51,7 +56,8 @@ void Asteroids_Help_Screen_Init(void)
 		Page_Image[i] = CP_Image_Load(path);
 	}
 
-	screen.id = FIRST_PAGE;
+	Display = CP_Image_Load("./Assets/newasteroids.png");
+	screen.overlay = FIRST_PAGE;
 	warning_lifespan = 2.0f;
 	warning_lifespan = 2.0f;
 	spawn_animation_lifespan = ASTEROIDS_FINAL_BOSS_SUMMON_ANIMATION_TIMER;
@@ -61,7 +67,7 @@ void Asteroids_Help_Screen_Init(void)
 	screen.width = (float)CP_System_GetWindowWidth();
 	screen.height = (float)CP_System_GetWindowHeight();
 	screen.pos = Asteroids_Utility_GetWindowMiddle();
-	screen.Image = Page_Image[screen.id];
+	screen.Image = Page_Image[screen.overlay];
 
 	BackBtn = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	NextBtn = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -87,6 +93,9 @@ void Asteroids_Help_Screen_Init(void)
 
 	Asteroids_Obstacles_Init();
 	Asteroids_Final_Boss_Init();
+	particle_init();
+	Asteroids_Particle_Dot_Init();
+	explosion_init();
 }
 void Asteroids_Help_Screen_Update(void)
 {
@@ -106,13 +115,13 @@ void Asteroids_Help_Screen_Exit_ToMenu(void)
 void Asteroids_Draw_Screen_Page(void)
 {
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
-	if(screen.id < LAST_PAGE)
-		CP_Image_Draw(Page_Image[screen.id], screen.pos.x, screen.pos.y, screen.width, screen.height, 255);
+	if(screen.overlay < LAST_PAGE)
+		CP_Image_Draw(Page_Image[screen.overlay], screen.pos.x, screen.pos.y, screen.width, screen.height, 255);
 
-	if (screen.id > FIRST_PAGE)
+	if (screen.overlay > FIRST_PAGE)
 		Asteroids_Button_Update(&BackBtn);
 
-	if (screen.id < LAST_PAGE -1)
+	if (screen.overlay < LAST_PAGE -1)
 		Asteroids_Button_Update(&NextBtn);
 
 	Asteroids_Help_Draw_Obstacle_Screen();
@@ -120,14 +129,14 @@ void Asteroids_Draw_Screen_Page(void)
 }
 void Asteroids_Help_Draw_Obstacle_Screen(void)
 {
-	if (screen.id == OBSTACLES)
+	if (screen.overlay == OBSTACLES)
 	{
 		if (Blackhole.active == false)
-				{
-					Asteroids_Obstacle_Spawn_Tutorial(&Blackhole, ASTEROIDS_OBSTACLE_BLACKHOLE_SPEED, ASTEROIDS_OBSTACLE_BLACKHOLE_WIDTH,
-					ASTEROIDS_OBSTACLE_BLACKHOLE_WIDTH, CP_Vector_Set(0, (float)(WIN_HEIGHT / 3) - ASTEROIDS_OBSTACLE_BLACKHOLE_WIDTH));
-					Blackhole.Collider2.diameter = Blackhole.width;
-				}
+		{
+			Asteroids_Obstacle_Spawn_Tutorial(&Blackhole, ASTEROIDS_OBSTACLE_BLACKHOLE_SPEED, ASTEROIDS_OBSTACLE_BLACKHOLE_WIDTH,
+			ASTEROIDS_OBSTACLE_BLACKHOLE_WIDTH, CP_Vector_Set(0, (float)(WIN_HEIGHT / 3) - ASTEROIDS_OBSTACLE_BLACKHOLE_WIDTH));
+			Blackhole.Collider2.diameter = Blackhole.width;
+		}
 		if (GammaRay.active == false)
 		{
 			Asteroids_Obstacle_Spawn_Tutorial(&GammaRay, ASTEROIDS_OBSTACLE_GAMMARAY_SPEED, ASTEROIDS_OBSTACLE_GAMARAY_HEIGHT,
@@ -138,32 +147,53 @@ void Asteroids_Help_Draw_Obstacle_Screen(void)
 
 		Asteroids_Help_Update_Obstacle_Pos(&Blackhole, CP_System_GetDt());
 		Asteroids_Help_Update_Obstacle_Pos(&GammaRay, CP_System_GetDt());
+		Asteroids_Help_Update_Enemies();
+		particle_update();
+		Asteroids_Particle_Draw_Dot();
 
 		Asteroids_Draw_Obstacle(&Blackhole);
 		Asteroids_Draw_Obstacle(&GammaRay);
 		Asteroids_Help_Sreen_Draw_Warning();
+		if (!helpEnemy->active && !helpEnemy2->active)
+			Asteroids_Help_Menu_Spawn_Static_Enemies();
+	}
+}
+
+void Asteroids_Help_Update_Enemies(void)
+{
+	Enemy* d1 = helpEnemy;
+	Enemy* d2 = helpEnemy2;
+	if (d1->active)
+	{
+		CP_Image_DrawAdvanced(Display, d1->pos.x, d1->pos.y, d1->collider.diameter, d1->collider.diameter, 255, d1->rotate_rate);
+		Asteroids_Check_Collision_Blackhole_Enemy_Player(d1, NULL, &Blackhole, 1);
+	}
+	if (d2->active)
+	{
+		CP_Image_DrawAdvanced(Display, d2->pos.x, d2->pos.y, d2->collider.diameter, d2->collider.diameter, 255, d2->rotate_rate);
+		Asteroids_Check_Collision_Gammaray_Enemy_Player(d2, NULL, &GammaRay, 1);
 	}
 }
 
 void Asteroids_Help_Draw_FinalBoss_Screen(void)
 {
-	if (screen.id == FINALBOSS)
+	if (screen.overlay == FINALBOSS)
 		Asteroids_Help_Draw_FinalBoss_Spawn_Animation();
 }
 void Asteroids_Help_Screen_IncreasePageNo(void)
 {
-	if (screen.id >= LAST_PAGE)
+	if (screen.overlay >= LAST_PAGE)
 		return;
 
-	screen.id += 1;
+	screen.overlay += 1;
 }
 
 void Asteroids_Help_Screen_DecreasePageNo(void)
 {
-	if (screen.id <= FIRST_PAGE)
+	if (screen.overlay <= FIRST_PAGE)
 		return;
 
-	screen.id -= 1;
+	screen.overlay -= 1;
 }
 
 void Asteroids_Help_Sreen_Draw_Warning(void)
@@ -187,5 +217,25 @@ void Asteroids_Help_Draw_FinalBoss_Spawn_Animation(void)
 	if (spawn_animation_lifespan < -spawn_animation_lifespan_max)
 	{
 		spawn_animation_lifespan = spawn_animation_lifespan_max;
+	}
+}
+
+void Asteroids_Help_Menu_Spawn_Static_Enemies(void)
+{
+	Enemy* d1 = helpEnemy;
+	Enemy* d2 = helpEnemy2;
+	if (!helpEnemy->active)
+	{
+		d1 = Asteroids_Enemy_Spawn(helpEnemy, 1, CP_Vector_Set((float)WIN_WIDTH * 0.75f, Blackhole.pos.y));
+	}
+
+	if(!helpEnemy2->active)
+		d2 = Asteroids_Enemy_Spawn(helpEnemy2, 1, CP_Vector_Set((float)WIN_WIDTH * 0.75f, GammaRay.pos.y));
+}
+void Asteroids_Help_Draw_Upagrdes_Screen(void)
+{
+	if (screen.overlay == UPGRADES)
+	{
+
 	}
 }

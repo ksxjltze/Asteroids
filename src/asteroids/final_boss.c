@@ -26,6 +26,7 @@ State bossState;
 CP_Image final_boss_sprite[2];
 CP_Image final_boss_sprite_hurt[2];
 CP_Image final_boss_sleep_sprite[2];
+CP_Image endImage;
 
 
 static bool lap;
@@ -97,7 +98,7 @@ void Asteroids_Final_Boss_Init(void)
 	Max_Loop_Timespan = ASTEROIDS_FINAL_BOSS_SUMMON_ANIMATION_TIMER;
 
 	blink_count = 0;
-
+	endImage = CP_Image_Load("./Assets/starfield.png");
 	final_boss.pos = Asteroids_Utility_Generate_Random_Pos_Var2(ASTEROIDS_FINAL_BOSS_DIAMETER * 10, ASTEROIDS_FINAL_BOSS_DIAMETER * 10);
 }
 
@@ -300,7 +301,7 @@ void Asteroids_Final_Boss_Reset()
 	final_boss.split_count = 0;
 	final_boss.sprite_type = 0;
 	final_boss.killed = false;
-	bossState.id = NONE;
+	bossState.id = NO;
 	bossState.name = "NONE";
 	bossState.action = NULL;
 	battleStarted = 0;
@@ -486,7 +487,7 @@ void Asteroids_Final_Boss_Hp_Draw(Enemy Final_Boss)
 void Asteroids_Final_Boss_Death_Screen(Enemy Final_Boss, Player player)
 {
 	Asteroids_MainMenu_Update_Background();
-	Asteroids_MainMenu_Draw_Background();
+	Asteroids_MainMenu_Draw_Background(endImage);
 
 	float textsize = 50.0f;
 	CP_Vector vec = Asteroids_Utility_GetWindowMiddle();

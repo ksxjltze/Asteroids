@@ -13,6 +13,11 @@
 
 enum WeaponType {RAILGUN, LASER};
 
+typedef struct Specials
+{
+	bool homing;
+}Special;
+
 typedef struct Weapons
 {
 	int id;
@@ -20,5 +25,6 @@ typedef struct Weapons
 	float fire_rate;
 	float projectile_speed;
 	int projectile_count;
+	Special special;
 	bool isPiercing;
 } Weapon;
