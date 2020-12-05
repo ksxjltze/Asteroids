@@ -312,6 +312,33 @@ void Asteroids_Upgrades_Set_Upgrade_Name(Upgrade* upgrade)
 	}
 }
 
+int Asteroids_Upgrades_Reset_Upgrades(void)
+{
+	int refund = 0;
+	for (int i = 0; i < NUM_UPGRADES; i++)
+	{
+		if (upgrades[i].id != NONE)
+		{
+			if (upgrades[i].hasLevel)
+			{
+				if (upgrades[i].level > 0)
+				{
+					refund += upgrades[i].level * upgrades[i].cost;
+					upgrades[i].level = 0;
+				}
+			}
+			else if (upgrades[i].activated)
+			{
+				refund += upgrades[i].cost;
+				upgrades[i].activated = false;
+				upgrades[i].level = 0;
+			}
+		}
+	}
+	Asteroids_Upgrades_Save_All_To_File();
+	return refund;
+}
+
 void Asteroids_Upgrades_Apply_Upgrades(Player* player)
 {
 	Upgrade fuelCapacity = Asteroids_Upgrades_Get_Upgrade(FUEL_CAPACITY);
