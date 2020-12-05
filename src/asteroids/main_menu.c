@@ -182,8 +182,8 @@ void Asteroids_MainMenu_Button_Init(void)
 {
 	float textSize = 40.0f;
 
-	float x1 = (float)((WIN_WIDTH / 3.5) - BUTTON_WIDTH);
-	float x2 = (float)(WIN_WIDTH / 1.4);
+	float x1 = 0;
+	float x2 = (float)(WIN_WIDTH - BUTTON_WIDTH);
 
 	float y2 = (float)((float)WIN_HEIGHT / 2 - (BUTTON_HEIGHT / 2)); // middle 
 	float y1 = y2 - BUTTON_HEIGHT;
