@@ -47,7 +47,7 @@ void Asteroids_Menu_Display_Tutorialplay(void);
 
 //BACKGROUND
 void Asteroids_MainMenu_Update_Background(void);
-void Asteroids_MainMenu_Draw_Background(void);
+void Asteroids_MainMenu_Draw_Background(CP_Image image);
 
 //DIFFICULTY MENU
 void Asteroids_Menu_Display_DifficultyMenu(void);

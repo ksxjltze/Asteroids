@@ -124,20 +124,20 @@ void Asteroids_MainMenu_Update_Background(void)
 
 }
 
-void Asteroids_MainMenu_Draw_Background(void)
+void Asteroids_MainMenu_Draw_Background(CP_Image image)
 {
 	if (!status)
 		return;
 
-	CP_Image_Draw(backgroundImage, backgroundPos.x, backgroundPos.y, (float)WIN_WIDTH, (float)WIN_HEIGHT, 255);
-	CP_Image_Draw(backgroundImage, backgroundPos2.x, backgroundPos2.y, (float)WIN_WIDTH, (float)WIN_HEIGHT, 255);
-	CP_Image_Draw(backgroundImage, backgroundPos3.x, backgroundPos3.y, (float)WIN_WIDTH, (float)WIN_HEIGHT, 255);
+	CP_Image_Draw(image, backgroundPos.x, backgroundPos.y, (float)WIN_WIDTH, (float)WIN_HEIGHT, 255);
+	CP_Image_Draw(image, backgroundPos2.x, backgroundPos2.y, (float)WIN_WIDTH, (float)WIN_HEIGHT, 255);
+	CP_Image_Draw(image, backgroundPos3.x, backgroundPos3.y, (float)WIN_WIDTH, (float)WIN_HEIGHT, 255);
 
 }
 
 void Asteroids_Draw_MainMenu(void)
 {
-	Asteroids_MainMenu_Draw_Background();
+	Asteroids_MainMenu_Draw_Background(backgroundImage);
 	CP_Settings_Stroke(CP_Color_Create(0, 0, 0, 255));
 	CP_Settings_Fill(textColor);
 	CP_Settings_TextSize(menuTextSize);
