@@ -221,7 +221,7 @@ void draw_player_death_anim(Player* player)
 	//CP_Image_Draw(death.sprite[0], shit.x, shit.y, 200, 200, 255);
 	if (death.enabled)
 	{
-		printf("test\n");
+		//printf("test\n");
 		float dt = CP_System_GetDt();
 		death.currentLifespan -= dt;
 		if (death.currentLifespan >= 0)
@@ -233,7 +233,7 @@ void draw_player_death_anim(Player* player)
 				death.velocity[i] = CP_Vector_Scale(death.velocity[i], 300.0f * dt);
 				death.position[i] = CP_Vector_Add(death.position[i], death.velocity[i]);
 				CP_Image_Draw(death.sprite[i], death.position[i].x, death.position[i].y, death.dimensions.x, death.dimensions.y, 255); // (int)(death.currentLifespan/death.maxLifespan) *
-				printf("%.2f %.2f\n", death.position[i].x, death.position[i].y);
+				//printf("%.2f %.2f\n", death.position[i].x, death.position[i].y);
 			}
 		}
 		if (death.currentLifespan <= 0)
@@ -245,7 +245,6 @@ void draw_player_death_anim(Player* player)
 
 void spawn_explosion_anim(CP_Vector position, float size)
 {
-	printf("explode\n");
 	int particles = 1;
 	float min_velocity = 0;
 	float max_velocity = 0;

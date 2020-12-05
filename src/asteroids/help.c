@@ -159,7 +159,7 @@ void Asteroids_Help_Draw_Obstacle_Screen(void)
 	}
 }
 
-void Asteroids_Help_Update_Enemies()
+void Asteroids_Help_Update_Enemies(void)
 {
 	Enemy* d1 = helpEnemy;
 	Enemy* d2 = helpEnemy2;

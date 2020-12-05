@@ -152,7 +152,6 @@ void Asteroids_Check_Collision_Blackhole_Enemy_Player(Enemy enemy_pool[], Player
 		if (Asteroids_Collision_CheckCollision_Circle_Test(obstacle->Collider2, obstacle->pos, enemy_pool[i].collider, enemy_pool[i].pos))
 		{
 			enemy_pool[i].active = false;
-			printf("test\n");
 			Asteroids_Particle_Dot_Spawn(enemy_pool[i].pos);
 		}
 	}
