@@ -245,6 +245,7 @@ void draw_player_death_anim(Player* player)
 
 void spawn_explosion_anim(CP_Vector position, float size)
 {
+	printf("explode\n");
 	int particles = 1;
 	float min_velocity = 0;
 	float max_velocity = 0;

@@ -22,6 +22,7 @@
 #include "enemy.h"
 #include "constants.h"
 
+
 #define BUTTON_WIDTH 150
 #define BUTTON_HEIGHT 75
 #define BTN_TEXTSIZE 75
@@ -32,6 +33,7 @@ Help_screen screen;
 #define LAST_PAGE 4
 
 CP_Image Page_Image[LAST_PAGE];
+CP_Image Display;
 
 Button BackBtn, NextBtn, ExitBtn;
 
@@ -42,6 +44,9 @@ static float warning_lifespan = 0.5f;
 static float spawn_animation_lifespan;
 static float spawn_animation_lifespan_max;
 
+Enemy helpEnemy[1];
+Enemy helpEnemy2[1];
+
 void Asteroids_Help_Screen_Init(void)
 {
 	for (int i = 0; i < LAST_PAGE; i++)
@@ -51,6 +56,7 @@ void Asteroids_Help_Screen_Init(void)
 		Page_Image[i] = CP_Image_Load(path);
 	}
 
+	Display = CP_Image_Load("./Assets/newasteroids.png");
 	screen.id = FIRST_PAGE;
 	warning_lifespan = 2.0f;
 	warning_lifespan = 2.0f;
@@ -87,6 +93,7 @@ void Asteroids_Help_Screen_Init(void)
 
 	Asteroids_Obstacles_Init();
 	Asteroids_Final_Boss_Init();
+	explosion_init();
 }
 void Asteroids_Help_Screen_Update(void)
 {
@@ -142,6 +149,7 @@ void Asteroids_Help_Draw_Obstacle_Screen(void)
 		Asteroids_Draw_Obstacle(&Blackhole);
 		Asteroids_Draw_Obstacle(&GammaRay);
 		Asteroids_Help_Sreen_Draw_Warning();
+		Asteroids_Help_Menu_Spawn_Static_Enemies();
 	}
 }
 
@@ -187,5 +195,29 @@ void Asteroids_Help_Draw_FinalBoss_Spawn_Animation(void)
 	if (spawn_animation_lifespan < -spawn_animation_lifespan_max)
 	{
 		spawn_animation_lifespan = spawn_animation_lifespan_max;
+	}
+}
+
+void Asteroids_Help_Menu_Spawn_Static_Enemies(void)
+{
+	Enemy* d1 = helpEnemy;
+	Enemy* d2 = helpEnemy2;
+	if (!helpEnemy->active)
+	{
+		d1 = Asteroids_Enemy_Spawn(helpEnemy, 1, CP_Vector_Set((float)WIN_WIDTH * 0.75f, Blackhole.pos.y));
+	}
+
+	if(!helpEnemy2->active)
+		d2 = Asteroids_Enemy_Spawn(helpEnemy2, 1, CP_Vector_Set((float)WIN_WIDTH * 0.75f, GammaRay.pos.y));
+
+	if (d1)
+	{
+		CP_Image_DrawAdvanced(Display, d1->pos.x, d1->pos.y, d1->collider.diameter, d1->collider.diameter, 255, d1->rotate_rate);
+		Asteroids_Check_Collision_Blackhole_Enemy_Player(d1, NULL, &Blackhole, 1);
+	}
+	if (d2)
+	{
+		CP_Image_DrawAdvanced(Display, d2->pos.x, d2->pos.y, d2->collider.diameter, d2->collider.diameter, 255, d2->rotate_rate);
+		Asteroids_Check_Collision_Gammaray_Enemy_Player(d2, NULL, &GammaRay, 1);
 	}
 }
