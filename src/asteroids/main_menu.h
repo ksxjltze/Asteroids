@@ -37,7 +37,7 @@ void Asteroids_MainMenu_CheckInput(void);
 
 // MAIN MENU DISPLAYS
 void Asteroids_Play_Game(void);
-void Asteroids_Controls(void);
+void Asteroids_MainMenu_Guide(void);
 void Asteroids_QuitGame(void);
 void Asteroids_Credits(void);
 void Asteroids_Display_LeaderBoard(void);

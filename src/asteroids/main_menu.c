@@ -21,7 +21,7 @@
 #include <stdbool.h>
 #include "help.h"
 
-#define BUTTON_WIDTH 500.0f
+#define BUTTON_WIDTH 400.0f
 #define BUTTON_HEIGHT 100.0f
 
 bool status;
@@ -32,7 +32,7 @@ bool Playmusic = true;
 bool page1;
 bool page2;
 
-enum OVERLAY_TYPE { CREDITS_SCREEN, LEADERBOARD_SCREEN, CONTROLS_SCREEN, DIFFICULTY_MENU, SKIN_MENU, UPGRADES_MENU, VOL_BUTTON};
+enum OVERLAY_TYPE { CREDITS_SCREEN, LEADERBOARD_SCREEN, GUIDE_SCREEN, DIFFICULTY_MENU, SKIN_MENU, UPGRADES_MENU, VOL_BUTTON};
 
 DIFFICULTY ASTEROIDS_GAME_DIFFICULTY = NORMAL;
 DIFFICULTY DIFFICULTY_OPTION = NORMAL;
@@ -249,7 +249,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Position(&VolumeBtn, pos11);
 
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Play_Game, &Play);
-	Asteroids_Button_Set_Callback_Void(&Asteroids_Controls, &Controls);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_MainMenu_Guide, &Controls);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Credits, &Credits);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Display_LeaderBoard, &Leaderboard);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_QuitGame, &Quit);
@@ -290,7 +290,6 @@ void Asteroids_Menu_Display_SkinMenu(void)
 {
 	status = false;
 	overlay_type = SKIN_MENU;
-
 }
 
 void Asteroids_Menu_Display_DifficultyMenu(void)
@@ -304,7 +303,6 @@ void Asteroids_Play_Game(void)
 {
 	CP_Engine_SetNextGameState(Asteroids_Init, Asteroids_Update, Asteroids_Exit);
 } 
-
 
 void Asteroids_QuitGame(void)
 {
@@ -332,7 +330,7 @@ void Asteroids_Display_LeaderBoard(void)
 	Asteroids_Leaderboard_Init();
 
 }
-void Asteroids_Controls(void)
+void Asteroids_MainMenu_Guide(void)
 {	
 	CP_Engine_SetNextGameState(Asteroids_Help_Screen_Init, Asteroids_Help_Screen_Update, Asteroids_Help_Screen_Exit);
 }
@@ -358,8 +356,8 @@ void Asteroids_MainMenu_CheckInput(void)
 		case LEADERBOARD_SCREEN:
 			Asteroids_Leaderboard_Update();
 			break;
-		case CONTROLS_SCREEN:
-			Asteroids_Controls();
+		case GUIDE_SCREEN:
+			Asteroids_MainMenu_Guide();
 			break;
 		case DIFFICULTY_MENU:
 			Asteroids_Difficulty_Menu_Update();
