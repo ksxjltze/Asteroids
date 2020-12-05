@@ -49,31 +49,37 @@ Obstacle Blackhole;
 Obstacle GammaRay;
 CP_Image Warning;
 
-// ENTRY POINT
+/*				OBSTACLE MAIN ENTRY FUNCTIONS			*/
 void Asteroids_Obstacles_Init(void);
 void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_count);
 
-// SPAWNING FUNCTIONS
+
+/*				OBSTACLE SPAWNING RELATED FUNCTIONS		*/
 void Asteroids_Obstacle_Spawn_Blackhole(void);
 void Asteroids_Obstacle_Spawn_GammaRay(void);
 void Asteroids_Obstacle_Spawn_Warning(void);
 void Asteroids_Obstacle_TimeInterval(void);
 
-// DRAWING
+
+/*				OBSTACLE DRAWING RELATED FUNCTIONS		*/
 void Asteroids_Draw_Obstacle(Obstacle* obstacle);
 void Asteroids_Environment_Draw_Warning(void);
 
-// Collision
+
+/*				OBTSACLE COLLISION RELATED FUNCTIONS	*/
 void Asteroids_Check_Collision_Blackhole_Enemy_Player(Enemy enemy_pool[], Player* player, Obstacle* obstacle, int enemy_count);
 void Asteroids_Check_Collision_Gammaray_Enemy_Player(Enemy enemy_pool[], Player* player, Obstacle* obstacle, int enemy_count);
 
-// DEBUG
 
+/*				PARTICLE EFFECT FUNCTIONS				*/
 #define MaxDotParticleArrSize 100
 #define DotsPerArr 10
 void Asteroids_Particle_Dot_Init(void);
 void Asteroids_Particle_Dot_Spawn(CP_Vector pos);
 void Asteroids_Particle_Draw_Dot(void);
 void Asteroids_Particle_Dot_Despawn(dot* dot_particle);
+
+
+/*				OBSTACLE FOR GUIDE SCREEN			*/
 void Asteroids_Obstacle_Spawn_Tutorial(Obstacle* obstacle, const float speed, float height, float width, CP_Vector pos);
 void Asteroids_Help_Update_Obstacle_Pos(Obstacle* Annoying, const float dt);
