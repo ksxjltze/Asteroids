@@ -79,7 +79,8 @@ void Asteroids_Init(void)
 	particle_init();
 	explosion_init();
 	smoke_init();
-	player_death_init();
+	Asteroids_Particles_Player_Death_Particle_Init();
+	//player_death_init();
 
 	Asteroids_Entities_Init();
 	Asteroids_Pause_Init();
@@ -120,14 +121,14 @@ void Asteroids_Update(void)
 		particle_update();
 
 		//Gameover
-		if (player.active != 1)
+		if (player.active == 0)
 		{
-			//static float timer = 5;
-			//timer -= CP_System_GetDt();
-			CP_Engine_SetNextGameState(Asteroids_GameOver_Init, Asteroids_GameOver_Update, Asteroids_GameOver_Exit);
-			/*if (timer < 0)
+			static float timer = 3.0f;
+			timer -= CP_System_GetDt();
+			if (timer < 0)
 			{
-			}*/
+				CP_Engine_SetNextGameState(Asteroids_GameOver_Init, Asteroids_GameOver_Update, Asteroids_GameOver_Exit);
+			}
 			CP_Engine_Run();
 		}
 
@@ -146,7 +147,7 @@ void Asteroids_Update(void)
 		Asteroids_Player_Update(&player);
 		Asteroids_UI_Update(player);
 		Asteroids_Player_Draw(player_sprite, player.pos, player_width, player_height, player.alpha, player_rotation);
-		draw_player_death_anim(&player);
+		//draw_player_death_anim(&player);
 	}
 }
 void Asteroids_Cooldown_Update()

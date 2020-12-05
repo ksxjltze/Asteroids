@@ -100,8 +100,9 @@ void Asteroids_Player_Update(Player* player)
 	//DANIA END
 	Asteroids_Player_Update_Movement(player, CP_System_GetDt());
 
-	if (player->hp.current <= 0)
+	if (player->hp.current <= 0 && player->active)
 	{
+		player->hp.current = 0;
 		Asteroids_Player_Death(player);
 	}
 	particle_update();
@@ -109,7 +110,11 @@ void Asteroids_Player_Update(Player* player)
 
 void Asteroids_Player_Death(Player* player)
 {
-	death.enabled = true;
+	if (player->active)
+	{
+		Asteroids_Particle_Player_Death_Particle_Spawn(player->pos);
+		player->active = false;
+	}
 }
 
 void Asteroids_Player_Hit(Player* player, float damage) //Player hurt
