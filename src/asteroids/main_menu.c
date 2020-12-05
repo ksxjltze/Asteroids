@@ -42,12 +42,12 @@ static CP_Color textColor;
 static float menuTextSize;
 static char* menuText = "Asteroids";
 
-Button Credits, Play, Quit, Leaderboard, Controls, ExitBtn, DifficultyBtn, SkinsBtn, NextPage, PrevPage, UpgradesBtn, Volume;
+Button Credits, Play, Quit, Leaderboard, Controls, ExitBtn, DifficultyBtn, SkinsBtn, NextPage, PrevPage, UpgradesBtn, VolumeBtn;
 CP_Image Control_screen;
 CP_Image Control_screen2;
 CP_Image Credits_screen;
 CP_Image Chosenship;
-CP_Image Volumebutton;
+CP_Image volumeBtnImage;
 CP_Image Tutorialbutton;
 
 CP_Image backgroundImage;
@@ -65,6 +65,7 @@ void Asteroids_MainMenu_Init(void)
 	page2 = false;
 
 	Asteroids_Menu_Settings_Setup(WIN_WIDTH, WIN_HEIGHT);
+	volumeBtnImage = CP_Image_Load("./Assets/volumebutton.png");
 	Asteroids_MainMenu_Button_Init();
 	Control_screen = CP_Image_Load("./Assets/Control_screen.png");
 	Control_screen2 = CP_Image_Load("./Assets/Control_screen2.png");
@@ -153,7 +154,7 @@ void Asteroids_Draw_MainMenu(void)
 		Asteroids_Button_Update(&DifficultyBtn);
 		Asteroids_Button_Update(&SkinsBtn);
 		Asteroids_Button_Update(&UpgradesBtn);
-		Asteroids_Button_Update(&Volume);
+		Asteroids_Button_Update(&VolumeBtn);
 		Asteroids_MainMenu_Draw_Current_Ship(); 
 		Asteroids_Upgrades_Menu_Display_Balance(CP_Color_Create(255, 255, 255, 255), CP_Vector_Set(120, 30));
 	}
@@ -219,7 +220,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	NextPage = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	PrevPage = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	UpgradesBtn = Asteroids_Button_Add_New_Button(BUTTON_WIDTH - 100.0f , BUTTON_HEIGHT - 40.0f);
-	Volume = Asteroids_Button_Add_New_Button(BUTTON_WIDTH - 150.0f , BUTTON_HEIGHT );
+	VolumeBtn = Asteroids_Button_Add_New_Image_Button(volumeBtnImage, BUTTON_WIDTH - 150.0f , BUTTON_HEIGHT);
 
 	Asteroids_Button_Set_Text(&Play, textSize, "Play");
 	Asteroids_Button_Set_Text(&Controls, textSize, "Guide");
@@ -232,7 +233,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Text(&NextPage, textSize, "Next");
 	Asteroids_Button_Set_Text(&PrevPage, textSize, "Back");
 	Asteroids_Button_Set_Text(&UpgradesBtn, textSize, "Upgrades");
-	Asteroids_Button_Set_Text(&Volume, textSize, "Vol");
+	Asteroids_Button_Set_Text(&VolumeBtn, textSize, "Vol");
 
 	Asteroids_Button_Set_Position(&Play, pos1 );
 	Asteroids_Button_Set_Position(&Controls, pos2);
@@ -245,7 +246,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Position(&PrevPage, pos9);
 	Asteroids_Button_Set_Position(&SkinsBtn, pos5);
 	Asteroids_Button_Set_Position(&UpgradesBtn, upgradesPos);
-	Asteroids_Button_Set_Position(&Volume, pos11);
+	Asteroids_Button_Set_Position(&VolumeBtn, pos11);
 
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Play_Game, &Play);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Controls, &Controls);
@@ -256,7 +257,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_DifficultyMenu, &DifficultyBtn);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_SkinMenu, &SkinsBtn);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_UpgradesMenu, &UpgradesBtn);
-	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_VolumeONOFF, &Volume);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_VolumeONOFF, &VolumeBtn);
 
 	DifficultyBtn.colors.idle = CP_Color_Create(255, 255, 0, 255);
 	Asteroids_Button_Set_Text_Colors(&DifficultyBtn, CP_Color_Create(0, 0, 0, 255));
