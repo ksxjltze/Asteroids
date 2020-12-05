@@ -72,7 +72,7 @@ void Asteroids_Audio_Manager_BGM_Boss_Battle_Play()
 
 void Asteroids_Audio_MainMenu_BGM_Play(void)
 {
-	//Volbutton = CP_Image_Load("./Assets/volumebutton.png");
+	VOLbutton = CP_Image_Load("./Assets/volumebutton.png");
 
 	if (sfx_bgm_MainMenu)
 		CP_Sound_PlayAdvanced(sfx_bgm_MainMenu, 0.1f, 1.0f, 1, MUSIC);
