@@ -16,6 +16,7 @@ enum WeaponType {RAILGUN, LASER};
 typedef struct Specials
 {
 	bool homing;
+	bool swarm;
 }Special;
 
 typedef struct Weapons

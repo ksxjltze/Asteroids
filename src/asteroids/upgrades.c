@@ -488,6 +488,14 @@ void Asteroids_Upgrades_Apply_Upgrades(Player* player)
 		{
 			player->weapon.special.homing = true;
 			printf("Upgrade: Homing Special Attack enabled.\n");
+
+			Upgrade swarm = Asteroids_Upgrades_Get_Upgrade(SWARM);
+			if (swarm.activated)
+			{
+				player->weapon.special.swarm = true;
+				printf("Upgrade: Homing Swarm Upgrade enabled.\n");
+
+			}
 		}
 	}
 
