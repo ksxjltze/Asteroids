@@ -31,6 +31,7 @@ void Asteroids_Bullet_Init(Bullet bullets[], int count, float bullet_width, floa
 	{
 		Bullet bullet = bullets[i];
 		bullet.active = 0;
+		bullet.collide_count = 0;
 		bullet.pos = CP_Vector_Set(-1, -1);
 		bullet.velocity = CP_Vector_Set(0, 0);
 		bullet.id = i;
@@ -43,6 +44,15 @@ void Asteroids_Bullet_Init(Bullet bullets[], int count, float bullet_width, floa
 	}
 }
 
+void Asteroids_Bullet_Reset(Bullet* bullet)
+{
+	bullet->active = 0;
+	bullet->pos = CP_Vector_Set(-1, -1);
+	bullet->velocity = CP_Vector_Set(0, 0);
+	bullet->rotation = 0;
+	bullet->collide_count = 0;
+}
+
 void Asteroids_Bullet_Update(Bullet arr_bullet[], int bullet_count, Enemy enemy_pool[], int enemy_count, Player player)
 {
 	//bullet
@@ -51,13 +61,16 @@ void Asteroids_Bullet_Update(Bullet arr_bullet[], int bullet_count, Enemy enemy_
 		Bullet bullet = arr_bullet[i];
 		if (bullet.active)
 		{
+			if (bullet.type == HOMING_PROJECTILE && bullet.collide_count > ASTEROIDS_WEAPON_SWARM_BULLET_MAX_ATTACK_COUNT)
+			{
+				Asteroids_Bullet_Reset(&bullet);
+				arr_bullet[i] = bullet;
+				continue;
+			}
+
 			if ((bullet.pos.x > CP_System_GetWindowWidth() || bullet.pos.x < 0) && (bullet.pos.y > CP_System_GetWindowHeight() || bullet.pos.y < 0))
 			{
-				bullet.active = 0;
-				bullet.pos = CP_Vector_Set(-1, -1);
-				bullet.velocity = CP_Vector_Set(0, 0);
-				bullet.rotation = 0;
-
+				Asteroids_Bullet_Reset(&bullet);
 				arr_bullet[i] = bullet;
 				continue;
 			}

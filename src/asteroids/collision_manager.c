@@ -46,6 +46,10 @@ Bullet Asteroids_Collision_CheckCollision_Enemy_Bullet(Enemy enemy_pool[], int e
 			{
 				if (collisions[i].colliderA_id == bullet.id && collisions[i].colliderB_id == enemy->id)
 				{
+					if (bullet.type == HOMING_PROJECTILE)
+					{
+						Asteroids_Enemy_Hit(enemy, player.weapon.damage);
+					}
 					return bullet;
 				}
 			}
@@ -76,6 +80,7 @@ Bullet Asteroids_Collision_EnterCollision_Enemy_Bullet(Bullet bullet, Enemy* ene
 		collisions = temp;
 		collisions[collision_counter - 1].colliderA_id = bullet.id;
 		collisions[collision_counter - 1].colliderB_id = enemy->id;
+		bullet.collide_count++;
 
 		if ((!player.weapon.isPiercing && bullet.type == LINEAR_PROJECTILE) || (bullet.type == HOMING_PROJECTILE && !player.weapon.special.swarm))
 		{
@@ -83,6 +88,7 @@ Bullet Asteroids_Collision_EnterCollision_Enemy_Bullet(Bullet bullet, Enemy* ene
 			bullet.pos = CP_Vector_Set(-1, -1);
 			bullet.velocity = CP_Vector_Set(0, 0);
 		}
+
 		Asteroids_Enemy_Hit(enemy, player.weapon.damage);
 		return bullet;
 	}
