@@ -94,6 +94,7 @@ void Asteroids_Help_Screen_Init(void)
 	Asteroids_Obstacles_Init();
 	Asteroids_Final_Boss_Init();
 	particle_init();
+	Asteroids_Particle_Dot_Init();
 	explosion_init();
 }
 void Asteroids_Help_Screen_Update(void)
@@ -148,6 +149,7 @@ void Asteroids_Help_Draw_Obstacle_Screen(void)
 		Asteroids_Help_Update_Obstacle_Pos(&GammaRay, CP_System_GetDt());
 		Asteroids_Help_Update_Enemies();
 		particle_update();
+		Asteroids_Particle_Draw_Dot();
 
 		Asteroids_Draw_Obstacle(&Blackhole);
 		Asteroids_Draw_Obstacle(&GammaRay);
