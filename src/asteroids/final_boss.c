@@ -27,7 +27,6 @@ CP_Image final_boss_sprite[2];
 CP_Image final_boss_sprite_hurt[2];
 CP_Image final_boss_sleep_sprite[2];
 
-CP_Image Final_Boss_Spawn_Animation;
 
 static bool lap;
 static bool state_change;
@@ -483,13 +482,6 @@ void Asteroids_Final_Boss_Hp_Draw(Enemy Final_Boss)
 	CP_Font_DrawTextBox(boss_hp_buffer, 0, mid.y + height / 2, (float)WIN_WIDTH);
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Font_DrawTextBox(boss_state, 0, mid.y - height, (float)WIN_WIDTH);
-
-	if (CP_Input_KeyDown(KEY_F2))
-	{
-		// DEBUG
-		Enemy* FB = &final_boss;
-		FB->hp.current = 1;
-	}
 }
 void Asteroids_Final_Boss_Death_Screen(Enemy Final_Boss, Player player)
 {

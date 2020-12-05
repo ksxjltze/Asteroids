@@ -17,7 +17,10 @@
 #include "audio_manager.h"
 #include <string.h>
 #include "obstacles.h"
+#include <math.h>
+#include "final_boss.h"
 #include "enemy.h"
+#include "constants.h"
 
 #define BUTTON_WIDTH 150
 #define BUTTON_HEIGHT 75
@@ -34,8 +37,10 @@ Button BackBtn, NextBtn, ExitBtn;
 
 enum HELP_SCREEN { CONTROLS, MECHANICS, OBSTACLES, FINALBOSS, UPGRADES };
 
-static float warning_lifespan;
-static float warning_lifespan_max;
+static float current_lifespan = 0.5f;
+static float warning_lifespan = 0.5f;
+static float spawn_animation_lifespan;
+static float spawn_animation_lifespan_max;
 
 void Asteroids_Help_Screen_Init(void)
 {
@@ -49,6 +54,8 @@ void Asteroids_Help_Screen_Init(void)
 	screen.id = FIRST_PAGE;
 	warning_lifespan = 2.0f;
 	warning_lifespan = 2.0f;
+	spawn_animation_lifespan = ASTEROIDS_FINAL_BOSS_SUMMON_ANIMATION_TIMER;
+	spawn_animation_lifespan_max = ASTEROIDS_FINAL_BOSS_SUMMON_ANIMATION_TIMER;
 	Asteroids_Audio_Manager_Init();
 
 	screen.width = (float)CP_System_GetWindowWidth();
@@ -79,6 +86,7 @@ void Asteroids_Help_Screen_Init(void)
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Help_Screen_DecreasePageNo, &BackBtn);
 
 	Asteroids_Obstacles_Init();
+	Asteroids_Final_Boss_Init();
 }
 void Asteroids_Help_Screen_Update(void)
 {
@@ -106,9 +114,11 @@ void Asteroids_Draw_Screen_Page(void)
 
 	if (screen.id < LAST_PAGE -1)
 		Asteroids_Button_Update(&NextBtn);
-	Asteroids_Draw_Obstacle_Screen();
+
+	Asteroids_Help_Draw_Obstacle_Screen();
+	Asteroids_Help_Draw_FinalBoss_Screen();
 }
-void Asteroids_Draw_Obstacle_Screen(void)
+void Asteroids_Help_Draw_Obstacle_Screen(void)
 {
 	if (screen.id == OBSTACLES)
 	{
@@ -131,8 +141,14 @@ void Asteroids_Draw_Obstacle_Screen(void)
 
 		Asteroids_Draw_Obstacle(&Blackhole);
 		Asteroids_Draw_Obstacle(&GammaRay);
-
+		Asteroids_Help_Sreen_Draw_Warning();
 	}
+}
+
+void Asteroids_Help_Draw_FinalBoss_Screen(void)
+{
+	if (screen.id == FINALBOSS)
+		Asteroids_Help_Draw_FinalBoss_Spawn_Animation();
 }
 void Asteroids_Help_Screen_IncreasePageNo(void)
 {
@@ -150,15 +166,26 @@ void Asteroids_Help_Screen_DecreasePageNo(void)
 	screen.id -= 1;
 }
 
-//void Asteroids_Help_Sreen_Draw_Warning(void)
-//{
-//	float dt = CP_System_GetDt();
-//	current_lifespan -= dt;
-//
-//	CP_Image_Draw(Warning, (float)WIN_WIDTH / 2, GammaRay.pos.y, (float)WIN_WIDTH, 80.0f, (int)(fabsf(current_lifespan) / warning_lifespan * 255));
-//	if (current_lifespan < -warning_lifespan)
-//	{
-//		current_lifespan = warning_lifespan;
-//	}
-//}
+void Asteroids_Help_Sreen_Draw_Warning(void)
+{
+	float dt = CP_System_GetDt();
+	current_lifespan -= dt;
 
+	CP_Image_Draw(Warning, (float)WIN_WIDTH /2 , ((float)(WIN_HEIGHT) *  0.75f), (float)WIN_WIDTH, 80.0f, (int)(fabsf(current_lifespan) / warning_lifespan * 255));
+	if (current_lifespan < -warning_lifespan)
+	{
+		current_lifespan = warning_lifespan;
+	}
+}
+
+void Asteroids_Help_Draw_FinalBoss_Spawn_Animation(void)
+{
+	float dt = CP_System_GetDt();
+	spawn_animation_lifespan -= dt;
+
+	CP_Image_Draw(Final_Boss_Spawn_Animation, (float)WIN_WIDTH / 2, ((float)(WIN_HEIGHT) * 0.28f), 200.0f, 200.0f, (int)(fabsf(spawn_animation_lifespan) / spawn_animation_lifespan_max * 255));
+	if (spawn_animation_lifespan < -spawn_animation_lifespan_max)
+	{
+		spawn_animation_lifespan = spawn_animation_lifespan_max;
+	}
+}

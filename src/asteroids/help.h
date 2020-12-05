@@ -27,7 +27,9 @@ void Asteroids_Help_Screen_Exit(void);
 void Asteroids_Help_Screen_Exit_ToMenu(void);
 
 void Asteroids_Draw_Screen_Page(void);
-void Asteroids_Draw_Obstacle_Screen(void);
+void Asteroids_Help_Draw_Obstacle_Screen(void);
+void Asteroids_Help_Draw_FinalBoss_Screen(void);
+void Asteroids_Help_Draw_FinalBoss_Spawn_Animation(void);
 
 void Asteroids_Help_Screen_IncreasePageNo(void);
 void Asteroids_Help_Screen_DecreasePageNo(void);
