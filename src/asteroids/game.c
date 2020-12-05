@@ -131,10 +131,13 @@ void Asteroids_Update(void)
 			CP_Engine_Run();
 		}
 
-		Asteroids_Obstacles_Update(enemy_pool, &player, enemy_count);
-		Asteroids_Boss_Update(&player, enemy_pool, enemy_count, bullet_pool);
-		Asteroids_Update_Powerups(&player);
-		Asteroids_Particle_Draw_Dot();
+		if (!endgame.end)
+		{
+			Asteroids_Obstacles_Update(enemy_pool, &player, enemy_count);
+			Asteroids_Boss_Update(&player, enemy_pool, enemy_count, bullet_pool);
+			Asteroids_Update_Powerups(&player);
+			Asteroids_Particle_Draw_Dot();
+		}
 
 		Asteroids_Debug();
 		Asteroids_Draw();
