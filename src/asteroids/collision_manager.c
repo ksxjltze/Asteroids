@@ -77,7 +77,7 @@ Bullet Asteroids_Collision_EnterCollision_Enemy_Bullet(Bullet bullet, Enemy* ene
 		collisions[collision_counter - 1].colliderA_id = bullet.id;
 		collisions[collision_counter - 1].colliderB_id = enemy->id;
 
-		if (!player.weapon.isPiercing)
+		if (!player.weapon.isPiercing || bullet.type == HOMING_PROJECTILE)
 		{
 			bullet.active = 0;
 			bullet.pos = CP_Vector_Set(-1, -1);

@@ -18,6 +18,7 @@
 #include "cprocessing.h"
 #include "enemy.h"
 
+enum Bullet_Type { LINEAR_PROJECTILE, HOMING_PROJECTILE };
 typedef struct Bullet {
 	CP_Vector pos;
 	CP_Vector velocity;
@@ -28,6 +29,7 @@ typedef struct Bullet {
 	int id;
 	int type;
 } Bullet;
+
 
 void Asteroids_Bullet_Init(Bullet bullets[], int count, float bullet_width, float bullet_height);
 void Asteroids_Bullet_Update(Bullet bullets[], int bullet_count, Enemy enemy_pool[], int enemy_count, Player player);

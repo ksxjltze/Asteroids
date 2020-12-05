@@ -25,8 +25,6 @@
 extern bool bullet_split;
 extern bool BPM;
 
-enum Bullet_Type { LINEAR, HOMING };
-
 void Asteroids_Bullet_Init(Bullet bullets[], int count, float bullet_width, float bullet_height)
 {
 	for (int i = 0; i < count; i++)
@@ -36,7 +34,7 @@ void Asteroids_Bullet_Init(Bullet bullets[], int count, float bullet_width, floa
 		bullet.pos = CP_Vector_Set(-1, -1);
 		bullet.velocity = CP_Vector_Set(0, 0);
 		bullet.id = i;
-		bullet.type = LINEAR;
+		bullet.type = LINEAR_PROJECTILE;
 		bullet.target = CP_Vector_Zero();
 
 		bullet.collider.diameter = (bullet_width + bullet_height) / 2;
@@ -65,7 +63,7 @@ void Asteroids_Bullet_Update(Bullet arr_bullet[], int bullet_count, Enemy enemy_
 			}
 
 			bullet = Asteroids_Collision_CheckCollision_Enemy_Bullet(enemy_pool, enemy_count, bullet, player);
-			if (bullet.type == HOMING)
+			if (bullet.type == HOMING_PROJECTILE)
 			{
 				CP_Vector direction = CP_Vector_Zero();
 				CP_Vector target = Asteroids_Utility_Find_Closest_Enemy(enemy_pool, bullet.pos, &direction);
@@ -145,7 +143,7 @@ Bullet* Asteroids_Bullet_Spawn(Bullet bullets[], int count, Player player, CP_Ve
 			else
 				bullet.velocity = CP_Vector_Set(shoot_direction.x * player.weapon.projectile_speed, shoot_direction.y * player.weapon.projectile_speed);
 			bullet.active = 1;
-			bullet.type = LINEAR;
+			bullet.type = LINEAR_PROJECTILE;
 
 			bullets[i] = bullet;
 			return &bullets[i];
@@ -185,7 +183,7 @@ Bullet* Asteroids_Bullet_Spawn_Homing(Bullet bullets[], int count, Player player
 	Bullet* bullet = Asteroids_Bullet_Spawn(bullets, count, player, direction);
 	if (bullet)
 	{
-		bullet->type = HOMING;
+		bullet->type = HOMING_PROJECTILE;
 		bullet->target = target;
 		return bullet;
 	}
