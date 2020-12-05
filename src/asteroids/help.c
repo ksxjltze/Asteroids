@@ -154,7 +154,8 @@ void Asteroids_Help_Draw_Obstacle_Screen(void)
 		Asteroids_Draw_Obstacle(&Blackhole);
 		Asteroids_Draw_Obstacle(&GammaRay);
 		Asteroids_Help_Sreen_Draw_Warning();
-		Asteroids_Help_Menu_Spawn_Static_Enemies();
+		if (!helpEnemy->active && !helpEnemy2->active)
+			Asteroids_Help_Menu_Spawn_Static_Enemies();
 	}
 }
 
