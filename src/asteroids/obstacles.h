@@ -28,7 +28,7 @@ typedef struct Obstacles
 	struct Collider_AABB Collider;
 	struct Collider_Circle Collider2;
 	float width, height, speed;
-	float lifespan, interval;
+	float interval;
 
 	bool active;
 
@@ -58,7 +58,6 @@ void Asteroids_Obstacle_Spawn_Blackhole(void);
 void Asteroids_Obstacle_Spawn_GammaRay(void);
 void Asteroids_Obstacle_Spawn_Warning(void);
 void Asteroids_Obstacle_TimeInterval(void);
-void Asteroids_Obstacle_Check_LifeSpan(Obstacle* obstacle);
 
 // DRAWING
 void Asteroids_Draw_Obstacle(Obstacle* obstacle);

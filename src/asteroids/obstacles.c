@@ -60,14 +60,12 @@ void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_co
 			Blackhole.pos = CP_Vector_Add(Blackhole.pos, CP_Vector_Scale(Blackhole.velocity, dt));
 			Asteroids_Draw_Obstacle(&Blackhole);
 			Asteroids_Check_Collision_Blackhole_Enemy_Player(enemy_pool, player, &Blackhole, enemy_count);
-			Asteroids_Obstacle_Check_LifeSpan(&Blackhole);
 		}
 
 		if (GammaRay.active)
 		{
 			GammaRay.pos = CP_Vector_Add(GammaRay.pos, CP_Vector_Scale(GammaRay.velocity, dt));
 			Asteroids_Draw_Obstacle(&GammaRay);
-			Asteroids_Obstacle_Check_LifeSpan(&GammaRay);
 			Asteroids_Check_Collision_Gammaray_Enemy_Player(enemy_pool, player, &GammaRay, enemy_count);
 
 
@@ -88,7 +86,6 @@ void Asteroids_Obstacle_Spawn_Blackhole(void)
 	Blackhole.speed = ASTEROIDS_OBSTACLE_BLACKHOLE_SPEED; //speed
 	Blackhole.Collider2.diameter = Blackhole.width; //Circle collider
 	Blackhole.pos.x = 0 - Blackhole.width / 2;
-	Blackhole.lifespan = ASTEROIDS_OBSTACLE_LIFESPAN;
 
 	CP_Vector direction = CP_Vector_Zero();
 	direction.x = (float)WIN_WIDTH;
@@ -113,7 +110,6 @@ void Asteroids_Obstacle_Spawn_GammaRay(void)
 	GammaRay.pos.x = 0 - GammaRay.width / 2;
 
 	GammaRay.speed = ASTEROIDS_OBSTACLE_GAMMARAY_SPEED;
-	GammaRay.lifespan = ASTEROIDS_OBSTACLE_LIFESPAN;
 
 	CP_Vector direction = CP_Vector_Zero();
 	direction.x = (float)WIN_WIDTH;
@@ -160,15 +156,6 @@ void Asteroids_Check_Collision_Blackhole_Enemy_Player(Enemy enemy_pool[], Player
 			Asteroids_Particle_Dot_Spawn(enemy_pool[i].pos);
 		}
 	}
-}
-
-void Asteroids_Obstacle_Check_LifeSpan(Obstacle* obstacle)
-{
-	float dt = CP_System_GetDt();
-
-	obstacle->lifespan -= dt;
-	if (obstacle->lifespan < 0)
-		obstacle->active = false;
 }
 
 void Asteroids_Environment_Draw_Warning(void)
@@ -321,7 +308,6 @@ void Asteroids_Obstacle_Spawn_Tutorial(Obstacle* obstacle, const float speed, co
 	obstacle->pos.y = pos.y;
 
 	obstacle->speed = speed;
-	obstacle->lifespan = ASTEROIDS_OBSTACLE_LIFESPAN;
 
 	CP_Vector direction = CP_Vector_Zero();
 	direction.x = (float)WIN_WIDTH;
