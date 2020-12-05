@@ -63,31 +63,22 @@ void Asteroids_Boss_Init(CP_Image EnemySprite[], CP_Image EnemyHurtSprite[], flo
 void Asteroids_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_count, Bullet bullet_pool[])
 {
 	float dt = CP_System_GetDt();
-
-	if (CP_Input_KeyDown(KEY_0))
-		Asteroids_Enemy_Boss_Spawn();
 	Asteroids_Enemy_Boss_Spawn_Interval();
 	if (Boss.active)
 	{	
 		Boss.pos = CP_Vector_Add(Boss.pos, CP_Vector_Scale(Boss.velocity, dt));
 		Asteroids_Enemy_Draw_Boss();
 		Asteroids_Enemy_Idle_Rotate(&Boss, Boss.rotate_rate, dt);
-
-
-		collide = Asteroids_Collision_CheckCollision_Circle(player->collider, player->pos, Boss.collider, Boss.pos);
 		Asteroids_Collision_CheckCollision_Enemy_Enemy(enemy_pool, enemy_count, &Boss, *player);
 		Asteroids_Enemy_Check_Boss_Hp(&Boss, *player, enemy_pool, Boss.split_count);
 		Asteroid_Enemy_Check_Status(&Boss);
+		if(Asteroids_Collision_CheckCollision_Circle(player->collider, player->pos, Boss.collider, Boss.pos))
+			Asteroids_Player_Death(player);
 
 		for (int i = 0; i < ASTEROIDS_POOLSIZE_BULLETS; i++)
 		{
 			bullet_pool[i] = Asteroids_Collision_CheckCollision_EnemyBoss_Bullet(&Boss, bullet_pool[i], player);
-		}
-
-		if (collide)
-		{
-			Asteroids_Player_Death(player);
-		}
+		}	
 	}
 	if (Boss.killed)
 	{
