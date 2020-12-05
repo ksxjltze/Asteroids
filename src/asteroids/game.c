@@ -291,6 +291,7 @@ void Asteroids_Check_Input()
 		CP_Vector direction = CP_Vector_Zero();
 		CP_Vector target = Asteroids_Utility_Find_Closest_Enemy(enemy_pool, player.pos, &direction);
 		homing = Asteroids_Bullet_Spawn_Homing(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, player, target, direction);
+		shoot_cooldown = 60 / (ASTEROIDS_WEAPON_RAILGUN_FIRE_RATE + player.weapon.fire_rate);
 	}
 
 	if (CP_Input_MouseDown(MOUSE_BUTTON_1))

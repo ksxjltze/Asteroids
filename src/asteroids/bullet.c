@@ -64,20 +64,29 @@ void Asteroids_Bullet_Update(Bullet arr_bullet[], int bullet_count, Enemy enemy_
 				continue;
 			}
 
+			bullet = Asteroids_Collision_CheckCollision_Enemy_Bullet(enemy_pool, enemy_count, bullet, player);
 			if (bullet.type == HOMING)
 			{
 				CP_Vector direction = CP_Vector_Zero();
 				CP_Vector target = Asteroids_Utility_Find_Closest_Enemy(enemy_pool, bullet.pos, &direction);
-				//bullet.velocity.x = CP_Math_LerpFloat(bullet.pos.x, target.x, 50);
-				if (CP_Vector_Length(target) > 0) {}
-				bullet.velocity.x = direction.x;
-				bullet.velocity.y = direction.y;
-				//bullet.velocity.y = CP_Math_LerpFloat(bullet.pos.y, target.y, 50);
-				bullet.velocity.x = bullet.velocity.x * player.weapon.projectile_speed;
-				bullet.velocity.y = bullet.velocity.y * player.weapon.projectile_speed;
+				if (CP_Vector_Length(target) > 0)
+				{
+					bullet.velocity = CP_Vector_Normalize(bullet.velocity);
+					bullet.velocity.x = (bullet.velocity.x + direction.x) * player.weapon.projectile_speed;
+					bullet.velocity.y = (bullet.velocity.y + direction.y) * player.weapon.projectile_speed;
+
+					CP_Vector right = CP_Vector_Set(1, 0);
+					CP_Vector up = CP_Vector_Set(0, 1);
+
+					float rotate = CP_Vector_Angle(direction, right);
+					if (CP_Vector_DotProduct(direction, up) < 0)
+						rotate = -rotate;
+					bullet.rotation = rotate;
+
+				}
 			}
-			bullet = Asteroids_Collision_CheckCollision_Enemy_Bullet(enemy_pool, enemy_count, bullet, player);
 			bullet.pos = CP_Vector_Add(bullet.pos, CP_Vector_Scale(bullet.velocity, CP_System_GetDt()));
+			
 			arr_bullet[i] = bullet;
 			
 		}
