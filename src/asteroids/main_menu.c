@@ -21,8 +21,8 @@
 #include <stdbool.h>
 #include "help.h"
 
-#define BUTTON_WIDTH 400.0f
-#define BUTTON_HEIGHT 80.0f
+#define BUTTON_WIDTH 500.0f
+#define BUTTON_HEIGHT 100.0f
 
 bool status;
 static int overlay_type;
@@ -188,12 +188,12 @@ void Asteroids_MainMenu_Button_Init(void)
 	float y3 = y2 + BUTTON_HEIGHT;
 
 	// Main Menu Button
-	CP_Vector pos1 = CP_Vector_Set(x1, y1);
-	CP_Vector pos2 = CP_Vector_Set(x1, y2+30);
-	CP_Vector pos3 = CP_Vector_Set(x1, y3+60);
-	CP_Vector pos4 = CP_Vector_Set(x2, y1);
-	CP_Vector pos5 = CP_Vector_Set(x2, y2+30); 
-	CP_Vector pos10 = CP_Vector_Set(x2, y3+60); // Prev page
+	CP_Vector pos1 = CP_Vector_Set(x1 , y1); // Play button
+	CP_Vector pos2 = CP_Vector_Set(x1, y2+50); // guide button
+	CP_Vector pos3 = CP_Vector_Set(x1, y3+100); // credits button
+	CP_Vector pos4 = CP_Vector_Set(x2, y1); // leaderboard button
+	CP_Vector pos5 = CP_Vector_Set(x2, y2+50); // skins buttton
+	CP_Vector pos10 = CP_Vector_Set(x2, y3+100); // Prev page || quit
 	CP_Vector pos11 = CP_Vector_Set(x1, y2-290); //vol button
 
 	// Exit Button

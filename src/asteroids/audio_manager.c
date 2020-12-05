@@ -23,6 +23,8 @@ CP_Sound sfx_dangersound;
 CP_Sound sfx_gameplaysound;
 CP_Sound sfx_EZCLAP;
 
+CP_Image VOLbutton;
+
 void Asteroids_Audio_Manager_Init(void)
 {
 	sfx_ButtonHover = CP_Sound_Load("./Assets/HiHat.wav");
@@ -47,7 +49,7 @@ void Asteroids_Audio_MainMenu_BGM_Play(void)
 
 void Asteroids_Audio_MainMenu_BGM_STOP(void)
 {
-	//Volbutton = CP_Image_Load("./Assets/volumebutton.png");
+	VOLbutton = CP_Image_Load("./Assets/volumebutton.png");
 
 	if (sfx_bgm_MainMenu)
 		CP_Sound_StopGroup(0);
