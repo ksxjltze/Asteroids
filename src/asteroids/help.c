@@ -57,7 +57,7 @@ void Asteroids_Help_Screen_Init(void)
 	}
 
 	Display = CP_Image_Load("./Assets/newasteroids.png");
-	screen.id = FIRST_PAGE;
+	screen.overlay = FIRST_PAGE;
 	warning_lifespan = 2.0f;
 	warning_lifespan = 2.0f;
 	spawn_animation_lifespan = ASTEROIDS_FINAL_BOSS_SUMMON_ANIMATION_TIMER;
@@ -67,7 +67,7 @@ void Asteroids_Help_Screen_Init(void)
 	screen.width = (float)CP_System_GetWindowWidth();
 	screen.height = (float)CP_System_GetWindowHeight();
 	screen.pos = Asteroids_Utility_GetWindowMiddle();
-	screen.Image = Page_Image[screen.id];
+	screen.Image = Page_Image[screen.overlay];
 
 	BackBtn = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	NextBtn = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -115,13 +115,13 @@ void Asteroids_Help_Screen_Exit_ToMenu(void)
 void Asteroids_Draw_Screen_Page(void)
 {
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
-	if(screen.id < LAST_PAGE)
-		CP_Image_Draw(Page_Image[screen.id], screen.pos.x, screen.pos.y, screen.width, screen.height, 255);
+	if(screen.overlay < LAST_PAGE)
+		CP_Image_Draw(Page_Image[screen.overlay], screen.pos.x, screen.pos.y, screen.width, screen.height, 255);
 
-	if (screen.id > FIRST_PAGE)
+	if (screen.overlay > FIRST_PAGE)
 		Asteroids_Button_Update(&BackBtn);
 
-	if (screen.id < LAST_PAGE -1)
+	if (screen.overlay < LAST_PAGE -1)
 		Asteroids_Button_Update(&NextBtn);
 
 	Asteroids_Help_Draw_Obstacle_Screen();
@@ -129,7 +129,7 @@ void Asteroids_Draw_Screen_Page(void)
 }
 void Asteroids_Help_Draw_Obstacle_Screen(void)
 {
-	if (screen.id == OBSTACLES)
+	if (screen.overlay == OBSTACLES)
 	{
 		if (Blackhole.active == false)
 		{
@@ -177,23 +177,23 @@ void Asteroids_Help_Update_Enemies(void)
 
 void Asteroids_Help_Draw_FinalBoss_Screen(void)
 {
-	if (screen.id == FINALBOSS)
+	if (screen.overlay == FINALBOSS)
 		Asteroids_Help_Draw_FinalBoss_Spawn_Animation();
 }
 void Asteroids_Help_Screen_IncreasePageNo(void)
 {
-	if (screen.id >= LAST_PAGE)
+	if (screen.overlay >= LAST_PAGE)
 		return;
 
-	screen.id += 1;
+	screen.overlay += 1;
 }
 
 void Asteroids_Help_Screen_DecreasePageNo(void)
 {
-	if (screen.id <= FIRST_PAGE)
+	if (screen.overlay <= FIRST_PAGE)
 		return;
 
-	screen.id -= 1;
+	screen.overlay -= 1;
 }
 
 void Asteroids_Help_Sreen_Draw_Warning(void)
@@ -234,7 +234,7 @@ void Asteroids_Help_Menu_Spawn_Static_Enemies(void)
 }
 void Asteroids_Help_Draw_Upagrdes_Screen(void)
 {
-	if (screen.id == UPGRADES)
+	if (screen.overlay == UPGRADES)
 	{
 
 	}
