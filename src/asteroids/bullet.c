@@ -25,6 +25,8 @@
 extern bool bullet_split;
 extern bool BPM;
 
+enum Bullet_Type { LINEAR, HOMING };
+
 void Asteroids_Bullet_Init(Bullet bullets[], int count, float bullet_width, float bullet_height)
 {
 	for (int i = 0; i < count; i++)
@@ -34,6 +36,8 @@ void Asteroids_Bullet_Init(Bullet bullets[], int count, float bullet_width, floa
 		bullet.pos = CP_Vector_Set(-1, -1);
 		bullet.velocity = CP_Vector_Set(0, 0);
 		bullet.id = i;
+		bullet.type = LINEAR;
+		bullet.target = CP_Vector_Zero();
 
 		bullet.collider.diameter = (bullet_width + bullet_height) / 2;
 
@@ -60,11 +64,22 @@ void Asteroids_Bullet_Update(Bullet arr_bullet[], int bullet_count, Enemy enemy_
 				continue;
 			}
 
-			bullet = Asteroids_Collision_CheckCollision_Enemy_Bullet(enemy_pool, enemy_count, bullet, player);
+			if (bullet.type == HOMING)
 			{
-				bullet.pos = CP_Vector_Add(bullet.pos, CP_Vector_Scale(bullet.velocity, CP_System_GetDt()));
-				arr_bullet[i] = bullet;
+				CP_Vector direction = CP_Vector_Zero();
+				CP_Vector target = Asteroids_Utility_Find_Closest_Enemy(enemy_pool, bullet.pos, &direction);
+				//bullet.velocity.x = CP_Math_LerpFloat(bullet.pos.x, target.x, 50);
+				if (CP_Vector_Length(target) > 0) {}
+				bullet.velocity.x = direction.x;
+				bullet.velocity.y = direction.y;
+				//bullet.velocity.y = CP_Math_LerpFloat(bullet.pos.y, target.y, 50);
+				bullet.velocity.x = bullet.velocity.x * player.weapon.projectile_speed;
+				bullet.velocity.y = bullet.velocity.y * player.weapon.projectile_speed;
 			}
+			bullet = Asteroids_Collision_CheckCollision_Enemy_Bullet(enemy_pool, enemy_count, bullet, player);
+			bullet.pos = CP_Vector_Add(bullet.pos, CP_Vector_Scale(bullet.velocity, CP_System_GetDt()));
+			arr_bullet[i] = bullet;
+			
 		}
 	}
 }
@@ -95,7 +110,7 @@ void Asteroids_Bullet_Debug(Bullet arr_bullet[], int count)
 	}
 }
 
-void Asteroids_Bullet_Spawn(Bullet bullets[], int count, Player player, CP_Vector shoot_direction)
+Bullet* Asteroids_Bullet_Spawn(Bullet bullets[], int count, Player player, CP_Vector shoot_direction)
 {
 	CP_Vector right = CP_Vector_Set(1, 0);
 	CP_Vector up = CP_Vector_Set(0, 1);
@@ -119,11 +134,14 @@ void Asteroids_Bullet_Spawn(Bullet bullets[], int count, Player player, CP_Vecto
 			else
 				bullet.velocity = CP_Vector_Set(shoot_direction.x * player.weapon.projectile_speed, shoot_direction.y * player.weapon.projectile_speed);
 			bullet.active = 1;
+			bullet.type = LINEAR;
 
 			bullets[i] = bullet;
-			break;
+			return &bullets[i];
 		}
 	}
+	printf("Error spawning bullets.");
+	return NULL;
 }
 
 void Asteroids_Bullet_Powerup_Split(Bullet bullets[], int count, Player player, CP_Vector shoot_direction)
@@ -150,36 +168,15 @@ void Asteroids_Bullet_Split(Bullet bullets[], int pool_size, int bullet_count, f
 		Asteroids_Bullet_Spawn(bullets, pool_size, player, split);
 	}
 }
-//Bullet* Asteroids_Bullet_Spawn_Homing(Bullet bullets[], int count, Player player, CP_Vector shoot_direction)
-//{
-//	CP_Vector right = CP_Vector_Set(1, 0);
-//	CP_Vector up = CP_Vector_Set(0, 1);
-//
-//	float rotate = CP_Vector_Angle(shoot_direction, right);
-//	if (CP_Vector_DotProduct(shoot_direction, up) < 0)
-//		rotate = -rotate;
-//
-//	Bullet* ptr = (Bullet*)realloc(bullets * sizeof(Bullet) * 200);
-//
-//	for (int i = 0; i < count; i++)
-//	{
-//		Bullet bullet = bullets[i];
-//		if (!bullet.active)
-//		{
-//			bullet.pos = CP_Vector_Set(player.pos.x, player.pos.y);
-//			bullet.rotation = rotate;
-//
-//			if (BPM) // if powerup bpm
-//			{
-//				bullet.velocity = CP_Vector_Set(shoot_direction.x * player.weapon.projectile_speed * ASTEROIDS_POWERUP_INCREASE_FIRERATE_VALUE, shoot_direction.y * player.weapon.projectile_speed * 2);
-//			}
-//			else
-//				bullet.velocity = CP_Vector_Set(shoot_direction.x * player.weapon.projectile_speed, shoot_direction.y * player.weapon.projectile_speed);
-//			bullet.active = 1;
-//			printf("%.2f %.2f\n", bullet.velocity.x, bullet.velocity.y);
-//			
-//			return &bullets[i];
-//		}
-//	}
-//	return NULL;
-//}
+
+Bullet* Asteroids_Bullet_Spawn_Homing(Bullet bullets[], int count, Player player, CP_Vector target, CP_Vector direction)
+{
+	Bullet* bullet = Asteroids_Bullet_Spawn(bullets, count, player, direction);
+	if (bullet)
+	{
+		bullet->type = HOMING;
+		bullet->target = target;
+		return bullet;
+	}
+	return NULL;
+}
