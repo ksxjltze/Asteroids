@@ -54,6 +54,7 @@ struct Player Asteroids_Player_Init(float player_width, float player_height)
 	Railgun_Base.fire_rate = ASTEROIDS_WEAPON_RAILGUN_FIRE_RATE;
 	Railgun_Base.projectile_speed = ASTEROIDS_WEAPON_RAILGUN_PROJECTILE_SPEED;	
 	Railgun_Base.isPiercing = false;
+	Railgun_Base.special.homing = false;
 
 	player.weapon = Railgun_Base;
 	player.weapon.projectile_count = 1;

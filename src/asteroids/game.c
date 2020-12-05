@@ -293,7 +293,7 @@ void Asteroids_Check_Input()
 	else
 		Asteroids_Player_Check_Input(&player, dt, shoot_direction);
 
-	if (CP_Input_MouseDown(MOUSE_BUTTON_RIGHT))
+	if (player.weapon.special.homing == true && CP_Input_MouseDown(MOUSE_BUTTON_RIGHT))
 	{
 		if (homing_shoot_cooldown > 0)
 			return;
