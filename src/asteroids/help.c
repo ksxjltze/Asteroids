@@ -4,7 +4,9 @@
 //
 // email:	yanweibryan.koh@digipen.edu
 //			
-// brief:	Code relating to the help screen available at the main menu.
+// brief:	Code relating to the guide screen available at the main menu.
+//			Draws to the screen an overlay depending on the page number.
+//			Overlay offers helpful instructions for the player
 //			
 //
 // Copyright  2020 DigiPen, All rights reserved.

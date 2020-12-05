@@ -7,6 +7,10 @@
 //			
 //
 // brief:	Handles the code related to the final boss
+//			Spawns between 2 possible sprites
+//			Contains different boss states which updates every 10s
+//			Optional continue screen after killing the boss.
+//			
 //
 //
 // Copyright  2020 DigiPen, All rights reserved.

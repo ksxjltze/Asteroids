@@ -1,10 +1,13 @@
 //---------------------------------------------------------
-// file:	init.c
+// file:	particle.c
 // author:	Dania Mohd
-// email:	, l.jiakeat@digipen.edu
+// 
+// contributors: Lee Jia Keat(death_particle), Bryan Koh Yan Wei(DeathP)
+// email:	(dania's email), l.jiakeat@digipen.edu, yanweibryan.koh@digipen.edu
 //
 // brief:	Simple particle system.
 //			Handles initialization, spawning, updating and destroying of particles.
+//
 // Copyright  2020 DigiPen, All rights reserved.
 //---------------------------------------------------------
 
@@ -55,10 +58,9 @@ struct Death_Particle
 	float current_lifespan;
 }death_particle;
 
-#define DVFXSize 50
+#define DVFXSize 100
 typedef struct DeathP
 {
-	int alpha;
 	CP_Image sprite[DVFXSize];
 	CP_Vector pos[DVFXSize];
 	CP_Vector aceeleration[DVFXSize];
@@ -437,7 +439,6 @@ void Asteroids_Player_Death_VFX_Spawn(Player* player)
 			DP.aceeleration[i] = CP_Vector_Set(CP_Random_RangeFloat(-50, 50), CP_Random_RangeFloat(-50, 50));
 			DP.aceeleration[i] = CP_Vector_Normalize(DP.aceeleration[i]);
 		}
-		DP.alpha = 255;
 		DP.current_lifespan = 5.0f;
 		DP.max_lifespan = 5.0f;
 		DP.dimension = CP_Vector_Set(25, 25);

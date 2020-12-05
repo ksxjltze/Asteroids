@@ -5,6 +5,10 @@
 // email:	yanweibryan.koh@digipen.edu
 //			
 // brief:	Code relating to the game environment obstacles.
+//			Handles drawing, spawning and collision with enemies and player.
+//			Also contains code particle effects for enemy and blackhole collision
+//			
+//			
 //
 //
 // Copyright  2020 DigiPen, All rights reserved.
