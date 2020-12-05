@@ -1,3 +1,12 @@
+//---------------------------------------------------------
+// file:	collider_aabb.c
+// author:	Lee Jia Keat
+// email:	l.jiakeat@digipen.edu
+//
+// brief:	AABB collider source file.
+//			Handles intitialization and collision detection for AABB colliders.
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
 #include "collider_aabb.h"
 
 int Asteroids_Collision_CheckCollision_AABB(struct Collider_AABB collider1, CP_Vector pos1, struct Collider_AABB collider2, CP_Vector pos2)

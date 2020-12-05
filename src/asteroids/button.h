@@ -1,12 +1,12 @@
 //---------------------------------------------------------
 // file:	button.h
 // author:	Lee Jia Keat
+// email:	l.jiakeat@digipen.edu
 //
 // brief:	Button system header file.
 //			Handles creation, updating, drawing and executing callbacks for buttons.
 // Copyright  2020 DigiPen, All rights reserved.
 //---------------------------------------------------------
-
 
 #pragma once
 #include "cprocessing.h"

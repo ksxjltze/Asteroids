@@ -1,7 +1,8 @@
 //---------------------------------------------------------
 // file:	main.c
-// author:	[NAME]
-// email:	[DIGIPEN EMAIL ADDRESS]
+// author:	Lee Jia Keat
+// Contributors: Bryan Koh Yan Wei (Splash)
+// email:	l.jiakeat@digipen.edu, yanweibryan.koh@digipen.edu
 //
 // brief:	Main entry point for the sample project
 //			of the CProcessing library

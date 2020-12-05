@@ -1,6 +1,7 @@
 //---------------------------------------------------------
 // file:	button.c
 // author:	Lee Jia Keat
+// email:	l.jiakeat@digipen.edu
 //
 // brief:	Button system source file.
 //			Handles creation, updating, drawing and executing callbacks for buttons.
