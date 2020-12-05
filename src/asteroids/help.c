@@ -26,11 +26,12 @@
 #define BUTTON_WIDTH 150
 #define BUTTON_HEIGHT 75
 #define BTN_TEXTSIZE 75
+#define respawnTimer 2
+#define FIRST_PAGE 0
+#define LAST_PAGE 5
 
 Help_screen screen;
 
-#define FIRST_PAGE 0
-#define LAST_PAGE 5
 CP_Image Page_Image[LAST_PAGE];
 
 CP_Image Display;
@@ -43,6 +44,9 @@ static float current_lifespan = 0.5f;
 static float warning_lifespan = 0.5f;
 static float spawn_animation_lifespan;
 static float spawn_animation_lifespan_max;
+static float respawnTimer1;
+static float respawnTimer2;
+
 
 Enemy helpEnemy[1];
 Enemy helpEnemy2[1];
@@ -60,6 +64,8 @@ void Asteroids_Help_Screen_Init(void)
 	screen.overlay = FIRST_PAGE;
 	warning_lifespan = 2.0f;
 	warning_lifespan = 2.0f;
+	respawnTimer1 = 0;
+	respawnTimer2 = 0;
 	spawn_animation_lifespan = ASTEROIDS_FINAL_BOSS_SUMMON_ANIMATION_TIMER;
 	spawn_animation_lifespan_max = ASTEROIDS_FINAL_BOSS_SUMMON_ANIMATION_TIMER;
 	Asteroids_Audio_Manager_Init();
@@ -154,8 +160,7 @@ void Asteroids_Help_Draw_Obstacle_Screen(void)
 		Asteroids_Draw_Obstacle(&Blackhole);
 		Asteroids_Draw_Obstacle(&GammaRay);
 		Asteroids_Help_Sreen_Draw_Warning();
-		if (!helpEnemy->active && !helpEnemy2->active)
-			Asteroids_Help_Menu_Spawn_Static_Enemies();
+		Asteroids_Help_Menu_Spawn_Static_Enemies();
 	}
 }
 
@@ -224,18 +229,22 @@ void Asteroids_Help_Menu_Spawn_Static_Enemies(void)
 {
 	Enemy* d1 = helpEnemy;
 	Enemy* d2 = helpEnemy2;
-	if (!helpEnemy->active)
+	if (!d1->active)
 	{
-		d1 = Asteroids_Enemy_Spawn(helpEnemy, 1, CP_Vector_Set((float)WIN_WIDTH * 0.75f, Blackhole.pos.y));
+		respawnTimer1 -= CP_System_GetDt();
+		if (respawnTimer1 <= 0)
+		{
+			d1 = Asteroids_Enemy_Spawn(helpEnemy, 1, CP_Vector_Set((float)WIN_WIDTH * 0.75f, Blackhole.pos.y));
+			respawnTimer1 = respawnTimer;
+		}
 	}
-
-	if(!helpEnemy2->active)
-		d2 = Asteroids_Enemy_Spawn(helpEnemy2, 1, CP_Vector_Set((float)WIN_WIDTH * 0.75f, GammaRay.pos.y));
-}
-void Asteroids_Help_Draw_Upagrdes_Screen(void)
-{
-	if (screen.overlay == UPGRADES)
+	if (!d2->active)
 	{
-
+		respawnTimer2 -= CP_System_GetDt();
+		if (respawnTimer2 <= 0)
+		{
+			d2 = Asteroids_Enemy_Spawn(helpEnemy2, 1, CP_Vector_Set((float)WIN_WIDTH * 0.75f, GammaRay.pos.y));
+			respawnTimer2 = respawnTimer;
+		}
 	}
 }
