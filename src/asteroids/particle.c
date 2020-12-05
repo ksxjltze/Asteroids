@@ -42,9 +42,24 @@ struct Death_Particle
 	CP_Vector max_velocity;
 	float min_size;
 	float max_size;
-	float lifespan;
+	float current_lifespan;
 }death_particle;
 
+#define DVFXSize 50
+typedef struct DeathP
+{
+	int alpha;
+	CP_Image sprite[DVFXSize];
+	CP_Vector pos[DVFXSize];
+	CP_Vector aceeleration[DVFXSize];
+	CP_Vector dimension;
+	float current_lifespan, max_lifespan;
+	bool enabled;
+
+}DeathP;
+
+DeathP DP;
+CP_Image DParticle;
 
 /// <summary>
 /// Initialize Particles
@@ -65,6 +80,9 @@ void particle_init()
 		particle[i].id = 0;
 		particle[i].loop = false;
 	}
+
+	DParticle = CP_Image_Load("./Assets/reddot.png");
+	DP.enabled = false;
 }
 
 void explosion_init(void)
@@ -267,11 +285,11 @@ void smoke_velocity(CP_Vector position, int particles, float min_velocity,
 	}
 }
 
-/*oid spawn_death_particles(CP_Vector position, int particles, float min_velocity,
-	float max_velocity, float size)
-{
-	Spawn_Particle(position, particles, min_velocity, max_velocity, size, death.sprite, DEATH, false);
-}*/
+//void spawn_death_particles(CP_Vector position, int particles, float min_velocity,
+//	float max_velocity, float size)
+//{
+//	Spawn_Particle_Static(position, particles, min_velocity, max_velocity, size, death.sprite, DEATH, false);
+//}
 
 //void Asteroids_Particles_Spawn_Player_Death_Particles(CP_Vector pos)
 //{
@@ -396,4 +414,48 @@ void particle_despawning(Particle* p)
 	p->lifetime = 0;
 	p->sprite.time = 0;
 	p->sprite.keyframe = 0;
+}
+
+void Asteroids_Player_Death_VFX_Spawn(Player* player)
+{
+	if (!DP.enabled)
+	{
+		for (int i = 0; i < DVFXSize; i++)
+		{
+			DP.sprite[i] = DParticle;
+			DP.pos[i] = player->pos;
+			DP.aceeleration[i] = CP_Vector_Set(CP_Random_RangeFloat(-50, 50), CP_Random_RangeFloat(-50, 50));
+			DP.aceeleration[i] = CP_Vector_Normalize(DP.aceeleration[i]);
+		}
+		DP.alpha = 255;
+		DP.current_lifespan = 5.0f;
+		DP.max_lifespan = 5.0f;
+		DP.dimension = CP_Vector_Set(25, 25);
+		DP.enabled = true;
+	}
+}
+void Asteroids_Player_Death_VFX_Update(Player* player)
+{
+	if (DP.enabled)
+	{
+		DP.current_lifespan -= CP_System_GetDt();
+		if (DP.current_lifespan > 0)
+		{
+			for (int i = 0; i < DVFXSize; i++)
+			{
+				DP.pos[i] = CP_Vector_Add(DP.pos[i], CP_Vector_Scale(DP.aceeleration[i], CP_Random_RangeFloat(30, 50) * CP_System_GetDt()));
+				CP_Image_Draw(DP.sprite[i], DP.pos[i].x, DP.pos[i].y, DP.dimension.x, DP.dimension.y, (int)(DP.current_lifespan / DP.max_lifespan * 255));
+			}
+		}
+	}
+	if (DP.current_lifespan < 0)
+	{
+		Asteroids_Player_Death_VFX_Despawn(player);
+	}
+}
+
+void Asteroids_Player_Death_VFX_Despawn(Player* player)
+{
+	DP.enabled = false;
+	player->active = 0;
 }

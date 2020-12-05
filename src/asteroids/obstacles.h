@@ -36,7 +36,7 @@ typedef struct Obstacles
 
 typedef struct Dot
 {
-	float lifespan;
+	float current_lifespan;
 	int alpha;
 	CP_Image image[10];
 	CP_Vector dimensions;

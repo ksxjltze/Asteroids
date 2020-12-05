@@ -23,7 +23,7 @@ typedef struct Powerups
 {
 	struct Collider_Circle collider;
 	CP_Vector movement_Vel, pos;
-	float rotation, lifespan;
+	float rotation, current_lifespan;
 	int type;
 	bool active, effect;
 }Powerup;

@@ -134,7 +134,10 @@ void Asteroids_Enemy_Final_Boss_Spawn()
 {
 	Asteroids_Enemy_Disable_Spawn(); // stop spawning of random asteroids
 
-	final_boss.hp.max = ASTEROIDS_FINAL_BOSS_MAX_HP * (ASTEROIDS_GAME_DIFFICULTY - 1);
+	final_boss.hp.max = ASTEROIDS_FINAL_BOSS_MAX_HP;
+
+	if(ASTEROIDS_GAME_DIFFICULTY != EASY)
+		final_boss.hp.max = ASTEROIDS_FINAL_BOSS_MAX_HP * (ASTEROIDS_GAME_DIFFICULTY - 1);
 	final_boss.hp.current = final_boss.hp.max;
 	final_boss.speed = ASTEROIDS_FINAL_BOSS_MOVEMENT_SPEED;
 	final_boss.killed = false;

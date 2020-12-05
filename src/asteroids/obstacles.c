@@ -250,7 +250,7 @@ void Asteroids_Particle_Dot_Init(void)
 	{
 		dot_pool[i].dimensions.x = 20.0f;
 		dot_pool[i].dimensions.y = 20.0f;
-		dot_pool[i].lifespan = dot_particle_lifespan;
+		dot_pool[i].current_lifespan = dot_particle_lifespan;
 		dot_pool[i].enabled = false;
 	}
 }
@@ -278,15 +278,15 @@ void Asteroids_Particle_Draw_Dot(void)
 		if (!dot_pool[i].enabled) // if the array isnt active, don't draw
 			continue;
 
-		dot_pool[i].lifespan -= dt;
+		dot_pool[i].current_lifespan -= dt;
 		for (int j = 0; j < DotsPerArr; j++)
 		{
 			dot_pool[i].velocity[j] = CP_Vector_Normalize(dot_pool[i].velocity[j]);
 			dot_pool[i].velocity[j] = CP_Vector_Scale(dot_pool[i].velocity[j], 50);
 			dot_pool[i].pos[j] = CP_Vector_Add(dot_pool[i].pos[j], CP_Vector_Scale(dot_pool[i].velocity[j], dt));
-			CP_Image_DrawAdvanced(dot_pool[i].image[j], dot_pool[i].pos[j].x, dot_pool[i].pos[j].y, dot_pool[i].dimensions.x, dot_pool[i].dimensions.y, (int)((dot_pool[i].lifespan / dot_particle_lifespan) * 255), 255);
+			CP_Image_DrawAdvanced(dot_pool[i].image[j], dot_pool[i].pos[j].x, dot_pool[i].pos[j].y, dot_pool[i].dimensions.x, dot_pool[i].dimensions.y, (int)((dot_pool[i].current_lifespan / dot_particle_lifespan) * 255), 255);
 		}
-		if (dot_pool[i].lifespan < 0)
+		if (dot_pool[i].current_lifespan < 0)
 		{
 			Asteroids_Particle_Dot_Despawn(&dot_pool[i]);
 		}
@@ -295,7 +295,7 @@ void Asteroids_Particle_Draw_Dot(void)
 void Asteroids_Particle_Dot_Despawn(dot* dot_particle)
 {
 	dot_particle->enabled = false;
-	dot_particle->lifespan = dot_particle_lifespan;
+	dot_particle->current_lifespan = dot_particle_lifespan;
 }
 
 

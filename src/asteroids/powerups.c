@@ -74,7 +74,7 @@ void Asteroids_Init_Powerups(void) //Initialize variables
 		powerup_pool[i].collider.diameter = width;
 		powerup_pool[i].type = 0;
 		powerup_pool[i].rotation = 0.0f;
-		powerup_pool[i].lifespan = 0.0f;
+		powerup_pool[i].current_lifespan = 0.0f;
 		powerup_pool[i].effect = false;
 	}
 }
@@ -152,9 +152,9 @@ void Asteroids_Generate_Powerup_On_Enemy_Death(CP_Vector position) //Guarded by 
 			powerup_pool[i].movement_Vel.x = CP_Random_RangeFloat(-3, 3);
 			powerup_pool[i].movement_Vel.y = CP_Random_RangeFloat(-3, 3);
 			powerup_pool[i].rotation = 50.0f;
-			powerup_pool[i].lifespan = ASTEROIDS_POWERUP_LIFESPAN_DURATION;
+			powerup_pool[i].current_lifespan = ASTEROIDS_POWERUP_LIFESPAN_DURATION;
 			if (powerup_pool[i].type == INVULNERABILITY)
-				powerup_pool[i].lifespan = ASTEROIDS_POWERUP_INVUNERABILITY_DURATION;
+				powerup_pool[i].current_lifespan = ASTEROIDS_POWERUP_INVUNERABILITY_DURATION;
 			return;
 		}
 	}
@@ -187,9 +187,9 @@ void Asteroids_Spawn_Floating_Powerup(void)	// Initialize variables for floating
 			powerup_pool[i].movement_Vel.x = CP_Random_RangeFloat(-3, 3);
 			powerup_pool[i].movement_Vel.y = CP_Random_RangeFloat(-3, 3);
 			powerup_pool[i].rotation = 50.0f;
-			powerup_pool[i].lifespan = ASTEROIDS_POWERUP_LIFESPAN_DURATION;
+			powerup_pool[i].current_lifespan = ASTEROIDS_POWERUP_LIFESPAN_DURATION;
 			if (powerup_pool[i].type == INVULNERABILITY)
-				powerup_pool[i].lifespan = ASTEROIDS_POWERUP_INVUNERABILITY_DURATION;
+				powerup_pool[i].current_lifespan = ASTEROIDS_POWERUP_INVUNERABILITY_DURATION;
 			return;
 		}
 	}
@@ -273,15 +273,15 @@ void Asteroids_Powerup_Lifespan_Manager(Powerup* powerup)
 	{
 		if (powerup_pool[i].type == powerup->type && powerup_pool[i].effect == powerup->effect) //same type, and both active
 		{
-			if (powerup_pool[i].lifespan > powerup->lifespan) // pool lifespan > pointer lifespan
+			if (powerup_pool[i].current_lifespan > powerup->current_lifespan) // pool lifespan > pointer lifespan
 			{
-				powerup->lifespan = powerup_pool[i].lifespan; // write pool lifespan into pointer lifespan
+				powerup->current_lifespan = powerup_pool[i].current_lifespan; // write pool lifespan into pointer lifespan
 				powerup_pool[i].effect = false;
 			}
 		}
 	}
-	powerup->lifespan -= dt;
-	if (powerup->lifespan <= 0) //if lifespan reaches 0
+	powerup->current_lifespan -= dt;
+	if (powerup->current_lifespan <= 0) //if lifespan reaches 0
 	{
 		powerup->effect = false; // set status to false, i.e: powerup effect stops
 			switch (powerup->type)

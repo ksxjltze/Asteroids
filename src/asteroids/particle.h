@@ -44,8 +44,8 @@ void spawn_explosion_anim(CP_Vector position, float size);
 void spawn_smoke_trail_anim(CP_Vector position, float size);
 void Asteroids_Particles_Player_Death_Particle_Init();
 void Asteroids_Particle_Player_Death_Particle_Spawn(CP_Vector player_pos);
-//void spawn_death_particles(CP_Vector position, int particles, float min_velocity,
-//	float max_velocity, float size);
+void spawn_death_particles(CP_Vector position, int particles, float min_velocity,
+	float max_velocity, float size);
 
 void particle_update(void);
 void draw_particle();
@@ -58,3 +58,7 @@ void smoke_velocity(CP_Vector position, int particles, float min_velocity, float
 void particle_despawning(Particle* particle);
 
 void smoke_update(CP_Vector rotation, CP_Vector playerPos);
+
+void Asteroids_Player_Death_VFX_Spawn(Player* player);
+void Asteroids_Player_Death_VFX_Update(Player* player);
+void Asteroids_Player_Death_VFX_Despawn(Player* player);

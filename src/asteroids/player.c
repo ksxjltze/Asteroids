@@ -112,7 +112,13 @@ void Asteroids_Player_Death(Player* player)
 {
 	if (player->active)
 	{
-		Asteroids_Particle_Player_Death_Particle_Spawn(player->pos);
+		if (CP_Random_RangeInt(0, 1))
+		{
+			Asteroids_Particle_Player_Death_Particle_Spawn(player->pos);
+		}
+		else
+			Asteroids_Player_Death_VFX_Spawn(player);
+
 		player->active = false;
 	}
 }

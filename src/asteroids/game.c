@@ -148,6 +148,7 @@ void Asteroids_Update(void)
 		Asteroids_UI_Update(player);
 		Asteroids_Player_Draw(player_sprite, player.pos, player_width, player_height, player.alpha, player_rotation);
 		//draw_player_death_anim(&player);
+		Asteroids_Player_Death_VFX_Update(&player);
 	}
 }
 void Asteroids_Cooldown_Update()
@@ -327,10 +328,6 @@ void Asteroids_Check_Input()
 			Asteroids_Bullet_Split(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, 4, 15.0f, player, shoot_direction);
 
 		Asteroids_Audio_Bullets_Play();
-
-
-
-
 	}
 }
 
