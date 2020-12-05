@@ -47,6 +47,7 @@ typedef struct Dot
 
 Obstacle Blackhole;
 Obstacle GammaRay;
+CP_Image Warning;
 
 // ENTRY POINT
 void Asteroids_Obstacles_Init(void);

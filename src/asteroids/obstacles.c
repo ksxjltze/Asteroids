@@ -15,12 +15,10 @@
 #include "audio_manager.h"
 
 
-CP_Image Warning;
-
 dot dot_pool[MaxDotParticleArrSize];
 
-float current_lifespan = 0.5f;
 
+static float current_lifespan = 0.5f;
 static float warning_lifespan = 0.5f;
 static float obstacle_interval;
 static float warning_interval;
@@ -345,3 +343,4 @@ void Asteroids_Help_Update_Obstacle_Pos(Obstacle* Annoying, const float dt)
 {
 	Annoying->pos = CP_Vector_Add(Annoying->pos, CP_Vector_Scale(Annoying->velocity, dt));
 }
+

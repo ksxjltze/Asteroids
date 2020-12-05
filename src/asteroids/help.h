@@ -31,3 +31,4 @@ void Asteroids_Draw_Obstacle_Screen(void);
 
 void Asteroids_Help_Screen_IncreasePageNo(void);
 void Asteroids_Help_Screen_DecreasePageNo(void);
+void Asteroids_Help_Sreen_Draw_Warning(void);

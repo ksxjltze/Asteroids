@@ -34,6 +34,9 @@ Button BackBtn, NextBtn, ExitBtn;
 
 enum HELP_SCREEN { CONTROLS, MECHANICS, OBSTACLES, FINALBOSS, UPGRADES };
 
+static float warning_lifespan;
+static float warning_lifespan_max;
+
 void Asteroids_Help_Screen_Init(void)
 {
 	for (int i = 0; i < LAST_PAGE; i++)
@@ -44,7 +47,8 @@ void Asteroids_Help_Screen_Init(void)
 	}
 
 	screen.id = FIRST_PAGE;
-
+	warning_lifespan = 2.0f;
+	warning_lifespan = 2.0f;
 	Asteroids_Audio_Manager_Init();
 
 	screen.width = (float)CP_System_GetWindowWidth();
@@ -127,6 +131,7 @@ void Asteroids_Draw_Obstacle_Screen(void)
 
 		Asteroids_Draw_Obstacle(&Blackhole);
 		Asteroids_Draw_Obstacle(&GammaRay);
+
 	}
 }
 void Asteroids_Help_Screen_IncreasePageNo(void)
@@ -144,4 +149,16 @@ void Asteroids_Help_Screen_DecreasePageNo(void)
 
 	screen.id -= 1;
 }
+
+//void Asteroids_Help_Sreen_Draw_Warning(void)
+//{
+//	float dt = CP_System_GetDt();
+//	current_lifespan -= dt;
+//
+//	CP_Image_Draw(Warning, (float)WIN_WIDTH / 2, GammaRay.pos.y, (float)WIN_WIDTH, 80.0f, (int)(fabsf(current_lifespan) / warning_lifespan * 255));
+//	if (current_lifespan < -warning_lifespan)
+//	{
+//		current_lifespan = warning_lifespan;
+//	}
+//}
 
