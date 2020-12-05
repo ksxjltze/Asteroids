@@ -14,9 +14,9 @@
 #pragma once
 #include <stdbool.h>
 #include "player.h"
-#define NUM_UPGRADES 10
+#define NUM_UPGRADES 12
 
-enum UpgradeType { NONE, FUEL_CAPACITY, MAX_HEALTH, BULLET_DMG, MOVE_SPEED, FIRE_RATE, PROJECTILE_SPEED, PIERCING, MULTISHOT, HOMING};
+enum UpgradeType { NONE, FUEL_CAPACITY, MAX_HEALTH, BULLET_DMG, MOVE_SPEED, FIRE_RATE, PROJECTILE_SPEED, PIERCING, MULTISHOT, HOMING, SWARM};
 typedef struct Upgrades
 {
 	const char* name;
@@ -24,6 +24,7 @@ typedef struct Upgrades
 	unsigned int id;
 	unsigned int level;
 	unsigned int max_level;
+	unsigned int prerequisite;
 	bool hasLevel;
 	bool activated;
 }Upgrade;
@@ -38,6 +39,7 @@ Upgrade Asteroids_Upgrades_Get_Upgrade(unsigned int id);
 Upgrade* Asteroids_Upgrades_Get_All_Upgrades();
 Upgrade Asteroids_Upgrades_Get_Upgrade_Empty();
 int Asteroids_Upgrades_Get_Upgrade_Count();
+bool Asteroids_Upgrade_Check_Prerequisite_Status(unsigned int id);
 void Asteroids_Upgrade_Add_Level(unsigned int id);
 void Asteroids_Upgrades_Upgrade_Enable(unsigned int id);
 void Asteroids_Upgrades_Create_File(void);
@@ -46,4 +48,5 @@ void Asteroids_Upgrades_Read_From_File(void);
 void Asteroids_Upgrades_Set_Upgrade_Name(Upgrade* upgrade);
 int Asteroids_Upgrades_Reset_Upgrades(void);
 void Asteroids_Upgrades_Apply_Upgrades(Player* player);
+void Asteroids_Upgrades_Upgrade_Set_Prerequisite(unsigned int upgrade_id, unsigned int prerequisite_id);
 void Asteroids_Upgrades_Upgrade_Set_Max_Level(unsigned int id, unsigned int level);

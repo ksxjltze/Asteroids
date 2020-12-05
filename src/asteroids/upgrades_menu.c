@@ -187,6 +187,15 @@ void Asteroids_Upgrades_Menu_Update_Upgrade_Info(UpgradeMenuItem* menuItem)
 void Asteroids_Upgrades_Menu_Upgrade_Add_Level(void* upgradePtr)
 {
 	UpgradeMenuItem* menuItem = (UpgradeMenuItem*)upgradePtr;
+	if (menuItem->upgrade.prerequisite != NONE)
+	{
+		if (Asteroids_Upgrade_Check_Prerequisite_Status(menuItem->upgrade.prerequisite) == false)
+		{
+			printf("Upgrade %s requires prerequisite ID %d.\n", menuItem->upgrade.name, menuItem->upgrade.prerequisite);
+			return;
+		}
+	}
+
 	if (menuItem->upgrade.hasLevel)
 	{
 		if (menuItem->upgrade.level + 1 > menuItem->upgrade.max_level)

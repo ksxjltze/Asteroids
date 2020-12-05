@@ -29,6 +29,7 @@ void Asteroids_Upgrades_Init(void)
 		upgrades[i].cost = 0;
 		upgrades[i].level = 0;
 		upgrades[i].name = "NONE";
+		upgrades[i].prerequisite = NONE;
 		upgrades[i].hasLevel = false;
 		upgrades[i].max_level = 999;
 	}
@@ -49,6 +50,21 @@ void Asteroids_Upgrades_Init(void)
 
 	Asteroids_Upgrades_Create_Upgrade(HOMING, ASTEROIDS_UPGRADES_HOMING_PROJECTILES_UPGRADE_COST, "Homing Special Attack");
 	Asteroids_Upgrades_Upgrade_Disable_Levels(HOMING);
+
+	Asteroids_Upgrades_Create_Upgrade(SWARM, ASTEROIDS_UPGRADES_SWARM_PROJECTILES_UPGRADE_COST, "Homing Swarm");
+	Asteroids_Upgrades_Upgrade_Disable_Levels(SWARM);
+	Asteroids_Upgrades_Upgrade_Set_Prerequisite(SWARM, HOMING);
+}
+
+void Asteroids_Upgrades_Upgrade_Set_Prerequisite(unsigned int upgrade_id, unsigned int prerequisite_id)
+{
+	for (int i = 0; i < NUM_UPGRADES; i++)
+	{
+		if (upgrades[i].id == upgrade_id)
+		{
+			upgrades[i].prerequisite = prerequisite_id;
+		}
+	}
 }
 
 void Asteroids_Upgrades_Upgrade_Set_Max_Level(unsigned int id, unsigned int level)
@@ -95,6 +111,7 @@ Upgrade Asteroids_Upgrades_Initialize_Upgrade(unsigned int id, int cost, const c
 	upgrade.name = name;
 	upgrade.level = 0;
 	upgrade.hasLevel = true;
+	upgrade.prerequisite = NONE;
 	upgrade.activated = false;
 	return upgrade;
 }
@@ -152,6 +169,21 @@ int Asteroids_Upgrades_Get_Upgrade_Count()
 		}
 	}
 	return counter;
+}
+
+bool Asteroids_Upgrade_Check_Prerequisite_Status(unsigned int id)
+{
+	for (int i = 0; i < NUM_UPGRADES; i++)
+	{
+		if (upgrades[i].id != NONE)
+		{
+			if (upgrades[i].level > 0)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 void Asteroids_Upgrade_Add_Level(unsigned int id)
@@ -258,6 +290,7 @@ void Asteroids_Upgrades_Read_From_File(void)
 			upgrade.id = NONE;
 			upgrade.cost = 0;
 			upgrade.level = 0;
+			upgrade.prerequisite = NONE;
 			upgrade.name = "NONE";
 
 			int read = fscanf_s(upgradesFile, "%u,%d,%u", &upgrade.id, &upgrade.cost, &upgrade.level);
@@ -306,6 +339,9 @@ void Asteroids_Upgrades_Set_Upgrade_Name(Upgrade* upgrade)
 		break;
 	case HOMING:
 		upgrade->name = "Homing Special Attack";
+		break;
+	case SWARM:
+		upgrade->name = "Homing Swarm";
 		break;
 	default:
 		break;
