@@ -19,7 +19,7 @@
 #include "audio_manager.h"
 #include "leaderboard.h"
 #include <stdbool.h>
-#include "help.h"
+#include "guide.h"
 
 #define BUTTON_WIDTH 400.0f
 #define BUTTON_HEIGHT 100.0f

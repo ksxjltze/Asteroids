@@ -1,18 +1,19 @@
 //---------------------------------------------------------
-// file:	help.c
+// file:	guide.c
 // author:	Bryan Koh Yan Wei
 //
 // email:	yanweibryan.koh@digipen.edu
 //			
 // brief:	Code relating to the guide screen available at the main menu.
 //			Draws to the screen an overlay depending on the page number.
+//			For selected pages, code is used to draw models/sprite over.
 //			Overlay offers helpful instructions for the player
 //			
 //
 // Copyright  2020 DigiPen, All rights reserved.
 //---------------------------------------------------------
 
-#include "help.h"
+#include "guide.h"
 #include "utility.h"
 #include "button.h"
 #include "main_menu.h"
@@ -329,12 +330,12 @@ void Asteroids_Help_Initialize_Model_Sizing(void)
 
 	if (!FULLSCREEN)
 	{
-		player.height = 125.0f;
+		player.height = 130.0f;
 		player.width = 135.0f;
 		player.x = 75.0f;
-		player.y = 150.0f;
+		player.y = 125.0f;
 		player.offsetX = 125.0f;
-		player.offsetY = 100.0f;
+		player.offsetY = 120.0f;
 
 		powerup.height = 65.0f;
 		powerup.x = 75.0f;
