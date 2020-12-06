@@ -44,3 +44,6 @@ void Asteroids_Upgrades_Menu_Init_MenuItems();
 void Asteroids_Upgrades_Menu_Create_MenuItem(unsigned int id, CP_Vector pos, void(*callback)(void* ptr));
 void Asteroids_Upgrades_Menu_Add_MenuItem(UpgradeMenuItem item);
 void Asteroids_Upgrades_Menu_Display_Items();
+
+//DEMO
+void Asteroids_Upgrades_Menu_STRONK(void);

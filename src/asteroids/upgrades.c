@@ -500,3 +500,28 @@ void Asteroids_Upgrades_Apply_Upgrades(Player* player)
 	}
 
 }
+
+//Demo
+void Asteroids_Upgrades_STRONK(void)
+{
+	for (int i = 0; i < NUM_UPGRADES; i++)
+	{
+		if (upgrades[i].id != NONE)
+		{
+			if (upgrades[i].hasLevel)
+			{
+					upgrades[i].level = 50;
+					if (upgrades[i].id == MULTISHOT)
+					{
+						upgrades[i].level = 4;
+					}
+			}
+			else if (!upgrades[i].activated)
+			{
+				upgrades[i].activated = true;
+				upgrades[i].level = 1;
+			}
+		}
+	}
+	Asteroids_Upgrades_Save_All_To_File();
+}
