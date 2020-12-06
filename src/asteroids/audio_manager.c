@@ -23,6 +23,7 @@ CP_Sound sfx_dangersound;
 CP_Sound sfx_gameplaysound;
 CP_Sound sfx_EZCLAP;
 CP_Sound bgm_BossBattle;
+CP_Sound bgm_Credits;
 
 CP_Image VOLbutton;
 
@@ -30,7 +31,7 @@ static int clapCount = 0;
 static float clapTimer = 0.0f;
 
 enum Asteroids_Sound_Group {MUSIC};
-enum Asteroids_Music_ID { BGM_BOSS_BATTLE };
+enum Asteroids_Music_ID { BGM_BOSS_BATTLE, BGM_CREDITS};
 
 void Asteroids_Audio_Manager_Init(void)
 {
@@ -39,9 +40,15 @@ void Asteroids_Audio_Manager_Init(void)
 	sfx_bgm_MainMenu = CP_Sound_LoadMusic("./Assets/bgm_main_menu.wav");
 	sfx_EZCLAP = CP_Sound_Load("./Assets/Clap.wav");
 	bgm_BossBattle = CP_Sound_Load("./Assets/bossBattle.wav");
+	bgm_Credits = CP_Sound_Load("./Assets/credits_bgm.wav");
 
 	clapCount = 0;
 	clapTimer = 0.0f;
+}
+
+void Asteroids_Audio_Manager_BGM_Credits_Play()
+{
+	Asteroids_Audio_Manager_Start_Music(BGM_CREDITS);
 }
 
 void Asteroids_Audio_Button_Hover_Play(void)
@@ -52,11 +59,16 @@ void Asteroids_Audio_Button_Hover_Play(void)
 
 void Asteroids_Audio_Manager_Start_Music(int id)
 {
+	CP_Sound_StopGroup(MUSIC);
 	switch(id)
 	{
 	case BGM_BOSS_BATTLE:
 		if (bgm_BossBattle)
-			CP_Sound_PlayAdvanced(bgm_BossBattle, 70.0f, 1.0f, 1, MUSIC);
+			CP_Sound_PlayAdvanced(bgm_BossBattle, 0.8f, 1.0f, 1, MUSIC);
+		break;
+	case BGM_CREDITS:
+		if (bgm_Credits)
+			CP_Sound_PlayAdvanced(bgm_Credits, 0.8f, 1.0f, 1, MUSIC);
 		break;
 	}
 }
@@ -73,19 +85,27 @@ void Asteroids_Audio_Manager_BGM_Boss_Battle_Play()
 
 void Asteroids_Audio_MainMenu_BGM_Play(void)
 {
+	CP_Sound_StopGroup(MUSIC);
 	VOLbutton = CP_Image_Load("./Assets/volumebutton.png");
 
 	if (sfx_bgm_MainMenu)
-		CP_Sound_PlayAdvanced(sfx_bgm_MainMenu, 0.1f, 1.0f, 1, MUSIC);
+		CP_Sound_PlayAdvanced(sfx_bgm_MainMenu, 0.8f, 1.0f, 1, MUSIC);
 }
 
 
 void Asteroids_Audio_MainMenu_BGM_STOP(void)
 {
-	VOLbutton = CP_Image_Load("./Assets/volumebutton.png");
-
-	if (sfx_bgm_MainMenu)
-		CP_Sound_StopGroup(MUSIC);
+	static int isPlaying = 1;
+	if (isPlaying)
+	{
+		isPlaying = 0;
+		CP_Sound_PauseGroup(MUSIC);
+	}
+	else
+	{
+		isPlaying = 1;
+		CP_Sound_ResumeGroup(MUSIC);
+	}
 
 }
 

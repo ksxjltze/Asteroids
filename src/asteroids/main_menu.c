@@ -250,7 +250,7 @@ void Asteroids_MainMenu_Button_Init(void)
 
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Play_Game, &Play);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_MainMenu_Guide, &Controls);
-	Asteroids_Button_Set_Callback_Void(&Asteroids_Credits, &Credits);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_Credits_Enter, &Credits);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Display_LeaderBoard, &Leaderboard);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_QuitGame, &Quit);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Exit_Screen, &ExitBtn);
@@ -311,11 +311,15 @@ void Asteroids_QuitGame(void)
 	CP_Engine_Terminate();
 }
 
-void Asteroids_Credits(void)
+void Asteroids_Credits_Enter(void)
 {
 	overlay_type = CREDITS_SCREEN;
 	status = false;
+	Asteroids_Audio_Manager_BGM_Credits_Play();
+}
 
+void Asteroids_Credits(void)
+{
 	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
 	CP_Image_Draw(Credits_screen, (float)(WIN_WIDTH / 2), (float)(WIN_HEIGHT / 2), (float)WIN_WIDTH, (float)WIN_HEIGHT, 255);
 
