@@ -22,6 +22,7 @@
 
 UpgradeMenuItem menuItems[NUM_UPGRADES];
 Button resetBtn;
+Button stronkBtn;
 
 void Asteroids_Upgrades_Menu_Init(void)
 {
@@ -30,6 +31,11 @@ void Asteroids_Upgrades_Menu_Init(void)
 	Asteroids_Button_Set_Text(&resetBtn, 20, "Reset");
 	Asteroids_Button_Set_Position(&resetBtn, CP_Vector_Set((float)WIN_WIDTH - resetBtn.width, (float)WIN_HEIGHT - resetBtn.height));
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Upgrades_Menu_Reset_Upgrades, &resetBtn);
+
+	stronkBtn = Asteroids_Button_Add_New_Button((float)WIN_WIDTH / 2, 150);
+	Asteroids_Button_Set_Text(&stronkBtn, 80, "STRONK");
+	Asteroids_Button_Set_Position(&stronkBtn, CP_Vector_Set((float)WIN_WIDTH / 2 - stronkBtn.width / 2, (float)WIN_HEIGHT * 0.8f - stronkBtn.height));
+	Asteroids_Button_Set_Callback_Void(&Asteroids_Upgrades_Menu_STRONK, &stronkBtn);
 
 	int row = 1;
 	for (int i = 0; i < Asteroids_Upgrades_Get_Upgrade_Count(); i++)
@@ -56,6 +62,7 @@ void Asteroids_Upgrades_Menu_Draw(void)
 {
 	CP_Settings_Background(CP_Color_Create(160, 160, 160, 255));
 	Asteroids_Button_Update(&resetBtn);
+	Asteroids_Button_Update(&stronkBtn);
 	Asteroids_Upgrades_Menu_Display_Balance(CP_Color_Create(0, 0, 0, 255), CP_Vector_Set(120, 30));
 }
 
@@ -238,4 +245,10 @@ void Asteroids_Upgrades_Menu_Upgrade_Add_Level(void* upgradePtr)
 			printf("Upgrade %s is already activated.\n", menuItem->upgrade.name);
 
 	}
+}
+
+void Asteroids_Upgrades_Menu_STRONK(void)
+{
+	Asteroids_Upgrades_STRONK();
+	Asteroids_Upgrades_Menu_Refresh_Items();
 }

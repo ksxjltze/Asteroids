@@ -50,3 +50,6 @@ int Asteroids_Upgrades_Reset_Upgrades(void);
 void Asteroids_Upgrades_Apply_Upgrades(Player* player);
 void Asteroids_Upgrades_Upgrade_Set_Prerequisite(unsigned int upgrade_id, unsigned int prerequisite_id);
 void Asteroids_Upgrades_Upgrade_Set_Max_Level(unsigned int id, unsigned int level);
+
+//DEMO
+void Asteroids_Upgrades_STRONK(void);
