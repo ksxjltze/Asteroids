@@ -134,7 +134,7 @@ void Asteroids_Help_Screen_Update(void)
 }
 void Asteroids_Help_Screen_Exit(void)
 {
-
+	Asteroids_Help_Menu_Despawn_Static_Enemies();
 }
 
 void Asteroids_Help_Screen_Exit_ToMenu(void)
@@ -299,6 +299,14 @@ void Asteroids_Help_Menu_Spawn_Static_Enemies(void)
 			respawnTimer2 = respawnTimer;
 		}
 	}
+}
+void Asteroids_Help_Menu_Despawn_Static_Enemies(void)
+{
+	Enemy* e1 = helpEnemy;
+	Enemy* e2 = helpEnemy2;
+
+	e1->active = false;
+	e2->active = false;
 }
 
 void Asteroids_Help_Initialize_Model_Sizing(void)

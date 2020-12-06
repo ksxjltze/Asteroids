@@ -46,5 +46,6 @@ void Asteroids_Help_Screen_DecreasePageNo(void);
 void Asteroids_Help_Sreen_Draw_Warning(void);
 
 void Asteroids_Help_Menu_Spawn_Static_Enemies(void);
+void Asteroids_Help_Menu_Despawn_Static_Enemies(void);
 void Asteroids_Help_Update_Enemies(void);
 void Asteroids_Help_Initialize_Model_Sizing(void);
