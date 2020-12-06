@@ -1,18 +1,19 @@
 //---------------------------------------------------------
-// file:	help.c
+// file:	guide.c
 // author:	Bryan Koh Yan Wei
 //
 // email:	yanweibryan.koh@digipen.edu
 //			
 // brief:	Code relating to the guide screen available at the main menu.
 //			Draws to the screen an overlay depending on the page number.
+//			For selected pages, code is used to draw models/sprite over.
 //			Overlay offers helpful instructions for the player
 //			
 //
 // Copyright  2020 DigiPen, All rights reserved.
 //---------------------------------------------------------
 
-#include "help.h"
+#include "guide.h"
 #include "utility.h"
 #include "button.h"
 #include "main_menu.h"
@@ -23,6 +24,7 @@
 #include "final_boss.h"
 #include "enemy.h"
 #include "constants.h"
+#include "main_menu.h"
 
 
 #define BUTTON_WIDTH 150
@@ -33,16 +35,19 @@
 #define LAST_PAGE 5
 #define MODEL_COUNT 6
 #define POWERUP_COUNT 5
+
 Help_screen screen;
 
 CP_Image Page_Image[LAST_PAGE];
 CP_Image playerModel[MODEL_COUNT];
 CP_Image powerupModel[POWERUP_COUNT];
-
-CP_Image Display;
+CP_Image enemyDisplay;
 
 Button BackBtn, NextBtn, ExitBtn;
 
+
+DisplayModel player;
+DisplayModel powerup;
 enum HELP_SCREEN { CONTROLS, MECHANICS, OBSTACLES, FINALBOSS, UPGRADES };
 
 static float current_lifespan = 0.5f;
@@ -79,7 +84,7 @@ void Asteroids_Help_Screen_Init(void)
 		powerupModel[i] = CP_Image_Load(spritePath);
 	}
 
-	Display = CP_Image_Load("./Assets/newasteroids.png");
+	enemyDisplay = CP_Image_Load("./Assets/newasteroids.png");
 	screen.overlay = FIRST_PAGE;
 	warning_lifespan = 2.0f;
 	warning_lifespan = 2.0f;
@@ -116,6 +121,7 @@ void Asteroids_Help_Screen_Init(void)
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Help_Screen_IncreasePageNo, &NextBtn);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Help_Screen_DecreasePageNo, &BackBtn);
 
+	Asteroids_Help_Initialize_Model_Sizing();
 	Asteroids_Obstacles_Init();
 	Asteroids_Final_Boss_Init();
 	particle_init();
@@ -129,7 +135,7 @@ void Asteroids_Help_Screen_Update(void)
 }
 void Asteroids_Help_Screen_Exit(void)
 {
-
+	Asteroids_Help_Menu_Despawn_Static_Enemies();
 }
 
 void Asteroids_Help_Screen_Exit_ToMenu(void)
@@ -139,7 +145,6 @@ void Asteroids_Help_Screen_Exit_ToMenu(void)
 
 void Asteroids_Draw_Screen_Page(void)
 {
-	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
 	if(screen.overlay < LAST_PAGE)
 		CP_Image_Draw(Page_Image[screen.overlay], screen.pos.x, screen.pos.y, screen.width, screen.height, 255);
 
@@ -199,14 +204,17 @@ void Asteroids_Help_Draw_Controls_Screen(void)
 	rotation += (rotation_rate * CP_System_GetDt());
 	for (int i = 0; i < MODEL_COUNT; i++)
 	{
-		CP_Image_DrawAdvanced(playerModel[i], 50.0f + (125.0f * i), 150.0f, 100, 100, 255, rotation);
+		float y = player.y;
+		if (i % 2 != 0)
+			y = player.y + player.offsetY;
+		CP_Image_DrawAdvanced(playerModel[i], player.x + (player.offsetX * i), y, player.width, player.height, 255, rotation);
 	}
 	for (int i = 0; i < POWERUP_COUNT; i++)
 	{
-		int y = 480;
+		float y = powerup.y;
 		if (i % 2 != 0)
-			y = 600;
-		CP_Image_DrawAdvanced(powerupModel[i], 75.0f + (125.0f * i), (float)y, 50, 50, 255, rotation);
+			y = powerup.y + powerup.offsetY;
+		CP_Image_DrawAdvanced(powerupModel[i], powerup.x + (powerup.offsetX * i), y, powerup.height, powerup.height, 255, rotation);
 	}
 }
 
@@ -216,12 +224,12 @@ void Asteroids_Help_Update_Enemies(void)
 	Enemy* d2 = helpEnemy2;
 	if (d1->active)
 	{
-		CP_Image_DrawAdvanced(Display, d1->pos.x, d1->pos.y, d1->collider.diameter, d1->collider.diameter, 255, d1->rotate_rate);
+		CP_Image_DrawAdvanced(enemyDisplay, d1->pos.x, d1->pos.y, d1->collider.diameter, d1->collider.diameter, 255, d1->rotate_rate);
 		Asteroids_Check_Collision_Blackhole_Enemy_Player(d1, NULL, &Blackhole, 1);
 	}
 	if (d2->active)
 	{
-		CP_Image_DrawAdvanced(Display, d2->pos.x, d2->pos.y, d2->collider.diameter, d2->collider.diameter, 255, d2->rotate_rate);
+		CP_Image_DrawAdvanced(enemyDisplay, d2->pos.x, d2->pos.y, d2->collider.diameter, d2->collider.diameter, 255, d2->rotate_rate);
 		Asteroids_Check_Collision_Gammaray_Enemy_Player(d2, NULL, &GammaRay, 1);
 	}
 }
@@ -291,5 +299,48 @@ void Asteroids_Help_Menu_Spawn_Static_Enemies(void)
 			d2 = Asteroids_Enemy_Spawn(helpEnemy2, 1, CP_Vector_Set((float)WIN_WIDTH * 0.75f, GammaRay.pos.y));
 			respawnTimer2 = respawnTimer;
 		}
+	}
+}
+void Asteroids_Help_Menu_Despawn_Static_Enemies(void)
+{
+	Enemy* e1 = helpEnemy;
+	Enemy* e2 = helpEnemy2;
+
+	e1->active = false;
+	e2->active = false;
+}
+
+void Asteroids_Help_Initialize_Model_Sizing(void)
+{
+	if (FULLSCREEN)
+	{
+		player.height = 210.0f;
+		player.width = 130.0f;
+		player.x = 100.0f;
+		player.y = 200.0f;
+		player.offsetX = 175.0f;
+		player.offsetY = 175.0f;
+
+		powerup.height = 100.0f;
+		powerup.x = 110.0f;
+		powerup.y = 700.f;
+		powerup.offsetX = 190.0f;
+		powerup.offsetY = 200.0f;
+	}
+
+	if (!FULLSCREEN)
+	{
+		player.height = 130.0f;
+		player.width = 135.0f;
+		player.x = 75.0f;
+		player.y = 125.0f;
+		player.offsetX = 125.0f;
+		player.offsetY = 120.0f;
+
+		powerup.height = 65.0f;
+		powerup.x = 75.0f;
+		powerup.y = 480.f;
+		powerup.offsetX = 125.0f;
+		powerup.offsetY = 120.0f;
 	}
 }

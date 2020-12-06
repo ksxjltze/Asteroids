@@ -151,7 +151,12 @@ void Asteroids_Update(void)
 		Asteroids_Draw_Scores();
 		Asteroids_Player_Update(&player);
 		Asteroids_UI_Update(player);
-		Asteroids_Player_Draw(player_sprite, player.pos, player_width, player_height, player.alpha, player_rotation);
+
+		if (player.active)
+		{
+			Asteroids_Player_Draw(player_sprite, player.pos, player_width, player_height, player.alpha, player_rotation);
+		}
+
 		//draw_player_death_anim(&player);
 		Asteroids_Player_Death_VFX_Update(&player);
 	}
