@@ -28,6 +28,7 @@ static bool scoreSaved;
 static char str_time_score[20];
 static char str_kill_score[20];
 static char str_total_score[20];
+static char str_stage[20];
 
 #define NAME_TEXT_SIZE 50.0f
 
@@ -156,15 +157,18 @@ void Asteroids_GameOver_Init_Score(void)
 {
 	sprintf_s(str_time_score, 20, "Time: %.2fs", CURRENT_SCORE.time_score);
 	sprintf_s(str_kill_score, 20, "Destroyed: %d", CURRENT_SCORE.enemy_kill_score);
+	sprintf_s(str_stage, 20, "Stage: %s", Asteroids_Leaderboard_Evaluate_Difficulty(ASTEROIDS_GAME_DIFFICULTY));
 	sprintf_s(str_total_score, 20, "Score: %d", Asteroids_Leaderboard_Evaluate_Score(CURRENT_SCORE));
 }
 
 void Asteroids_GameOver_Display_Score(void)
 {
 	CP_Settings_TextSize(NAME_TEXT_SIZE);
-	CP_Font_DrawText(str_time_score, (float)WIN_WIDTH / 2, (float)WIN_HEIGHT * 0.46f);
-	CP_Font_DrawText(str_kill_score, (float)WIN_WIDTH / 2, (float)WIN_HEIGHT * 0.56f);
-	CP_Font_DrawText(str_total_score, (float)WIN_WIDTH / 2, (float)WIN_HEIGHT * 0.66f);
+	float scorePos = (float)WIN_HEIGHT * 0.46f;
+	CP_Font_DrawText(str_time_score, (float)WIN_WIDTH / 2, scorePos);
+	CP_Font_DrawText(str_kill_score, (float)WIN_WIDTH / 2, scorePos + 50);
+	CP_Font_DrawText(str_stage, (float)WIN_WIDTH / 2, scorePos + 100);
+	CP_Font_DrawText(str_total_score, (float)WIN_WIDTH / 2, scorePos + 150);
 }
 
 void Asteroids_GameOver_Exit(void)
