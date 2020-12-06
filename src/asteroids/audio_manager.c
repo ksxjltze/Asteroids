@@ -35,7 +35,8 @@ enum Asteroids_Music_ID { BGM_BOSS_BATTLE };
 void Asteroids_Audio_Manager_Init(void)
 {
 	sfx_ButtonHover = CP_Sound_Load("./Assets/HiHat.wav");
-	sfx_bgm_MainMenu = CP_Sound_LoadMusic("./Assets/menu_bgm.wav");
+	//sfx_bgm_MainMenu = CP_Sound_LoadMusic("./Assets/menu_bgm.wav");
+	sfx_bgm_MainMenu = CP_Sound_LoadMusic("./Assets/bgm_main_menu.wav");
 	sfx_EZCLAP = CP_Sound_Load("./Assets/Clap.wav");
 	bgm_BossBattle = CP_Sound_Load("./Assets/bossBattle.wav");
 

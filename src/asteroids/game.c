@@ -46,6 +46,7 @@ CP_Image enemy_sprites[ASTEROIDS_ENEMY_SPRITE_COUNT];
 CP_Image enemy_hurt_sprites[ASTEROIDS_ENEMY_SPRITE_COUNT];
 CP_Image health_bar_sprite;
 CP_Image player_health_sprite;
+CP_Image background_image;
 
 //player
 float player_width;
@@ -226,6 +227,9 @@ void Asteroids_Sprites_Load()
 
 	bullet_sprite = CP_Image_Load("./Assets/bullet_long.png");
 
+	// background image
+	background_image = CP_Image_Load("./Assets/starfield.png");
+
 	// multiple types of asteroids assets
 
 	enemy_sprites[0] = CP_Image_Load("./Assets/asteroids_cropped.png");
@@ -347,6 +351,8 @@ void Asteroids_FPS_Draw()
 void Asteroids_Draw() 
 {
 	CP_Settings_Background(CP_Color_Create(8, 5, 20, 247));
+	CP_Vector pos = Asteroids_Utility_GetWindowMiddle();
+	CP_Image_Draw(background_image, pos.x, pos.y, (float)WIN_WIDTH, (float)WIN_HEIGHT, 255);
 
 	Asteroids_Bullet_Draw(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, bullet_sprite, bullet_width, bullet_height);
 	Asteroids_Enemy_Draw(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, enemy_sprites, enemy_hurt_sprites, enemy_width, enemy_height);
@@ -410,6 +416,7 @@ void Asteroids_Exit(void)
 void Asteroids_Cleanup()
 {
 	CP_Image_Free(&player_sprite);
+	CP_Image_Free(&background_image);
 	CP_Image_Free(&bullet_sprite);
 	CP_Image_Free(&health_bar_sprite);
 	CP_Image_Free(&player_health_sprite);
