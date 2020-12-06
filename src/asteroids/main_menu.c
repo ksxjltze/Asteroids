@@ -283,7 +283,7 @@ void Asteroids_Menu_Display_VolumeONOFF(void)
 	}
 	else
 	{
-		Asteroids_Audio_MainMenu_BGM_STOP();
+		Asteroids_Audio_MainMenu_BGM_Pause();
 	}
 
 }
@@ -345,6 +345,8 @@ void Asteroids_Exit_Screen(void)
 {
 	overlay_type = 0;
 	status = true;
+
+	Asteroids_Audio_MainMenu_BGM_Play();
 
 	if (overlay_type == LEADERBOARD_SCREEN)
 	{

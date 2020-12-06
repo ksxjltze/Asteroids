@@ -93,7 +93,7 @@ void Asteroids_Audio_MainMenu_BGM_Play(void)
 }
 
 
-void Asteroids_Audio_MainMenu_BGM_STOP(void)
+void Asteroids_Audio_MainMenu_BGM_Pause(void)
 {
 	static int isPlaying = 1;
 	if (isPlaying)

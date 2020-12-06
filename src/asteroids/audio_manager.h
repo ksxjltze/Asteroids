@@ -10,7 +10,7 @@ void Asteroids_Audio_PickUps_Play(void);
 void Asteroids_Audio_dangersound_Play(void);
 void Asteroids_Audio_Explosion_Play(void);
 void Asteroids_Audio_gameplaysound_Play(void);
-void Asteroids_Audio_MainMenu_BGM_STOP(void);
+void Asteroids_Audio_MainMenu_BGM_Pause(void);
 void Asteroids_Audio_EZCLAP_Play(void);
 void Asteroids_Audio_Manager_Start_Music(int id);
 void Asteroids_Audio_Manager_Stop_Music();
