@@ -58,7 +58,7 @@ struct Death_Particle
 	float current_lifespan;
 }death_particle;
 
-#define DVFXSize 100
+#define DVFXSize 200
 typedef struct DeathP
 {
 	CP_Image sprite[DVFXSize];
@@ -436,7 +436,7 @@ void Asteroids_Player_Death_VFX_Spawn(Player* player)
 		{
 			DP.sprite[i] = DParticle;
 			DP.pos[i] = player->pos;
-			DP.aceeleration[i] = CP_Vector_Set(CP_Random_RangeFloat(-50, 50), CP_Random_RangeFloat(-50, 50));
+			DP.aceeleration[i] = CP_Vector_Set(CP_Random_RangeFloat(-250, 250), CP_Random_RangeFloat(-250, 250));
 			DP.aceeleration[i] = CP_Vector_Normalize(DP.aceeleration[i]);
 		}
 		DP.current_lifespan = 5.0f;
@@ -454,7 +454,7 @@ void Asteroids_Player_Death_VFX_Update(Player* player)
 		{
 			for (int i = 0; i < DVFXSize; i++)
 			{
-				DP.pos[i] = CP_Vector_Add(DP.pos[i], CP_Vector_Scale(DP.aceeleration[i], CP_Random_RangeFloat(30, 50) * CP_System_GetDt()));
+				DP.pos[i] = CP_Vector_Add(DP.pos[i], CP_Vector_Scale(DP.aceeleration[i], CP_Random_RangeFloat(25, 250) * CP_System_GetDt()));
 				CP_Image_Draw(DP.sprite[i], DP.pos[i].x, DP.pos[i].y, DP.dimension.x, DP.dimension.y, (int)(DP.current_lifespan / DP.max_lifespan * 255));
 			}
 		}
