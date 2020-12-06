@@ -165,7 +165,7 @@ void Asteroids_Floating_Powerup_Lifespan_Manager(void)	// tracks time life of po
 	float CurrentElaspedTime = CP_System_GetDt();
 
 	static float TotalElaspedTime = 0;
-	if(!endgame.end)
+	if(!game.end)
 		TotalElaspedTime += CurrentElaspedTime;
 
 	if (TotalElaspedTime >= 10.0f)

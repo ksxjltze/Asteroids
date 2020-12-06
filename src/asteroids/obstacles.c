@@ -190,7 +190,7 @@ void Asteroids_Obstacle_Spawn_Warning(void)
 void Asteroids_Obstacle_TimeInterval(void)
 {
 	float dt = CP_System_GetDt();
-	if(!endgame.end)
+	if(!game.end)
 	{
 		obstacle_interval -= dt;
 		warning_interval -= dt;

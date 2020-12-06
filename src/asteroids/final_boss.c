@@ -86,7 +86,7 @@ void Asteroids_Final_Boss_Init(void)
 	id = bossState.id;
 	state_change_rate = ASTEROIDS_FINAL_BOSS_STATE_CHANGE_RATE;
 
-	endgame.end = false;
+	game.end = false;
 
 	YesBtn = Asteroids_Button_Add_New_Button(BtnWidth, BtnHeight);
 	NoBtn = Asteroids_Button_Add_New_Button(BtnWidth, BtnHeight);
@@ -515,7 +515,7 @@ void Asteroids_Final_Boss_Death_Screen(Enemy Final_Boss, Player player)
 
 void Asteroids_Continue_Game(void)
 {
-	endgame.end = false;
+	game.end = false;
 	Asteroids_Audio_Manager_Stop_Music();
 	Asteroids_Enemy_Enable_Spawn();
 	Asteroids_Final_Boss_Reset();

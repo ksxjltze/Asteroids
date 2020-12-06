@@ -57,7 +57,7 @@ void Asteroids_EnemyKill_Score_Manager(void)
 void Asteroids_Time_Score_Manager(void)
 {
 	time_counter = CP_System_GetDt();
-	if (!endgame.end)
+	if (!game.end)
 	{
 		CURRENT_SCORE.time_score += time_counter;
 	}

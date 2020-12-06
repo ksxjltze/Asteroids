@@ -138,7 +138,7 @@ void Asteroids_Update(void)
 		}
 
 
-		if (!endgame.end)
+		if (!game.end)
 		{
 			Asteroids_Obstacles_Update(enemy_pool, &player, enemy_count);
 			Asteroids_Update_Powerups(&player);
@@ -181,7 +181,7 @@ void Asteroids_Set_Difficulty(DIFFICULTY difficulty)
 
 void Asteroids_Difficulty_Update()
 {
-	if(!endgame.end)
+	if(!game.end)
 		difficulty_timer += CP_System_GetDt();
 	else
 	{

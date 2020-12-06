@@ -37,7 +37,7 @@ void Asteroids_UI_Update(Player player)
 {
 	if (ASTEROIDS_GAME_DIFFICULTY < BRUH)
 	{
-		if (!endgame.end)
+		if (!game.end)
 			timePassed += CP_System_GetDt();
 	}
 	else if (timePassed != ASTEROIDS_DIFFICULTY_INTERVAL)

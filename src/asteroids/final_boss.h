@@ -30,7 +30,7 @@ enum BossState { NO, DEATH, SLEEP, ATTACK, DODGE, BULLET_HELL, ENRAGED};
 struct EndGame
 {
 	bool end;
-}endgame;
+}game;
 	
 /*				FINAL_BOSS ENTRY POINT FUNCTIONS							*/
 void Asteroids_Final_Boss_Init(void);

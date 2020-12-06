@@ -20,6 +20,7 @@
 #include "collision_manager.h"
 #include "final_boss.h"
 #include "audio_manager.h"
+#include "currency.h"
 
 Enemy Boss;
 
@@ -53,7 +54,7 @@ void Asteroids_Boss_Init(CP_Image EnemySprite[], CP_Image EnemyHurtSprite[], flo
 	boss_width = enemy_width;
 	death_ring_dia = 1;
 
-	boss_interval = ASTEROIDS_ENEMY_BIGBOY_SPAWN_INTERVAL;
+	boss_interval = 1.0f;//ASTEROIDS_ENEMY_BIGBOY_SPAWN_INTERVAL;
 	
 	DeathPos = CP_Vector_Zero();
 	Boss.killed = false;
@@ -199,7 +200,8 @@ void Asteroids_Enemy_Check_Boss_Hp(Enemy* boss, Player player, Enemy enemy_pool[
 		
 		if (split == 0)
 		{
-			endgame.end = true;
+			game.end = true;
+			Asteroids_Currency_Add(ASTEROIDS_FINALBOSS_KILL_REWARD * (ASTEROIDS_GAME_DIFFICULTY - 1));
 			return;
 		}
 		DeathPos = Boss.pos;
@@ -237,6 +239,7 @@ void Asteroids_Enemy_Boss_Death_Circle(Enemy* boss, Player player, Enemy enemy_p
 		
 		expansion_rate = 0;
 		death_ring_dia = 1;
+		Asteroids_Currency_Add(ASTEROIDS_BIGBOY_KILL_REWARD * (ASTEROIDS_GAME_DIFFICULTY - 1));
 		Boss.killed = false;
 	}
 }
