@@ -27,6 +27,7 @@ static bool scoreSaved;
 
 static char str_time_score[20];
 static char str_kill_score[20];
+static char str_total_score[20];
 
 #define NAME_TEXT_SIZE 50.0f
 
@@ -41,12 +42,12 @@ void Asteroids_GameOver_Init(void)
 	Asteroids_Leaderboard_Init();
 
 	btnRestart = Asteroids_Button_Add_New_Button(btnWidth, btnHeight);
-	CP_Vector btnRestartPos = CP_Vector_Set(CP_System_GetWindowWidth() * 0.5f - btnRestart.width / 2, CP_System_GetWindowHeight() * 0.65f - btnRestart.height / 2);
+	CP_Vector btnRestartPos = CP_Vector_Set(CP_System_GetWindowWidth() * 0.35f - btnRestart.width / 2, CP_System_GetWindowHeight() * 0.85f - btnRestart.height / 2);
 	Asteroids_Button_Set_Position(&btnRestart, btnRestartPos);
 	Asteroids_Button_Set_Text(&btnRestart, textSize, "Restart");
 	Asteroids_Button_Set_Callback_Void(&Asteroids_GameOver_Restart, &btnRestart);
 	
-	CP_Vector btnExitPos = CP_Vector_Set(CP_System_GetWindowWidth() * 0.5f - btnRestart.width / 2, CP_System_GetWindowHeight() * 0.85f - btnRestart.height / 2);
+	CP_Vector btnExitPos = CP_Vector_Set(CP_System_GetWindowWidth() * 0.65f - btnRestart.width / 2, CP_System_GetWindowHeight() * 0.85f - btnRestart.height / 2);
 	btnQuit = Asteroids_Button_Add_New_Button(btnWidth, btnHeight);
 	Asteroids_Button_Set_Position(&btnQuit, btnExitPos);
 	Asteroids_Button_Set_Text(&btnQuit, textSize, "Quit");
@@ -139,7 +140,7 @@ void Asteroids_GameOver_Update(void)
 	//CP_Graphics_DrawRect((float)WIN_WIDTH / 3 - 5.0f, (float)WIN_HEIGHT * 0.28f, 50.0f* 13, 50);
 	Asteroids_GameOver_Draw_Player_TextBar();
 	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
-	CP_Font_DrawText(CURRENT_SCORE.name, (float)WIN_WIDTH / 2, (float)WIN_HEIGHT * 0.325f);
+	CP_Font_DrawText(CURRENT_SCORE.name, (float)WIN_WIDTH / 2, (float)WIN_HEIGHT * 0.35f);
 
 	CP_Settings_TextSize(100.0f);
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
@@ -155,13 +156,15 @@ void Asteroids_GameOver_Init_Score(void)
 {
 	sprintf_s(str_time_score, 20, "Time: %.2fs", CURRENT_SCORE.time_score);
 	sprintf_s(str_kill_score, 20, "Destroyed: %d", CURRENT_SCORE.enemy_kill_score);
+	sprintf_s(str_total_score, 20, "Score: %d", Asteroids_Leaderboard_Evaluate_Score(CURRENT_SCORE));
 }
 
 void Asteroids_GameOver_Display_Score(void)
 {
 	CP_Settings_TextSize(NAME_TEXT_SIZE);
-	CP_Font_DrawText(str_time_score, (float)WIN_WIDTH / 2, (float)WIN_HEIGHT * 0.4f);
-	CP_Font_DrawText(str_kill_score, (float)WIN_WIDTH / 2, (float)WIN_HEIGHT * 0.5f);
+	CP_Font_DrawText(str_time_score, (float)WIN_WIDTH / 2, (float)WIN_HEIGHT * 0.46f);
+	CP_Font_DrawText(str_kill_score, (float)WIN_WIDTH / 2, (float)WIN_HEIGHT * 0.56f);
+	CP_Font_DrawText(str_total_score, (float)WIN_WIDTH / 2, (float)WIN_HEIGHT * 0.66f);
 }
 
 void Asteroids_GameOver_Exit(void)
@@ -179,5 +182,7 @@ void Asteroids_GameOver_Draw_Player_TextBar(void)
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 100));
 	float length = (float)strlen(CURRENT_SCORE.name);
 	float width = length * NAME_TEXT_SIZE / 2;
-	CP_Graphics_DrawRect((float)WIN_WIDTH / 2 - width /2, (float)WIN_HEIGHT * 0.325f - 25, width, 50);
+	float height = 60;
+
+	CP_Graphics_DrawRect((float)WIN_WIDTH / 2 - width /2, (float)WIN_HEIGHT * 0.35f - height / 2, width, 60);
 }
