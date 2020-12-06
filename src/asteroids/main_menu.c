@@ -270,12 +270,14 @@ void Asteroids_Menu_Display_UpgradesMenu(void)
 	Asteroids_Upgrades_Menu_Init();
 }
 
+// Turning BGM vol on and off
 void Asteroids_Menu_Display_VolumeONOFF(void)
 {
-	
+	//Asteroids_Audio_MainMenu_BGM_Play();
 	if (Playmusic == false)
 	{
 		Asteroids_Audio_MainMenu_BGM_Play();
+		
 	}
 	else
 	{
