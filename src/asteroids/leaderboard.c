@@ -29,7 +29,7 @@ static size_t highscore_count;
 static float row_height;
 static int row_count;
 
-float offsets[SCORE_VARIABLES_COUNT] = { 100, 350, 500, 650, 850, 1050};
+float offsets[SCORE_VARIABLES_COUNT] = { 100, 450, 600, 750, 950, 1150};
 char labels[SCORE_VARIABLES_COUNT][20] = { "Name", "Kills", "Time", "Difficulty", "Stage", "Score" };
 
 void Asteroids_Leaderboard_Init()
@@ -38,7 +38,7 @@ void Asteroids_Leaderboard_Init()
 	highscore_count = 0;
 	Asteroids_Leaderboard_ReadScores();
 	cameraPos = CP_Vector_Zero();
-	row_height = 40.0f;
+	row_height = 30.0f;
 	row_count = (int)((WIN_HEIGHT - offsets[0] - 100) / row_height);
 
 }

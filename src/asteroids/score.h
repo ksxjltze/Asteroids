@@ -16,7 +16,7 @@
 #include "cprocessing.h"
 #include <stdio.h>
 
-#define NAME_MAX_SIZE 30
+#define NAME_MAX_SIZE 20
 
 typedef struct Scores
 {
