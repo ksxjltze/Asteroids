@@ -52,6 +52,15 @@ void Asteroids_Obstacles_Init(void)
 	pause_obstacles = false;
 
 }
+
+void Asteroids_Obstacles_Draw()
+{
+	if (Blackhole.active)
+		Asteroids_Draw_Obstacle(&Blackhole);
+	else if (GammaRay.active)
+		Asteroids_Draw_Obstacle(&GammaRay);
+}
+
 void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_count)
 {
 	float dt = CP_System_GetDt();
@@ -62,16 +71,13 @@ void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_co
 		if (Blackhole.active == true)
 		{
 			Blackhole.pos = CP_Vector_Add(Blackhole.pos, CP_Vector_Scale(Blackhole.velocity, dt));
-			Asteroids_Draw_Obstacle(&Blackhole);
 			Asteroids_Check_Collision_Blackhole_Enemy_Player(enemy_pool, player, &Blackhole, enemy_count);
 		}
 
 		if (GammaRay.active)
 		{
 			GammaRay.pos = CP_Vector_Add(GammaRay.pos, CP_Vector_Scale(GammaRay.velocity, dt));
-			Asteroids_Draw_Obstacle(&GammaRay);
 			Asteroids_Check_Collision_Gammaray_Enemy_Player(enemy_pool, player, &GammaRay, enemy_count);
-
 
 			for (int j = 0; j < 100; j++)
 			{
