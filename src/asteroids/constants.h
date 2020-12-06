@@ -21,6 +21,8 @@
 extern int WIN_WIDTH;
 extern int WIN_HEIGHT;
 extern int FULLSCREEN;
+extern int DEBUG;
+
 extern const CP_KEY ASTEROIDS_PAUSE_KEY;
 extern const float SPLASH_DURATION;
 extern const float ASTEROIDS_INPUT_BACKSPACE_DELETE_SPEED;

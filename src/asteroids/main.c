@@ -18,12 +18,11 @@
 #include "splash.h"
 #include "constants.h"
 
-#define DEBUG 1
-
 CP_Image splash;
 int WIN_WIDTH = 1280;
 int WIN_HEIGHT = 720;
 int FULLSCREEN = false;
+int DEBUG = true;
 
 // main() the starting point for the program
 // CP_Engine_SetNextGameState() tells CProcessing which functions to use for init, update and exit
