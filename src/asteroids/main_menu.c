@@ -197,7 +197,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	CP_Vector pos4 = CP_Vector_Set(x2, y1); // leaderboard button
 	CP_Vector pos5 = CP_Vector_Set(x2, y2+50); // skins buttton
 	CP_Vector pos10 = CP_Vector_Set(x2, y3+100); // Prev page || quit
-	CP_Vector pos11 = CP_Vector_Set(x1, y2-290); //vol button
+	CP_Vector pos11 = CP_Vector_Set(x1 + 50, 0.065f * WIN_HEIGHT); //vol button
 
 	// Exit Button
 	CP_Vector pos6 = CP_Vector_Set((float)(((float)WIN_WIDTH / 2 - BUTTON_WIDTH / 2)), (float)(WIN_HEIGHT - BUTTON_HEIGHT));
@@ -205,7 +205,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	// Difficulty Button
 	CP_Vector pos7 = CP_Vector_Set((float)WIN_WIDTH - 300 , 50);
 	CP_Vector upgradesPos = CP_Vector_Set((float)WIN_WIDTH -300 , 125);
-	CP_Vector fullscreenPos = CP_Vector_Set((float)WIN_WIDTH -300 , 200);
+	CP_Vector fullscreenPos = CP_Vector_Set(0 , 0.175f * WIN_HEIGHT);
 
 	// Control screen buttons
 	CP_Vector pos8 = CP_Vector_Set((float)WIN_WIDTH - BUTTON_WIDTH, (float)(WIN_HEIGHT / 2)); // Next Page
@@ -222,8 +222,8 @@ void Asteroids_MainMenu_Button_Init(void)
 	NextPage = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	PrevPage = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	UpgradesBtn = Asteroids_Button_Add_New_Button(BUTTON_WIDTH - 100.0f , BUTTON_HEIGHT - 40.0f);
-	VolumeBtn = Asteroids_Button_Add_New_Image_Button(volumeBtnImage, BUTTON_WIDTH - 150.0f , BUTTON_HEIGHT);
-	FullscreenBtn = Asteroids_Button_Add_New_Button(BUTTON_WIDTH - 150.0f , BUTTON_HEIGHT);
+	VolumeBtn = Asteroids_Button_Add_New_Image_Button(volumeBtnImage, 75 , 75);
+	FullscreenBtn = Asteroids_Button_Add_New_Button(200, 50);
 
 	Asteroids_Button_Set_Text(&Play, textSize, "Play");
 	Asteroids_Button_Set_Text(&Controls, textSize, "Guide");
@@ -237,7 +237,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Text(&PrevPage, textSize, "Back");
 	Asteroids_Button_Set_Text(&UpgradesBtn, textSize, "Upgrades");
 	Asteroids_Button_Set_Text(&VolumeBtn, textSize, "Vol");
-	Asteroids_Button_Set_Text(&FullscreenBtn, textSize, "Fullscreen");
+	Asteroids_Button_Set_Text(&FullscreenBtn, 10, "Fullscreen");
 
 	Asteroids_Button_Set_Position(&Play, pos1 );
 	Asteroids_Button_Set_Position(&Controls, pos2);
@@ -269,6 +269,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Text_Colors(&DifficultyBtn, CP_Color_Create(0, 0, 0, 255));
 
 	UpgradesBtn.colors.idle = CP_Color_Create(255, 0, 0, 255);
+	Asteroids_Button_Set_Text_Colors(&UpgradesBtn, CP_Color_Create(255, 255, 255, 255));
 }
 
 void Asteroids_Menu_Display_UpgradesMenu(void)
