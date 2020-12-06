@@ -41,6 +41,7 @@ CP_Vector Asteroids_Utility_Find_Closest_Enemy(Enemy enemy_pool[], CP_Vector pos
 	float distance = (float)WIN_WIDTH;
 
 	CP_Vector bossPos = Asteroids_Final_Boss_Get_Position();
+	CP_Vector miniBossPos = Asteroids_Boss_Get_Position();
 
 	for (int i = 0; i < ASTEROIDS_POOLSIZE_ENEMIES; i++)
 	{
@@ -60,6 +61,17 @@ CP_Vector Asteroids_Utility_Find_Closest_Enemy(Enemy enemy_pool[], CP_Vector pos
 		}
 	}
 
+	if (miniBossPos.x != 0 && miniBossPos.y != 0)
+	{
+		float displacement = CP_Vector_Distance(miniBossPos, pos);
+		if (displacement < distance)
+		{
+			target = miniBossPos;
+			distance = displacement;
+			Nearest = CP_Vector_Subtract(target, pos);
+		}
+	}
+
 	if (bossPos.x != 0 && bossPos.y != 0)
 	{
 		float displacement = CP_Vector_Distance(bossPos, pos);
@@ -70,6 +82,7 @@ CP_Vector Asteroids_Utility_Find_Closest_Enemy(Enemy enemy_pool[], CP_Vector pos
 			Nearest = CP_Vector_Subtract(target, pos);
 		}
 	}
+
 
 	*direction_out = CP_Vector_Normalize(Nearest);
 	return target;
