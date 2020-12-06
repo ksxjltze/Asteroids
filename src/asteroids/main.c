@@ -18,6 +18,8 @@
 #include "splash.h"
 #include "constants.h"
 
+#define DEBUG 0
+
 CP_Image splash;
 int WIN_WIDTH = 1280;
 int WIN_HEIGHT = 720;
@@ -57,8 +59,11 @@ void main_exit(void)
 
 int main(void)
 {
-	CP_System_ShowConsole();
-	freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
+	if (DEBUG)
+	{
+		CP_System_ShowConsole();
+		freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
+	}
 
 	CP_Engine_SetNextGameState(main_init, main_update, main_exit);
 	CP_Engine_Run();
