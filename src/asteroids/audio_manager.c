@@ -85,7 +85,7 @@ void Asteroids_Audio_Manager_Start_Music(int id)
 		break;
 	case BGM_CREDITS:
 		if (bgm_Credits)
-			CP_Sound_PlayAdvanced(bgm_Credits, BGM_VOL, 1.0f, 1, MUSIC);
+			CP_Sound_PlayAdvanced(bgm_Credits, BGM_VOL - 1.5f, 1.0f, 1, MUSIC);
 		break;
 	case BGM_GAMEOVER:
 		if (bgm_GameOver)
