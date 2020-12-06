@@ -203,7 +203,10 @@ void Asteroids_Help_Draw_Controls_Screen(void)
 	}
 	for (int i = 0; i < POWERUP_COUNT; i++)
 	{
-		CP_Image_DrawAdvanced(powerupModel[i], 100.0f + (75.0f * i), 500.0f, 50, 50, 255, rotation);
+		int y = 480;
+		if (i % 2 != 0)
+			y = 600;
+		CP_Image_DrawAdvanced(powerupModel[i], 75.0f + (125.0f * i), (float)y, 50, 50, 255, rotation);
 	}
 }
 
