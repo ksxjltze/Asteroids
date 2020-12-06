@@ -138,7 +138,6 @@ void Asteroids_Update(void)
 		}
 
 
-		Asteroids_Final_Boss_Update(&player, enemy_pool, enemy_count, bullet_pool);
 		if (!endgame.end)
 		{
 			Asteroids_Obstacles_Update(enemy_pool, &player, enemy_count);
@@ -149,6 +148,7 @@ void Asteroids_Update(void)
 		Asteroids_Debug();
 		Asteroids_Draw();
 		Asteroids_Obstacles_Draw();
+		Asteroids_Final_Boss_Update(&player, enemy_pool, enemy_count, bullet_pool);
 		Asteroids_Draw_Scores();
 		Asteroids_Player_Update(&player);
 		Asteroids_UI_Update(player);
