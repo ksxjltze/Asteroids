@@ -44,6 +44,7 @@ void Asteroids_Final_Boss_Reset(void);
 bool Asteroids_Final_Boss_Summon_Criteria_Check(void);
 void Asteroids_Final_Boss_CheckConditions(Enemy* enemy_pool);
 float Asteroids_Final_Boss_FireRate(void);
+CP_Vector Asteroids_Final_Boss_Get_Position(void);
 
 
 

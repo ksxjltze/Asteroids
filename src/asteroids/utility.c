@@ -12,6 +12,8 @@
 
 #include "utility.h"
 #include <stdio.h>
+#include "final_boss.h"
+#include "bigboy.h"
 
 /*
 @brief Generates a random position on the screen (window).
@@ -38,6 +40,8 @@ CP_Vector Asteroids_Utility_Find_Closest_Enemy(Enemy enemy_pool[], CP_Vector pos
 	CP_Vector target = CP_Vector_Zero();
 	float distance = (float)WIN_WIDTH;
 
+	CP_Vector bossPos = Asteroids_Final_Boss_Get_Position();
+
 	for (int i = 0; i < ASTEROIDS_POOLSIZE_ENEMIES; i++)
 	{
 		if (!enemy_pool[i].active)
@@ -52,9 +56,21 @@ CP_Vector Asteroids_Utility_Find_Closest_Enemy(Enemy enemy_pool[], CP_Vector pos
 		{
 			target = enemy_pool[i].pos;
 			distance = displacement;
-			Nearest = CP_Vector_Subtract(enemy_pool[i].pos, pos);
+			Nearest = CP_Vector_Subtract(target, pos);
 		}
 	}
+
+	if (bossPos.x != 0 && bossPos.y != 0)
+	{
+		float displacement = CP_Vector_Distance(bossPos, pos);
+		if (displacement < distance)
+		{
+			target = bossPos;
+			distance = displacement;
+			Nearest = CP_Vector_Subtract(target, pos);
+		}
+	}
+
 	*direction_out = CP_Vector_Normalize(Nearest);
 	return target;
 	
