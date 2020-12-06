@@ -31,10 +31,13 @@
 #define respawnTimer 2
 #define FIRST_PAGE 0
 #define LAST_PAGE 5
-
+#define MODEL_COUNT 6
+#define POWERUP_COUNT 5
 Help_screen screen;
 
 CP_Image Page_Image[LAST_PAGE];
+CP_Image playerModel[MODEL_COUNT];
+CP_Image powerupModel[POWERUP_COUNT];
 
 CP_Image Display;
 
@@ -60,6 +63,20 @@ void Asteroids_Help_Screen_Init(void)
 		char path[100];
 		sprintf_s(path, 100, "./Assets/Control_screen%d.png", i);
 		Page_Image[i] = CP_Image_Load(path);
+	}
+
+	for (int i = 0; i < MODEL_COUNT; i++)
+	{
+		char spritePath[100];
+		sprintf_s(spritePath, 100, "./Assets/Spaceship%d.png", i +1);
+		playerModel[i] = CP_Image_Load(spritePath);
+	}
+
+	for (unsigned int i = 0; i < POWERUP_COUNT; i++)
+	{
+		char spritePath[100];
+		sprintf_s(spritePath, 100, "./Assets/powerup_sprite%d.png", i + 1);
+		powerupModel[i] = CP_Image_Load(spritePath);
 	}
 
 	Display = CP_Image_Load("./Assets/newasteroids.png");
@@ -132,37 +149,64 @@ void Asteroids_Draw_Screen_Page(void)
 	if (screen.overlay < LAST_PAGE -1)
 		Asteroids_Button_Update(&NextBtn);
 
-	Asteroids_Help_Draw_Obstacle_Screen();
-	Asteroids_Help_Draw_FinalBoss_Screen();
+
+	switch (screen.overlay)
+	{
+	case CONTROLS:
+		Asteroids_Help_Draw_Controls_Screen();
+		break;
+	case OBSTACLES:
+		Asteroids_Help_Draw_Obstacle_Screen();
+		break;
+	case FINALBOSS:
+		Asteroids_Help_Draw_FinalBoss_Screen();
+		break;
+	default:
+		break;
+	}
 }
 void Asteroids_Help_Draw_Obstacle_Screen(void)
 {
-	if (screen.overlay == OBSTACLES)
+	if (Blackhole.active == false)
 	{
-		if (Blackhole.active == false)
-		{
-			Asteroids_Obstacle_Spawn_Tutorial(&Blackhole, ASTEROIDS_OBSTACLE_BLACKHOLE_SPEED, ASTEROIDS_OBSTACLE_BLACKHOLE_WIDTH,
-			ASTEROIDS_OBSTACLE_BLACKHOLE_WIDTH, CP_Vector_Set(0, (float)(WIN_HEIGHT / 3) - ASTEROIDS_OBSTACLE_BLACKHOLE_WIDTH));
-			Blackhole.Collider2.diameter = Blackhole.width;
-		}
-		if (GammaRay.active == false)
-		{
-			Asteroids_Obstacle_Spawn_Tutorial(&GammaRay, ASTEROIDS_OBSTACLE_GAMMARAY_SPEED, ASTEROIDS_OBSTACLE_GAMARAY_HEIGHT,
-				(float)(WIN_WIDTH / 4), CP_Vector_Set(0, (float)(WIN_HEIGHT / 3) + ASTEROIDS_OBSTACLE_GAMARAY_HEIGHT));
-			GammaRay.Collider.height = GammaRay.height;
-			GammaRay.Collider.width = GammaRay.width;
-		}
+		Asteroids_Obstacle_Spawn_Tutorial(&Blackhole, ASTEROIDS_OBSTACLE_BLACKHOLE_SPEED, ASTEROIDS_OBSTACLE_BLACKHOLE_WIDTH,
+		ASTEROIDS_OBSTACLE_BLACKHOLE_WIDTH, CP_Vector_Set(0, (float)(WIN_HEIGHT / 3) - ASTEROIDS_OBSTACLE_BLACKHOLE_WIDTH));
+		Blackhole.Collider2.diameter = Blackhole.width;
+	}
+	if (GammaRay.active == false)
+	{
+		Asteroids_Obstacle_Spawn_Tutorial(&GammaRay, ASTEROIDS_OBSTACLE_GAMMARAY_SPEED, ASTEROIDS_OBSTACLE_GAMARAY_HEIGHT,
+			(float)(WIN_WIDTH / 4), CP_Vector_Set(0, (float)(WIN_HEIGHT / 3) + ASTEROIDS_OBSTACLE_GAMARAY_HEIGHT));
+		GammaRay.Collider.height = GammaRay.height;
+		GammaRay.Collider.width = GammaRay.width;
+	}
 
-		Asteroids_Help_Update_Obstacle_Pos(&Blackhole, CP_System_GetDt());
-		Asteroids_Help_Update_Obstacle_Pos(&GammaRay, CP_System_GetDt());
-		Asteroids_Help_Update_Enemies();
-		particle_update();
-		Asteroids_Particle_Draw_Dot();
+	Asteroids_Help_Update_Obstacle_Pos(&Blackhole, CP_System_GetDt());
+	Asteroids_Help_Update_Obstacle_Pos(&GammaRay, CP_System_GetDt());
+	Asteroids_Help_Update_Enemies();
+	particle_update();
+	Asteroids_Particle_Draw_Dot();
+	Asteroids_Draw_Obstacle(&Blackhole);
+	Asteroids_Draw_Obstacle(&GammaRay);
+	Asteroids_Help_Sreen_Draw_Warning();
+	Asteroids_Help_Menu_Spawn_Static_Enemies();
+}
 
-		Asteroids_Draw_Obstacle(&Blackhole);
-		Asteroids_Draw_Obstacle(&GammaRay);
-		Asteroids_Help_Sreen_Draw_Warning();
-		Asteroids_Help_Menu_Spawn_Static_Enemies();
+void Asteroids_Help_Draw_Controls_Screen(void)
+{
+	static float rotation = 0;
+	static float rotation_rate = 20.0f;
+	rotation += (rotation_rate * CP_System_GetDt());
+	for (int i = 0; i < MODEL_COUNT; i++)
+	{
+		CP_Image_DrawAdvanced(playerModel[i], 50.0f + (125.0f * i), 150.0f, 100, 100, 255, rotation);
+	}
+	for (int i = 0; i < POWERUP_COUNT; i++)
+	{
+		int y = 480;
+		if (i % 2 != 0)
+			y = 600;
+		CP_Image_DrawAdvanced(powerupModel[i], 75.0f + (125.0f * i), (float)y, 50, 50, 255, rotation);
 	}
 }
 
@@ -184,8 +228,7 @@ void Asteroids_Help_Update_Enemies(void)
 
 void Asteroids_Help_Draw_FinalBoss_Screen(void)
 {
-	if (screen.overlay == FINALBOSS)
-		Asteroids_Help_Draw_FinalBoss_Spawn_Animation();
+	Asteroids_Help_Draw_FinalBoss_Spawn_Animation();
 }
 void Asteroids_Help_Screen_IncreasePageNo(void)
 {

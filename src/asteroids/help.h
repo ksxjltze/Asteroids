@@ -31,6 +31,8 @@ void Asteroids_Help_Draw_Obstacle_Screen(void);
 void Asteroids_Help_Draw_FinalBoss_Screen(void);
 void Asteroids_Help_Draw_FinalBoss_Spawn_Animation(void);
 
+void Asteroids_Help_Draw_Controls_Screen(void);
+
 void Asteroids_Help_Screen_IncreasePageNo(void);
 void Asteroids_Help_Screen_DecreasePageNo(void);
 void Asteroids_Help_Sreen_Draw_Warning(void);

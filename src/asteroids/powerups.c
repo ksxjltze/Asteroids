@@ -59,14 +59,14 @@ void Asteroids_Init_Powerups(void) //Initialize variables
 	bullet_split = false;
 	BPM = false;
 
-	Powerup_Bulletsplit_Sprite = CP_Image_Load("./Assets/Powerup_Bullet_Split_Sprite.png");
-	Powerup_Recover_Hp_Sprite = CP_Image_Load("./Assets/Powerup_RecoverHealth_Sprite.png");
-	Powerup_Invulnerability_Sprite = CP_Image_Load("./Assets/Powerup_Invunerability_Sprite.png");
-	Powerup_Increase_BPM_Sprite = CP_Image_Load("./Assets/Powerup_Shootfaster_Sprite.png");
-	Powerup_Fuel_Pickup_Sprite = CP_Image_Load("./Assets/Powerup_Fuel_Pickup_Sprite.png");
+	Powerup_Bulletsplit_Sprite = CP_Image_Load("./Assets/powerup_sprite1.png");
+	Powerup_Recover_Hp_Sprite = CP_Image_Load("./Assets/powerup_sprite2.png");
+	Powerup_Invulnerability_Sprite = CP_Image_Load("./Assets/powerup_sprite3.png");
+	Powerup_Increase_BPM_Sprite = CP_Image_Load("./Assets/powerup_sprite4.png");
+	Powerup_Fuel_Pickup_Sprite = CP_Image_Load("./Assets/powerup_sprite5.png");
 
 
-	for (int i = 0; i < POWERUP_MAX_SIZE; i++) //initialize to prevent getting rubbish values
+	for (int i = 0; i < POWERUP_MAX_SIZE; i++)
 	{
 		powerup_pool[i].pos = CP_Vector_Zero();
 		powerup_pool[i].movement_Vel = CP_Vector_Zero();
