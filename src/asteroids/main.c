@@ -18,7 +18,7 @@
 #include "splash.h"
 #include "constants.h"
 
-#define DEBUG 0
+#define DEBUG 1
 
 CP_Image splash;
 int WIN_WIDTH = 1280;

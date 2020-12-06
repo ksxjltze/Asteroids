@@ -72,6 +72,7 @@ void Asteroids_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_count, 
 		Asteroids_Collision_CheckCollision_Enemy_Enemy(enemy_pool, enemy_count, &Boss, *player);
 		Asteroids_Enemy_Check_Boss_Hp(&Boss, *player, enemy_pool, Boss.split_count);
 		Asteroid_Enemy_Check_Status(&Boss);
+
 		if(Asteroids_Collision_CheckCollision_Circle(player->collider, player->pos, Boss.collider, Boss.pos))
 			Asteroids_Player_Death(player);
 
@@ -110,7 +111,7 @@ void Asteroids_Enemy_Boss_Spawn(void)
 	Boss.velocity = CP_Vector_Normalize(Boss.velocity);
 	Boss.velocity = CP_Vector_Scale(Boss.velocity, Boss.speed);
 
-	Boss.sprite_type = CP_Random_RangeInt(0, ASTEROIDS_ENEMY_SPRITE_COUNT);
+	Boss.sprite_type = CP_Random_RangeInt(0, ASTEROIDS_ENEMY_SPRITE_COUNT - 1);
 
 	Boss.id = 101;
 	Boss.parent_id = 0;

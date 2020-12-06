@@ -102,6 +102,7 @@ void Asteroids_Init(void)
 // this function will be called repeatedly every frame
 void Asteroids_Update(void)
 {
+
 	// check input, update simulation, render etc.
 	Asteroids_Check_Input();
 	Asteroids_Pause_Update();
@@ -136,18 +137,18 @@ void Asteroids_Update(void)
 			CP_Engine_Run();
 		}
 
+
+		Asteroids_Final_Boss_Update(&player, enemy_pool, enemy_count, bullet_pool);
 		if (!endgame.end)
 		{
 			Asteroids_Obstacles_Update(enemy_pool, &player, enemy_count);
-			Asteroids_Boss_Update(&player, enemy_pool, enemy_count, bullet_pool);
 			Asteroids_Update_Powerups(&player);
 			Asteroids_Particle_Draw_Dot();
+			Asteroids_Boss_Update(&player, enemy_pool, enemy_count, bullet_pool);
 		}
-
 		Asteroids_Debug();
 		Asteroids_Draw();
 		Asteroids_Obstacles_Draw();
-		Asteroids_Final_Boss_Update(&player, enemy_pool, enemy_count, bullet_pool);
 		Asteroids_Draw_Scores();
 		Asteroids_Player_Update(&player);
 		Asteroids_UI_Update(player);
@@ -156,8 +157,6 @@ void Asteroids_Update(void)
 		{
 			Asteroids_Player_Draw(player_sprite, player.pos, player_width, player_height, player.alpha, player_rotation);
 		}
-
-		//draw_player_death_anim(&player);
 		Asteroids_Player_Death_VFX_Update(&player);
 	}
 }
