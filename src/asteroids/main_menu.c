@@ -181,7 +181,7 @@ float Asteroids_MainMenu_Rotation_Towards_Mouse()
 
 void Asteroids_MainMenu_Button_Init(void)
 {
-	float textSize = 40.0f;
+	float textSize = 45.0f;
 
 	float x1 = 0;
 	float x2 = (float)(WIN_WIDTH - BUTTON_WIDTH);
@@ -237,7 +237,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Text(&PrevPage, textSize, "Back");
 	Asteroids_Button_Set_Text(&UpgradesBtn, textSize, "Upgrades");
 	Asteroids_Button_Set_Text(&VolumeBtn, textSize, "Vol");
-	Asteroids_Button_Set_Text(&FullscreenBtn, 10, "Fullscreen");
+	Asteroids_Button_Set_Text(&FullscreenBtn, 35, "Fullscreen");
 
 	Asteroids_Button_Set_Position(&Play, pos1 );
 	Asteroids_Button_Set_Position(&Controls, pos2);

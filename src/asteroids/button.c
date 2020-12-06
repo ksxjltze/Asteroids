@@ -41,7 +41,7 @@ void Asteroids_Button_Set_Position(Button* button, CP_Vector position)
 
 void Asteroids_Button_Set_Text(Button* button, float textsize, char text[])
 {
-	textsize = 45.0f;
+	textsize = textsize;
 	button->textbox.text = text;
 	button->textbox.textSize = textsize;
 }

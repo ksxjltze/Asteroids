@@ -28,12 +28,13 @@ void Asteroids_Upgrades_Menu_Init(void)
 {
 	Asteroids_Upgrades_Menu_Init_MenuItems();
 	resetBtn = Asteroids_Button_Add_New_Button(200, 100);
-	Asteroids_Button_Set_Text(&resetBtn, 20, "Reset");
+	Asteroids_Button_Set_Text(&resetBtn, 40, "Reset");
 	Asteroids_Button_Set_Position(&resetBtn, CP_Vector_Set((float)WIN_WIDTH - resetBtn.width, (float)WIN_HEIGHT - resetBtn.height));
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Upgrades_Menu_Reset_Upgrades, &resetBtn);
 
 	stronkBtn = Asteroids_Button_Add_New_Button((float)WIN_WIDTH / 2, 150);
-	Asteroids_Button_Set_Text(&stronkBtn, 80, "STRONK");
+	Asteroids_Button_Set_Text(&stronkBtn, 180, "STRONK");
+	Asteroids_Button_Set_Text_Colors(&stronkBtn, CP_Color_Create(255, 0, 255, 255));
 	Asteroids_Button_Set_Position(&stronkBtn, CP_Vector_Set((float)WIN_WIDTH / 2 - stronkBtn.width / 2, (float)WIN_HEIGHT * 0.8f - stronkBtn.height));
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Upgrades_Menu_STRONK, &stronkBtn);
 
@@ -62,7 +63,8 @@ void Asteroids_Upgrades_Menu_Draw(void)
 {
 	CP_Settings_Background(CP_Color_Create(160, 160, 160, 255));
 	Asteroids_Button_Update(&resetBtn);
-	Asteroids_Button_Update(&stronkBtn);
+	if (DEBUG)
+		Asteroids_Button_Update(&stronkBtn);
 	Asteroids_Upgrades_Menu_Display_Balance(CP_Color_Create(0, 0, 0, 255), CP_Vector_Set(120, 30));
 }
 
@@ -175,7 +177,7 @@ UpgradeMenuItem Asteroids_Upgrades_Menu_Init_Upgrade_Info(Upgrade upgrade, CP_Ve
 	btnPos.x -= menuItem.btnBuy.width / 2;
 
 	Asteroids_Button_Set_Position(&menuItem.btnBuy, btnPos);
-	Asteroids_Button_Set_Text(&menuItem.btnBuy, 10, "BUY");
+	Asteroids_Button_Set_Text(&menuItem.btnBuy, 35, "BUY");
 	Asteroids_Button_Set_Callback_Pointer(callback, &menuItem.btnBuy);
 
 	return menuItem;
