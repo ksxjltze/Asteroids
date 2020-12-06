@@ -37,18 +37,15 @@
 #define POWERUP_COUNT 5
 
 Help_screen screen;
+Button BackBtn, NextBtn, ExitBtn;
+DisplayModel player;
+DisplayModel powerup;
 
 CP_Image Page_Image[LAST_PAGE];
 CP_Image playerModel[MODEL_COUNT];
 CP_Image powerupModel[POWERUP_COUNT];
 CP_Image enemyDisplay;
 
-Button BackBtn, NextBtn, ExitBtn;
-
-
-DisplayModel player;
-DisplayModel powerup;
-enum HELP_SCREEN { CONTROLS, MECHANICS, OBSTACLES, FINALBOSS, UPGRADES };
 
 static float current_lifespan = 0.5f;
 static float warning_lifespan = 0.5f;
@@ -60,6 +57,7 @@ static float respawnTimer2;
 
 Enemy helpEnemy[1];
 Enemy helpEnemy2[1];
+enum HELP_SCREEN { CONTROLS, MECHANICS, OBSTACLES, FINALBOSS, UPGRADES };
 
 void Asteroids_Help_Screen_Init(void)
 {

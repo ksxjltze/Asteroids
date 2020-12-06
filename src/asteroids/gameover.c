@@ -133,8 +133,9 @@ void Asteroids_GameOver_Update(void)
 
 	CP_Settings_TextSize(50.0f);
 
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 100));
-	CP_Graphics_DrawRect((float)WIN_WIDTH / 3 - 5.0f, (float)WIN_HEIGHT * 0.28f, 50.0f* 13, 50);
+	//CP_Settings_Fill(CP_Color_Create(255, 255, 255, 100));
+	//CP_Graphics_DrawRect((float)WIN_WIDTH / 3 - 5.0f, (float)WIN_HEIGHT * 0.28f, 50.0f* 13, 50);
+	Asteroids_GameOver_Draw_Player_TextBar();
 	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
 	CP_Font_DrawText(CURRENT_SCORE.name, (float)WIN_WIDTH / 2, (float)WIN_HEIGHT * 0.3f);
 
@@ -169,4 +170,18 @@ void Asteroids_GameOver_Exit(void)
 		Asteroids_Leaderboard_Insert_Score(CURRENT_SCORE);
 	}
 	Asteroids_Audio_Manager_Exit();
+}
+
+void Asteroids_GameOver_Draw_Player_TextBar(void)
+{
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 100));
+	if (!FULLSCREEN)
+	{
+		CP_Graphics_DrawRect((float)WIN_WIDTH / 3 - 80.0f, (float)WIN_HEIGHT * 0.28f, 50.0f * 11.7, 50);
+	}
+
+	if (FULLSCREEN)
+	{
+		CP_Graphics_DrawRect((float)WIN_WIDTH / 3 - 5.0f, (float)WIN_HEIGHT * 0.28f, 50.0f * 13, 50);
+	}
 }

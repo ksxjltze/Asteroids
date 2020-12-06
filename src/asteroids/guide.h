@@ -39,8 +39,11 @@ void Asteroids_Help_Initialize_Model_Sizing(void);
 /*				GUIDE SCREEN DRAWING FUNCTIONS */
 void Asteroids_Draw_Screen_Page(void);
 
+
+
 //				CONTROLS/MODELS PAGE
 void Asteroids_Help_Draw_Controls_Screen(void);
+
 
 
 //				OBSTACLE ENVIRONMENT PAGE

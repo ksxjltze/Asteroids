@@ -26,3 +26,6 @@ void Asteroids_GameOver_CheckInput(void);
 //BRYAN
 void Asteroids_GameOver_Init_Score(void);
 void Asteroids_GameOver_Display_Score(void);
+
+
+void Asteroids_GameOver_Draw_Player_TextBar(void);
