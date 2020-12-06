@@ -157,7 +157,7 @@ void Asteroids_Draw_MainMenu(void)
 		Asteroids_Button_Update(&VolumeBtn);
 		Asteroids_Button_Update(&FullscreenBtn);
 		Asteroids_MainMenu_Draw_Current_Ship(); 
-		Asteroids_Upgrades_Menu_Display_Balance(CP_Color_Create(255, 255, 255, 255), CP_Vector_Set(120, 30));
+		Asteroids_Upgrades_Menu_Display_Balance(CP_Color_Create(255, 255, 255, 255), CP_Vector_Set(100, 30));
 	}
 	else if (!mainMenu)
 	{
