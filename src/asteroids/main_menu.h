@@ -44,6 +44,7 @@ void Asteroids_Credits(void);
 void Asteroids_Display_LeaderBoard(void);
 void Asteroids_Exit_Screen(void);
 void Asteroids_Menu_Display_VolumeONOFF(void);
+
 //BACKGROUND
 void Asteroids_MainMenu_Update_Background(void);
 void Asteroids_MainMenu_Draw_Background(CP_Image image);
@@ -58,3 +59,6 @@ float Asteroids_MainMenu_Rotation_Towards_Mouse();
 
 //UPGRADES MENU
 void Asteroids_Menu_Display_UpgradesMenu(void);
+
+//SETTINGS
+void Asteroids_MainMenu_Set_FullScreen(void);
