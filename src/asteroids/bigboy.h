@@ -41,6 +41,7 @@ void Asteroids_Enemy_Boss_Spawn(void);
 void Asteroids_Enemy_Check_Boss_Hp(Enemy* boss, Player player, Enemy enemy_pool[], int count);
 void Asteroids_Enemy_Boss_Spawn_Interval(void);
 CP_Vector Asteroids_Boss_Random_Spawn_Location(void);
+CP_Vector Asteroids_Boss_Get_Position(void);
 
 
 

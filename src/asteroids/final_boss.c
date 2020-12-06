@@ -349,6 +349,19 @@ float Asteroids_Final_Boss_FireRate(void)
 		return 0;
 	}
 }
+
+CP_Vector Asteroids_Final_Boss_Get_Position()
+{
+	if (battleStarted)
+	{
+		if (final_boss.active)
+		{
+			return final_boss.pos;
+		}
+	}
+	return CP_Vector_Zero();
+}
+
 void Asteroids_Final_Boss_State_Manager(void)
 {
 	if (state_change)
