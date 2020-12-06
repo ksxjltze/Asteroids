@@ -23,6 +23,8 @@ const char* ASTEROIDS_ERROR_STR_MISSING_SPRITE = "ERROR - Missing Sprite";
 const float HURT_WINDOW = 0.01f; //seconds
 const float PLAYER_HURT_WINDOW = 1.0f; //seconds
 const float ASTEROIDS_INPUT_BACKSPACE_DELETE_SPEED = 0.05f;
+const int DEFAULT_WIN_WIDTH = 1280;
+const int DEFAULT_WIN_HEIGHT = 720;
 
 
 

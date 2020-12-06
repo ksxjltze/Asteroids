@@ -257,7 +257,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_DifficultyMenu, &DifficultyBtn);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_SkinMenu, &SkinsBtn);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_UpgradesMenu, &UpgradesBtn);
-	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_VolumeONOFF, &VolumeBtn);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_MainMenu_Set_FullScreen, &VolumeBtn);
 
 	DifficultyBtn.colors.idle = CP_Color_Create(255, 255, 0, 255);
 	Asteroids_Button_Set_Text_Colors(&DifficultyBtn, CP_Color_Create(0, 0, 0, 255));
@@ -376,4 +376,24 @@ void Asteroids_MainMenu_CheckInput(void)
 		case UPGRADES_MENU:
 			Asteroids_Upgrades_Menu_Update();
 	}
+}
+
+void Asteroids_MainMenu_Set_FullScreen()
+{
+	if (FULLSCREEN)
+	{
+		WIN_WIDTH = DEFAULT_WIN_WIDTH;
+		WIN_HEIGHT = DEFAULT_WIN_HEIGHT;
+		CP_System_SetWindowSize(WIN_WIDTH, WIN_HEIGHT);
+		FULLSCREEN = 0;
+	}
+	else
+	{
+		CP_System_Fullscreen();
+		WIN_WIDTH = CP_System_GetWindowWidth();
+		WIN_HEIGHT = CP_System_GetWindowHeight();
+		FULLSCREEN = 1;
+	}
+	Asteroids_MainMenu_Exit();
+	Asteroids_MainMenu_Init();
 }
