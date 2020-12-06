@@ -28,6 +28,8 @@ static bool scoreSaved;
 static char str_time_score[20];
 static char str_kill_score[20];
 
+#define NAME_TEXT_SIZE 50.0f
+
 //JIA KEAT
 void Asteroids_GameOver_Init(void)
 {
@@ -137,7 +139,7 @@ void Asteroids_GameOver_Update(void)
 	//CP_Graphics_DrawRect((float)WIN_WIDTH / 3 - 5.0f, (float)WIN_HEIGHT * 0.28f, 50.0f* 13, 50);
 	Asteroids_GameOver_Draw_Player_TextBar();
 	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
-	CP_Font_DrawText(CURRENT_SCORE.name, (float)WIN_WIDTH / 2, (float)WIN_HEIGHT * 0.3f);
+	CP_Font_DrawText(CURRENT_SCORE.name, (float)WIN_WIDTH / 2, (float)WIN_HEIGHT * 0.325f);
 
 	CP_Settings_TextSize(100.0f);
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
@@ -157,7 +159,7 @@ void Asteroids_GameOver_Init_Score(void)
 
 void Asteroids_GameOver_Display_Score(void)
 {
-	CP_Settings_TextSize(50.0f);
+	CP_Settings_TextSize(NAME_TEXT_SIZE);
 	CP_Font_DrawText(str_time_score, (float)WIN_WIDTH / 2, (float)WIN_HEIGHT * 0.4f);
 	CP_Font_DrawText(str_kill_score, (float)WIN_WIDTH / 2, (float)WIN_HEIGHT * 0.5f);
 }
@@ -175,13 +177,7 @@ void Asteroids_GameOver_Exit(void)
 void Asteroids_GameOver_Draw_Player_TextBar(void)
 {
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 100));
-	if (!FULLSCREEN)
-	{
-		CP_Graphics_DrawRect((float)WIN_WIDTH / 3 - 80.0f, (float)WIN_HEIGHT * 0.28f, 50.0f * 11.7, 50);
-	}
-
-	if (FULLSCREEN)
-	{
-		CP_Graphics_DrawRect((float)WIN_WIDTH / 3 - 5.0f, (float)WIN_HEIGHT * 0.28f, 50.0f * 13, 50);
-	}
+	float length = (float)strlen(CURRENT_SCORE.name);
+	float width = length * NAME_TEXT_SIZE / 2;
+	CP_Graphics_DrawRect((float)WIN_WIDTH / 2 - width /2, (float)WIN_HEIGHT * 0.325f - 25, width, 50);
 }
