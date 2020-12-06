@@ -16,3 +16,4 @@ void Asteroids_Audio_Manager_Start_Music(int id);
 void Asteroids_Audio_Manager_Stop_Music();
 void Asteroids_Audio_Manager_BGM_Boss_Battle_Play();
 void Asteroids_Audio_Manager_BGM_Credits_Play();
+void Asteroids_Audio_Manager_BGM_GameOver_Play();

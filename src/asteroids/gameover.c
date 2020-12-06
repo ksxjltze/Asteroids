@@ -55,6 +55,7 @@ void Asteroids_GameOver_Init(void)
 
 	Asteroids_Audio_Manager_Init();
 	Asteroids_Final_Boss_Reset();
+	Asteroids_Audio_Manager_BGM_GameOver_Play();
 }
 
 void Asteroids_GameOver_CheckInput()
