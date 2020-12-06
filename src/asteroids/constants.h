@@ -20,12 +20,16 @@
 /*				MISCALLENOUS CONSTANTS					*/
 extern int WIN_WIDTH;
 extern int WIN_HEIGHT;
+extern int FULLSCREEN;
 extern const CP_KEY ASTEROIDS_PAUSE_KEY;
 extern const float SPLASH_DURATION;
 extern const float ASTEROIDS_INPUT_BACKSPACE_DELETE_SPEED;
 extern const char* ASTEROIDS_ERROR_STR_MISSING_SPRITE;
 extern const float HURT_WINDOW;			//seconds
 extern const float PLAYER_HURT_WINDOW;
+extern const int DEFAULT_WIN_WIDTH;
+extern const int DEFAULT_WIN_HEIGHT;
+
 
 
 

@@ -52,6 +52,7 @@ CP_Image Warning;
 /*				OBSTACLE MAIN ENTRY FUNCTIONS			*/
 void Asteroids_Obstacles_Init(void);
 void Asteroids_Obstacles_Update(Enemy enemy_pool[], Player* player, int enemy_count);
+void Asteroids_Obstacles_Draw();
 
 
 /*				OBSTACLE SPAWNING RELATED FUNCTIONS		*/

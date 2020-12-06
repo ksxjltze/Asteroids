@@ -178,6 +178,16 @@ CP_Vector Asteroids_Boss_Random_Spawn_Location(void)
 
 	return position;
 }
+
+CP_Vector Asteroids_Boss_Get_Position(void)
+{
+	if (Boss.active)
+	{
+		return Boss.pos;
+	}
+	return CP_Vector_Zero();
+}
+
 void Asteroids_Enemy_Check_Boss_Hp(Enemy* boss, Player player, Enemy enemy_pool[], int split)
 {
 

@@ -46,6 +46,7 @@ CP_Image enemy_sprites[ASTEROIDS_ENEMY_SPRITE_COUNT];
 CP_Image enemy_hurt_sprites[ASTEROIDS_ENEMY_SPRITE_COUNT];
 CP_Image health_bar_sprite;
 CP_Image player_health_sprite;
+CP_Image background_image;
 
 //player
 float player_width;
@@ -94,7 +95,7 @@ void Asteroids_Init(void)
 	Asteroids_Final_Boss_Init();
 	Asteroids_Audio_Manager_Init();
 	Asteroids_Leaderboard_Init();
-	Asteroids_Audio_gameplaysound_Play();
+	Asteroids_Audio_Gameplay_Play();
 }
 
 // use CP_Engine_SetNextGameState to specify this function as the update function
@@ -115,6 +116,9 @@ void Asteroids_Update(void)
 		Asteroids_Enemy_Update(enemy_pool, enemy_count, player);
 		Asteroids_Bullet_Update(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, enemy_pool, enemy_count, player);
 
+		CP_Settings_Background(CP_Color_Create(8, 5, 20, 247));
+		CP_Vector pos = Asteroids_Utility_GetWindowMiddle();
+		CP_Image_Draw(background_image, pos.x, pos.y, (float)WIN_WIDTH, (float)WIN_HEIGHT, 255);
 
 		if (!debug_mode)
 			Asteroids_Collision_CheckCollision_Enemy_Player(enemy_pool, enemy_count, &player);
@@ -142,6 +146,7 @@ void Asteroids_Update(void)
 
 		Asteroids_Debug();
 		Asteroids_Draw();
+		Asteroids_Obstacles_Draw();
 		Asteroids_Final_Boss_Update(&player, enemy_pool, enemy_count, bullet_pool);
 		Asteroids_Draw_Scores();
 		Asteroids_Player_Update(&player);
@@ -225,6 +230,9 @@ void Asteroids_Sprites_Load()
 	// type of bullets assets
 
 	bullet_sprite = CP_Image_Load("./Assets/bullet_long.png");
+
+	// background image
+	background_image = CP_Image_Load("./Assets/starfield.png");
 
 	// multiple types of asteroids assets
 
@@ -346,8 +354,6 @@ void Asteroids_FPS_Draw()
 
 void Asteroids_Draw() 
 {
-	CP_Settings_Background(CP_Color_Create(8, 5, 20, 247));
-
 	Asteroids_Bullet_Draw(bullet_pool, ASTEROIDS_POOLSIZE_BULLETS, bullet_sprite, bullet_width, bullet_height);
 	Asteroids_Enemy_Draw(enemy_pool, ASTEROIDS_POOLSIZE_ENEMIES, enemy_sprites, enemy_hurt_sprites, enemy_width, enemy_height);
 }
@@ -410,6 +416,7 @@ void Asteroids_Exit(void)
 void Asteroids_Cleanup()
 {
 	CP_Image_Free(&player_sprite);
+	CP_Image_Free(&background_image);
 	CP_Image_Free(&bullet_sprite);
 	CP_Image_Free(&health_bar_sprite);
 	CP_Image_Free(&player_health_sprite);

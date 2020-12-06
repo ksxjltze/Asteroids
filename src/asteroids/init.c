@@ -10,11 +10,13 @@
 #include "init.h"
 #include <stdlib.h>
 #include <time.h>
+#include "constants.h"
 
 void Asteroids_Menu_Settings_Setup(int win_width, int win_height)
 {
 	CP_System_SetWindowSize(win_width, win_height);
-	//CP_System_Fullscreen();
+	if (FULLSCREEN)
+		CP_System_Fullscreen();
 
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
 	CP_Settings_ImageWrapMode(CP_IMAGE_WRAP_CLAMP);

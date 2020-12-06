@@ -136,6 +136,9 @@ void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_c
 
 void Asteroids_Enemy_Final_Boss_Spawn()
 {
+	if (battleStarted)
+		return;
+
 	Asteroids_Audio_Manager_BGM_Boss_Battle_Play();
 	Asteroids_Enemy_Disable_Spawn(); // stop spawning of random asteroids
 
@@ -346,6 +349,19 @@ float Asteroids_Final_Boss_FireRate(void)
 		return 0;
 	}
 }
+
+CP_Vector Asteroids_Final_Boss_Get_Position()
+{
+	if (battleStarted)
+	{
+		if (final_boss.active)
+		{
+			return final_boss.pos;
+		}
+	}
+	return CP_Vector_Zero();
+}
+
 void Asteroids_Final_Boss_State_Manager(void)
 {
 	if (state_change)
@@ -500,6 +516,7 @@ void Asteroids_Final_Boss_Death_Screen(Enemy Final_Boss, Player player)
 void Asteroids_Continue_Game(void)
 {
 	endgame.end = false;
+	Asteroids_Audio_Manager_Stop_Music();
 	Asteroids_Enemy_Enable_Spawn();
 	Asteroids_Final_Boss_Reset();
 }

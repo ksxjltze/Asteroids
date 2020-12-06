@@ -18,6 +18,7 @@
 #include "currency.h"
 #include "file_manager.h"
 #include "button.h"
+#include "audio_manager.h"
 
 UpgradeMenuItem menuItems[NUM_UPGRADES];
 Button resetBtn;
@@ -41,6 +42,8 @@ void Asteroids_Upgrades_Menu_Init(void)
 		}
 		Asteroids_Upgrades_Menu_Create_MenuItem(i + 1, pos, &Asteroids_Upgrades_Menu_Upgrade_Add_Level);
 	}
+
+	Asteroids_Audio_Manager_BGM_Shop_Play();
 }
 
 void Asteroids_Upgrades_Menu_Update(void)
