@@ -28,6 +28,7 @@ CP_Sound sfx_EZCLAP;
 CP_Sound bgm_BossBattle;
 CP_Sound bgm_Credits;
 CP_Sound bgm_GameOver;
+CP_Sound bgm_Shop;
 
 CP_Image VOLbutton;
 
@@ -35,17 +36,18 @@ static int clapCount = 0;
 static float clapTimer = 0.0f;
 
 enum Asteroids_Sound_Group {MUSIC, SFX};
-enum Asteroids_Music_ID { BGM_BOSS_BATTLE, BGM_CREDITS, BGM_GAMEOVER};
+enum Asteroids_Music_ID { BGM_BOSS_BATTLE, BGM_CREDITS, BGM_GAMEOVER, BGM_SHOP};
 
 void Asteroids_Audio_Manager_Init(void)
 {
 	sfx_ButtonHover = CP_Sound_Load("./Assets/HiHat.wav");
-	//sfx_bgm_MainMenu = CP_Sound_LoadMusic("./Assets/menu_bgm.wav");
-	sfx_bgm_MainMenu = CP_Sound_LoadMusic("./Assets/bgm_main_menu.wav");
+	//sfx_bgm_MainMenu = CP_Sound_LoadMusic("./Assets/BGM/menu_bgm.wav");
+	sfx_bgm_MainMenu = CP_Sound_LoadMusic("./Assets/BGM/bgm_main_menu.wav");
 	sfx_EZCLAP = CP_Sound_Load("./Assets/Clap.wav");
-	bgm_BossBattle = CP_Sound_Load("./Assets/bossBattle.wav");
-	bgm_Credits = CP_Sound_Load("./Assets/credits_bgm.wav");
-	bgm_GameOver = CP_Sound_Load("./Assets/gg.wav");
+	bgm_BossBattle = CP_Sound_Load("./Assets/BGM/bossBattle.wav");
+	bgm_Credits = CP_Sound_Load("./Assets/BGM/credits_bgm.wav");
+	bgm_GameOver = CP_Sound_Load("./Assets/BGM/gg.wav");
+	bgm_Shop = CP_Sound_Load("./Assets/BGM/shopMusic.wav");
 	sfx_explosions = CP_Sound_Load("./Assets/SFX/explosion_sound.mp3");
 	sfx_gameplaysound = CP_Sound_Load("./Assets/SFX/gameplaysound.wav");
 	sfx_bullet = CP_Sound_Load("./Assets/SFX/laser.wav");
@@ -89,6 +91,10 @@ void Asteroids_Audio_Manager_Start_Music(int id)
 		if (bgm_GameOver)
 			CP_Sound_PlayAdvanced(bgm_GameOver, BGM_VOL, 1.0f, 1, MUSIC);
 		break;
+	case BGM_SHOP:
+		if (bgm_Shop)
+			CP_Sound_PlayAdvanced(bgm_Shop, BGM_VOL, 1.0f, 1, MUSIC);
+		break;
 	}
 }
 
@@ -100,6 +106,11 @@ void Asteroids_Audio_Manager_Stop_Music()
 void Asteroids_Audio_Manager_BGM_Boss_Battle_Play()
 {
 	Asteroids_Audio_Manager_Start_Music(BGM_BOSS_BATTLE);
+}
+
+void Asteroids_Audio_Manager_BGM_Shop_Play()
+{
+	Asteroids_Audio_Manager_Start_Music(BGM_SHOP);
 }
 
 void Asteroids_Audio_MainMenu_BGM_Play(void)
@@ -170,6 +181,7 @@ void Asteroids_Audio_Manager_Exit(void)
 	CP_Sound_Free(bgm_BossBattle);
 	CP_Sound_Free(bgm_Credits);
 	CP_Sound_Free(bgm_GameOver);
+	CP_Sound_Free(bgm_Shop);
 }
 
 void Asteroids_Audio_EZCLAP_Play(void)
