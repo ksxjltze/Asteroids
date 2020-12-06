@@ -21,6 +21,14 @@ typedef struct Help_Screen
 	float width, height;
 }Help_screen;
 
+typedef struct DisplayModel
+{
+	float x, y;
+	float width, height;
+	float offsetX, offsetY;
+}DisplayModel;
+
+
 void Asteroids_Help_Screen_Init(void);
 void Asteroids_Help_Screen_Update(void);
 void Asteroids_Help_Screen_Exit(void);
@@ -39,3 +47,4 @@ void Asteroids_Help_Sreen_Draw_Warning(void);
 
 void Asteroids_Help_Menu_Spawn_Static_Enemies(void);
 void Asteroids_Help_Update_Enemies(void);
+void Asteroids_Help_Initialize_Model_Sizing(void);
