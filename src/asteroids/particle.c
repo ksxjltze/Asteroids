@@ -149,7 +149,7 @@ void Asteroids_Particles_Player_Death_Particle_Init()
 
 void Asteroids_Particle_Player_Death_Particle_Spawn(CP_Vector player_pos)
 {
-	Spawn_Particle_Static(player_pos, 1000, CP_Vector_Set(-100, -100), CP_Vector_Set(100, 100), 0.2f, death_particle.death_sprite, 10.0f);
+	Spawn_Particle_Static(player_pos, 100, CP_Vector_Set(-100, -100), CP_Vector_Set(100, 100), 0.2f, death_particle.death_sprite, 10.0f);
 }
 
 //void player_death_init()
