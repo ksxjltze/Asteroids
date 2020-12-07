@@ -2,7 +2,7 @@
 // file:	player.c
 // author:	Lee Jia Keat
 // contributors: Dania Mohd (Particle Effects and Animation)
-// email:	l.jiakeat@digipen.edu, 
+// email:	l.jiakeat@digipen.edu,  nuruldania.b@digipen.edu
 //
 // brief:	Player entity source file.
 //			Contains functions for player functionality.

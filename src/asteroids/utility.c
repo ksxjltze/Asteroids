@@ -1,8 +1,9 @@
 //---------------------------------------------------------
 // file:	utility.c
 // author:	Lee Jia Keat
+// contributors: Bryan Koh Yan Wei
 //
-// email:	l.jiakeat@digipen.edu, 
+// email:	l.jiakeat@digipen.edu, yanweibryan.koh@digipen.edu
 //
 // brief:	Utility file which contains helper functions used often in the code base.
 //			

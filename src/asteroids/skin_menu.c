@@ -2,7 +2,7 @@
 // file:	skin_menu.c
 // author:	Lee Jia Keat
 // contributors: Liu Ke (Additional Skins)
-// email:	l.jiakeat@digipen.edu, 
+// email:	l.jiakeat@digipen.edu, ke.liu@digipen.edu
 //
 // brief:	Skin menu source file.
 //			Handles Initialization, Loading, Selecting and Saving of skins.

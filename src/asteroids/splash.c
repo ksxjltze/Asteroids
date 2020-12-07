@@ -1,7 +1,8 @@
 //---------------------------------------------------------
 // file:	splash.c
 // author:	Lee Jia Keat
-// email:	l.jiakeat@digipen.edu, 
+// contributions: Bryan Koh Yan Wei
+// email:	l.jiakeat@digipen.edu, yanweibryan.koh@digipen.edu 
 //
 // brief:	Splash screen source file.
 //			Draws the DigiPen splash logo for a specified duration.

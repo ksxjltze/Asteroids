@@ -3,7 +3,7 @@
 // author:	Dania Mohd
 // 
 // contributors: Lee Jia Keat(death_particle), Bryan Koh Yan Wei(DeathP)
-// email:	(dania's email), l.jiakeat@digipen.edu, yanweibryan.koh@digipen.edu
+// email:	nuruldania.b@digipen.edu, l.jiakeat@digipen.edu, yanweibryan.koh@digipen.edu
 //
 // brief:	Simple particle system.
 //			Handles initialization, spawning, updating and destroying of particles.

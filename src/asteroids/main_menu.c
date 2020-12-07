@@ -2,7 +2,7 @@
 // file:	main_menu.c
 // author:	Bryan Koh Yan Wei
 // contributors: Lee Jia Keat (Difficulty, Skin, Leaderboard and Upgrade Menus), Liu Ke (UI Design)
-// email:	, l.jiakeat@digipen.edu, 
+// email:	yanweibryan.koh@digipen.edu, l.jiakeat@digipen.edu, ke.liu@digipen.edu
 //
 // brief:	Main menu source file.
 //			Handles Initialization, Updating and Drawing of the Main Menu/Title Screen.

@@ -2,7 +2,7 @@
 // file:	gameover.c
 // author:	Lee Jia Keat
 // contributors: Bryan Koh Yan Wei (Display score)
-// email:	l.jiakeat@digipen.edu, 
+// email:	l.jiakeat@digipen.edu, yanweibryan.koh@digipen.edu
 // brief:	Game Over scene source file, handles the game over scene.
 //			Displays the player's score (Asteroids destroyed and time survived)
 //			and provides buttons to retry the game or exit to title screen.

@@ -1,3 +1,14 @@
+//---------------------------------------------------------
+// file:	powerup_interaction.c
+// author:	Bryan Koh Yan Wei
+//
+// email:	yanweibryan.koh@digipen.edu
+//			
+// brief:	Code relating to the powerup interaction.
+//
+//
+// Copyright  2020 DigiPen, All rights reserved.
+//---------------------------------------------------------
 #include "powerup_interaction.h"
 
 CP_Image Invulnerability;
