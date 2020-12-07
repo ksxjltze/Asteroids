@@ -54,7 +54,7 @@ void Asteroids_Boss_Init(CP_Image EnemySprite[], CP_Image EnemyHurtSprite[], flo
 	boss_width = enemy_width;
 	death_ring_dia = 1;
 
-	boss_interval = 1.0f;//ASTEROIDS_ENEMY_BIGBOY_SPAWN_INTERVAL;
+	boss_interval =  ASTEROIDS_ENEMY_BIGBOY_SPAWN_INTERVAL;
 	
 	DeathPos = CP_Vector_Zero();
 	Boss.killed = false;
