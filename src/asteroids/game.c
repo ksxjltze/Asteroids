@@ -292,15 +292,19 @@ void Asteroids_Check_Input()
 
 	Asteroids_Player_Rotate(shoot_direction);
 
-	if (CP_Input_KeyDown(KEY_GRAVE_ACCENT))
+	if (DEBUG)
 	{
-		if (!debug_mode)
-			debug_mode = !debug_mode;
-	}
+		if (CP_Input_KeyDown(KEY_GRAVE_ACCENT))
+		{
+			if (!debug_mode)
+				debug_mode = !debug_mode;
+		}
 
-	if (CP_Input_KeyTriggered(KEY_F1))
-	{
-		debug_mode = !debug_mode;
+		if (CP_Input_KeyTriggered(KEY_F1))
+		{
+			debug_mode = !debug_mode;
+		}
+
 	}
 
 	if (DIFFICULTY_OPTION < HARD)
