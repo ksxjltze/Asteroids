@@ -38,7 +38,7 @@
 
 Help_screen screen;
 Button BackBtn, NextBtn, ExitBtn;
-DisplayModel player;
+DisplayModel displayPlayer;
 DisplayModel powerup;
 
 CP_Image Page_Image[LAST_PAGE];
@@ -202,10 +202,10 @@ void Asteroids_Help_Draw_Controls_Screen(void)
 	rotation += (rotation_rate * CP_System_GetDt());
 	for (int i = 0; i < MODEL_COUNT; i++)
 	{
-		float y = player.y;
+		float y = displayPlayer.y;
 		if (i % 2 != 0)
-			y = player.y + player.offsetY;
-		CP_Image_DrawAdvanced(playerModel[i], player.x + (player.offsetX * i), y, player.width, player.height, 255, rotation);
+			y = displayPlayer.y + displayPlayer.offsetY;
+		CP_Image_DrawAdvanced(playerModel[i], displayPlayer.x + (displayPlayer.offsetX * i), y, displayPlayer.width, displayPlayer.height, 255, rotation);
 	}
 	for (int i = 0; i < POWERUP_COUNT; i++)
 	{
@@ -312,12 +312,12 @@ void Asteroids_Help_Initialize_Model_Sizing(void)
 {
 	if (FULLSCREEN)
 	{
-		player.height = 210.0f;
-		player.width = 130.0f;
-		player.x = 100.0f;
-		player.y = 200.0f;
-		player.offsetX = 175.0f;
-		player.offsetY = 175.0f;
+		displayPlayer.height = 210.0f;
+		displayPlayer.width = 130.0f;
+		displayPlayer.x = 100.0f;
+		displayPlayer.y = 200.0f;
+		displayPlayer.offsetX = 175.0f;
+		displayPlayer.offsetY = 175.0f;
 
 		powerup.height = 100.0f;
 		powerup.x = 110.0f;
@@ -328,12 +328,12 @@ void Asteroids_Help_Initialize_Model_Sizing(void)
 
 	if (!FULLSCREEN)
 	{
-		player.height = 130.0f;
-		player.width = 135.0f;
-		player.x = 75.0f;
-		player.y = 125.0f;
-		player.offsetX = 125.0f;
-		player.offsetY = 120.0f;
+		displayPlayer.height = 130.0f;
+		displayPlayer.width = 135.0f;
+		displayPlayer.x = 75.0f;
+		displayPlayer.y = 125.0f;
+		displayPlayer.offsetX = 125.0f;
+		displayPlayer.offsetY = 120.0f;
 
 		powerup.height = 65.0f;
 		powerup.x = 75.0f;

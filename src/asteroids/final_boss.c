@@ -125,8 +125,12 @@ void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_c
 		}
 		Asteroids_Final_Boss_Draw();
 		Asteroids_Final_Boss_Hp_Draw(final_boss);
-		if (Asteroids_Collision_CheckCollision_Circle(player->collider, player->pos, final_boss.collider, final_boss.pos))
-			Asteroids_Player_Death(player);
+		if (player->active)
+		{
+			if (Asteroids_Collision_CheckCollision_Circle(player->collider, player->pos, final_boss.collider, final_boss.pos))
+				Asteroids_Player_Death(player);
+
+		}
 	}
 	if (!battleStarted)
 	{
