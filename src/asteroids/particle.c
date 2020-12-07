@@ -152,24 +152,6 @@ void Asteroids_Particle_Player_Death_Particle_Spawn(CP_Vector player_pos)
 	Spawn_Particle_Static(player_pos, 100, CP_Vector_Set(-100, -100), CP_Vector_Set(100, 100), 0.2f, death_particle.death_sprite, 10.0f);
 }
 
-//void player_death_init()
-//{
-//	for (int i = 0; i < deathParticles; i++)
-//	{
-//		death.sprite[i] = CP_Image_Load("./Assets/reddot.png");
-//		death.position[i] = CP_Vector_Zero();
-//		death.velocity[i].x = CP_Random_RangeFloat(-40, 40);
-//		death.velocity[i].y = CP_Random_RangeFloat(-40, 40);
-//	}
-//	death.dimensions.x = (float)CP_Image_GetWidth(death.sprite[0]) * 0.5f;
-//	death.dimensions.y = (float)CP_Image_GetHeight(death.sprite[0]) * 0.5f;
-//	death.currentLifespan = 5;
-//	death.maxLifespan = 5;
-//	death.enabled = false;
-//
-//}
-
-
 void draw_particle()
 {
 	for (int i = 0; i < sizeof(particle) / sizeof(particle[0]); i++)
@@ -245,97 +227,6 @@ void Spawn_Particle_Static(CP_Vector position, int particle_count, CP_Vector min
 	}
 }
 
-//void player_death_particle_velocity(CP_Vector position, int particles, float min_velocity,
-//	float max_velocity, float size)
-//{
-//	CP_Vector velocity;
-//	for (int i = 0; i < sizeof(death_particles) / sizeof(death_particles[0]); i++)
-//	{
-//		if (particles <= 0)
-//			return;
-//
-//		if (death_particles[i].enabled == 0)
-//		{
-//			velocity.x = CP_Random_RangeFloat(min_velocity, max_velocity);
-//			velocity.y = CP_Random_RangeFloat(min_velocity, max_velocity);
-//			death_particles[i].enabled = 1;
-//			death_particles[i].posX = position.x;
-//			death_particles[i].posY = position.y;
-//			death_particles[i].velocity = velocity;
-//			death_particles[i].life = death_particles[i].sprite.duration;
-//			death_particles[i].lifetime = death_particles[i].life;
-//			//smoke_particle[i].lifetime = 999;
-//			death_particles[i].size = size;
-//			--particles;
-//		}
-//	}
-//}
-
-void smoke_velocity(CP_Vector position, int particles, float min_velocity, 
-	float max_velocity, float size)
-{
-	CP_Vector velocity;
-	for (int i = 0; i < sizeof(smoke_particle) / sizeof(smoke_particle[0]); i++)
-	{
-		if (particles <= 0)
-			return;
-
-		if (smoke_particle[i].enabled == 0)
-		{
-			velocity.x = CP_Random_RangeFloat(min_velocity, max_velocity);
-			velocity.y = CP_Random_RangeFloat(min_velocity, max_velocity);
-			smoke_particle[i].enabled = 1;
-			smoke_particle[i].posX = position.x;
-			smoke_particle[i].posY = position.y;
-			smoke_particle[i].velocity = velocity;
-			smoke_particle[i].life = smoke_particle[i].sprite.duration;
-			smoke_particle[i].lifetime = smoke_particle[i].life;
-			//smoke_particle[i].lifetime = 999;
-			smoke_particle[i].size = size;
-			--particles;
-		}
-	}
-}
-
-//void spawn_death_particles(CP_Vector position, int particles, float min_velocity,
-//	float max_velocity, float size)
-//{
-//	Spawn_Particle_Static(position, particles, min_velocity, max_velocity, size, death.sprite, DEATH, false);
-//}
-
-//void Asteroids_Particles_Spawn_Player_Death_Particles(CP_Vector pos)
-//{
-//	
-//}
-
-//void draw_player_death_anim(Player* player)
-//{
-//	//CP_Vector shit = Asteroids_Utility_GetWindowMiddle();
-//	//CP_Image_Draw(death.sprite[0], shit.x, shit.y, 200, 200, 255);
-//	if (death.enabled)
-//	{
-//		//printf("test\n");
-//		float dt = CP_System_GetDt();
-//		death.currentLifespan -= dt;
-//		if (death.currentLifespan >= 0)
-//		{
-//			for (int i = 0; i < deathParticles; i++)
-//			{
-//				death.position[i] = player->pos;
-//				death.velocity[i] = CP_Vector_Normalize(death.velocity[i]);
-//				death.velocity[i] = CP_Vector_Scale(death.velocity[i], 300.0f * dt);
-//				death.position[i] = CP_Vector_Add(death.position[i], death.velocity[i]);
-//				CP_Image_Draw(death.sprite[i], death.position[i].x, death.position[i].y, death.dimensions.x, death.dimensions.y, 255); // (int)(death.currentLifespan/death.maxLifespan) *
-//				//printf("%.2f %.2f\n", death.position[i].x, death.position[i].y);
-//			}
-//		}
-//		if (death.currentLifespan <= 0)
-//		{
-//			player->active = 0;
-//		}
-//	}
-//}
-
 void spawn_explosion_anim(CP_Vector position, float size)
 {
 	int particles = 1;
@@ -410,22 +301,9 @@ void particle_update()
 void smoke_update(CP_Vector rotation, CP_Vector playerPos)
 {
 	rotation = CP_Vector_Scale(rotation, 40);
-	//CP_Vector position = CP_Vector_Set(smoke_ptr->posX, smoke_ptr->posY);
 	playerPos = CP_Vector_Subtract(playerPos, rotation);
 	smoke_ptr->posX = playerPos.x;
 	smoke_ptr->posY = playerPos.y;
-}
-
-void particle_despawning(Particle* p)
-{
-	p -> posX = 0;
-	p->posY = 0;
-	p->velocity.x = 0;
-	p->velocity.y = 0;
-	p->enabled = 0;
-	p->lifetime = 0;
-	p->sprite.time = 0;
-	p->sprite.keyframe = 0;
 }
 
 void Asteroids_Player_Death_VFX_Spawn(Player* player)
