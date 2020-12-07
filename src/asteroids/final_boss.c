@@ -118,8 +118,9 @@ void Asteroids_Final_Boss_Update(Player* player, Enemy enemy_pool[], int enemy_c
 		Asteroids_Final_Boss_State_Change_Manager();
 		Asteroids_Final_Boss_State_Manager();
 		Asteroid_Enemy_Check_Status(&final_boss);
+
 		Asteroids_Enemy_Check_Boss_Hp(&final_boss, *player, enemy_pool, final_boss.split_count);
-		for (int i = 0; i < ASTEROIDS_POOLSIZE_BULLETS; i++)
+		for (int i = 0; i < ASTEROIDS_POOLSIZE_BULLETS; i++) // player bullets
 		{
 			bullet_pool[i] = Asteroids_Collision_CheckCollision_EnemyBoss_Bullet(&final_boss, bullet_pool[i], player);
 		}

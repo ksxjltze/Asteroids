@@ -72,6 +72,7 @@ void Asteroids_Enemy_Init(Enemy enemy_pool[], int count, float enemy_width, floa
 void Asteroids_Enemy_Update(Enemy enemy_pool[], int count, Player player)
 {
 	float dt = CP_System_GetDt();
+
 	for (int i = 0; i < count; i++)
 	{
 		Enemy* enemy = &enemy_pool[i];
