@@ -24,7 +24,7 @@
 #define BUTTON_WIDTH 400.0f
 #define BUTTON_HEIGHT 100.0f
 
-bool status;
+bool mainMenu;
 static int overlay_type;
 
 bool Playmusic = true;
@@ -42,7 +42,7 @@ static CP_Color textColor;
 static float menuTextSize;
 static char* menuText = "Asteroids";
 
-Button Credits, Play, Quit, Leaderboard, Controls, ExitBtn, DifficultyBtn, SkinsBtn, NextPage, PrevPage, UpgradesBtn, VolumeBtn, FullscreenBtn;
+Button Credits, Play, Quit, Leaderboard, Controls, ExitBtn, DifficultyBtn, SkinsBtn, NextPage, PrevPage, UpgradesBtn, VolumeBtn, FullscreenBtn, lmeo;
 CP_Image Control_screen;
 CP_Image Control_screen2;
 CP_Image Credits_screen;
@@ -60,7 +60,7 @@ static CP_Sound bgm;
 
 void Asteroids_MainMenu_Init(void)
 {
-	status = true;
+	mainMenu = true;
 	page1 = true;
 	page2 = false;
 
@@ -127,7 +127,7 @@ void Asteroids_MainMenu_Update_Background(void)
 
 void Asteroids_MainMenu_Draw_Background(CP_Image image)
 {
-	if (!status)
+	if (!mainMenu)
 		return;
 
 	CP_Image_Draw(image, backgroundPos.x, backgroundPos.y, (float)WIN_WIDTH, (float)WIN_HEIGHT, 255);
@@ -143,7 +143,7 @@ void Asteroids_Draw_MainMenu(void)
 	CP_Settings_Fill(textColor);
 	CP_Settings_TextSize(menuTextSize);
 
-	if (status)
+	if (mainMenu)
 	{
 		CP_Font_DrawTextBox(menuText, 0, 50.0f + menuTextSize / 2, (float)WIN_WIDTH);
 		Asteroids_Button_Update(&Play);
@@ -157,14 +157,14 @@ void Asteroids_Draw_MainMenu(void)
 		Asteroids_Button_Update(&VolumeBtn);
 		Asteroids_Button_Update(&FullscreenBtn);
 		Asteroids_MainMenu_Draw_Current_Ship(); 
-		Asteroids_Upgrades_Menu_Display_Balance(CP_Color_Create(255, 255, 255, 255), CP_Vector_Set(120, 30));
+		Asteroids_Upgrades_Menu_Display_Balance(CP_Color_Create(255, 255, 255, 255), CP_Vector_Set(100, 30));
 	}
-	else if (!status)
+	else if (!mainMenu)
 	{
 		Asteroids_MainMenu_CheckInput();
-		Asteroids_Button_Update(&ExitBtn);
+		if(overlay_type != CREDITS_SCREEN)
+			Asteroids_Button_Update(&ExitBtn);
 	}
-
 }
 
 void Asteroids_MainMenu_Draw_Current_Ship()
@@ -224,12 +224,14 @@ void Asteroids_MainMenu_Button_Init(void)
 	UpgradesBtn = Asteroids_Button_Add_New_Button(BUTTON_WIDTH - 100.0f , BUTTON_HEIGHT - 40.0f);
 	VolumeBtn = Asteroids_Button_Add_New_Image_Button(volumeBtnImage, 75 , 75);
 	FullscreenBtn = Asteroids_Button_Add_New_Button(200, 50);
+	lmeo = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 
 	Asteroids_Button_Set_Text(&Play, textSize, "Play");
 	Asteroids_Button_Set_Text(&Controls, textSize, "Guide");
 	Asteroids_Button_Set_Text(&Credits, textSize, "Credits");
 	Asteroids_Button_Set_Text(&Leaderboard, textSize, "Leaderboard");
 	Asteroids_Button_Set_Text(&Quit, textSize, "Quit");
+	Asteroids_Button_Set_Text(&lmeo, textSize, "Exit");
 	Asteroids_Button_Set_Text(&ExitBtn, textSize, "Exit");
 	Asteroids_Button_Set_Text(&DifficultyBtn, textSize, "Difficulty");
 	Asteroids_Button_Set_Text(&SkinsBtn, textSize, "Skins");
@@ -238,6 +240,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Text(&UpgradesBtn, textSize, "Upgrades");
 	Asteroids_Button_Set_Text(&VolumeBtn, textSize, "Vol");
 	Asteroids_Button_Set_Text(&FullscreenBtn, 35, "Fullscreen");
+
 
 	Asteroids_Button_Set_Position(&Play, pos1 );
 	Asteroids_Button_Set_Position(&Controls, pos2);
@@ -252,6 +255,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Position(&UpgradesBtn, upgradesPos);
 	Asteroids_Button_Set_Position(&VolumeBtn, pos11);
 	Asteroids_Button_Set_Position(&FullscreenBtn, fullscreenPos);
+	Asteroids_Button_Set_Position(&lmeo, CP_Vector_Set(0, (float)WIN_HEIGHT - BUTTON_HEIGHT));
 
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Play_Game, &Play);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_MainMenu_Guide, &Controls);
@@ -259,11 +263,13 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Display_LeaderBoard, &Leaderboard);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_QuitGame, &Quit);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Exit_Screen, &ExitBtn);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_Exit_Screen, &lmeo);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_DifficultyMenu, &DifficultyBtn);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_SkinMenu, &SkinsBtn);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_UpgradesMenu, &UpgradesBtn);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_VolumeONOFF, &VolumeBtn);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_MainMenu_Set_FullScreen, &FullscreenBtn);
+
 
 	DifficultyBtn.colors.idle = CP_Color_Create(255, 255, 0, 255);
 	Asteroids_Button_Set_Text_Colors(&DifficultyBtn, CP_Color_Create(0, 0, 0, 255));
@@ -274,7 +280,7 @@ void Asteroids_MainMenu_Button_Init(void)
 
 void Asteroids_Menu_Display_UpgradesMenu(void)
 {
-	status = false;
+	mainMenu = false;
 	overlay_type = UPGRADES_MENU;
 	Asteroids_Upgrades_Menu_Init();
 }
@@ -297,13 +303,13 @@ void Asteroids_Menu_Display_VolumeONOFF(void)
 
 void Asteroids_Menu_Display_SkinMenu(void)
 {
-	status = false;
+	mainMenu = false;
 	overlay_type = SKIN_MENU;
 }
 
 void Asteroids_Menu_Display_DifficultyMenu(void)
 {
-	status = false;
+	mainMenu = false;
 	overlay_type = DIFFICULTY_MENU;
 	Asteroids_Difficulty_Menu_Init();
 }
@@ -321,7 +327,7 @@ void Asteroids_QuitGame(void)
 void Asteroids_Credits_Enter(void)
 {
 	overlay_type = CREDITS_SCREEN;
-	status = false;
+	mainMenu = false;
 	Asteroids_Audio_Manager_BGM_Credits_Play();
 }
 
@@ -333,13 +339,13 @@ void Asteroids_Credits(void)
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 20));
 	CP_Settings_TextSize(50.0f);
 	CP_Font_DrawText("Ty for carry", ((float)WIN_WIDTH / 2 + 350.0f), (float)(WIN_HEIGHT * 0.28));
-	Asteroids_Button_Update(&ExitBtn);
+	Asteroids_Button_Update(&lmeo);
 }
 
 void Asteroids_Display_LeaderBoard(void)
 {
 	overlay_type = LEADERBOARD_SCREEN;
-	status = false;
+	mainMenu = false;
 	Asteroids_Leaderboard_Init();
 
 }
@@ -351,7 +357,7 @@ void Asteroids_MainMenu_Guide(void)
 void Asteroids_Exit_Screen(void)
 {
 	overlay_type = 0;
-	status = true;
+	mainMenu = true;
 
 	Asteroids_Audio_MainMenu_BGM_Play();
 

@@ -121,6 +121,9 @@ void Asteroids_Collision_Exit()
 
 void Asteroids_Collision_CheckCollision_Enemy_Player(Enemy enemy_pool[], int enemy_count, Player* player)
 {
+	if (!player->active)
+		return;
+
 	for (int i = 0; i < enemy_count; i++)
 	{
 		if (!enemy_pool[i].active)
