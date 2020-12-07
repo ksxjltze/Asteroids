@@ -177,9 +177,12 @@ bool Asteroids_Upgrade_Check_Prerequisite_Status(unsigned int id)
 	{
 		if (upgrades[i].id != NONE)
 		{
-			if (upgrades[i].level > 0)
+			if (upgrades[i].id == id)
 			{
-				return true;
+				if (upgrades[i].level > 0)
+				{
+					return true;
+				}
 			}
 		}
 	}
