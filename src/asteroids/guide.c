@@ -95,7 +95,6 @@ void Asteroids_Help_Screen_Init(void)
 	screen.width = (float)CP_System_GetWindowWidth();
 	screen.height = (float)CP_System_GetWindowHeight();
 	screen.pos = Asteroids_Utility_GetWindowMiddle();
-	screen.Image = Page_Image[screen.overlay];
 
 	BackBtn = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	NextBtn = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
