@@ -17,7 +17,6 @@ typedef struct Help_Screen
 {
 	int overlay;
 	CP_Vector pos;
-	CP_Image Image;
 	float width, height;
 }Help_screen;
 

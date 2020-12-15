@@ -40,7 +40,6 @@ void Asteroids_Play_Game(void);
 void Asteroids_MainMenu_Guide(void);
 void Asteroids_QuitGame(void);
 void Asteroids_Credits_Enter(void);
-void Asteroids_Credits(void);
 void Asteroids_Display_LeaderBoard(void);
 void Asteroids_Exit_Screen(void);
 void Asteroids_Menu_Display_VolumeONOFF(void);

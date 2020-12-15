@@ -20,6 +20,7 @@
 #include "leaderboard.h"
 #include <stdbool.h>
 #include "guide.h"
+#include "credits.h"
 
 #define BUTTON_WIDTH 400.0f
 #define BUTTON_HEIGHT 100.0f
@@ -42,13 +43,12 @@ static CP_Color textColor;
 static float menuTextSize;
 static char* menuText = "Asteroids";
 
-Button Credits, Play, Quit, Leaderboard, Controls, ExitBtn, DifficultyBtn, SkinsBtn, NextPage, PrevPage, UpgradesBtn, VolumeBtn, FullscreenBtn, lmeo;
+Button Credits, Play, Quit, Leaderboard, Guide, ExitBtn, DifficultyBtn, SkinsBtn, NextPage, PrevPage, UpgradesBtn, VolumeBtn, FullscreenBtn;
 CP_Image Control_screen;
 CP_Image Control_screen2;
 CP_Image Credits_screen;
 CP_Image Chosenship;
 CP_Image volumeBtnImage;
-CP_Image Tutorialbutton;
 
 CP_Image backgroundImage;
 
@@ -67,8 +67,6 @@ void Asteroids_MainMenu_Init(void)
 	Asteroids_Menu_Settings_Setup(WIN_WIDTH, WIN_HEIGHT);
 	volumeBtnImage = CP_Image_Load("./Assets/volumebutton.png");
 	Asteroids_MainMenu_Button_Init();
-	Control_screen = CP_Image_Load("./Assets/Control_screen.png");
-	Control_screen2 = CP_Image_Load("./Assets/Control_screen2.png");
 	Credits_screen = CP_Image_Load("./Assets/credits.png");
 
 	backgroundImage = CP_Image_Load("./Assets/background.png");
@@ -149,7 +147,7 @@ void Asteroids_Draw_MainMenu(void)
 	{
 		CP_Font_DrawTextBox(menuText, 0, 50.0f + menuTextSize / 2, (float)WIN_WIDTH);
 		Asteroids_Button_Update(&Play);
-		Asteroids_Button_Update(&Controls);
+		Asteroids_Button_Update(&Guide);
 		Asteroids_Button_Update(&Credits);
 		Asteroids_Button_Update(&Leaderboard);
 		Asteroids_Button_Update(&Quit);
@@ -164,8 +162,7 @@ void Asteroids_Draw_MainMenu(void)
 	else if (!mainMenu)
 	{
 		Asteroids_MainMenu_CheckInput();
-		if(overlay_type != CREDITS_SCREEN)
-			Asteroids_Button_Update(&ExitBtn);
+		Asteroids_Button_Update(&ExitBtn);
 	}
 }
 
@@ -214,7 +211,7 @@ void Asteroids_MainMenu_Button_Init(void)
 	CP_Vector pos9 = CP_Vector_Set(0, (float)(WIN_HEIGHT / 2)); // Prev page
 
 	Play = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
-	Controls = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
+	Guide = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	Credits = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	Leaderboard = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 	Quit = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -226,14 +223,12 @@ void Asteroids_MainMenu_Button_Init(void)
 	UpgradesBtn = Asteroids_Button_Add_New_Button(BUTTON_WIDTH - 100.0f , BUTTON_HEIGHT - 40.0f);
 	VolumeBtn = Asteroids_Button_Add_New_Image_Button(volumeBtnImage, 75 , 75);
 	FullscreenBtn = Asteroids_Button_Add_New_Button(200, 50);
-	lmeo = Asteroids_Button_Add_New_Button(BUTTON_WIDTH, BUTTON_HEIGHT);
 
 	Asteroids_Button_Set_Text(&Play, textSize, "Play");
-	Asteroids_Button_Set_Text(&Controls, textSize, "Guide");
+	Asteroids_Button_Set_Text(&Guide, textSize, "Guide");
 	Asteroids_Button_Set_Text(&Credits, textSize, "Credits");
 	Asteroids_Button_Set_Text(&Leaderboard, textSize, "Leaderboard");
 	Asteroids_Button_Set_Text(&Quit, textSize, "Quit");
-	Asteroids_Button_Set_Text(&lmeo, textSize, "Exit");
 	Asteroids_Button_Set_Text(&ExitBtn, textSize, "Exit");
 	Asteroids_Button_Set_Text(&DifficultyBtn, textSize, "Difficulty");
 	Asteroids_Button_Set_Text(&SkinsBtn, textSize, "Skins");
@@ -245,7 +240,7 @@ void Asteroids_MainMenu_Button_Init(void)
 
 
 	Asteroids_Button_Set_Position(&Play, pos1 );
-	Asteroids_Button_Set_Position(&Controls, pos2);
+	Asteroids_Button_Set_Position(&Guide, pos2);
 	Asteroids_Button_Set_Position(&Credits, pos3);
 	Asteroids_Button_Set_Position(&Leaderboard, pos4);
 	Asteroids_Button_Set_Position(&Quit, pos10);
@@ -257,15 +252,13 @@ void Asteroids_MainMenu_Button_Init(void)
 	Asteroids_Button_Set_Position(&UpgradesBtn, upgradesPos);
 	Asteroids_Button_Set_Position(&VolumeBtn, pos11);
 	Asteroids_Button_Set_Position(&FullscreenBtn, fullscreenPos);
-	Asteroids_Button_Set_Position(&lmeo, CP_Vector_Set(0, (float)WIN_HEIGHT - BUTTON_HEIGHT));
 
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Play_Game, &Play);
-	Asteroids_Button_Set_Callback_Void(&Asteroids_MainMenu_Guide, &Controls);
+	Asteroids_Button_Set_Callback_Void(&Asteroids_MainMenu_Guide, &Guide);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Credits_Enter, &Credits);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Display_LeaderBoard, &Leaderboard);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_QuitGame, &Quit);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Exit_Screen, &ExitBtn);
-	Asteroids_Button_Set_Callback_Void(&Asteroids_Exit_Screen, &lmeo);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_DifficultyMenu, &DifficultyBtn);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_SkinMenu, &SkinsBtn);
 	Asteroids_Button_Set_Callback_Void(&Asteroids_Menu_Display_UpgradesMenu, &UpgradesBtn);
@@ -290,7 +283,6 @@ void Asteroids_Menu_Display_UpgradesMenu(void)
 // Turning BGM vol on and off
 void Asteroids_Menu_Display_VolumeONOFF(void)
 {
-	//Asteroids_Audio_MainMenu_BGM_Play();
 	if (Playmusic == false)
 	{
 		Asteroids_Audio_MainMenu_BGM_Play();
@@ -328,20 +320,7 @@ void Asteroids_QuitGame(void)
 
 void Asteroids_Credits_Enter(void)
 {
-	overlay_type = CREDITS_SCREEN;
-	mainMenu = false;
-	Asteroids_Audio_Manager_BGM_Credits_Play();
-}
-
-void Asteroids_Credits(void)
-{
-	CP_Settings_Background(CP_Color_Create(0, 0, 0, 255));
-	CP_Image_Draw(Credits_screen, (float)(WIN_WIDTH / 2), (float)(WIN_HEIGHT / 2), (float)WIN_WIDTH, (float)WIN_HEIGHT, 255);
-
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 20));
-	CP_Settings_TextSize(50.0f);
-	CP_Font_DrawText("Ty for carry", ((float)WIN_WIDTH / 2 + 350.0f), (float)(WIN_HEIGHT * 0.28));
-	Asteroids_Button_Update(&lmeo);
+	CP_Engine_SetNextGameState(Asteroids_Credits_Screen_Init, Asteroids_Credits_Screen_Update, Asteroids_Credits_Screen_Exit);
 }
 
 void Asteroids_Display_LeaderBoard(void)
@@ -374,7 +353,7 @@ void Asteroids_MainMenu_CheckInput(void)
 	switch (overlay_type)
 	{
 		case CREDITS_SCREEN:
-			Asteroids_Credits();
+			Asteroids_Credits_Enter();
 			break;
 		case LEADERBOARD_SCREEN:
 			Asteroids_Leaderboard_Update();
