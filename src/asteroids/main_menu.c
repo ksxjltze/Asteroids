@@ -89,6 +89,8 @@ void Asteroids_MainMenu_Init(void)
 	Asteroids_Skin_Menu_Init();
 	Asteroids_Audio_Manager_Init();
 	Asteroids_Audio_MainMenu_BGM_Play();
+
+	current_skin.sprite = CP_Image_Load("./Assets/final_boss1.png");
 }
 
 
