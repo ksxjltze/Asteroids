@@ -2,8 +2,6 @@
 #include "button.h"
 #include "main_menu.h"
 
-enum CREDUTS_SCREEN {page1, page2, page3 };
-
 #define btnWidth 200
 #define btnHeight 75
 #define btnText 75
@@ -59,7 +57,7 @@ void Asteroids_Credits_Screen_Update(void)
 	Asteroids_Button_Update(&exitBtn);
 	if(overlay.ID != MAXPAGE - 1)
 		Asteroids_Button_Update(&nextBtn);
-	if(overlay.ID != page1)
+	if(overlay.ID != 0)
 		Asteroids_Button_Update(&backBtn);
 }
 void Asteroids_Credits_Screen_Exit(void)

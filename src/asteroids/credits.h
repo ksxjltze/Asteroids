@@ -1,7 +1,7 @@
 #pragma once
 #include "cprocessing.h"
 
-#define MAXPAGE 3
+#define MAXPAGE 4
 typedef struct creditsScreen
 {
 	int ID;
